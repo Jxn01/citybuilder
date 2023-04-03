@@ -67,7 +67,7 @@ public class Field {
         return budget;
     }
 
-    public int deleteZone(int budget){
+    public int deleteZone(int budget) throws RuntimeException{
         if(building != null){throw new RuntimeException("Can't delete zone, there is a building on the field!");}
         if(zone == null){throw new RuntimeException("Field is already empty!");}
         zone = null;
@@ -75,7 +75,7 @@ public class Field {
         return budget;
     }
 
-    public int demolishBuilding(int budget){
+    public int demolishBuilding(int budget) throws RuntimeException{
         if(building == null){throw new RuntimeException("There is no building on the field!");}
         if(zone != null){throw new RuntimeException("Can't demolish public buildings! (There is a zone on the field!)");}
         building = null;
@@ -84,7 +84,7 @@ public class Field {
         return budget;
     }
 
-    public int buildBuilding(String buildingType, int budget){
+    public int buildBuilding(String buildingType, int budget) throws RuntimeException{
         if(building != null){throw new RuntimeException("There already is a building on this field!");}
         if(buildingType == null || buildingType.equals("")){
             switch(zone){
@@ -106,7 +106,7 @@ public class Field {
         return budget;
     }
 
-    public int getCurrentCapacity(){
+    public int getCurrentCapacity() throws RuntimeException{
         if(building == null){throw new RuntimeException("There is no building on the field!");}
         return 0;
         //return building.getPeople().size();
