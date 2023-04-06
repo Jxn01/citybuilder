@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import res.ResourceLoader;
 
@@ -14,6 +15,7 @@ public class NewGame {
     private MyButton backBtn;
     private MyButton startBtn;
     private MyInput input;
+
     
     public NewGame(Panel panel){
         this.panel = panel;
@@ -22,7 +24,7 @@ public class NewGame {
         } catch (IOException ex) { }
          backBtn = new MyButton(0,0,75,75,"back");
          startBtn = new MyButton(618,600,300,100,"start");
-         input = new MyInput(700,225,300,30);
+         input = new MyInput(700,220,300,40);
     }
     
     public void draw(Panel panel, Graphics2D gr){
@@ -32,6 +34,9 @@ public class NewGame {
         gr.drawString(  "Új város neve: ",500,250);
         startBtn.draw(gr, panel.getMousePosition());
         input.draw(gr, panel.getMousePosition());
+        
+                //gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+        //gr.drawString(  "Új város neve: ",500,250);
     }
     
     public void click(Point p){
@@ -39,7 +44,17 @@ public class NewGame {
             panel.setState(MenuState.MAINMENU);
         }
         else if(startBtn.isHovered(p)){
-            System.out.println("new game");
+            panel.setState(MenuState.GAME);
+        }
+    }
+    
+    public void keyPressed(KeyEvent e){
+        char c = e.getKeyChar();
+        if(c == KeyEvent.VK_BACK_SPACE){
+            input.del();
+        }
+        else if( Character.isLetter(c) || Character.isDigit(c) ){
+            input.add(c);
         }
     }
     

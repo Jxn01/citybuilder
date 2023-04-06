@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -38,8 +39,8 @@ public class Panel extends JPanel implements ActionListener{
         mainMenu = new MainMenu(this);
         tutorial = new Tutorial(this);
         newGame = new NewGame(this);
-        savedGame = new SavedGame();
-        game = new Game();
+        savedGame = new SavedGame(this);
+        game = new Game(this);
         
         //CLICK
         addMouseListener(new MouseAdapter() { 
@@ -57,19 +58,33 @@ public class Panel extends JPanel implements ActionListener{
                     newGame.click(me.getPoint());
                     break;
                 case SAVEDGAMES:
+                    savedGame.click(me.getPoint());
                     break;
                 case GAME:
                     break;
             }
-            //mainMenu.click(me.getPoint());
           } 
         });
         
         //KEYPRESS
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                char keyChar = e.getKeyChar();
-                System.out.println(keyChar);
+                switch (state) {
+                    case NEWGAME:
+                        newGame.keyPressed(e);
+                        break;
+                }
+            }
+        });
+        
+        //EGÉR GÖRGŐ EVENT
+        addMouseWheelListener(e -> {
+            if (e.getWheelRotation() < 0) {
+                //System.out.println("Rotated Up... " + e.getWheelRotation());
+                game.addToZoom(1);
+            } else {
+                //System.out.println("Rotated Down... " + e.getWheelRotation());
+                game.addToZoom(-1);
             }
         });
         
@@ -99,7 +114,7 @@ public class Panel extends JPanel implements ActionListener{
                 savedGame.draw(this,gr);
                 break;
             case GAME:
-                //game.draw(gr);
+                game.draw(this,gr);
                 break;
             case EXIT:
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));

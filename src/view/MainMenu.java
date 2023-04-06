@@ -50,6 +50,9 @@ public class MainMenu {
         else if(newGameBtn.isHovered(p)){
             panel.setState(MenuState.NEWGAME);
         }
+        else if(saveBtn.isHovered(p)){
+            panel.setState(MenuState.SAVEDGAMES);
+        }
         else if(exitBtn.isHovered(p)) {
             panel.frame.exit();
         }
