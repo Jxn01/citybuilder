@@ -1,5 +1,8 @@
 package model.buildings;
 
+import model.Coordinate;
+import java.awt.*;
+
 public abstract class Building {
     protected Image texture;
     protected Coordinate coords;
