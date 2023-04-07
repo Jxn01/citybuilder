@@ -11,9 +11,15 @@ public class GameManager implements SaveManager, SpeedManager{
     private double hospitalChance;
     private GameData gameData;
 
+    private ArrayList<Catastrophy> catastrophies;
+
     public GameManager() {
         catastrophyChance = 0.1;
         hospitalChance = 0.1;
+        catastrophies = new ArrayList<>();
+        catastrophies.add(FinancialCrisis.getInstance());
+        catastrophies.add(Covid.getInstance());
+        catastrophies.add(Firestorm.getInstance());
     }
 
     public void initGame(){
