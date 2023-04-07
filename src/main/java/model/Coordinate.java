@@ -17,7 +17,7 @@ public class Coordinate {
         return x;
     }
 
-    public int setX(int x) {
+    public void setX(int x) {
         this.x = x;
     }
 
