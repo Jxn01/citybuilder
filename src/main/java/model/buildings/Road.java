@@ -1,5 +1,6 @@
 package model.buildings;
 
+
 public class Road extends PlayerBuilding {
 
     @Override
@@ -11,5 +12,6 @@ public class Road extends PlayerBuilding {
     @Override
     public void setTexture() {
         System.out.println("Set texture");
+
     }
 }

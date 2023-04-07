@@ -18,4 +18,19 @@ public class Forest extends RangedBuilding {
     public void setTexture() {
         System.out.println("Set texture");
     }
+
+    @Override
+    public void enableEffect() {
+
+    }
+
+    @Override
+    public void disableEffect() {
+
+    }
+
+    @Override
+    public void effect() {
+
+    }
 }
