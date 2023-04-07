@@ -1,5 +1,10 @@
 plugins {
     id 'java'
+    id 'application'
+}
+
+application {
+    mainClassName = 'Main'
 }
 
 group 'codemonkeys.hu'
@@ -24,4 +29,9 @@ sourceSets {
     main {
         resources.srcDirs = ['src/main/resources']
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
