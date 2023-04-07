@@ -3,3 +3,5 @@
 .xml
 .mf
 /nbproject
+.nbproject*
+/build
