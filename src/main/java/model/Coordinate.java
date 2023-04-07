@@ -8,6 +8,19 @@ public class Coordinate {
         this.x = x;
     }
 
+    public Coordinate(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int setX(int x) {
+        this.x = x;
+    }
+
     public int getY() {
         return y;
     }
