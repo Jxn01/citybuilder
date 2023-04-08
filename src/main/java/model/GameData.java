@@ -13,14 +13,16 @@ public class GameData {
     private LocalTime playTime;
     private int population;
     private int satisfaction;
-    private int budget;
+    private Integer budget;
     private String cityName;
     private boolean gameOver;
     private File saveFile;
     private int yearlyTaxes;
     private ArrayList<Field> fields; //matrix, row length is sqrt of size
 
-    public GameData(LocalDateTime startDate, LocalDateTime currentDate, LocalDateTime inGameStartDate, LocalDateTime inGameCurrentDate, LocalTime playTime, int population, int satisfaction, int budget, String cityName, boolean gameOver, File saveFile, int yearlyTaxes, ArrayList<Field> fields) {
+    private ArrayList<Person> people;
+
+    public GameData(LocalDateTime startDate, LocalDateTime currentDate, LocalDateTime inGameStartDate, LocalDateTime inGameCurrentDate, LocalTime playTime, int population, int satisfaction, int budget, String cityName, boolean gameOver, File saveFile, int yearlyTaxes, ArrayList<Field> fields, ArrayList<Person> people) {
         this.startDate = startDate;
         this.currentDate = currentDate;
         this.inGameStartDate = inGameStartDate;
@@ -34,6 +36,7 @@ public class GameData {
         this.saveFile = saveFile;
         this.yearlyTaxes = yearlyTaxes;
         this.fields = fields;
+        this.people = people;
     }
 
     public LocalDateTime getStartDate() {
@@ -92,11 +95,11 @@ public class GameData {
         this.satisfaction = satisfaction;
     }
 
-    public int getBudget() {
+    public Integer getBudget() {
         return budget;
     }
 
-    public void setBudget(int budget) {
+    public void setBudget(Integer budget) {
         this.budget = budget;
     }
 
@@ -140,6 +143,14 @@ public class GameData {
         this.fields = fields;
     }
 
+    public ArrayList<Person> getPeople() {
+        return people;
+    }
+
+    public void setPeople(ArrayList<Person> people) {
+        this.people = people;
+    }
+
     @Override
     public String toString() {
         return "GameData{" +
@@ -153,7 +164,10 @@ public class GameData {
                 ", budget=" + budget +
                 ", cityName='" + cityName + '\'' +
                 ", gameOver=" + gameOver +
+                ", saveFile=" + saveFile +
                 ", yearlyTaxes=" + yearlyTaxes +
+                ", fields=" + fields +
+                ", people=" + people +
                 '}';
     }
 }
