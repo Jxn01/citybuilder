@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -54,6 +55,10 @@ public class Game {
     
     MyButton xBtn;
     
+    MyInput input;
+    
+    MyButton modifyBtn;
+    
     public Game(Panel panel){
         this.panel = panel;
 
@@ -82,9 +87,13 @@ public class Game {
             
             xBtn = new MyButton(1228,50,40,40,"x");
             
+            modifyBtn = new MyButton(960,130,120,40,"modify");
+            
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
+        input = new MyInput(650,130,300,40);
+        
 
         hamburgerMenu = false;
         statsMenu = false;
@@ -161,6 +170,20 @@ public class Game {
         gameplayTimer.start();
     }
     
+    public void keyPressed(KeyEvent e){
+        if(!taxMenu){
+            return;
+        }
+        
+        char c = e.getKeyChar();
+        if(c == KeyEvent.VK_BACK_SPACE){
+            input.del();
+        }
+        else if( Character.isDigit(c) ){
+            input.add(c);
+        }
+    }
+    
     //what happens when we redraw the 'canvas'
     public void draw(Panel panel, Graphics2D gr) {
         paintMap(gr);
@@ -169,6 +192,7 @@ public class Game {
         if(hamburgerMenu) {
             paintHamburgerMenu(gr); 
         }
+        
         if(statsMenu){
             paintStatsMenu(gr);
         }
@@ -214,7 +238,20 @@ public class Game {
     }
     
     private void paintTaxMenu(Graphics2D gr){
+        gr.setColor(Color.white);
+        gr.fillRect(268,50,1000,150);
+        //gr.fillRect(340,50,928,150);
         
+        xBtn.draw(gr,panel.getMousePosition());
+       
+        gr.setColor(Color.black);
+        gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+        gr.drawString(  "Adó",750,80);
+        
+        gr.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        gr.drawString(  "Éves adó módosítása ($/fő/év): ",350,160);
+        input.draw(gr, panel.getMousePosition());
+        modifyBtn.draw(gr,panel.getMousePosition());
     }
     
     private void paintHamburgerMenu(Graphics2D gr){
@@ -273,11 +310,13 @@ public class Game {
         pointToTile(p);
         if(hamburgerBtn.isHovered(p)){
             hamburgerMenu = !hamburgerMenu;
-        }
+        }   
         else if(taxBtn.isHovered(p)){
+            statsMenu = false;
             taxMenu = !taxMenu;
         }
         else if(statsBtn.isHovered(p)){
+            taxMenu = false;
             statsMenu = !statsMenu;
         }
         
@@ -286,9 +325,40 @@ public class Game {
                 statsMenu = !statsMenu;
             }
         }
+        else if(taxMenu){
+            if(xBtn.isHovered(p)){
+                taxMenu = !taxMenu;
+            } 
+        }
     }
     
     public void pointToTile(Point p){
+        //exceptions: top menu,bottom menu
+        Rectangle topMenu = new Rectangle(0,0,panel.getSize().width,40);
+        Rectangle bottomMenu = new Rectangle(0,panel.getSize().height - 40,panel.getSize().width,40);
+        Rectangle hbMenu = new Rectangle(0,40,120,120);
+        Rectangle txMenu = new Rectangle(268,50,1000,150);
+        Rectangle stMenu = new Rectangle(268,50,1000,690);
+        
+        if(topMenu.contains(p) || bottomMenu.contains(p)){
+            return;
+        }
+        if(hamburgerMenu){
+            if(hbMenu.contains(p)){
+                return;
+            }
+        }
+        if(taxMenu){
+            if(txMenu.contains(p)){
+                return;
+            }
+        }
+        if(statsMenu){
+            if(stMenu.contains(p)){
+                return;
+            }
+        }
+        
         int x = (p.x - offsetX) /(64+zoom);
         int y = (p.y - offsetY) /(64+zoom);
         tiles[y][x] = Tile.HOUSE;

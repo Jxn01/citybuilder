@@ -63,6 +63,10 @@ public class Panel extends JPanel implements ActionListener{
                     case NEWGAME:
                         newGame.keyPressed(e);
                         break;
+                
+                    case GAME:
+                        game.keyPressed(e);
+                        break;
                 }
             }
         });
