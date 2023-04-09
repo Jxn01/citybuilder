@@ -46,7 +46,15 @@ public class MyInput {
         gr.setColor(Color.black);
         gr.drawRect(rect.x, rect.y, rect.width, rect.height);
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        gr.drawString(text + "|",rect.x,rect.y + rect.height - 10);
+        
+        //make the input line "blink"
+        long timestamp = System.currentTimeMillis() / 1000;
+        if(timestamp % 2 == 0){
+            gr.drawString(text + "|",rect.x,rect.y + rect.height - 10);
+        }
+        else {
+            gr.drawString(text,rect.x,rect.y + rect.height - 10);
+        }
     }
     
 }

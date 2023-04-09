@@ -13,7 +13,8 @@ public class SavedGame {
     private MyButton backBtn;
     MyButton loadBtn; 
     MyButton deleteBtn;
-    MyList list;
+    MyRadioButton btn1,btn2,btn3,btn4,btn5;
+    MyRadioButtonGroup btnGrp;
     
     public SavedGame(Panel panel){
         this.panel = panel;
@@ -23,7 +24,17 @@ public class SavedGame {
         backBtn = new MyButton(0,0,75,75,"back");
         loadBtn = new MyButton(36,675,300,100,"load");
         deleteBtn = new MyButton(1200,675,300,100,"delete");
-        list = new MyList(10,80,1516,550);
+        btn1 = new MyRadioButton(10,80,1516,50,"Mentés1","1:54","16.000$");
+        btn2 = new MyRadioButton(10,140,1516,50,"Mentés2","3:11","2.000$");
+        btn3 = new MyRadioButton(10,200,1516,50,"Mentés3","0:10","-5.000$");
+        btn4 = new MyRadioButton(10,260,1516,50,"Mentés4","42:42","350$");
+        btn5 = new MyRadioButton(10,320,1516,50,"Mentés5","2:01","420$");
+        btnGrp = new MyRadioButtonGroup();
+        btnGrp.add(btn1);
+        btnGrp.add(btn2);
+        btnGrp.add(btn3);
+        btnGrp.add(btn4);
+        btnGrp.add(btn5);
     }
     
     public void draw(Panel panel, Graphics2D gr){
@@ -31,12 +42,23 @@ public class SavedGame {
         backBtn.draw(gr,panel.getMousePosition());
         loadBtn.draw(gr,panel.getMousePosition());
         deleteBtn.draw(gr,panel.getMousePosition());
-        list.draw(gr,panel.getMousePosition());
+        btnGrp.draw(gr,panel.getMousePosition());
     }
     
     public void click(Point p){
         if(backBtn.isHovered(p)){
             panel.setState(MenuState.MAINMENU);
+        }
+        else if(btnGrp.isHovered(p)){
+            btnGrp.select(p);
+        }
+        else if(loadBtn.isHovered(p)){
+            if(btnGrp.hasSelected()){
+                panel.setState(MenuState.GAME);
+            }   
+        }
+        else if(deleteBtn.isHovered(p)){
+            btnGrp.deleteSelected();
         }
     }
 }
