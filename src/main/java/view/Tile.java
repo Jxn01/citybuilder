@@ -3,5 +3,6 @@ package view;
 
 public enum Tile {
     GRASS,
-    ROCKS
+    ROCKS,
+    HOUSE
 }

@@ -32,7 +32,7 @@ public class Panel extends JPanel implements ActionListener{
         this.frame = frame;
         timer = new Timer(20, this);
         timer.start();
-        state = MenuState.MAINMENU;
+        state = MenuState.GAME;
         //state = MenuState.INTRO;
         
         intro = new Intro();
@@ -51,7 +51,7 @@ public class Panel extends JPanel implements ActionListener{
                     case TUTORIAL -> tutorial.click(me.getPoint());
                     case NEWGAME -> newGame.click(me.getPoint());
                     case SAVEDGAMES -> savedGame.click(me.getPoint());
-                    //case GAME -> ;
+                    case GAME -> game.click(me.getPoint());
                 }
             }
         });
@@ -71,10 +71,10 @@ public class Panel extends JPanel implements ActionListener{
         addMouseWheelListener(e -> {
             if (e.getWheelRotation() < 0) {
                 //System.out.println("Rotated Up... " + e.getWheelRotation());
-                game.addToZoom(1);
+                game.addToZoom(1,e.getPoint());
             } else {
                 //System.out.println("Rotated Down... " + e.getWheelRotation());
-                game.addToZoom(-1);
+                game.addToZoom(-1,e.getPoint());
             }
         });
         
