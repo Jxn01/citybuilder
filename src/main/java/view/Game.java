@@ -59,6 +59,15 @@ public class Game {
     
     MyButton modifyBtn;
     
+    MyButton fireFighterBtn;
+    MyButton roadBtn;
+    MyButton statiumBtn;
+    MyButton serviceZoneBtn;
+    MyButton forestBtn;
+    MyButton factoryZoneBtn;
+    MyButton livingZoneBtn;
+    MyButton policeStationBtn;
+    
     public Game(Panel panel){
         this.panel = panel;
 
@@ -88,6 +97,15 @@ public class Game {
             xBtn = new MyButton(1228,50,40,40,"x");
             
             modifyBtn = new MyButton(960,130,120,40,"modify");
+            
+            fireFighterBtn = new MyButton(700,753,40,40,"fireFighter");
+            roadBtn = new MyButton(740,753,40,40,"road");
+            statiumBtn = new MyButton(780,753,40,40,"stadium");
+            serviceZoneBtn = new MyButton(820,753,40,40,"serviceZone");
+            forestBtn = new MyButton(860,753,40,40,"forest");
+            factoryZoneBtn = new MyButton(900,753,40,40,"factoryZone");
+            livingZoneBtn = new MyButton(940,753,40,40,"livingZone");
+            policeStationBtn = new MyButton(940,753,40,40,"police");
             
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
@@ -285,6 +303,14 @@ public class Game {
         statsBtn.draw(gr, panel.getMousePosition());
         taxBtn.draw(gr, panel.getMousePosition());
         
+        fireFighterBtn.draw(gr, panel.getMousePosition());
+        roadBtn.draw(gr, panel.getMousePosition());
+        statiumBtn.draw(gr, panel.getMousePosition());
+        serviceZoneBtn.draw(gr, panel.getMousePosition());
+        forestBtn.draw(gr, panel.getMousePosition());
+        factoryZoneBtn.draw(gr, panel.getMousePosition());
+        livingZoneBtn.draw(gr, panel.getMousePosition());
+        policeStationBtn.draw(gr, panel.getMousePosition());
     }
     
     private void paintMap(Graphics2D gr){ 
