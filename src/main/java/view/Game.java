@@ -25,6 +25,8 @@ public class Game {
 
     private int offsetX, offsetY;
     private int zoom;
+
+    private int balance;
     private Image grass, rocks, road, house;
     private MovementState movementState;
     private Tile[][] tiles;
@@ -71,6 +73,7 @@ public class Game {
         offsetX = 0;
         offsetY = 0;
         zoom = 0;
+        balance = 10000;
         try {
             grass = ResourceLoader.loadImage("TALLGRASS.png");
             rocks = ResourceLoader.loadImage("PATHROCKS.png");
@@ -279,7 +282,7 @@ public class Game {
         hamburgerBtn.draw(gr, panel.getMousePosition());
         gr.setColor(Color.black);
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 25));
-        gr.drawString("Költségvetés: 30.000$", 40, 30);
+        gr.drawString("Költségvetés:" + this.balance + "$", 40, 30);
         gr.drawString("Elégedettség: 85%", 400, 30);
         gr.drawString("Populáció: 1,2 millió", 700, 30);
         gr.drawString("Idő: 135.nap", 1000, 30);
@@ -359,6 +362,14 @@ public class Game {
         }
     }
 
+    private boolean isFieldValid(int y, int x) {
+        if (tiles[y][x] == Tile.ROCKS) {
+            return false;
+        }
+
+        return true;
+    }
+
     private boolean isFieldEmpty(int y, int x) {
         if (tiles[y][x] == Tile.GRASS) {
             return true;
@@ -368,6 +379,11 @@ public class Game {
     }
 
     private boolean isNextToRoad(int y, int x) {
+
+        if (!isFieldValid(y, x)) {
+            return false;
+        }
+
         if (tiles[y - 1][x] == Tile.ROAD || tiles[y + 1][x] == Tile.ROAD) {
             return true;
         }
@@ -379,7 +395,6 @@ public class Game {
         return false;
     }
 
-    ;
 
     public void pointToTile(Point p) {
         //exceptions: top menu,bottom menu
@@ -392,6 +407,7 @@ public class Game {
         if (topMenu.contains(p) || bottomMenu.contains(p)) {
             return;
         }
+
         if (hamburgerMenu) {
             if (hbMenu.contains(p)) {
                 return;
@@ -411,12 +427,14 @@ public class Game {
         int y = (p.y - offsetY) / (64 + zoom);
         int x = (p.x - offsetX) / (64 + zoom);
 
-        if (selectedBuildingType == Tile.ROAD && isFieldEmpty(y, x)) {
-            tiles[y][x] = selectedBuildingType;
+        if (selectedBuildingType == Tile.ROAD && isFieldEmpty(y, x) && isFieldValid(y, x)) {
+            tiles[y][x] = Tile.ROAD;
+            this.balance = this.balance - 50;
         }
 
         if (selectedBuildingType != Tile.ROAD && selectedBuildingType != null && isFieldEmpty(y, x) && isNextToRoad(y, x)) {
             tiles[y][x] = selectedBuildingType;
+            this.balance = this.balance - 100;
         }
     }
 
