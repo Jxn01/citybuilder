@@ -1,7 +1,8 @@
 package model.buildings;
 
-import java.util.ArrayList;
 import model.Person;
+
+import java.util.ArrayList;
 
 public abstract class GeneratedBuilding extends Building {
     protected ArrayList<Person> people;

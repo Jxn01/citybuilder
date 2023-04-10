@@ -1,34 +1,34 @@
 package view;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.io.IOException;
 import util.ResourceLoader;
 
+import java.awt.*;
+import java.io.IOException;
+
 public class SavedGame {
-    
+
     Image background;
     Panel panel;
     private MyButton backBtn;
-    MyButton loadBtn; 
+    MyButton loadBtn;
     MyButton deleteBtn;
-    MyRadioButton btn1,btn2,btn3,btn4,btn5;
+    MyRadioButton btn1, btn2, btn3, btn4, btn5;
     MyRadioButtonGroup btnGrp;
-    
-    public SavedGame(Panel panel){
+
+    public SavedGame(Panel panel) {
         this.panel = panel;
-         try {
+        try {
             background = ResourceLoader.loadImage("saveBg.png");
-        } catch (IOException ex) { }
-        backBtn = new MyButton(0,0,75,75,"back");
-        loadBtn = new MyButton(36,675,300,100,"load");
-        deleteBtn = new MyButton(1200,675,300,100,"delete");
-        btn1 = new MyRadioButton(10,80,1516,50,"Mentés1","1:54","16.000$");
-        btn2 = new MyRadioButton(10,140,1516,50,"Mentés2","3:11","2.000$");
-        btn3 = new MyRadioButton(10,200,1516,50,"Mentés3","0:10","-5.000$");
-        btn4 = new MyRadioButton(10,260,1516,50,"Mentés4","42:42","350$");
-        btn5 = new MyRadioButton(10,320,1516,50,"Mentés5","2:01","420$");
+        } catch (IOException ex) {
+        }
+        backBtn = new MyButton(0, 0, 75, 75, "back");
+        loadBtn = new MyButton(36, 675, 300, 100, "load");
+        deleteBtn = new MyButton(1200, 675, 300, 100, "delete");
+        btn1 = new MyRadioButton(10, 80, 1516, 50, "Mentés1", "1:54", "16.000$");
+        btn2 = new MyRadioButton(10, 140, 1516, 50, "Mentés2", "3:11", "2.000$");
+        btn3 = new MyRadioButton(10, 200, 1516, 50, "Mentés3", "0:10", "-5.000$");
+        btn4 = new MyRadioButton(10, 260, 1516, 50, "Mentés4", "42:42", "350$");
+        btn5 = new MyRadioButton(10, 320, 1516, 50, "Mentés5", "2:01", "420$");
         btnGrp = new MyRadioButtonGroup();
         btnGrp.add(btn1);
         btnGrp.add(btn2);
@@ -36,28 +36,25 @@ public class SavedGame {
         btnGrp.add(btn4);
         btnGrp.add(btn5);
     }
-    
-    public void draw(Panel panel, Graphics2D gr){
-        gr.drawImage(background,0,0,1536 + 15,793,null);
-        backBtn.draw(gr,panel.getMousePosition());
-        loadBtn.draw(gr,panel.getMousePosition());
-        deleteBtn.draw(gr,panel.getMousePosition());
-        btnGrp.draw(gr,panel.getMousePosition());
+
+    public void draw(Panel panel, Graphics2D gr) {
+        gr.drawImage(background, 0, 0, 1536 + 15, 793, null);
+        backBtn.draw(gr, panel.getMousePosition());
+        loadBtn.draw(gr, panel.getMousePosition());
+        deleteBtn.draw(gr, panel.getMousePosition());
+        btnGrp.draw(gr, panel.getMousePosition());
     }
-    
-    public void click(Point p){
-        if(backBtn.isHovered(p)){
+
+    public void click(Point p) {
+        if (backBtn.isHovered(p)) {
             panel.setState(MenuState.MAINMENU);
-        }
-        else if(btnGrp.isHovered(p)){
+        } else if (btnGrp.isHovered(p)) {
             btnGrp.select(p);
-        }
-        else if(loadBtn.isHovered(p)){
-            if(btnGrp.hasSelected()){
+        } else if (loadBtn.isHovered(p)) {
+            if (btnGrp.hasSelected()) {
                 panel.setState(MenuState.GAME);
-            }   
-        }
-        else if(deleteBtn.isHovered(p)){
+            }
+        } else if (deleteBtn.isHovered(p)) {
             btnGrp.deleteSelected();
         }
     }

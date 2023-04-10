@@ -23,35 +23,35 @@ public class Person {
         this.effects = new ArrayList<>();
     }
 
-    public void addEffect(Effect effect){
+    public void addEffect(Effect effect) {
         effects.add(effect);
     }
 
-    public void removeEffect(Effect effect){
+    public void removeEffect(Effect effect) {
         effects.remove(effect);
     }
 
-    public boolean isRetired(){
+    public boolean isRetired() {
         return age > 65;
     }
 
-    public void decease(boolean instantly){
+    public void decease(boolean instantly) {
 
     }
 
-    public void moveAway(boolean instantly){
+    public void moveAway(boolean instantly) {
 
     }
 
-    public void payTaxes(Integer budget){
+    public void payTaxes(Integer budget) {
 
     }
 
-    public void retire(){
+    public void retire() {
 
     }
 
-    public void calculateSatisfaction(){
+    public void calculateSatisfaction() {
 
     }
 

@@ -1,6 +1,6 @@
 package model.buildings;
 
-public class Stadium extends RangedBuilding{
+public class Stadium extends RangedBuilding {
 
     @Override
     public String getStatistics() {

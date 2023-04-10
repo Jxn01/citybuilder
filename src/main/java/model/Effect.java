@@ -9,5 +9,6 @@ public enum Effect {
     BAD_WORKPLACE_DIST(10),
     WORK_DISTANCE(10);
 
-    Effect(int i) {}
+    Effect(int i) {
+    }
 }

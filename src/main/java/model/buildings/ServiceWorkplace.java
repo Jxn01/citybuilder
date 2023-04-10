@@ -1,6 +1,6 @@
 package model.buildings;
 
-public class ServiceWorkplace extends Workplace{
+public class ServiceWorkplace extends Workplace {
 
     @Override
     public String getStatistics() {
