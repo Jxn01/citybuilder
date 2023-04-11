@@ -27,6 +27,8 @@ public class Game {
     private int zoom;
 
     private int balance;
+
+    private int population;
     private Image grass, rocks, road, house;
     private MovementState movementState;
     private Tile[][] tiles;
@@ -74,6 +76,7 @@ public class Game {
         offsetY = 0;
         zoom = 0;
         balance = 10000;
+        population = 100;
         try {
             grass = ResourceLoader.loadImage("TALLGRASS.png");
             rocks = ResourceLoader.loadImage("PATHROCKS.png");
@@ -284,7 +287,7 @@ public class Game {
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 25));
         gr.drawString("Költségvetés:" + this.balance + "$", 40, 30);
         gr.drawString("Elégedettség: 85%", 400, 30);
-        gr.drawString("Populáció: 1,2 millió", 700, 30);
+        gr.drawString("Populáció :"+this.population+" ezer", 700, 30);
         gr.drawString("Idő: 135.nap", 1000, 30);
     }
 
@@ -435,6 +438,7 @@ public class Game {
         if (selectedBuildingType != Tile.ROAD && selectedBuildingType != null && isFieldEmpty(y, x) && isNextToRoad(y, x)) {
             tiles[y][x] = selectedBuildingType;
             this.balance = this.balance - 100;
+            this.population = this.population + 100;
         }
     }
 
