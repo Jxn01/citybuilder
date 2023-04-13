@@ -41,6 +41,7 @@ public class Panel extends JPanel implements ActionListener {
 
         //CLICK
         addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent me) {
                 switch (state) {
                     //case INTRO -> ;
@@ -49,9 +50,22 @@ public class Panel extends JPanel implements ActionListener {
                     case NEWGAME -> newGame.click(me.getPoint());
                     case SAVEDGAMES -> savedGame.click(me.getPoint());
                     case GAME -> game.click(me.getPoint());
+                    
                 }
             }
         });
+        
+        /*
+        //MOUSEMOVE
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent me){
+                switch (state){
+                    case GAME -> game.moveCursor(me.getPoint());
+                }
+            }
+        });
+        */
 
         //KEYPRESS
         addKeyListener(new KeyAdapter() {
@@ -78,6 +92,8 @@ public class Panel extends JPanel implements ActionListener {
                 game.addToZoom(-1, e.getPoint());
             }
         });
+        
+
 
     }
 

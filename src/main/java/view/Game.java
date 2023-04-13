@@ -216,6 +216,80 @@ public class Game {
         if (taxMenu) {
             paintTaxMenu(gr);
         }
+        paintHover(gr);
+    }
+    
+    private void paintHover(Graphics2D gr) {
+        if(selectedBuildingType == null){
+            return;
+        }
+
+        
+        double alpha = (double)System.currentTimeMillis() % 1000 / 1000;
+        double seconds = System.currentTimeMillis() / 1000;
+
+        Point p = MouseInfo.getPointerInfo().getLocation();
+        
+        //exceptions: top menu,bottom menu
+        Rectangle topMenu = new Rectangle(0, 0, panel.getSize().width, 40);
+        Rectangle bottomMenu = new Rectangle(0, panel.getSize().height - 40, panel.getSize().width, 40);
+        Rectangle hbMenu = new Rectangle(0, 40, 120, 120);
+        Rectangle txMenu = new Rectangle(268, 50, 1000, 150);
+        Rectangle stMenu = new Rectangle(268, 50, 1000, 690);
+
+        if (topMenu.contains(p) || bottomMenu.contains(p)) {
+            return;
+        }
+
+        if (hamburgerMenu) {
+            if (hbMenu.contains(p)) {
+                return;
+            }
+        }
+        if (taxMenu) {
+            if (txMenu.contains(p)) {
+                return;
+            }
+        }
+        if (statsMenu) {
+            if (stMenu.contains(p)) {
+                return;
+            }
+        }
+
+        int y = (p.y - offsetY) / (64 + zoom);
+        int x = (p.x - offsetX) / (64 + zoom);
+        
+        
+
+        if (selectedBuildingType == Tile.ROAD) {
+            if(isFieldEmpty(y, x) && isFieldValid(y, x)){
+                if(seconds % 2 == 0){
+                    gr.setColor(new Color(0, 255, 0, (int) (alpha * 255)));
+                }
+                else {
+                    gr.setColor(new Color(0, 255, 0, (int) ((1-alpha) * 255)));
+                }
+                gr.drawImage(house, x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom, null);
+                gr.fillRect(x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom);
+            }
+            else {
+                if(seconds % 2 == 0){
+                    gr.setColor(new Color(255, 0, 0, (int) (alpha * 255)));
+                }
+                else {
+                    gr.setColor(new Color(255, 0, 0, (int) ((1-alpha) * 255)));
+                }
+                gr.drawImage(house, x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom, null);
+                gr.fillRect(x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom);
+            }
+          
+   
+        }
+        
+        //if (selectedBuildingType != Tile.ROAD && selectedBuildingType != null && isFieldEmpty(y, x) && isNextToRoad(y, x)) {
+        //    tiles[y][x] = selectedBuildingType;
+        //}
     }
 
     private void paintStatsMenu(Graphics2D gr) {
@@ -329,6 +403,14 @@ public class Game {
             }
         }
     }
+    
+    /*
+    public void moveCursor(Point p){
+        if(selectedBuildingType != null){
+            gr.drawImage(house, 0, 0, 64 + zoom, 64 + zoom, null);
+        }
+    }
+    */
 
     public void click(Point p) {
         pointToTile(p);
