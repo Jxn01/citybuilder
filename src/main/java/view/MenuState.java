@@ -5,7 +5,7 @@ public enum MenuState {
     MAINMENU,
     TUTORIAL,
     NEWGAME,
-    SAVEDGAMES,
+    LOADGAME,
     GAME,
     EXIT
 }

@@ -7,12 +7,12 @@ import java.io.IOException;
 
 public class MainMenu {
 
-    Panel panel;
-    Image background;
-    MyButton tutorialBtn;
-    MyButton newGameBtn;
-    MyButton saveBtn;
-    MyButton exitBtn;
+    private Panel panel;
+    private Image background;
+    private MyButton tutorialBtn;
+    private MyButton newGameBtn;
+    private MyButton saveBtn;
+    private MyButton exitBtn;
 
     public Image getBackground() {
         return background;
@@ -32,10 +32,10 @@ public class MainMenu {
     }
 
     public void draw(Panel panel, Graphics2D gr) {
-
         //draw the background
         gr.drawImage(background, 0, 0, 1536 + 15, 793, null);
 
+        //draw all buttons
         tutorialBtn.draw(gr, panel.getMousePosition());
         newGameBtn.draw(gr, panel.getMousePosition());
         saveBtn.draw(gr, panel.getMousePosition());
@@ -49,9 +49,9 @@ public class MainMenu {
         } else if (newGameBtn.isHovered(p)) {
             panel.setState(MenuState.NEWGAME);
         } else if (saveBtn.isHovered(p)) {
-            panel.setState(MenuState.SAVEDGAMES);
+            panel.setState(MenuState.LOADGAME);
         } else if (exitBtn.isHovered(p)) {
-            panel.frame.exit();
+            panel.exit();
         }
     }
 

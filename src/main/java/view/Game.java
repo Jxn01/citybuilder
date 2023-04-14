@@ -435,7 +435,7 @@ public class Game {
         }
 
         if (exitBtn.isHovered(p)) {
-            panel.frame.exit();
+            panel.exit();
         }
 
         if (fireFighterBtn.isHovered(p) || statiumBtn.isHovered(p) || serviceZoneBtn.isHovered(p) || forestBtn.isHovered(p) || factoryZoneBtn.isHovered(p) || livingZoneBtn.isHovered(p) || policeStationBtn.isHovered(p)) {

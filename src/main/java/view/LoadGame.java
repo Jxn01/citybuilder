@@ -1,26 +1,25 @@
 package view;
 
-import util.ResourceLoader;
-
 import java.awt.*;
 import java.io.IOException;
 
-public class SavedGame {
+import util.ResourceLoader;
 
-    Image background;
-    Panel panel;
+public class LoadGame {
+
+    private Image background;
+    private Panel panel;
     private MyButton backBtn;
-    MyButton loadBtn;
-    MyButton deleteBtn;
-    MyRadioButton btn1, btn2, btn3, btn4, btn5;
-    MyRadioButtonGroup btnGrp;
+    private MyButton loadBtn;
+    private MyButton deleteBtn;
+    private MyRadioButton btn1, btn2, btn3, btn4, btn5;
+    private MyRadioButtonGroup btnGrp;
 
-    public SavedGame(Panel panel) {
+    public LoadGame(Panel panel) {
         this.panel = panel;
         try {
             background = ResourceLoader.loadImage("saveBg.png");
-        } catch (IOException ex) {
-        }
+        } catch (IOException ex) {}
         backBtn = new MyButton(0, 0, 75, 75, "back");
         loadBtn = new MyButton(36, 675, 300, 100, "load");
         deleteBtn = new MyButton(1200, 675, 300, 100, "delete");

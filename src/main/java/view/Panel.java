@@ -10,25 +10,32 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 
-//The canvas of the game, where everything is drawn
+/**
+ * The 'canvas' of the game, where all the submenus are drawn
+ */
 public class Panel extends JPanel implements ActionListener {
 
-    MenuState state;
-    Timer timer;
-    Frame frame;
+    private Frame frame;
+    private Timer timer;
+    private MenuState state;
+    
+    private Intro intro;
+    private MainMenu mainMenu;
+    private Tutorial tutorial;
+    private NewGame newGame;
+    private LoadGame loadGame;
+    private Game game;
 
-    Intro intro;
-    MainMenu mainMenu;
-    Tutorial tutorial;
-    NewGame newGame;
-    SavedGame savedGame;
-    Game game;
-
+    /**
+     * The constructor of the Panel class
+     * @param frame is the main window, where the panel is placed on
+     */
     public Panel(Frame frame) {
-        setFocusable(true); // Make the panel focusable
+        setFocusable(true);
         this.frame = frame;
         timer = new Timer(20, this);
         timer.start();
+        //switch here if you want the game to start in a different submenu
         state = MenuState.GAME;
         //state = MenuState.INTRO;
 
@@ -36,53 +43,35 @@ public class Panel extends JPanel implements ActionListener {
         mainMenu = new MainMenu(this);
         tutorial = new Tutorial(this);
         newGame = new NewGame(this);
-        savedGame = new SavedGame(this);
+        loadGame = new LoadGame(this);
         game = new Game(this);
 
-        //CLICK
+        //CLICK EVENT
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
                 switch (state) {
-                    //case INTRO -> ;
                     case MAINMENU -> mainMenu.click(me.getPoint());
                     case TUTORIAL -> tutorial.click(me.getPoint());
                     case NEWGAME -> newGame.click(me.getPoint());
-                    case SAVEDGAMES -> savedGame.click(me.getPoint());
+                    case LOADGAME -> loadGame.click(me.getPoint());
                     case GAME -> game.click(me.getPoint());
-                    
                 }
             }
         });
-        
-        /*
-        //MOUSEMOVE
-        addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent me){
-                switch (state){
-                    case GAME -> game.moveCursor(me.getPoint());
-                }
-            }
-        });
-        */
-
-        //KEYPRESS
+     
+        //KEYPRESS EVENT
         addKeyListener(new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 switch (state) {
-                    case NEWGAME:
-                        newGame.keyPressed(e);
-                        break;
-
-                    case GAME:
-                        game.keyPressed(e);
-                        break;
+                    case NEWGAME -> newGame.keyPressed(e);
+                    case GAME -> game.keyPressed(e);
                 }
             }
         });
 
-        //EGÉR GÖRGŐ EVENT
+        //MOUSE WHEEL EVENT
         addMouseWheelListener(e -> {
             if (e.getWheelRotation() < 0) {
                 //System.out.println("Rotated Up... " + e.getWheelRotation());
@@ -92,11 +81,12 @@ public class Panel extends JPanel implements ActionListener {
                 game.addToZoom(-1, e.getPoint());
             }
         });
-        
-
-
     }
 
+    /**
+     * The panel draws the menu based on the current menustate
+     * @param g is the graphics context of the Panel object
+     */
     @Override
     protected void paintComponent(Graphics g) {
 
@@ -109,13 +99,16 @@ public class Panel extends JPanel implements ActionListener {
             case MAINMENU -> mainMenu.draw(this, gr);
             case TUTORIAL -> tutorial.draw(this, gr);
             case NEWGAME -> newGame.draw(this, gr);
-            case SAVEDGAMES -> savedGame.draw(this, gr);
+            case LOADGAME -> loadGame.draw(this, gr);
             case GAME -> game.draw(this, gr);
             case EXIT -> frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
     }
 
-    //gets called every 40 milliseconds
+    /**
+     * The main game loop that listens to the timer
+     * @param ev is the event happening on the panel 
+     */
     @Override
     public void actionPerformed(ActionEvent ev) {
         if (ev.getSource() == timer) {
@@ -123,10 +116,19 @@ public class Panel extends JPanel implements ActionListener {
         }
     }
 
-    ;
-
+    /**
+     * Setter for the menustate
+     * @param s is the new menustate
+     */
     public void setState(MenuState s) {
         this.state = s;
+    }
+    
+    /**
+     * Allows the gui submenus to call the Frame's exit method
+     */
+    public void exit(){
+        frame.exit();
     }
 
 }
