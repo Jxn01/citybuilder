@@ -3,7 +3,7 @@ package view;
 import java.awt.*;
 
 /**
- * Implementation of one radio button on the SavedGame submenu
+ * Implementation of one radio button
  */
 public class MyRadioButton {
     private final Rectangle rect;
@@ -27,6 +27,7 @@ public class MyRadioButton {
         name = n;
         time = t;
         funds = f;
+        selected = false;
     }
 
     /**

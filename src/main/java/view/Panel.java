@@ -73,13 +73,7 @@ public class Panel extends JPanel implements ActionListener {
 
         //MOUSE WHEEL EVENT
         addMouseWheelListener(e -> {
-            if (e.getWheelRotation() < 0) {
-                //System.out.println("Rotated Up... " + e.getWheelRotation());
-                game.addToZoom(1, e.getPoint());
-            } else {
-                //System.out.println("Rotated Down... " + e.getWheelRotation());
-                game.addToZoom(-1, e.getPoint());
-            }
+            game.mouseWheelRotated(e);
         });
     }
 
@@ -89,11 +83,7 @@ public class Panel extends JPanel implements ActionListener {
      */
     @Override
     protected void paintComponent(Graphics g) {
-
-        int w = getWidth();
-        int h = getHeight();
         Graphics2D gr = (Graphics2D) g;
-
         switch (state) {
             case INTRO -> intro.draw(this, gr);
             case MAINMENU -> mainMenu.draw(this, gr);

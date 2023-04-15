@@ -5,6 +5,9 @@ import java.io.IOException;
 
 import util.ResourceLoader;
 
+/**
+ * The gui representation of the LoadGame submenu
+ */
 public class LoadGame {
 
     private Image background;
@@ -15,6 +18,10 @@ public class LoadGame {
     private MyRadioButton btn1, btn2, btn3, btn4, btn5;
     private MyRadioButtonGroup btnGrp;
 
+    /**
+     * Constructor of the LoadGame class
+     * @param panel is the game's main Panel object
+     */
     public LoadGame(Panel panel) {
         this.panel = panel;
         try {
@@ -36,6 +43,11 @@ public class LoadGame {
         btnGrp.add(btn5);
     }
 
+    /**
+     * Draw the LoadGame submenu on the screen
+     * @param panel is the game's main Panel object
+     * @param gr is the graphics context of the main Panel object
+     */
     public void draw(Panel panel, Graphics2D gr) {
         gr.drawImage(background, 0, 0, 1536 + 15, 793, null);
         backBtn.draw(gr, panel.getMousePosition());
@@ -44,17 +56,21 @@ public class LoadGame {
         btnGrp.draw(gr, panel.getMousePosition());
     }
 
+    /**
+     * The NewGame submenu's click handler
+     * @param p is the location of the click
+     */
     public void click(Point p) {
         if (backBtn.isHovered(p)) {
             panel.setState(MenuState.MAINMENU);
-        } else if (btnGrp.isHovered(p)) {
+        } else if (btnGrp.isAnyBtnHovered(p)) {
             btnGrp.select(p);
         } else if (loadBtn.isHovered(p)) {
             if (btnGrp.hasSelected()) {
                 panel.setState(MenuState.GAME);
             }
         } else if (deleteBtn.isHovered(p)) {
-            btnGrp.deleteSelected();
+            btnGrp.removeSelectedBtn();
         }
     }
 }
