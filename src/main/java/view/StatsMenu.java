@@ -7,12 +7,19 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+/**
+ * This class implements the statistics menu of the game gui
+ */
 public class StatsMenu extends GameMenu{
     private final Rectangle statsMenuArea;
     private final Color statsMenuColor;
     Game game;
     MyButton xBtn;
     
+    /**
+     * Constructor of the statistics menu
+     * @param game is the main Game object 
+     */
     public StatsMenu(Game game){
         super(game);
         this.game = game;
@@ -21,6 +28,10 @@ public class StatsMenu extends GameMenu{
         statsMenuColor = Color.white;
     }
     
+    /**
+     * Draw the statistics menu on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     @Override
     public void draw(Graphics2D gr){
         if(!getIsOpen()){
@@ -61,6 +72,10 @@ public class StatsMenu extends GameMenu{
         gr.drawString("- Építési adat6: ababababababababababababab", 800, 640);
     }
     
+    /**
+     * Draw the statistics menu's background area on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     private void paintStatsMenuArea(Graphics2D gr){
         gr.setColor(statsMenuColor);
         int x = statsMenuArea.x;
@@ -70,6 +85,10 @@ public class StatsMenu extends GameMenu{
         gr.fillRect(x, y, width, height);
     }
     
+    /**
+     * Click event handler of the statistics menu
+     * @param p is the current mouse position
+     */
     @Override
     public void click(Point p){
         if(xBtn.isHovered(p)){
@@ -77,6 +96,11 @@ public class StatsMenu extends GameMenu{
         }
     }
     
+    /**
+     * Get the statistics menu's area as a rectangle
+     * This is important for click event exceptions
+     * @return an arraylist of rectangles
+     */
     @Override
     public ArrayList<Rectangle> getMenuAreas(){
         ArrayList<Rectangle> areas = new ArrayList<>();

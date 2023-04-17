@@ -6,6 +6,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+/**
+ * This class implements the hamburger menu of the game gui
+ */
 public class HamburgerMenu extends GameMenu{
     private final Rectangle hamburgerMenuArea;
     private final Color hamburgerMenuColor;
@@ -13,6 +16,10 @@ public class HamburgerMenu extends GameMenu{
     MyButton newGameBtn;
     MyButton exitBtn;
     
+    /**
+     * Constructor of the hamburger menu
+     * @param game is the main game object 
+     */
     public HamburgerMenu(Game game){
         super(game);
         saveBtn = new MyButton(0, 40, 120, 40, "saveGame");
@@ -22,6 +29,10 @@ public class HamburgerMenu extends GameMenu{
         hamburgerMenuColor = Color.white;
     }
 
+    /**
+     * Draw the hamburger menu on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     @Override
     public void draw(Graphics2D gr){ 
         if(!getIsOpen()){
@@ -33,6 +44,10 @@ public class HamburgerMenu extends GameMenu{
         exitBtn.draw(gr, game.getMousePosition());
     }
     
+    /**
+     * Draw the hamburger menu's background area on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     private void paintHamburgerMenuArea(Graphics2D gr){
         gr.setColor(hamburgerMenuColor);
         int x = hamburgerMenuArea.x;
@@ -42,6 +57,10 @@ public class HamburgerMenu extends GameMenu{
         gr.fillRect(x, y, width, height);
     }
     
+    /**
+     * Upon a click event, call the appropriate button's functionality
+     * @param p is the current cursor loaction
+     */
     @Override
     public void click(Point p){
         if(saveBtn.isHovered(p)){
@@ -55,6 +74,11 @@ public class HamburgerMenu extends GameMenu{
         }
     }
     
+    /**
+     * Get the hamburger menu's area as a rectangle
+     * This is important for click event exceptions
+     * @return an arraylist of rectangles (with one rectangle)
+     */
     @Override
     public ArrayList<Rectangle> getMenuAreas(){
         ArrayList<Rectangle> areas = new ArrayList<>();

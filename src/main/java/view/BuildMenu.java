@@ -5,6 +5,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+/**
+ * This class implements the build menu of the game gui
+ */
 public class BuildMenu extends GameMenu{
     MyButton fireFighterBtn;
     MyButton roadBtn;
@@ -15,6 +18,10 @@ public class BuildMenu extends GameMenu{
     MyButton livingZoneBtn;
     MyButton policeStationBtn;
     
+    /**
+     * Constructor of the build menu
+     * @param game is the main game object
+     */
     public BuildMenu(Game game){
         super(game);
         fireFighterBtn = new MyButton(700, 753, 40, 40, "fireFighter");
@@ -27,6 +34,10 @@ public class BuildMenu extends GameMenu{
         policeStationBtn = new MyButton(940, 753, 40, 40, "police");  
     }
     
+    /**
+     * Draw the build menu on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     @Override
     public void draw(Graphics2D gr){
         fireFighterBtn.draw(gr, game.getMousePosition());
@@ -39,6 +50,10 @@ public class BuildMenu extends GameMenu{
         policeStationBtn.draw(gr, game.getMousePosition());
     }
     
+    /**
+     * Upon a click event, call the appropriate button's functionality
+     * @param p p is the current cursor loaction
+     */
     @Override
     public void click(Point p){
         if(fireFighterBtn.isHovered(p)){
@@ -64,6 +79,11 @@ public class BuildMenu extends GameMenu{
         }
     }
     
+    /**
+     * Get the build menu's area as rectangles (empty array = inside bottom bar)
+     * This is important for click event exceptions
+     * @return an arraylist of rectangles
+     */
     @Override
     public ArrayList<Rectangle> getMenuAreas(){
         ArrayList<Rectangle> areas = new ArrayList<>();

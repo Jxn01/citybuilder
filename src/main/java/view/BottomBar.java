@@ -7,6 +7,9 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+/**
+ * This class implements the bottom bar of the game gui
+ */
 public class BottomBar extends GameMenu {
     private final Rectangle bottomBarArea;
     private final Color bottomBarAreaColor;
@@ -17,6 +20,10 @@ public class BottomBar extends GameMenu {
     BuildMenu buildMenu;
     TimeMenu timeMenu;
 
+    /**
+     * Constructor of the bottom bar
+     * @param game is the main game object 
+     */
     public BottomBar(Game game){
         super(game);
         taxMenu = new TaxMenu(game);
@@ -29,6 +36,10 @@ public class BottomBar extends GameMenu {
         timeMenu = new TimeMenu(game);
     }
     
+    /**
+     * Draw the bottom bar on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     @Override
     public void draw(Graphics2D gr){   
         paintBottomMenubar(gr);
@@ -40,6 +51,10 @@ public class BottomBar extends GameMenu {
         taxMenu.draw(gr);
     }
     
+    /**
+     * Draw the bottom bar's background area on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     public void paintBottomMenubar(Graphics2D gr){
         gr.setColor(bottomBarAreaColor);
         int x = bottomBarArea.x;
@@ -49,6 +64,10 @@ public class BottomBar extends GameMenu {
         gr.fillRect(x,y,width,height);
     }
 
+    /**
+     * Upon a click event, roll the click event further into a submenu
+     * @param p is the current cursor loaction
+     */
     @Override
     public void click(Point p){
         buildMenu.click(p);
@@ -68,10 +87,19 @@ public class BottomBar extends GameMenu {
         }       
     }
     
+    /**
+     * Upon keypress event, roll the keypress event further into a submenu
+     * @param e is the keypress event
+     */
     public void keyPressed(KeyEvent e){
         taxMenu.keyPressed(e);
     }
     
+    /**
+     * Get the bottom bar's and all it's submenu areas as rectangles
+     * This is important for click event exceptions
+     * @return an arraylist of rectangles
+     */
     @Override
     public ArrayList<Rectangle> getMenuAreas(){
         ArrayList<Rectangle> areas = new ArrayList<>();

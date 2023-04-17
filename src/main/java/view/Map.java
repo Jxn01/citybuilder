@@ -10,12 +10,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import util.ResourceLoader;
 
+/**
+ * This class implements the map of the game using a 2D array of tiles
+ */
 public class Map {
     private Game game;
     private Image grass, rocks, road, house;
     private Tile[][] tiles;
     private Tile selectedBuildingType;
     
+    /**
+     * Constructor of the Map class
+     * @param game is the main Game object
+     */
     public Map(Game game){
         this.game = game;
         tiles = new Tile[51][51];
@@ -30,6 +37,10 @@ public class Map {
         
     }
     
+    /**
+     * Paint the map with all of it's tiles on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     public void paint(Graphics2D gr) {
         int zoom = game.getZoom();
         int cameraOffsetX = game.getCameraOffsetX();
@@ -53,7 +64,11 @@ public class Map {
         paintHover(gr);
     }
     
-    
+    /**
+     * Paint the hover effect on the screen after the user
+     * clicked on a building construction button
+     * @param gr is the graphics context of the main Panel object
+     */
     private void paintHover(Graphics2D gr) {
         //do nothing if the user didn't select a building type
         if(selectedBuildingType == null){
@@ -107,8 +122,12 @@ public class Map {
         gr.fillRect(x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom);
     }
     
-    
-    
+    /**
+     * Check if a field is valid on the map
+     * @param y is the y index of the field
+     * @param x is te x index of the field
+     * @return a Boolean value
+     */
     private boolean isFieldValid(int y, int x) {
         if (tiles[y][x] == Tile.ROCKS) {
             return false;
@@ -116,6 +135,12 @@ public class Map {
         return true;
     }
 
+    /**
+     * Check if a field is empty on the map
+     * @param y is the y index of the field
+     * @param x is te x index of the field
+     * @return is a Boolean value
+     */
     private boolean isFieldEmpty(int y, int x) {
         if (tiles[y][x] == Tile.GRASS) {
             return true;
@@ -123,6 +148,12 @@ public class Map {
         return false;
     }
 
+    /**
+     * Check if a field is next to a road
+     * @param y is the y index of the field
+     * @param x is te x index of the field
+     * @return is a Boolean value
+     */
     private boolean isNextToRoad(int y, int x) {
         if (!isFieldValid(y, x)) {
             return false;
@@ -136,6 +167,9 @@ public class Map {
         return false;
     }
     
+    /**
+     * Construct the map 
+     */
     public final void constructMap(){
         //CONSTRUCT THE MAP
         //<-- load game feature here
@@ -158,16 +192,32 @@ public class Map {
         }
     }
 
+    /**
+     * Set the selected building type after the user
+     * clicked on a building construction button
+     * @param selectedBuildingType is the new selected building type
+     */
     public void setSelectedBuildingType(Tile selectedBuildingType) {
         this.selectedBuildingType = selectedBuildingType;
     }
     
+    /**
+     * Build the selected building type onto a tile
+     * @param x is te x index of the field
+     * @param y is te y index of the field
+     * @param newTile 
+     */
     public void build(int x,int y,Tile newTile){
         game.setBalance(game.getBalance() - 100);
         game.setPopulation(game.getPopulation() + 50);
         tiles[x][y] = newTile;
     }
     
+    /**
+     * Given a point on the screen, return the corresponding field on the map
+     * @param p is the current cursor position
+     * @return a tile
+     */
     public Tile pointToTile(Point p) {
         if(p == null){
             return null;

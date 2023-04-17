@@ -10,13 +10,17 @@ import javax.swing.InputMap;
 import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 import javax.swing.KeyStroke;
 
+
+/**
+ * This class implements the camera movement of the game
+ */
 public class CameraMovementHandler {
-    private MovementState movementState;
-    private InputMap im;
-    private ActionMap am;
+    private final MovementState movementState;
+    private final InputMap im;
+    private final ActionMap am;
     private int cameraOffsetX, cameraOffsetY;
     private int zoom;
-    private Panel panel;
+    private final Panel panel;
     
     public CameraMovementHandler(Panel panel){
         this.panel = panel;
@@ -45,15 +49,27 @@ public class CameraMovementHandler {
         am.put("right-pressed", new XDirectionAction(movementState, -12));
         am.put("right-released", new XDirectionAction(movementState, 0));
     }
-     
+    
+    /**
+     * Add offset to the camera on the x axis
+     * @param val is the value added to the x offset
+     */
     public void addToOffsetX(int val) {
         cameraOffsetX += val;
     }
 
+    /**
+     * Add offset to the camera on the y axis
+     * @param val is the value added to the y offset
+     */
     public void addToOffsetY(int val) {
         cameraOffsetY += val;
     }
     
+    /**
+     * Event handler for mouse wheel events
+     * @param e is the MouseWheelEvent
+     */
     public void mouseWheelRotated(MouseWheelEvent e){
         if (e.getWheelRotation() < 0) {
             addToZoom(1, e.getPoint());
@@ -62,12 +78,19 @@ public class CameraMovementHandler {
         }
     }
 
+    /**
+     * getter for zoom
+     * @return zoom
+     */
     public int getZoom() {
         return zoom;
     }
     
-    
-
+    /**
+     * Add/substract an int value to/from zoom
+     * @param val is the added/substracted int value
+     * @param p is the current cursor location
+     */
     public void addToZoom(int val, Point p) {
         int tileX = p.x / (64 + zoom);
         int tileY = p.y / (64 + zoom);
@@ -84,14 +107,26 @@ public class CameraMovementHandler {
         }
     }
 
+    /**
+     * getter for the camera offset on the x axis
+     * @return the camera offset on the x axis
+     */
     public int getCameraOffsetX() {
         return cameraOffsetX;
     }
 
+    /**
+     * getter for the camera offset on the y axis
+     * @return the camera offset on the y axis
+     */
     public int getCameraOffsetY() {
         return cameraOffsetY;
     }
     
+    /**
+     * Apply modifications to the camera offset if the camera reaches the border 
+     * (prevent the player from moving the camera out of the playable area)
+     */
     public void checkMapBorder(){
         //left wall
         if (cameraOffsetX + movementState.xDirection <= 0) {
@@ -111,6 +146,11 @@ public class CameraMovementHandler {
         }
     }
     
+    /**
+     * A movementstate has an x and a y direction
+     * which allows the player to move the camera
+     * on both of the axes simultaneously
+     */
     public class MovementState {
         public int xDirection;
         public int yDirection;
@@ -121,6 +161,11 @@ public class CameraMovementHandler {
         }
     }
     
+    /**
+     * This class contains all functions necessary to move the camera
+     * on one axis. It is the superclass of YDirectionAction
+     * and XDirectionAction
+     */
     public abstract class AbstractDirectionAction extends AbstractAction {
 
         private final MovementState movementState;
@@ -141,6 +186,10 @@ public class CameraMovementHandler {
 
     }
 
+    /**
+     * This class is a derived class of the AbstractDirectionAction class
+     * It implements the camera movement on the y axis
+     */
     public class YDirectionAction extends AbstractDirectionAction {
 
         public YDirectionAction(MovementState movementState, int value) {
@@ -154,6 +203,10 @@ public class CameraMovementHandler {
 
     }
 
+    /**
+     * This class is a derived class of the AbstractDirectionAction class
+     * It implements the camera movement on the x axis
+     */
     public class XDirectionAction extends AbstractDirectionAction {
 
         public XDirectionAction(MovementState movementState, int value) {

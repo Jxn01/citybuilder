@@ -8,6 +8,9 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+/**
+ * This class implements the tax menu of the game gui
+ */
 public class TaxMenu extends GameMenu {
     private final Rectangle taxMenuArea;
     private final Color taxMenuColor;
@@ -15,6 +18,10 @@ public class TaxMenu extends GameMenu {
     MyInputField input;
     MyButton modifyBtn;
     
+    /**
+     * Constructor of the tax menu
+     * @param game is the main Game object 
+     */
     public TaxMenu(Game game){
         super(game);
         this.game = game;
@@ -25,6 +32,10 @@ public class TaxMenu extends GameMenu {
         taxMenuColor = Color.white;
     }
     
+    /**
+     * Draw the tax menu on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     @Override
     public void draw(Graphics2D gr){
         if(!getIsOpen()){
@@ -45,6 +56,10 @@ public class TaxMenu extends GameMenu {
         modifyBtn.draw(gr, game.getMousePosition());
     }
     
+    /**
+     * Draw the tax menu's background area on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     private void paintTaxMenuArea(Graphics2D gr){
         gr.setColor(taxMenuColor);
         int x = taxMenuArea.x;
@@ -54,6 +69,10 @@ public class TaxMenu extends GameMenu {
         gr.fillRect(x, y, width, height);
     }
     
+    /**
+     * Click event handler of the tax menu
+     * @param p is the current mouse position
+     */
     @Override
     public void click(Point p){
         if(xBtn.isHovered(p)){
@@ -64,6 +83,10 @@ public class TaxMenu extends GameMenu {
         }
     }
     
+    /**
+     * The keypress event handler of the taxmenu
+     * @param e is the KeyEvent
+     */
     public void keyPressed(KeyEvent e){
         char c = e.getKeyChar();
         if (c == KeyEvent.VK_BACK_SPACE) {
@@ -73,6 +96,11 @@ public class TaxMenu extends GameMenu {
         }
     }
     
+    /**
+     * Get the tax menu's area as a rectangle
+     * This is important for click event exceptions
+     * @return an arraylist of rectangles
+     */
     @Override
     public ArrayList<Rectangle> getMenuAreas(){
         ArrayList<Rectangle> areas = new ArrayList<>();

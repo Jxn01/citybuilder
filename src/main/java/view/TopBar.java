@@ -7,12 +7,19 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+/**
+ * This class implements the top bar of the game gui
+ */
 public class TopBar extends GameMenu {
     private final Rectangle topBarArea;
     private final Color topBarColor;
     MyButton hamburgerBtn;
     HamburgerMenu hamburgerMenu;
     
+    /**
+     * Constructor of the top bar
+     * @param game is the main game object 
+     */
     public TopBar(Game game){
         super(game);
         hamburgerMenu = new HamburgerMenu(game);
@@ -21,6 +28,10 @@ public class TopBar extends GameMenu {
         topBarColor = Color.white;
     }
     
+    /**
+     * Draw the bottom top on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     @Override
     public void draw(Graphics2D gr){
         paintTopBarArea(gr);
@@ -35,6 +46,10 @@ public class TopBar extends GameMenu {
         gr.drawString("Idő: 135.nap", 1000, 30);  
     }
     
+    /**
+     * Draw the top bar's background area on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     private void paintTopBarArea(Graphics2D gr){
         gr.setColor(topBarColor);
         int x = topBarArea.x;
@@ -44,6 +59,10 @@ public class TopBar extends GameMenu {
         gr.fillRect(x, y, width, height);
     }
     
+    /**
+     * Upon a click event, roll the click event further into a submenu
+     * @param p is the current cursor loaction
+     */
     @Override
     public void click(Point p){
         hamburgerMenu.click(p);
@@ -53,6 +72,11 @@ public class TopBar extends GameMenu {
         }
     }
         
+    /**
+     * Get the top bar's and all it's submenu areas as rectangles
+     * This is important for click event exceptions
+     * @return an arraylist of rectangles
+     */
     @Override
     public ArrayList<Rectangle> getMenuAreas(){
         ArrayList<Rectangle> areas = new ArrayList<>();

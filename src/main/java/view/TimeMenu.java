@@ -5,12 +5,19 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+/**
+ * This class implements the time menu of the game gui
+ */
 public class TimeMenu extends GameMenu{
     MyButton pauseBtn;
     MyButton speed1Btn;
     MyButton speed2Btn;
     MyButton speed3Btn;
     
+    /**
+     * Constructor of the time menu
+     * @param game is the main Game object 
+     */
     public TimeMenu(Game game){
         super(game);
         speed3Btn = new MyButton(1495, 753, 40, 40, "3xspeed");
@@ -19,6 +26,10 @@ public class TimeMenu extends GameMenu{
         pauseBtn = new MyButton(1375, 753, 40, 40, "pause");
     }
     
+    /**
+     * Draw the time menu on the screen
+     * @param gr is the graphics context of the main Panel object
+     */
     @Override
     public void draw(Graphics2D gr){
         speed3Btn.draw(gr, game.getMousePosition());
@@ -27,6 +38,10 @@ public class TimeMenu extends GameMenu{
         pauseBtn.draw(gr, game.getMousePosition());
     }
     
+    /**
+     * Click event handler of the time menu
+     * @param p is the current mouse position
+     */
     @Override
     public void click(Point p){
         if(pauseBtn.isHovered(p)){
@@ -43,6 +58,11 @@ public class TimeMenu extends GameMenu{
         }
     }
     
+    /**
+     * Get the time menu's area as a rectangle
+     * This is important for click event exceptions
+     * @return an arraylist of rectangles
+     */
     @Override
     public ArrayList<Rectangle> getMenuAreas(){
         ArrayList<Rectangle> areas = new ArrayList<>();
