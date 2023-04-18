@@ -1,14 +1,6 @@
 package model;
 
-import model.buildings.Building;
-import model.buildings.FireDepartment;
-import model.buildings.Forest;
-import model.buildings.IndustrialWorkplace;
-import model.buildings.PoliceStation;
-import model.buildings.ResidentialBuilding;
-import model.buildings.Road;
-import model.buildings.ServiceWorkplace;
-import model.buildings.Stadium;
+import model.buildings.*;
 
 /**
  * This class represents a field on the map
@@ -171,9 +163,9 @@ public class Field {
         if (zone != null) {
             throw new RuntimeException("Can't demolish public buildings! (There is a zone on the field!)");
         }
+        budget += ((PlayerBuilding)building).getBuildCost();
         building = null;
         // call animation
-        budget += 100; //exact amount is TODO
     }
 
     /**
@@ -188,33 +180,33 @@ public class Field {
         }
         if (buildingType == null || buildingType.equals("")) {
             switch (zone) {
-                //case RESIDENTIAL_ZONE -> building = new ResidentialBuilding();
-                //case INDUSTRIAL_ZONE -> building = new IndustrialWorkplace();
-                //case SERVICE_ZONE -> building = new ServiceWorkplace();
+                case RESIDENTIAL_ZONE -> building = new ResidentialBuilding(coord);
+                case INDUSTRIAL_ZONE -> building = new IndustrialWorkplace(coord);
+                case SERVICE_ZONE -> building = new ServiceWorkplace(coord);
                 default -> throw new RuntimeException("Building type not specified! (Zone is null)");
             }
         } else {
             switch (buildingType) {
                 case "policestation" -> {
-                    //building = new PoliceStation();
-                    budget -= 100;
-                } //exact amount is TODO
+                    building = new PoliceStation(coord);
+                    budget -= ((PoliceStation)building).getBuildCost();
+                }
                 case "stadium" -> {
-                    //building = new Stadium();
-                    budget -= 100;
-                } //exact amount is TODO
+                    building = new Stadium(coord);
+                    budget -= ((Stadium)building).getBuildCost();
+                }
                 case "firedepartment" -> {
-                    //building = new FireDepartment();
-                    budget -= 100;
-                } //exact amount is TODO
+                    building = new FireDepartment(coord);
+                    budget -= ((FireDepartment)building).getBuildCost();
+                }
                 case "forest" -> {
-                    //building = new Forest();
-                    budget -= 100;
-                } //exact amount is TODO
+                    building = new Forest(coord);
+                    budget -= ((Forest)building).getBuildCost();
+                }
                 case "road" -> {
-                    //building = new Road();
-                    budget -= 100;
-                } //exact amount is TODO
+                    building = new Road(coord);
+                    budget -= ((Road)building).getBuildCost();
+                }
                 default -> throw new RuntimeException("Unrecognized building type!");
             }
         }

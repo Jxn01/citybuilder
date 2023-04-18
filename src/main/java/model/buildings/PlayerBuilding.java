@@ -22,4 +22,36 @@ public abstract class PlayerBuilding extends Building {
         this.buildCost = buildCost;
         this.maintenanceCost = maintenanceCost;
     }
+
+    /**
+     * Get the build cost of the player building
+     * @return the build cost of the player building
+     */
+    public int getBuildCost() {
+        return buildCost;
+    }
+
+    /**
+     * Set the build cost of the player building
+     * @param buildCost is the new build cost of the player building
+     */
+    public void setBuildCost(int buildCost) {
+        this.buildCost = buildCost;
+    }
+
+    /**
+     * Get the maintenance cost of the player building
+     * @return the maintenance cost of the player building
+     */
+    public int getMaintenanceCost() {
+        return maintenanceCost;
+    }
+
+    /**
+     * Set the maintenance cost of the player building
+     * @param maintenanceCost is the new maintenance cost of the player building
+     */
+    public void setMaintenanceCost(int maintenanceCost) {
+        this.maintenanceCost = maintenanceCost;
+    }
 }

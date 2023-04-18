@@ -38,7 +38,7 @@ public abstract class Building {
     /**
      * Set the texture of the building
      */
-    protected abstract void setTexture();
+    protected abstract void updateTexture(String textureName);
 
     /**
      * Get the texture of the building
@@ -49,10 +49,10 @@ public abstract class Building {
     }
 
     /**
-     * Set the texture of the building
-     * @param texture is the texture of the building
+     * Update the texture of the building
+     * @param texture is the new texture of the building
      */
-    public void setTexture(Image texture) {
+    public void updateTexture(Image texture) {
         this.texture = texture;
     }
 

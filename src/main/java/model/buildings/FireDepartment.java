@@ -1,43 +1,55 @@
 package model.buildings;
 
 import model.Coordinate;
+import util.ResourceLoader;
 
-import java.awt.*;
+import java.io.IOException;
 
 /**
  * This class represents a fire department.
  */
 public class FireDepartment extends RangedBuilding {
-    private int maxFireTrucks = 10;
-    private int availableFireTrucks = 10;
+    private final int maxFireTrucks;
+    private final int availableFireTrucks;
 
     /**
      * Constructor of the fire department
-     * @param texture is the texture of the fire department
      * @param coords is the coordinates of the fire department
-     * @param firePossibility is the fire possibility of the fire department
-     * @param isOnFire is the fire department on fire
-     * @param buildCost is the build cost of the fire department
-     * @param maintenanceCost is the maintenance cost of the fire department
-     * @param range is the range of the fire department
-     * @param maxFireTrucks is the maximum number of fire trucks of the fire department
-     * @param availableFireTrucks is the available number of fire trucks of the fire department
      */
-    public FireDepartment(Image texture, Coordinate coords, double firePossibility, boolean isOnFire, int buildCost, int maintenanceCost, int range, int maxFireTrucks, int availableFireTrucks) {
-        super(texture, coords, firePossibility, isOnFire, buildCost, maintenanceCost, range);
-        this.maxFireTrucks = maxFireTrucks;
-        this.availableFireTrucks = availableFireTrucks;
+    public FireDepartment(Coordinate coords) {
+        super(null, coords, 0.0, false, 0, 0, 0);
+
+        try{
+            texture = ResourceLoader.loadImage("fireFighter.png");
+        }catch (IOException e) {
+            e.printStackTrace();
+            texture = null;
+        }
+
+        firePossibility = 0.0;
+        buildCost = 1000; //TODO: Change this
+        maintenanceCost = 100; //TODO: Change this
+        range = 10; //TODO: Change this
+
+        this.maxFireTrucks = 10;
+        this.availableFireTrucks = 10;
     }
 
     @Override
     public String getStatistics() {
-        System.out.println("Get statistics");
-        return "1";
+        String statistics = "Fire department statistics:\n";
+        statistics += "Max fire trucks: " + maxFireTrucks + "\n";
+        statistics += "Available fire trucks: " + availableFireTrucks + "\n";
+        statistics += "Range: " + range + "\n";
+        statistics += "Build cost: " + buildCost + "\n";
+        statistics += "Maintenance cost: " + maintenanceCost + "\n";
+        System.out.println(statistics);
+        return statistics;
     }
 
     @Override
-    public void setTexture() {
-        System.out.println("Set texture");
+    public void updateTexture(String textureName) {
+        System.out.println("No effect");
     }
 
     @Override

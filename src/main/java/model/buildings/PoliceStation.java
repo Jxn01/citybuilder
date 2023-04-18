@@ -1,34 +1,45 @@
 package model.buildings;
 
 import model.Coordinate;
+import util.ResourceLoader;
 
-import java.awt.*;
+import java.io.IOException;
 
 public class PoliceStation extends RangedBuilding {
 
     /**
      * Constructor of the police station
-     * @param texture is the texture of the police station
      * @param coords is the coordinates of the police station
-     * @param firePossibility is the fire possibility of the police station
-     * @param isOnFire is the police station on fire
-     * @param buildCost is the build cost of the police station
-     * @param maintenanceCost is the maintenance cost of the police station
-     * @param range is the range of the police station
      */
-    public PoliceStation(Image texture, Coordinate coords, double firePossibility, boolean isOnFire, int buildCost, int maintenanceCost, int range) {
-        super(texture, coords, firePossibility, isOnFire, buildCost, maintenanceCost, range);
+    public PoliceStation(Coordinate coords) {
+        super(null, coords, 0.0, false, 0, 0, 0);
+
+        try{
+            texture = ResourceLoader.loadImage("police.png");
+        }catch (IOException e) {
+            e.printStackTrace();
+            texture = null;
+        }
+
+        firePossibility = 0.1;
+        buildCost = 1000; //TODO: Change this
+        maintenanceCost = 100; //TODO: Change this
+        range = 10; //TODO: Change this
     }
 
     @Override
     public String getStatistics() {
-        System.out.println("Get statistics");
-        return "1";
+        String statistics = "Police station statistics:\n";
+        statistics += "Range: " + range + "\n";
+        statistics += "Build cost: " + buildCost + "\n";
+        statistics += "Maintenance cost: " + maintenanceCost + "\n";
+        System.out.println(statistics);
+        return statistics;
     }
 
     @Override
-    public void setTexture() {
-        System.out.println("Set texture");
+    public void updateTexture(String textureName) {
+        System.out.println("No effect");
     }
 
     @Override
