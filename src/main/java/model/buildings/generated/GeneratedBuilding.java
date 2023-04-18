@@ -1,7 +1,9 @@
-package model.buildings;
+package model.buildings.generated;
 
 import model.Coordinate;
 import model.Person;
+import model.buildings.Building;
+import model.enums.SaturationRate;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ public abstract class GeneratedBuilding extends Building {
     protected SaturationRate saturationRate;
     protected int publicSafety;
 
+    protected int maxCapacity;
+
     /**
      * Constructor of the generated building
      * @param texture is the texture of the building
@@ -23,12 +27,14 @@ public abstract class GeneratedBuilding extends Building {
      * @param people is the people in the building
      * @param saturationRate is the saturation rate of the building
      * @param publicSafety is the public safety of the building
+     * @param maxCapacity is the maximum capacity of the building
      */
-    public GeneratedBuilding(Image texture, Coordinate coords, double firePossibility, boolean isOnFire, ArrayList<Person> people, SaturationRate saturationRate, int publicSafety) {
+    public GeneratedBuilding(Image texture, Coordinate coords, double firePossibility, boolean isOnFire, ArrayList<Person> people, SaturationRate saturationRate, int publicSafety, int maxCapacity) {
         super(texture, coords, firePossibility, isOnFire);
         this.people = people;
         this.saturationRate = saturationRate;
         this.publicSafety = publicSafety;
+        this.maxCapacity = maxCapacity;
     }
 
     /**
@@ -40,12 +46,16 @@ public abstract class GeneratedBuilding extends Building {
     }
 
     /**
-     * Set the people in the building
-     * @param people is the people in the building
+     * Add a person to the building
+     * @param person is the person to add
      */
-    public void setPeople(ArrayList<Person> people) {
-        this.people = people;
-    }
+    public abstract void addPerson(Person person);
+
+    /**
+     * Remove a person from the building
+     * @param person is the person to remove
+     */
+    public abstract void removePerson(Person person);
 
     /**
      * Get the saturation rate of the building
@@ -56,12 +66,27 @@ public abstract class GeneratedBuilding extends Building {
     }
 
     /**
-     * Set the saturation rate of the building
-     * @param saturationRate is the saturation rate of the building
+     * Updates the saturation rate of the building
      */
-    public void setSaturationRate(SaturationRate saturationRate) {
-        this.saturationRate = saturationRate;
+    public void updateSaturationRate() {
+        if (people.size() == 0) {
+            saturationRate = SaturationRate.EMPTY;
+        } else if (people.size() < maxCapacity / 4) {
+            saturationRate = SaturationRate.LOW;
+        } else if (people.size() < maxCapacity / 2) {
+            saturationRate = SaturationRate.MEDIUM;
+        } else if (people.size() < maxCapacity * 3 / 4) {
+            saturationRate = SaturationRate.HIGH;
+        } else {
+            saturationRate = SaturationRate.FULL;
+        }
+        System.out.println("Saturation rate of building at" + coords.toString() + " is now " + saturationRate);
     }
+
+    public void setMaxCapacity(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+        System.out.println("Max capacity of building at " + coords.toString() + " is now " + maxCapacity);
+    };
 
     /**
      * Get the public safety of the building
@@ -77,5 +102,6 @@ public abstract class GeneratedBuilding extends Building {
      */
     public void setPublicSafety(int publicSafety) {
         this.publicSafety = publicSafety;
+        System.out.println("Public safety of building at " + coords.toString() + " is now " + publicSafety);
     }
 }

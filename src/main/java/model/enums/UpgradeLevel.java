@@ -1,4 +1,4 @@
-package model;
+package model.enums;
 
 /**
  * This enum represents the upgrade level of a building.

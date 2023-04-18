@@ -1,4 +1,4 @@
-package model.buildings;
+package model.buildings.playerbuilt;
 
 import model.Coordinate;
 import util.ResourceLoader;
@@ -33,6 +33,8 @@ public class FireDepartment extends RangedBuilding {
 
         this.maxFireTrucks = 10;
         this.availableFireTrucks = 10;
+
+        System.out.println("Fire department created at " + coords.toString());
     }
 
     @Override
@@ -48,8 +50,13 @@ public class FireDepartment extends RangedBuilding {
     }
 
     @Override
-    public void updateTexture(String textureName) {
-        System.out.println("No effect");
+    public void setOnFire() {
+        //cant be on fire
+    }
+
+    @Override
+    public void extinguish() {
+        //cant be on fire
     }
 
     @Override
@@ -65,5 +72,20 @@ public class FireDepartment extends RangedBuilding {
     @Override
     public void effect() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "FireDepartment{" +
+                "maxFireTrucks=" + maxFireTrucks +
+                ", availableFireTrucks=" + availableFireTrucks +
+                ", range=" + range +
+                ", buildCost=" + buildCost +
+                ", maintenanceCost=" + maintenanceCost +
+                ", texture=" + texture +
+                ", coords=" + coords +
+                ", firePossibility=" + firePossibility +
+                ", isOnFire=" + onFire +
+                '}';
     }
 }

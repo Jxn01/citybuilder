@@ -1,4 +1,4 @@
-package model.buildings;
+package model.buildings.playerbuilt;
 
 import model.Coordinate;
 import util.ResourceLoader;
@@ -25,6 +25,8 @@ public class PoliceStation extends RangedBuilding {
         buildCost = 1000; //TODO: Change this
         maintenanceCost = 100; //TODO: Change this
         range = 10; //TODO: Change this
+
+        System.out.println("Police station created at " + coords.toString());
     }
 
     @Override
@@ -38,8 +40,15 @@ public class PoliceStation extends RangedBuilding {
     }
 
     @Override
-    public void updateTexture(String textureName) {
-        System.out.println("No effect");
+    public void setOnFire() {
+        onFire = true;
+        System.out.println("Police station is on fire at " + coords.toString());
+    }
+
+    @Override
+    public void extinguish() {
+        onFire = false;
+        System.out.println("Police station is extinguished at " + coords.toString());
     }
 
     @Override

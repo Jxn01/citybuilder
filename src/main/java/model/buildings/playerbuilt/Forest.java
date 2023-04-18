@@ -1,4 +1,4 @@
-package model.buildings;
+package model.buildings.playerbuilt;
 
 import model.Coordinate;
 import util.ResourceLoader;
@@ -33,16 +33,18 @@ public class Forest extends RangedBuilding {
 
         this.growTime = 10;
         this.growStage = 0;
+
+        System.out.println("Forest created at " + coords.toString());
     }
 
     /**
-     * Grow the tree
+     * Grow the forest
      */
     public void grow() {
         if(growStage < growTime){
             growStage++;
         }
-        System.out.println("The tree is growing.");
+        System.out.println("Forest grew to " + growStage + " years old");
     }
 
     @Override
@@ -58,8 +60,15 @@ public class Forest extends RangedBuilding {
     }
 
     @Override
-    public void updateTexture(String textureName) {
-        System.out.println("No effect");
+    public void setOnFire() {
+        onFire = true;
+        System.out.println("Forest is on fire at " + coords.toString());
+    }
+
+    @Override
+    public void extinguish() {
+        onFire = false;
+        System.out.println("Forest is extinguished at " + coords.toString());
     }
 
     @Override
@@ -75,5 +84,20 @@ public class Forest extends RangedBuilding {
     @Override
     public void effect() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Forest{" +
+                "growTime=" + growTime +
+                ", growStage=" + growStage +
+                ", range=" + range +
+                ", buildCost=" + buildCost +
+                ", maintenanceCost=" + maintenanceCost +
+                ", texture=" + texture +
+                ", coords=" + coords +
+                ", firePossibility=" + firePossibility +
+                ", isOnFire=" + onFire +
+                '}';
     }
 }

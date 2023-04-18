@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 
 /**
@@ -16,6 +17,7 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
+        setMinimumSize(new Dimension(1590, 910));
     }
 
     /**
@@ -23,7 +25,7 @@ public class Frame extends JFrame {
      */
     public void init() {
         setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        setResizable(false);
+        setResizable(true);
     }
 
     /**

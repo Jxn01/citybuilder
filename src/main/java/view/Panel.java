@@ -36,8 +36,8 @@ public class Panel extends JPanel implements ActionListener {
         timer = new Timer(20, this);
         timer.start();
         //switch here if you want the game to start in a different submenu
-        state = MenuState.GAME;
-        //state = MenuState.INTRO;
+        //state = MenuState.GAME;
+        state = MenuState.INTRO;
 
         intro = new Intro();
         mainMenu = new MainMenu(this);

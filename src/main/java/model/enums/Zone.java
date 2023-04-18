@@ -1,4 +1,4 @@
-package model;
+package model.enums;
 
 /**
  * This enum represents the zone of a building.

@@ -1,44 +1,43 @@
 package model.buildings;
 
 import model.Coordinate;
+import model.buildings.interfaces.Flammable;
+import util.ResourceLoader;
 
 import java.awt.*;
+import java.io.IOException;
+
+import com.github.javafaker.Faker;
 
 /**
  * This class represents a building.
  */
-public abstract class Building {
+public abstract class Building implements Flammable {
+    protected String address = Faker.instance().address().streetAddressNumber();
     protected Image texture;
     protected Coordinate coords;
     protected double firePossibility;
-    protected boolean isOnFire;
+    protected boolean onFire;
 
     /**
      * Constructor of the building
      * @param texture is the texture of the building
      * @param coords is the coordinates of the building
      * @param firePossibility is the fire possibility of the building
-     * @param isOnFire is the building on fire
+     * @param onFire is the building on fire
      */
-    public Building(Image texture, Coordinate coords, double firePossibility, boolean isOnFire) {
+    public Building(Image texture, Coordinate coords, double firePossibility, boolean onFire) {
         this.texture = texture;
         this.coords = coords;
         this.firePossibility = firePossibility;
-        this.isOnFire = isOnFire;
+        this.onFire = onFire;
     }
-    // return value will be modified
+
     /**
      * Get the statistics of the building
      * @return the statistics of the building
      */
     protected abstract String getStatistics();
-
-    // parameterlist will be modified
-
-    /**
-     * Set the texture of the building
-     */
-    protected abstract void updateTexture(String textureName);
 
     /**
      * Get the texture of the building
@@ -49,11 +48,12 @@ public abstract class Building {
     }
 
     /**
-     * Update the texture of the building
-     * @param texture is the new texture of the building
+     * Set the texture of the building
+     * @param textureName is the texture of the building
      */
-    public void updateTexture(Image texture) {
-        this.texture = texture;
+    public void setTexture(String textureName) throws IOException {
+        this.texture = ResourceLoader.loadImage(textureName);
+        System.out.println("Texture set to " + textureName + " at " + coords.toString());
     }
 
     /**
@@ -86,6 +86,7 @@ public abstract class Building {
      */
     public void setFirePossibility(double firePossibility) {
         this.firePossibility = firePossibility;
+        System.out.println("Fire possibility set to " + firePossibility + " at " + coords.toString());
     }
 
     /**
@@ -93,14 +94,23 @@ public abstract class Building {
      * @return the fire status of the building
      */
     public boolean isOnFire() {
-        return isOnFire;
+        return onFire;
     }
 
     /**
-     * Set the fire status of the building
-     * @param onFire is the fire status of the building
+     * Get the address of the building
+     * @return the address of the building
      */
-    public void setOnFire(boolean onFire) {
-        isOnFire = onFire;
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * Set the address of the building
+     * @param address is the address of the building
+     */
+    public void setAddress(String address) {
+        System.out.println("Setting address to " + address + " at " + coords.toString());
+        this.address = address;
     }
 }

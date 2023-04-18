@@ -1,6 +1,7 @@
-package model.buildings;
+package model.buildings.playerbuilt;
 
 import model.Coordinate;
+import model.buildings.interfaces.FunctionalBuilding;
 
 import java.awt.*;
 

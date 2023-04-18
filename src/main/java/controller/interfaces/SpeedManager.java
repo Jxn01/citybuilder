@@ -1,4 +1,4 @@
-package controller;
+package controller.interfaces;
 
 /**
  * This interface represents the speed manager.

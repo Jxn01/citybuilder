@@ -1,9 +1,9 @@
-package controller;
+package controller.catastrophies;
 
 /**
  * This class represents a firestorm.
  */
-public class Firestorm extends Catastrophy {
+public class Firestorm extends Catastrophe {
     private static Firestorm instance = null;
 
     /**
@@ -24,6 +24,6 @@ public class Firestorm extends Catastrophy {
 
     @Override
     protected void effect() {
-
+        System.out.println("Firestorm happening!");
     }
 }

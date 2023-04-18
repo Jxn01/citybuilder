@@ -1,6 +1,7 @@
-package model.buildings;
+package model.buildings.playerbuilt;
 
 import model.Coordinate;
+import model.buildings.playerbuilt.PlayerBuilding;
 import util.ResourceLoader;
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ public class Road extends PlayerBuilding {
 
         buildCost = 1000; //TODO: Change this
         maintenanceCost = 100; //TODO: Change this
+
+        System.out.println("Road created at " + coords.toString());
     }
 
     @Override
@@ -35,7 +38,12 @@ public class Road extends PlayerBuilding {
     }
 
     @Override
-    public void updateTexture(String textureName) {
-        System.out.println("No effect");
+    public void setOnFire() {
+        //Roads can't be on fire
+    }
+
+    @Override
+    public void extinguish() {
+        //Roads can't be on fire
     }
 }

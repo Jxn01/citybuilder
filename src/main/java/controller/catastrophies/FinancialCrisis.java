@@ -1,9 +1,9 @@
-package controller;
+package controller.catastrophies;
 
 /**
  * This class represents a financial crisis.
  */
-public class FinancialCrisis extends Catastrophy{
+public class FinancialCrisis extends Catastrophe {
     private static FinancialCrisis instance = null;
 
     /**
@@ -24,6 +24,6 @@ public class FinancialCrisis extends Catastrophy{
 
     @Override
     protected void effect() {
-
+        System.out.println("Financial crisis happening!");
     }
 }

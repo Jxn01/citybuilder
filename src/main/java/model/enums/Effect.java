@@ -1,4 +1,4 @@
-package model;
+package model.enums;
 
 /**
  * This class represents the various effects that can effect a resident
@@ -8,9 +8,9 @@ public enum Effect {
     PUBLIC_SAFETY(10),
     POLICE_STATION(10),
     STADIUM(10),
-    BAD_BUDGET(10),
-    BAD_WORKPLACE_DIST(10),
-    WORK_DISTANCE(10);
+    BAD_BUDGET(-10),
+    BAD_WORKPLACE_DIST(-10),
+    WORK_DISTANCE(-10);
 
     Effect(int i) {
     }

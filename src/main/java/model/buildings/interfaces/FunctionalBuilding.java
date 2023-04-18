@@ -1,9 +1,9 @@
-package model.buildings;
+package model.buildings.interfaces;
 
 /**
  * This interface represents a functional building.
  */
-interface FunctionalBuilding {
+public interface FunctionalBuilding {
     /**
      * Enable the effect of the building.
      */

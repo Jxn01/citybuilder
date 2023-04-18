@@ -1,9 +1,10 @@
-package model.buildings;
+package model.buildings.playerbuilt;
 
 import model.Coordinate;
 
 import java.io.IOException;
 
+import model.buildings.playerbuilt.RangedBuilding;
 import util.ResourceLoader;
 
 
@@ -14,7 +15,7 @@ public class Stadium extends RangedBuilding {
      * @param coords is the coordinates of the stadium
      */
     public Stadium(Coordinate coords) {
-        super(null, null, 0.0, false, 0, 0, 0);
+        super(null, coords, 0.0, false, 0, 0, 0);
 
         try{
             texture = ResourceLoader.loadImage("stadium.png");
@@ -26,7 +27,8 @@ public class Stadium extends RangedBuilding {
         buildCost = 1000; //TODO: Change this
         maintenanceCost = 100; //TODO: Change this
         range = 10; //TODO: Change this
-        this.coords = coords;
+
+        System.out.println("Stadium created at " + coords.toString());
     }
 
     @Override
@@ -40,8 +42,15 @@ public class Stadium extends RangedBuilding {
     }
 
     @Override
-    public void updateTexture(String textureName) {
-        System.out.println("No effect");
+    public void setOnFire() {
+        onFire = true;
+        System.out.println("Stadium is on fire at " + coords.toString());
+    }
+
+    @Override
+    public void extinguish() {
+        onFire = false;
+        System.out.println("Stadium is extinguished at " + coords.toString());
     }
 
     @Override
