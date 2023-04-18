@@ -10,6 +10,9 @@ import model.buildings.Road;
 import model.buildings.ServiceWorkplace;
 import model.buildings.Stadium;
 
+/**
+ * This class represents a field on the map
+ */
 public class Field {
     private int maxCapacity;
     private int moveInFactor;
@@ -18,55 +21,108 @@ public class Field {
     private UpgradeLevel upgradeLevel;
     private Building building;
 
+    /**
+     * Constructor of the field
+     * @param c is the coordinate of the field
+     */
     public Field(Coordinate c) {
         this.coord = c;
     }
 
+    /**
+     * Get the max capacity of the field
+     * @return the max capacity of the field
+     */
     public int getMaxCapacity() {
         return maxCapacity;
     }
 
+    /**
+     * Set the max capacity of the field
+     * @param maxCapacity is the max capacity of the field
+     */
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
     }
 
+    /**
+     * Get the move in factor of the field
+     * @return the move in factor of the field
+     */
     public int getMoveInFactor() {
         return moveInFactor;
     }
 
+    /**
+     * Set the move in factor of the field
+     * @param moveInFactor is the move in factor of the field
+     */
     public void setMoveInFactor(int moveInFactor) {
         this.moveInFactor = moveInFactor;
     }
 
+    /**
+     * Get the coordinate of the field
+     * @return the coordinate of the field
+     */
     public Coordinate getCoord() {
         return coord;
     }
 
+    /**
+     * Get the zone of the field
+     * @return the zone of the field
+     */
     public Zone getZone() {
         return zone;
     }
 
+    /**
+     * Set the zone of the field
+     * @param zone is the zone of the field
+     */
     public void setZone(Zone zone) {
         this.zone = zone;
     }
 
+    /**
+     * Get the upgrade level of the field
+     * @return the upgrade level of the field
+     */
     public UpgradeLevel getUpgradeLevel() {
         return upgradeLevel;
     }
 
+    /**
+     * Set the upgrade level of the field
+     * @param upgradeLevel is the upgrade level of the field
+     */
     public void setUpgradeLevel(UpgradeLevel upgradeLevel) {
         this.upgradeLevel = upgradeLevel;
     }
 
+    /**
+     * Get the building of the field
+     * @return the building of the field
+     */
     public Building getBuilding() {
         return building;
     }
 
+    /**
+     * Set the building of the field
+     * @param building is the building of the field
+     */
     public void setBuilding(Building building) {
         this.building = building;
     }
 
-    public int upgrade(int budget) throws RuntimeException {
+    /**
+     * Upgrades the field
+     * @param budget is the budget of the player
+     * @throws RuntimeException if the field can't be upgraded or if the field has no zone
+     */
+    public void upgrade(Integer budget) throws RuntimeException {
         if (upgradeLevel == null) {
             throw new NullPointerException("Field can't be upgraded!");
         }
@@ -84,10 +140,14 @@ public class Field {
             } //exact amount is TODO
             case METROPOLIS -> throw new RuntimeException("UpgradeLevel is already max!");
         }
-        return budget;
     }
 
-    public int deleteZone(int budget) throws RuntimeException {
+    /**
+     * Deletes the zone of the field
+     * @param budget is the budget of the player
+     * @throws RuntimeException if there is a building on the field or if the field is already empty
+     */
+    public void deleteZone(Integer budget) throws RuntimeException {
         if (building != null) {
             throw new RuntimeException("Can't delete zone, there is a building on the field!");
         }
@@ -96,10 +156,15 @@ public class Field {
         }
         zone = null;
         budget += 100; //exact amount is TODO
-        return budget;
     }
 
-    public int demolishBuilding(int budget) throws RuntimeException {
+
+    /**
+     * Demolishes the building of the field
+     * @param budget is the budget of the player
+     * @throws RuntimeException if there is no building on the field or if the building is public
+     */
+    public void demolishBuilding(Integer budget) throws RuntimeException {
         if (building == null) {
             throw new RuntimeException("There is no building on the field!");
         }
@@ -109,53 +174,63 @@ public class Field {
         building = null;
         // call animation
         budget += 100; //exact amount is TODO
-        return budget;
     }
 
-    public int buildBuilding(String buildingType, int budget) throws RuntimeException {
+    /**
+     * Builds a building on the field
+     * @param buildingType is the type of the building
+     * @param budget is the budget of the player
+     * @throws RuntimeException if there is already a building on the field or if the building type is not specified
+     */
+    public void buildBuilding(String buildingType, Integer budget) throws RuntimeException {
         if (building != null) {
             throw new RuntimeException("There already is a building on this field!");
         }
         if (buildingType == null || buildingType.equals("")) {
             switch (zone) {
-                case RESIDENTIAL_ZONE -> building = new ResidentialBuilding();
-                case INDUSTRIAL_ZONE -> building = new IndustrialWorkplace();
-                case SERVICE_ZONE -> building = new ServiceWorkplace();
+                //case RESIDENTIAL_ZONE -> building = new ResidentialBuilding();
+                //case INDUSTRIAL_ZONE -> building = new IndustrialWorkplace();
+                //case SERVICE_ZONE -> building = new ServiceWorkplace();
                 default -> throw new RuntimeException("Building type not specified! (Zone is null)");
             }
         } else {
             switch (buildingType) {
                 case "policestation" -> {
-                    building = new PoliceStation();
+                    //building = new PoliceStation();
                     budget -= 100;
                 } //exact amount is TODO
                 case "stadium" -> {
-                    building = new Stadium();
+                    //building = new Stadium();
                     budget -= 100;
                 } //exact amount is TODO
                 case "firedepartment" -> {
-                    building = new FireDepartment();
+                    //building = new FireDepartment();
                     budget -= 100;
                 } //exact amount is TODO
                 case "forest" -> {
-                    building = new Forest();
+                    //building = new Forest();
                     budget -= 100;
                 } //exact amount is TODO
                 case "road" -> {
-                    building = new Road();
+                    //building = new Road();
                     budget -= 100;
                 } //exact amount is TODO
                 default -> throw new RuntimeException("Unrecognized building type!");
             }
         }
-        return budget;
     }
 
+    /**
+     * Gets the current capacity of the field
+     * @return the current capacity of the field
+     * @throws RuntimeException if there is no building on the field or if the building is not a residential building
+     */
     public int getCurrentCapacity() throws RuntimeException {
         if (building == null) {
             throw new RuntimeException("There is no building on the field!");
+        } else if (!(building instanceof ResidentialBuilding)) {
+            throw new RuntimeException("The building on the field is not a residential building!");
         }
-        return 0;
-        //return building.getPeople().size();
+        return ((ResidentialBuilding) building).getPeople().size();
     }
 }

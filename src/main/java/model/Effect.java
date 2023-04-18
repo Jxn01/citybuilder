@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * This class represents the various effects that can effect a resident
+ */
 public enum Effect {
     FOREST(10),
     PUBLIC_SAFETY(10),
