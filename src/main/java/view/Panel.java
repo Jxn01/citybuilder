@@ -46,7 +46,7 @@ public class Panel extends JPanel implements ActionListener {
         });
         timer.start();
         
-        state = MenuState.INTRO;
+        state = MenuState.GAME;
 
         intro = new Intro(this);
         mainMenu = new MainMenu(this);

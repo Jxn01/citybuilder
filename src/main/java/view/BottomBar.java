@@ -17,8 +17,11 @@ public class BottomBar extends GameMenu {
     StatsMenu statsMenu;
     MyButton taxBtn;
     MyButton statsBtn;
+    MyButton catastrophiesBtn;
     BuildMenu buildMenu;
+    CatastrophiesMenu catastrophiesMenu;
     TimeMenu timeMenu;
+    
 
     /**
      * Constructor of the bottom bar
@@ -28,11 +31,13 @@ public class BottomBar extends GameMenu {
         super(game);
         taxMenu = new TaxMenu(game);
         statsMenu = new StatsMenu(game);
-        taxBtn = new MyButton(80, 753, 40, 40, "tax");
-        statsBtn = new MyButton(0, 753, 80, 40, "stats");
+        statsBtn = new MyButton(0, 0, 80, 40, "stats");
+        taxBtn = new MyButton(80, 0, 40, 40, "tax");
+        catastrophiesBtn = new MyButton(120, 0, 80, 40, "catastrophies");
         bottomBarArea = new Rectangle(0, 753, 1536, 40);
         bottomBarAreaColor = Color.white;
         buildMenu = new BuildMenu(game);
+        catastrophiesMenu = new CatastrophiesMenu(game);
         timeMenu = new TimeMenu(game);
     }
     
@@ -47,10 +52,13 @@ public class BottomBar extends GameMenu {
         statsBtn.draw(gr, game.getMousePosition());
         taxBtn.setY(game.height() - 40);
         taxBtn.draw(gr, game.getMousePosition());
+        catastrophiesBtn.setY(game.height() - 40);
+        catastrophiesBtn.draw(gr, game.getMousePosition());
         buildMenu.draw(gr);
         timeMenu.draw(gr);
         statsMenu.draw(gr);
         taxMenu.draw(gr);
+        catastrophiesMenu.draw(gr);
     }
     
     /**
@@ -75,18 +83,27 @@ public class BottomBar extends GameMenu {
         buildMenu.click(p);
         statsMenu.click(p);
         taxMenu.click(p);
+        catastrophiesMenu.click(p);
         timeMenu.click(p);
         
         if(statsBtn.isHovered(p)){
             taxMenu.setIsOpen(false);
+            catastrophiesMenu.setIsOpen(false);
             Boolean negated = !statsMenu.getIsOpen();
             statsMenu.setIsOpen(negated);
         }
         else if(taxBtn.isHovered(p)){
             statsMenu.setIsOpen(false);
+            catastrophiesMenu.setIsOpen(false);
             Boolean negated = !taxMenu.getIsOpen();
             taxMenu.setIsOpen(negated);
-        }       
+        }
+        else if(catastrophiesBtn.isHovered(p)){
+            statsMenu.setIsOpen(false);
+            taxMenu.setIsOpen(false);
+            Boolean negated = !catastrophiesMenu.getIsOpen();
+            catastrophiesMenu.setIsOpen(negated);
+        }
     }
     
     /**
