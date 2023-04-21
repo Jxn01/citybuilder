@@ -22,11 +22,11 @@ public class Field {
 
     /**
      * Constructor of the field
-     * @param c is the coordinate of the field
+     * @param coord is the coordinate of the field
      */
-    public Field(Coordinate c) {
-        this.coord = c;
-        System.out.println("Field created at " + c.getX() + ", " + c.getY());
+    public Field(Coordinate coord) {
+        this.coord = coord;
+        System.out.println("Field created at " + coord.toString());
     }
 
     /**
@@ -46,7 +46,7 @@ public class Field {
         switch (upgradeLevel) {
             case TOWN -> {
                 upgradeLevel = UpgradeLevel.CITY;
-                maxCapacity += 100; //TODO
+                maxCapacity = 40; //TODO
                 if(building != null){
                     ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
                 }
@@ -57,7 +57,7 @@ public class Field {
             }
             case CITY -> {
                 upgradeLevel = UpgradeLevel.METROPOLIS;
-                maxCapacity += 100; //TODO
+                maxCapacity = 100; //TODO
                 if(building != null){
                     ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
                 }
@@ -86,6 +86,7 @@ public class Field {
         }
         if(this.zone == null) {
             this.zone = newZone;
+            maxCapacity = 20;
             budget -= 100; //exact amount is TODO
             System.out.println("Field's zone at " + coord.getX() + ", " + coord.getY() + " marked to " + zone+"!");
             System.out.println("Current budget: " + budget);
@@ -248,12 +249,12 @@ public class Field {
     }
 
     /**
-     * Set the move in factor of the field
-     * @param moveInFactor is the move in factor of the field
+     * Calculate the move in factor of the field
      */
-    public void setMoveInFactor(int moveInFactor) {
-        this.moveInFactor = moveInFactor;
-        System.out.println("Move in factor of field at " + coord.getX() + ", " + coord.getY() + " set to " + moveInFactor);
+    public int calculateMoveInFactor() {
+        int moveInFactor = 0;
+        System.out.println("Move in factor of field at " + coord.getX() + ", " + coord.getY() + " is " + moveInFactor);
+        return moveInFactor;
     }
 
     /**
