@@ -11,22 +11,31 @@ public class Frame extends JFrame {
     private Panel panel;
 
     public Frame() {
+        //maximize the JFrame
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //add the panel
         panel = new Panel(this);
         add(panel);
+    
         setTitle("City builder");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
-        setMinimumSize(new Dimension(1590, 910));
+        
+        // Wait for the frame to become visible
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+
+        // Validate the container to ensure the panel's size is calculated
+        getContentPane().validate();
+        setResizable(false);
     }
 
     /**
      * Initialize the game window after creation
      */
-    public void init() {
-        setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        setResizable(true);
-    }
+    public void init() {}
 
     /**
      * Exit the program

@@ -72,7 +72,7 @@ public class Tutorial {
                 allData.add(newData);
             }
 
-            leftBtn = new MyButton(0, 350, 100, 100, "arrowLeft");
+            leftBtn = new MyButton(10, 350, 100, 100, "arrowLeft");
             rightBtn = new MyButton(1436, 350, 100, 100, "arrowRight");
             backBtn = new MyButton(0, 0, 75, 75, "back");
         } catch (IOException ex) {}
@@ -85,19 +85,29 @@ public class Tutorial {
      */
     public void draw(Panel panel, Graphics2D gr) {
         //draw the background
-        gr.drawImage(background, 0, 0, 1536 + 15, 793, null);
+        gr.drawImage(background, 0, 0, panel.width(),panel.height(), null);
+        
+        final int btnWidth = 100;
+        final int btnHeight = 100;
+        final int btnY = panel.height()/ 2 - btnHeight/2;
+        final int rightX = panel.width() - btnWidth - 10;
         
         //draw all buttons
+        leftBtn.setY(btnY);
         leftBtn.draw(gr, panel.getMousePosition());
+        rightBtn.setX(rightX);
+        rightBtn.setY(btnY);
         rightBtn.draw(gr, panel.getMousePosition());
         backBtn.draw(gr, panel.getMousePosition());
 
         //draw the current tutorial image
-        gr.drawImage(allData.get(currentImg).img, 143, 100, 1250, 675, null);
+        final int imgWidth = panel.width() - (btnWidth*2 + 100);
+        final int imgHeight = panel.height() - 150;
+        gr.drawImage(allData.get(currentImg).img, 150, 100, imgWidth, imgHeight, null);
         
         //write the current image text on the screen
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        gr.drawString((currentImg + 1) + ". Lépés: " + allData.get(currentImg).imgText, 143, 75);
+        gr.drawString((currentImg + 1) + ". Lépés: " + allData.get(currentImg).imgText, 150, 75);
     }
 
     /**

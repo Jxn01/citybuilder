@@ -91,4 +91,12 @@ public class MyRadioButton {
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
         gr.drawString(name + " ; " + time + " ; " + funds, rect.x + 20, rect.y + (rect.height / 2) + 10);
     }
+    
+    public void setWidth(int width){
+        rect.width = width;
+    }
+    
+    public void setX(int x){
+        rect.x = x;
+    }
 }

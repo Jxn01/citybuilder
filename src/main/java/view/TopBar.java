@@ -54,7 +54,7 @@ public class TopBar extends GameMenu {
         gr.setColor(topBarColor);
         int x = topBarArea.x;
         int y = topBarArea.y;
-        int width = topBarArea.width;
+        int width = game.width();
         int height = topBarArea.height;
         gr.fillRect(x, y, width, height);
     }
@@ -83,6 +83,10 @@ public class TopBar extends GameMenu {
         areas.add(topBarArea);
         areas.addAll(hamburgerMenu.getMenuAreas());
         return areas;
+    }
+    
+    public void setWidth(int width){
+        topBarArea.width = width;
     }
     
 }

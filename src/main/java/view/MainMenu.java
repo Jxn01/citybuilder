@@ -23,12 +23,14 @@ public class MainMenu {
      */
     public MainMenu(Panel panel) {
         this.panel = panel;
+        final int btnWidth = 300;
+        final int btnHeight = 100;
         try {
             background = ResourceLoader.loadImage("city.png");
-            tutorialBtn = new MyButton(618, 200, 300, 100, "tutorial");
-            newGameBtn = new MyButton(618, 350, 300, 100, "newGame");
-            saveBtn = new MyButton(618, 500, 300, 100, "save");
-            exitBtn = new MyButton(618, 650, 300, 100, "exit");
+            tutorialBtn = new MyButton(0, 200, btnWidth, btnHeight, "tutorial");
+            newGameBtn = new MyButton(0, 350, btnWidth, btnHeight, "newGame");
+            saveBtn = new MyButton(0, 500, btnWidth, btnHeight, "save");
+            exitBtn = new MyButton(0, 650, btnWidth, btnHeight, "exit");
         } catch (IOException ex) {
         }
     }
@@ -40,12 +42,19 @@ public class MainMenu {
      */
     public void draw(Panel panel, Graphics2D gr) {
         //draw the background
-        gr.drawImage(background, 0, 0, 1536 + 15, 793, null);
+        gr.drawImage(background, 0, 0, panel.width(), panel.height(), null);
 
+        final int btnWidth = 300;
+        final int btnX = panel.width()/2 - btnWidth/2;
+        
         //draw all buttons
+        tutorialBtn.setX(btnX);
         tutorialBtn.draw(gr, panel.getMousePosition());
+        newGameBtn.setX(btnX);
         newGameBtn.draw(gr, panel.getMousePosition());
+        saveBtn.setX(btnX);
         saveBtn.draw(gr, panel.getMousePosition());
+        exitBtn.setX(btnX);
         exitBtn.draw(gr, panel.getMousePosition());
 
     }

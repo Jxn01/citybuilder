@@ -81,5 +81,9 @@ public class MyInputField {
             gr.drawString(text, rect.x, rect.y + rect.height - 10);
         }
     }
+    
+    public void setX(int x){
+        rect.x = x;
+    }
 
 }

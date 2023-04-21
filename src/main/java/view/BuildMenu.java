@@ -42,14 +42,23 @@ public class BuildMenu extends GameMenu{
      */
     @Override
     public void draw(Graphics2D gr){
+        deleteBtn.setY(game.height() - 40);
         deleteBtn.draw(gr, game.getMousePosition());
+        fireFighterBtn.setY(game.height() - 40);
         fireFighterBtn.draw(gr, game.getMousePosition());
+        roadBtn.setY(game.height() - 40);
         roadBtn.draw(gr, game.getMousePosition());
+        statiumBtn.setY(game.height() - 40);
         statiumBtn.draw(gr, game.getMousePosition());
+        serviceZoneBtn.setY(game.height() - 40);
         serviceZoneBtn.draw(gr, game.getMousePosition());
+        forestBtn.setY(game.height() - 40);
         forestBtn.draw(gr, game.getMousePosition());
+        factoryZoneBtn.setY(game.height() - 40);
         factoryZoneBtn.draw(gr, game.getMousePosition());
+        livingZoneBtn.setY(game.height() - 40);
         livingZoneBtn.draw(gr, game.getMousePosition());
+        policeStationBtn.setY(game.height() - 40);
         policeStationBtn.draw(gr, game.getMousePosition());
     }
     

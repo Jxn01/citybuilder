@@ -186,4 +186,12 @@ public class Game {
         areas.addAll(bottomBar.getMenuAreas());
         return areas;
     }
+    
+    public int width(){
+        return panel.width();
+    }
+    
+    public int height(){
+        return panel.height();
+    }
 }

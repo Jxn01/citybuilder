@@ -25,22 +25,30 @@ public class Panel extends JPanel implements ActionListener {
     private NewGame newGame;
     private LoadGame loadGame;
     private Game game;
+    
+    private int width;
+    private int height;
 
     /**
      * The constructor of the Panel class
      * @param frame is the main window, where the panel is placed on
      */
     public Panel(Frame frame) {
+        setPreferredSize(frame.getContentPane().getSize());
+        setSize(frame.getContentPane().getSize());
         setFocusable(true);
         this.frame = frame;
-        timer = new Timer(20, this);
+   
+        Timer timer = new Timer(50, (ActionEvent e) -> {
+            Dimension panelSize = getSize();
+            width = panelSize.width;
+            height = panelSize.height;
+        });
         timer.start();
-        //switch here if you want the game to start in a different submenu
-        state = MenuState.GAME;
-        //state = MenuState.INTRO;
         
-        //state = MenuState.INTRO;
-        intro = new Intro();
+        state = MenuState.INTRO;
+
+        intro = new Intro(this);
         mainMenu = new MainMenu(this);
         tutorial = new Tutorial(this);
         newGame = new NewGame(this);
@@ -123,4 +131,20 @@ public class Panel extends JPanel implements ActionListener {
         frame.exit();
     }
 
+    /**
+     * Getter for width
+     * @return width
+     */
+    public int width() {
+        return width;
+    }
+
+    /**
+     * Getter for height
+     * @return height
+     */
+    public int height() {
+        return height;
+    }
+    
 }

@@ -37,11 +37,23 @@ public class NewGame {
      * @param gr is the graphics context of the main Panel object
      */
     public void draw(Panel panel, Graphics2D gr) {
-        gr.drawImage(background, 0, 0, 1536 + 15, 793, null);
+        final int btnWidth = 300;
+        final int btnHeight = 100;
+        final int btnX = panel.width()/2 - btnWidth/2;
+        final int btnY = panel.height() - (btnHeight + 50);
+        final int labelX = panel.width()/2 - 250;
+        final int inputX = labelX + 200;
+        
+        
+        gr.drawImage(background, 0, 0, panel.width(), panel.height(), null);
         backBtn.draw(gr, panel.getMousePosition());
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        gr.drawString("Új város neve: ", 500, 250);
+        //500
+        gr.drawString("Új város neve: ", labelX, 250);
+        startBtn.setX(btnX);
+        startBtn.setY(btnY);
         startBtn.draw(gr, panel.getMousePosition());
+        input.setX(inputX);
         input.draw(gr, panel.getMousePosition());
     }
 

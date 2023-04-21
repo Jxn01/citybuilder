@@ -54,4 +54,12 @@ public class MyButton {
         }
 
     }
+    
+    public void setX(int x){
+        rect.x = x;
+    }
+    
+    public void setY(int y){
+        rect.y = y;
+    }
 }

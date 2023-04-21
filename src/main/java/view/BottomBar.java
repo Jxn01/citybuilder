@@ -43,7 +43,9 @@ public class BottomBar extends GameMenu {
     @Override
     public void draw(Graphics2D gr){   
         paintBottomMenubar(gr);
+        statsBtn.setY(game.height() - 40);
         statsBtn.draw(gr, game.getMousePosition());
+        taxBtn.setY(game.height() - 40);
         taxBtn.draw(gr, game.getMousePosition());
         buildMenu.draw(gr);
         timeMenu.draw(gr);
@@ -58,8 +60,8 @@ public class BottomBar extends GameMenu {
     public void paintBottomMenubar(Graphics2D gr){
         gr.setColor(bottomBarAreaColor);
         int x = bottomBarArea.x;
-        int y = bottomBarArea.y;
-        int width = bottomBarArea.width;
+        int y = game.height() - bottomBarArea.height;
+        int width = game.width();
         int height = bottomBarArea.height;
         gr.fillRect(x,y,width,height);
     }
@@ -109,5 +111,13 @@ public class BottomBar extends GameMenu {
         areas.addAll(buildMenu.getMenuAreas());
         areas.addAll(timeMenu.getMenuAreas());
         return areas;
+    }
+    
+    public void setWidth(int width){
+        bottomBarArea.width = width;
+    }
+    
+    public void setY(int y){
+        bottomBarArea.y = y;
     }
 }

@@ -32,9 +32,17 @@ public class TimeMenu extends GameMenu{
      */
     @Override
     public void draw(Graphics2D gr){
+        speed3Btn.setY(game.height() - 40);
+        speed3Btn.setX(game.width() - 40);
         speed3Btn.draw(gr, game.getMousePosition());
+        speed2Btn.setX(game.width() - 80);
+        speed2Btn.setY(game.height() - 40);
         speed2Btn.draw(gr, game.getMousePosition());
+        speed1Btn.setX(game.width() - 120);
+        speed1Btn.setY(game.height() - 40);
         speed1Btn.draw(gr, game.getMousePosition());
+        pauseBtn.setX(game.width() - 160);
+        pauseBtn.setY(game.height() - 40);
         pauseBtn.draw(gr, game.getMousePosition());
     }
     

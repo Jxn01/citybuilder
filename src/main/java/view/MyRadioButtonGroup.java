@@ -91,5 +91,17 @@ public class MyRadioButtonGroup {
             buttons.get(i).draw(gr, cursorPos);
         }
     }
+    
+    public void setWidth(int width){
+        for (int i = 0; i < buttons.size(); ++i) {
+            buttons.get(i).setWidth(width);
+        } 
+    }
+    
+    public void setX(int x){
+        for (int i = 0; i < buttons.size(); ++i) {
+            buttons.get(i).setX(x);
+        } 
+    }
 
 }

@@ -25,10 +25,10 @@ public class LoadGame {
     public LoadGame(Panel panel) {
         this.panel = panel;
         try {
-            background = ResourceLoader.loadImage("saveBg.png");
+            background = ResourceLoader.loadImage("savebg.png");
         } catch (IOException ex) {}
         backBtn = new MyButton(0, 0, 75, 75, "back");
-        loadBtn = new MyButton(36, 675, 300, 100, "load");
+        loadBtn = new MyButton(50, 0, 300, 100, "load");
         deleteBtn = new MyButton(1200, 675, 300, 100, "delete");
         btn1 = new MyRadioButton(10, 80, 1516, 50, "Mentés1", "1:54", "16.000$");
         btn2 = new MyRadioButton(10, 140, 1516, 50, "Mentés2", "3:11", "2.000$");
@@ -49,10 +49,18 @@ public class LoadGame {
      * @param gr is the graphics context of the main Panel object
      */
     public void draw(Panel panel, Graphics2D gr) {
-        gr.drawImage(background, 0, 0, 1536 + 15, 793, null);
+        final int btnWidth = 300;
+        final int btnHeight = 100;
+        
+        gr.drawImage(background, 0, 0, panel.width(), panel.height(), null);
         backBtn.draw(gr, panel.getMousePosition());
+        loadBtn.setY(panel.height()-50 - btnHeight);
         loadBtn.draw(gr, panel.getMousePosition());
+        deleteBtn.setY(panel.height()-50 - btnHeight);
+        deleteBtn.setX(panel.width() - 50 - btnWidth);
         deleteBtn.draw(gr, panel.getMousePosition());
+        btnGrp.setWidth(panel.width() - 100 );
+        btnGrp.setX(50);   
         btnGrp.draw(gr, panel.getMousePosition());
     }
 
