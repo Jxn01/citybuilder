@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * This class implements the build menu of the game gui
  */
 public class BuildMenu extends GameMenu{
+    MyButton deleteBtn;
     MyButton fireFighterBtn;
     MyButton roadBtn;
     MyButton statiumBtn;
@@ -24,6 +25,7 @@ public class BuildMenu extends GameMenu{
      */
     public BuildMenu(Game game){
         super(game);
+        deleteBtn = new MyButton(620, 753, 40, 40, "x");
         fireFighterBtn = new MyButton(700, 753, 40, 40, "fireFighter");
         roadBtn = new MyButton(740, 753, 40, 40, "road");
         statiumBtn = new MyButton(780, 753, 40, 40, "stadium");
@@ -31,7 +33,7 @@ public class BuildMenu extends GameMenu{
         forestBtn = new MyButton(860, 753, 40, 40, "forest");
         factoryZoneBtn = new MyButton(900, 753, 40, 40, "factoryZone");
         livingZoneBtn = new MyButton(940, 753, 40, 40, "livingZone");
-        policeStationBtn = new MyButton(940, 753, 40, 40, "police");  
+        policeStationBtn = new MyButton(940, 753, 40, 40, "police"); 
     }
     
     /**
@@ -40,6 +42,7 @@ public class BuildMenu extends GameMenu{
      */
     @Override
     public void draw(Graphics2D gr){
+        deleteBtn.draw(gr, game.getMousePosition());
         fireFighterBtn.draw(gr, game.getMousePosition());
         roadBtn.draw(gr, game.getMousePosition());
         statiumBtn.draw(gr, game.getMousePosition());
@@ -56,7 +59,10 @@ public class BuildMenu extends GameMenu{
      */
     @Override
     public void click(Point p){
-        if(fireFighterBtn.isHovered(p)){
+        if(deleteBtn.isHovered(p)){
+            System.out.println("delete button clicked");
+        }
+        else if(fireFighterBtn.isHovered(p)){
             game.setSelectedBuildingType(Tile.HOUSE);
         }
         else if(roadBtn.isHovered(p)){

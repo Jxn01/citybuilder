@@ -13,9 +13,9 @@ public class NewGame {
 
     Panel panel;
     Image background;
-    private MyButton backBtn;
-    private MyButton startBtn;
-    private MyInputField input;
+    private final MyButton backBtn;
+    private final MyButton startBtn;
+    private final MyInputField input;
 
     /**
      * Constructor of the NewGame class

@@ -64,7 +64,7 @@ public class Map {
         paintHover(gr);
     }
     
-    /**
+       /**
      * Paint the hover effect on the screen after the user
      * clicked on a building construction button
      * @param gr is the graphics context of the main Panel object
@@ -76,7 +76,6 @@ public class Map {
         }
         //do nothing if one of the submenus is hovered
         Point p = MouseInfo.getPointerInfo().getLocation();
-        System.out.println(p);
         ArrayList<Rectangle> areas = game.getMenuAreas();
         for(int i=0;i<areas.size();++i){
             if(areas.get(i).contains(p)){
@@ -84,12 +83,13 @@ public class Map {
             }
         }
 
-        double alpha = (double)System.currentTimeMillis() % 1000 / 1000;
-        double seconds = System.currentTimeMillis() / 1000;
+        long currentTime = System.currentTimeMillis();
+        double randomDouble = (double) (currentTime % 1000) / 1000; // limit the value between 0 and 1
+        double currentSeconds = currentTime / 1000;
         
         int redVal;
         int greenVal;
-        int alphaLevel;
+        int alpha;
         
         int offsetX = game.getCameraOffsetX();
         int offsetY = game.getCameraOffsetY();
@@ -109,16 +109,32 @@ public class Map {
         }
         
         //make the effect pulsate once every 2 seconds
-        if(seconds % 2 == 0){
-            alphaLevel = (int) alpha * 255;
+        if(currentSeconds % 2 == 0){
+            alpha = (int) Math.ceil(randomDouble * 255);
         }
         else {
-            alphaLevel = (int) ((1-alpha) * 255);
+            alpha = 255 - (int) Math.ceil(randomDouble * 255);
         }
         
-        Color color = new Color(redVal, greenVal, 0, alphaLevel);
+        Color color = new Color(redVal, greenVal, 0, alpha);
         gr.setColor(color);
-        gr.drawImage(house, x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom, null);
+        
+        Image img = null;
+        switch(selectedBuildingType){
+            case ROAD: 
+                img = road;
+                break;
+            case GRASS: 
+                img = grass;
+                break;
+            case ROCKS: 
+                img = rocks;
+                break;
+            default: 
+            img = rocks;
+            break;
+        }
+        gr.drawImage(img, x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom, null);
         gr.fillRect(x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom);
     }
     
