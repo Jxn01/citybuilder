@@ -71,11 +71,13 @@ public class CameraMovementHandler {
      * @param e is the MouseWheelEvent
      */
     public void mouseWheelRotated(MouseWheelEvent e){
+        /*
         if (e.getWheelRotation() < 0) {
             addToZoom(1, e.getPoint());
         } else {
             addToZoom(-1, e.getPoint());
         }
+        */
     }
 
     /**

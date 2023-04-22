@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import util.ResourceLoader;
 
 /**
@@ -15,7 +16,9 @@ import util.ResourceLoader;
  */
 public class Map {
     private Game game;
-    private Image grass, rocks, road, house;
+    private Image grass_1,grass_2,grass_3, rocks, road, fireStation;
+    private Image stadium,serviceZone,forest,factoryZone;
+    private Image house_1,house_2,house_3,police,construction;
     private Tile[][] tiles;
     private Tile selectedBuildingType;
     
@@ -28,13 +31,23 @@ public class Map {
         tiles = new Tile[51][51];
         selectedBuildingType = null;
         try {
-            constructMap();
-            grass = ResourceLoader.loadImage("TALLGRASS.png");
+            grass_1 = ResourceLoader.loadImage("GRASS_1.png");
+            grass_2 = ResourceLoader.loadImage("GRASS_2.png");
+            grass_3 = ResourceLoader.loadImage("GRASS_3.png");
             rocks = ResourceLoader.loadImage("PATHROCKS.png");
-            road = ResourceLoader.loadImage("road_tile.png");
-            house = ResourceLoader.loadImage("HOUSE.png");
+            fireStation = ResourceLoader.loadImage("FIRESTATION.png");
+            road = ResourceLoader.loadImage("ROAD_1.png");
+            stadium = ResourceLoader.loadImage("STADIUM_1.png");
+            serviceZone = ResourceLoader.loadImage("SERVICE.png");
+            forest = ResourceLoader.loadImage("FOREST_1.png");
+            factoryZone = ResourceLoader.loadImage("FACTORY.png");
+            house_1 = ResourceLoader.loadImage("HOUSE_1.png");
+            house_2 = ResourceLoader.loadImage("HOUSE_2.png");
+            house_3 = ResourceLoader.loadImage("HOUSE_3.png");
+            police = ResourceLoader.loadImage("POLICE_1.png");
+            construction = ResourceLoader.loadImage("CONSTRUCTION.png");
         } catch (IOException ex) {}
-        
+        constructMap();
     }
     
     /**
@@ -48,20 +61,34 @@ public class Map {
         
         for (int row = 0; row < 51; ++row) {
             for (int col = 0; col < 51; ++col) {
-                //
-                Image img = null;
-                switch (tiles[row][col]) {
-                    case GRASS -> img = grass;
-                    case ROCKS -> img = rocks;
-                    case ROAD -> img = road;
-                    case HOUSE -> img = house;
-                    default -> {
-                    }
-                }
+                Image img = tileToImg(tiles[row][col]);
                 gr.drawImage(img, col * (64 + zoom) + cameraOffsetX, row * (64 + zoom) + cameraOffsetY, 64 + zoom, 64 + zoom, null);
             }
         }
         paintHover(gr);
+    }
+    
+    private Image tileToImg(Tile tile){
+        Image img = grass_1;
+        switch(tile){
+            case GRASS_1 -> img = grass_1;
+            case GRASS_2 -> img = grass_2;
+            case GRASS_3 -> img = grass_3;
+            case ROCKS -> img = rocks;
+            case FIRESTATION -> img = fireStation;
+            case ROAD -> img = road;
+            case STADIUM -> img = stadium;
+            case SERVICEZONE -> img = serviceZone;
+            case FOREST -> img = forest;
+            case FACTORYZONE -> img = factoryZone;
+            case HOUSE_1 -> img = house_1;
+            case HOUSE_2 -> img = house_2;
+            case HOUSE_3 -> img = house_3;
+            case POLICE -> img = police;
+            case CONSTRUCTION -> img = construction;
+            default -> {}
+        }
+        return img;
     }
     
        /**
@@ -119,21 +146,7 @@ public class Map {
         Color color = new Color(redVal, greenVal, 0, alpha);
         gr.setColor(color);
         
-        Image img = null;
-        switch(selectedBuildingType){
-            case ROAD: 
-                img = road;
-                break;
-            case GRASS: 
-                img = grass;
-                break;
-            case ROCKS: 
-                img = rocks;
-                break;
-            default: 
-            img = rocks;
-            break;
-        }
+        Image img = tileToImg(selectedBuildingType);
         gr.drawImage(img, x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom, null);
         gr.fillRect(x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom);
     }
@@ -158,7 +171,7 @@ public class Map {
      * @return is a Boolean value
      */
     private boolean isFieldEmpty(int y, int x) {
-        if (tiles[y][x] == Tile.GRASS) {
+        if (tiles[y][x] == Tile.GRASS_1) {
             return true;
         }
         return false;
@@ -191,21 +204,42 @@ public class Map {
         //<-- load game feature here
         for (int i = 0; i < 51; ++i) {
             for (int j = 0; j < 51; ++j) {
-                //top and bottom
+                //top and bottom borders
                 if (i == 0 || i == 1 || i == 49 || i == 50) {
                     tiles[i][j] = Tile.ROCKS;
                 }
-                //left and right
+                //left and right borders
                 else if (j == 0 || j == 1 || j == 49 || j == 50) {
                     tiles[i][j] = Tile.ROCKS;
-                } else if (i == 25 && j == 25) {
-                    tiles[i][j] = Tile.HOUSE;
+
+                //default: paint grass
                 } else {
-                    tiles[i][j] = Tile.GRASS;
+                    
+                    Random rand = new Random();
+                    int randomNum = rand.nextInt(3) + 1;
+                    switch (randomNum) {
+                        case 1:
+                            tiles[i][j] = Tile.GRASS_1;
+                            break;
+                        case 2:
+                            tiles[i][j] = Tile.GRASS_2;
+                            break;
+                        case 3: 
+                            tiles[i][j] = Tile.GRASS_3;
+                            break;
+                        default:
+                            break;
+                    }
+                    
                 }
 
             }
         }
+    }
+    
+    public void click(Point p){
+        Point click = pointToXY(p);
+        build(click.x,click.y,selectedBuildingType);
     }
 
     /**
@@ -224,9 +258,11 @@ public class Map {
      * @param newTile 
      */
     public void build(int x,int y,Tile newTile){
+        
         game.setBalance(game.getBalance() - 100);
         game.setPopulation(game.getPopulation() + 50);
         tiles[x][y] = newTile;
+        
     }
     
     /**
@@ -253,5 +289,26 @@ public class Map {
         int x = (p.x - offsetX) / (64 + zoom);
 
         return tiles[y][x];
+    }
+    
+    public Point pointToXY(Point p) {
+        if(p == null){
+            return null;
+        }
+        //do nothing if one of the submenus is hovered
+        ArrayList<Rectangle> areas = game.getMenuAreas();
+        for(int i=0;i<areas.size();++i){
+            if(areas.get(i).contains(p)){
+                return null;
+            }
+        }
+       
+        int offsetX = game.getCameraOffsetX();
+        int offsetY = game.getCameraOffsetY();
+        int zoom = game.getZoom();
+        int y = (p.y - offsetY) / (64 + zoom);
+        int x = (p.x - offsetX) / (64 + zoom);
+
+        return new Point(y,x);
     }
 }

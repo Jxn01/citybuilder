@@ -72,25 +72,28 @@ public class BuildMenu extends GameMenu{
             System.out.println("delete button clicked");
         }
         else if(fireFighterBtn.isHovered(p)){
-            game.setSelectedBuildingType(Tile.HOUSE);
+            game.setSelectedBuildingType(Tile.FIRESTATION);
         }
         else if(roadBtn.isHovered(p)){
             game.setSelectedBuildingType(Tile.ROAD);
         }
+        else if(forestBtn.isHovered(p)){
+            game.setSelectedBuildingType(Tile.FOREST);
+        }
         else if(statiumBtn.isHovered(p)){
-            game.setSelectedBuildingType(Tile.HOUSE);
+            game.setSelectedBuildingType(Tile.STADIUM);
         }
         else if(serviceZoneBtn.isHovered(p)){
-            game.setSelectedBuildingType(Tile.HOUSE);
+            game.setSelectedBuildingType(Tile.SERVICEZONE);
         }
         else if(factoryZoneBtn.isHovered(p)){
-            game.setSelectedBuildingType(Tile.HOUSE);
+            game.setSelectedBuildingType(Tile.FACTORYZONE);
         }
         else if(livingZoneBtn.isHovered(p)){
-            game.setSelectedBuildingType(Tile.HOUSE);
+            game.setSelectedBuildingType(Tile.HOUSE_1);
         }
         else if(policeStationBtn.isHovered(p)){
-            game.setSelectedBuildingType(Tile.HOUSE);
+            game.setSelectedBuildingType(Tile.POLICE);
         }
     }
     

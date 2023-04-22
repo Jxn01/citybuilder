@@ -70,6 +70,7 @@ public class Game {
     public void click(Point p) {
         topBar.click(p);
         bottomBar.click(p);
+        map.click(p);
     }
     
     /**
