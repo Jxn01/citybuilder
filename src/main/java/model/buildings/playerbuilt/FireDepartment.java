@@ -1,6 +1,7 @@
 package model.buildings.playerbuilt;
 
 import model.Coordinate;
+import util.Logger;
 import util.ResourceLoader;
 
 import java.io.IOException;
@@ -21,8 +22,8 @@ public class FireDepartment extends RangedBuilding {
 
         try{
             texture = ResourceLoader.loadImage("fireFighter.png");
-        }catch (IOException e) {
-            e.printStackTrace();
+        }catch (IOException exc) {
+            exc.printStackTrace();
             texture = null;
         }
 
@@ -34,7 +35,7 @@ public class FireDepartment extends RangedBuilding {
         this.maxFireTrucks = 10;
         this.availableFireTrucks = 10;
 
-        System.out.println("Fire department created at " + coords.toString());
+        Logger.log("Fire department created at " + coords.toString());
     }
 
     @Override
@@ -45,7 +46,7 @@ public class FireDepartment extends RangedBuilding {
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
-        System.out.println(statistics);
+        Logger.log(statistics);
         return statistics;
     }
 

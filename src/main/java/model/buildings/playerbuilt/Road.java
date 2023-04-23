@@ -1,6 +1,7 @@
 package model.buildings.playerbuilt;
 
 import model.Coordinate;
+import util.Logger;
 import util.ResourceLoader;
 
 import java.io.IOException;
@@ -16,15 +17,15 @@ public class Road extends PlayerBuilding {
 
         try{
             texture = ResourceLoader.loadImage("road.png");
-        }catch (IOException e) {
-            e.printStackTrace();
+        }catch (IOException exc) {
+            exc.printStackTrace();
             texture = null;
         }
 
         buildCost = 1000; //TODO: Change this
         maintenanceCost = 100; //TODO: Change this
 
-        System.out.println("Road created at " + coords.toString());
+        Logger.log("Road created at " + coords.toString());
     }
 
     @Override
@@ -32,7 +33,7 @@ public class Road extends PlayerBuilding {
         String statistics = "Road statistics:\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
-        System.out.println(statistics);
+        Logger.log(statistics);
         return statistics;
     }
 

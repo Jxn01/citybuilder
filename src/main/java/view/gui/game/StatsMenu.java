@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import util.Logger;
 import view.Game;
 import view.components.custom.MyButton;
 
@@ -95,6 +96,7 @@ public class StatsMenu extends GameMenu {
         if(!getIsOpen()){return;}
         
         if(xBtn.isHovered(p)){
+            Logger.log("Closed statistics menu");
             this.setIsOpen(false);
         }
     }

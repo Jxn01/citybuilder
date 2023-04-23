@@ -3,6 +3,7 @@ package model.buildings.generated;
 import model.Coordinate;
 import model.Person;
 import model.enums.SaturationRate;
+import util.Logger;
 import util.ResourceLoader;
 
 import java.io.IOException;
@@ -29,25 +30,25 @@ public class ResidentialBuilding extends GeneratedBuilding {
         saturationRate = SaturationRate.EMPTY;
         publicSafety = 100;
         maxCapacity = 20;
-        System.out.println("Residential building created at " + coords.toString());
+        Logger.log("Residential building created at " + coords.toString());
     }
 
     public void addPerson(Person person) throws RuntimeException{
         if(people.size() == maxCapacity){
-            System.out.println("Can't add person " + person.getName() + " to residential building at " + coords.toString() + " because maximum capacity reached!");
+            Logger.log("Can't add person " + person.getName() + " to residential building at " + coords.toString() + " because maximum capacity reached!");
             throw new RuntimeException("Maximum capacity reached! Can't add new person!");
         }
         people.add(person);
         person.setHome(this);
         updateSaturationRate();
-        System.out.println("Person " + person.getName() + " added to residential building at " + coords.toString());
+        Logger.log("Person " + person.getName() + " added to residential building at " + coords.toString());
     }
 
     public void removePerson(Person person){
         people.remove(person);
         person.setHome(null);
         updateSaturationRate();
-        System.out.println("Person " + person.getName() + " removed from residential building at " + coords.toString());
+        Logger.log("Person " + person.getName() + " removed from residential building at " + coords.toString());
     }
 
     @Override
@@ -57,19 +58,19 @@ public class ResidentialBuilding extends GeneratedBuilding {
         statistics += "Number of people living here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
         statistics += "Saturation rate: " + saturationRate + "\n";
-        System.out.println(statistics);
+        Logger.log(statistics);
         return statistics;
     }
 
     @Override
     public void setOnFire() {
         onFire = true;
-        System.out.println("Residential building set on fire at " + coords.toString());
+        Logger.log("Residential building set on fire at " + coords.toString());
     }
 
     @Override
     public void extinguish() {
         onFire = false;
-        System.out.println("Residential building extinguished at " + coords.toString());
+        Logger.log("Residential building extinguished at " + coords.toString());
     }
 }

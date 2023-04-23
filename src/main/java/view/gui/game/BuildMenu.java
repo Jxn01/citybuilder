@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import util.Logger;
 import view.Game;
 import view.components.custom.MyButton;
 import view.enums.Tile;
@@ -73,30 +74,39 @@ public class BuildMenu extends GameMenu {
     @Override
     public void click(Point p){
         if(deleteBtn.isHovered(p)){
+            Logger.log("Delete button clicked");
             game.setSelectedBuildingType(Tile.GRASS_1);
         }
         else if(fireFighterBtn.isHovered(p)){
+            Logger.log("Firefighter button clicked");
             game.setSelectedBuildingType(Tile.FIRESTATION);
         }
         else if(roadBtn.isHovered(p)){
+            Logger.log("Road button clicked");
             game.setSelectedBuildingType(Tile.ROAD);
         }
         else if(forestBtn.isHovered(p)){
+            Logger.log("Forest button clicked");
             game.setSelectedBuildingType(Tile.FOREST);
         }
         else if(stadiumBtn.isHovered(p)){
+            Logger.log("Stadium button clicked");
             game.setSelectedBuildingType(Tile.STADIUM);
         }
         else if(serviceZoneBtn.isHovered(p)){
+            Logger.log("Service zone button clicked");
             game.setSelectedBuildingType(Tile.SERVICEZONE);
         }
         else if(factoryZoneBtn.isHovered(p)){
+            Logger.log("Factory zone button clicked");
             game.setSelectedBuildingType(Tile.FACTORYZONE);
         }
         else if(livingZoneBtn.isHovered(p)){
+            Logger.log("Living zone button clicked");
             game.setSelectedBuildingType(Tile.HOUSE_1);
         }
         else if(policeStationBtn.isHovered(p)){
+            Logger.log("Police station button clicked");
             game.setSelectedBuildingType(Tile.POLICE);
         }
     }

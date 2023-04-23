@@ -191,7 +191,7 @@ public class Map {
      * Check if a field is valid on the map
      * @param y is the y index of the field
      * @param x is te x index of the field
-     * @return a Boolean value
+     * @return a boolean value
      */
     private boolean isFieldValid(int y, int x) {
         return tiles[y][x] != Tile.ROCKS;
@@ -201,7 +201,7 @@ public class Map {
      * Check if a field is empty on the map
      * @param y is the y index of the field
      * @param x is te x index of the field
-     * @return is a Boolean value
+     * @return is a boolean value
      */
     private boolean isFieldEmpty(int y, int x) {
         return tiles[y][x] == Tile.GRASS_1;
@@ -211,7 +211,7 @@ public class Map {
      * Check if a field is next to a road
      * @param y is the y index of the field
      * @param x is te x index of the field
-     * @return is a Boolean value
+     * @return is a boolean value
      */
     private boolean isNextToRoad(int y, int x) {
         if (!isFieldValid(y, x)) {

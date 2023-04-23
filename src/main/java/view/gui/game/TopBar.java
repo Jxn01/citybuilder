@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import util.Logger;
 import view.Game;
 import view.components.custom.MyButton;
 
@@ -70,7 +71,8 @@ public class TopBar extends GameMenu {
     public void click(Point p){
         hamburgerMenu.click(p);
         if (hamburgerBtn.isHovered(p)) {
-            Boolean negated = !hamburgerMenu.getIsOpen();
+            Logger.log("Hamburger menu opened");
+            boolean negated = !hamburgerMenu.getIsOpen();
             hamburgerMenu.setIsOpen(negated);
         }
     }

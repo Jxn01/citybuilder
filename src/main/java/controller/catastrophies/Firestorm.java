@@ -1,5 +1,7 @@
 package controller.catastrophies;
 
+import util.Logger;
+
 /**
  * This class represents a firestorm.
  */
@@ -24,6 +26,6 @@ public class Firestorm extends Catastrophe {
 
     @Override
     protected void effect() {
-        System.out.println("Firestorm happening!");
+        Logger.log("Firestorm happening!");
     }
 }

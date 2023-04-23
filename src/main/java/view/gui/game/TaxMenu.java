@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import util.Logger;
 import view.Game;
 import view.components.custom.MyButton;
 import view.components.custom.MyInputField;
@@ -81,10 +82,11 @@ public class TaxMenu extends GameMenu {
         if(!getIsOpen()){return;}
         
         if(xBtn.isHovered(p)){
+            Logger.log("Closed the tax menu");
             setIsOpen(false);
         }
         else if(modifyBtn.isHovered(p)){
-            System.out.println("modify-button pressed");
+            Logger.log("Modify-tax button clicked");
         }
     }
     

@@ -34,9 +34,9 @@ public class MyButton {
     /**
      * Checks if the button is hovered
      * @param p is the current cursor location
-     * @return a Boolean value
+     * @return a boolean value
      */
-    public Boolean isHovered(Point p) {
+    public boolean isHovered(Point p) {
         if (p != null) {
             return rect.contains(p);
         } else return false;

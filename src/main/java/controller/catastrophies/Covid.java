@@ -1,5 +1,7 @@
 package controller.catastrophies;
 
+import util.Logger;
+
 /**
  * This class represents a covid catastrophe.
  */
@@ -24,6 +26,6 @@ public class Covid extends Catastrophe {
 
     @Override
     protected void effect() {
-        System.out.println("Covid catastrophe happening!");
+        Logger.log("Covid catastrophe happening!");
     }
 }

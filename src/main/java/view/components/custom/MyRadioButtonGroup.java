@@ -30,9 +30,9 @@ public class MyRadioButtonGroup {
     /**
      * Checks if any button is hovered
      * @param p is the current cursor location
-     * @return a Boolean value
+     * @return a boolean value
      */
-    public Boolean isAnyBtnHovered(Point p) {
+    public boolean isAnyBtnHovered(Point p) {
         if (p != null) {
             for (MyRadioButton button : buttons) {
                 if (button.isHovered(p)) {
@@ -58,9 +58,9 @@ public class MyRadioButtonGroup {
 
     /**
      * Checks if there is already a selected button
-     * @return a Boolean value
+     * @return a boolean value
      */
-    public Boolean hasSelected() {
+    public boolean hasSelected() {
         for (MyRadioButton button : buttons) {
             if (button.getSelected()) {
                 return true;

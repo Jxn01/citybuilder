@@ -5,6 +5,7 @@ import com.github.javafaker.Faker;
 import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
 import model.enums.Effect;
+import util.Logger;
 
 /**
  * This class represents a person in the game
@@ -25,7 +26,7 @@ public class Person {
         this.age = (int) (Math.random() * 47 + 18);
         this.name = Faker.instance().name().fullName();
         this.effects = new ArrayList<>();
-        System.out.println("Person created: " + name + " (" + age + ")");
+        Logger.log("Person created: " + name + " (" + age + ")");
     }
 
     /**
@@ -54,7 +55,7 @@ public class Person {
         }else{
             deceaseChance = 1.0;
         }
-        System.out.println("Decease chance of " + name + " is " + deceaseChance);
+        Logger.log("Decease chance of " + name + " is " + deceaseChance);
         return deceaseChance;
     }
 
@@ -80,7 +81,7 @@ public class Person {
                 moveAwayChance = 0.0;
             }
         }
-        System.out.println("Move away chance of " + name + " is " + moveAwayChance);
+        Logger.log("Move away chance of " + name + " is " + moveAwayChance);
         return moveAwayChance;
     }
 
@@ -92,7 +93,7 @@ public class Person {
         int distance = 0;
         //todo: calculate distance based on graph
 
-        System.out.println("Distance to work of " + name + " is " + distance);
+        Logger.log("Distance to work of " + name + " is " + distance);
         return distance;
     }
 
@@ -108,7 +109,7 @@ public class Person {
             satisfaction += effect.getValue();
         }
 
-        System.out.println("Satisfaction of " + name + " is " + satisfaction);
+        Logger.log("Satisfaction of " + name + " is " + satisfaction);
         return satisfaction;
     }
 
@@ -118,7 +119,7 @@ public class Person {
      */
     public void addEffect(Effect effect) {
         effects.add(effect);
-        System.out.println("Effect " + effect + " added to " + name);
+        Logger.log("Effect " + effect + " added to " + name);
     }
 
     /**
@@ -127,7 +128,7 @@ public class Person {
      */
     public void removeEffect(Effect effect) {
         effects.remove(effect);
-        System.out.println("Effect " + effect + " removed from " + name);
+        Logger.log("Effect " + effect + " removed from " + name);
     }
 
     /**
@@ -142,7 +143,7 @@ public class Person {
      * This method "kills" the person
      */
     public void decease() {
-        System.out.println(name + " has died");
+        Logger.log(name + " has died");
         this.name = "Deceased";
     }
 
@@ -150,7 +151,7 @@ public class Person {
      * This method moves the person away
      */
     public void moveAway() {
-        System.out.println(name + " has moved away");
+        Logger.log(name + " has moved away");
         this.name = "Moved away";
     }
 
@@ -160,7 +161,7 @@ public class Person {
      */
     public void payTaxes(Integer budget) {
         budget += 1000;
-        System.out.println(name + " has paid taxes");
+        Logger.log(name + " has paid taxes");
         //exact amount to be determined
     }
 
@@ -169,7 +170,7 @@ public class Person {
      */
     public void getsPension(Integer budget) {
         budget -= 1000;
-        System.out.println(name + " has received pension");
+        Logger.log(name + " has received pension");
         //exact amount to be determined
     }
 
@@ -187,7 +188,7 @@ public class Person {
      */
     public void setAge(int age) {
         this.age = age;
-        System.out.println("New age of " + name + " is " + age);
+        Logger.log("New age of " + name + " is " + age);
     }
 
     /**
@@ -203,7 +204,7 @@ public class Person {
      * @param name the name of the person
      */
     public void setName(String name) {
-        System.out.println("New name of " + this.name + " is " + name);
+        Logger.log("New name of " + this.name + " is " + name);
         this.name = name;
     }
 
@@ -221,7 +222,7 @@ public class Person {
      */
     public void setEffects(ArrayList<Effect> effects) {
         this.effects = effects;
-        System.out.println("New effects of " + name + " are " + effects.toString());
+        Logger.log("New effects of " + name + " are " + effects.toString());
     }
 
     /**
@@ -231,9 +232,9 @@ public class Person {
     public void setHome(ResidentialBuilding residentialBuilding) {
         this.home = residentialBuilding;
         if(residentialBuilding != null){
-            System.out.println("New home of " + name + " is" + residentialBuilding);
+            Logger.log("New home of " + name + " is" + residentialBuilding);
         }else{
-            System.out.println("New home of " + name + " is null");
+            Logger.log("New home of " + name + " is null");
         }
 
     }
@@ -253,9 +254,9 @@ public class Person {
     public void setWorkplace(Workplace workplace) {
         this.workplace = workplace;
         if(workplace != null){
-            System.out.println("New home of " + name + " is" + workplace);
+            Logger.log("New home of " + name + " is" + workplace);
         }else{
-            System.out.println("New home of " + name + " is null");
+            Logger.log("New home of " + name + " is null");
         }
     }
 

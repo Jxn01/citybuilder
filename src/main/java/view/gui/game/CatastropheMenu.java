@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import util.Logger;
 import view.Game;
 import view.components.custom.MyButton;
 
@@ -81,16 +82,17 @@ public class CatastropheMenu extends GameMenu {
         if(!getIsOpen()){return;}
         
         if(xBtn.isHovered(p)){
+            Logger.log("Closed catastrophe menu");
             this.setIsOpen(false);
         }
         else if(virusBtn.isHovered(p)){
-            System.out.println("virus button clicked");
+            Logger.log("Virus button clicked");
         }
         else if(fireBtn.isHovered(p)){
-            System.out.println("fire button clicked");
+            Logger.log("Fire button clicked");
         }
         else if(econBtn.isHovered(p)){
-            System.out.println("econ button clicked");
+            Logger.log("Economy button clicked");
         }
     }
     

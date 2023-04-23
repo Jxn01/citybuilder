@@ -8,6 +8,7 @@ import controller.interfaces.SaveManager;
 import controller.interfaces.SpeedManager;
 import model.GameData;
 import org.javatuples.Pair;
+import util.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class GameManager implements SaveManager, SpeedManager {
         catastrophes.add(Covid.getInstance());
         catastrophes.add(Firestorm.getInstance());
 
-        System.out.println("Game manager created.");
+        Logger.log("Game manager created.");
     }
 
     /**
@@ -47,14 +48,14 @@ public class GameManager implements SaveManager, SpeedManager {
      * This method simulates.
      */
     public void nextDay(){
-        System.out.println("A day passes...");
+        Logger.log("A day passes...");
     }
 
     /**
      * This method sets the taxes.
      */
     public void setTaxes(int taxes){
-        System.out.println("Taxes set to " + taxes);
+        Logger.log("Taxes set to " + taxes);
     }
 
     /**
@@ -85,7 +86,7 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void setCatastropheChance(double catastropheChance) {
         this.catastropheChance = catastropheChance;
-        System.out.println("Catastrophe chance set to " + catastropheChance);
+        Logger.log("Catastrophe chance set to " + catastropheChance);
     }
 
     /**
@@ -102,7 +103,7 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void setHospitalChance(double hospitalChance) {
         this.hospitalChance = hospitalChance;
-        System.out.println("Hospital chance set to " + hospitalChance);
+        Logger.log("Hospital chance set to " + hospitalChance);
     }
 
     /**
@@ -119,7 +120,7 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void setGameData(GameData gameData) {
         this.gameData = gameData;
-        System.out.println("Game data set to " + gameData.getId());
+        Logger.log("Game data set to " + gameData.getId());
     }
 
     @Override
@@ -129,31 +130,31 @@ public class GameManager implements SaveManager, SpeedManager {
 
     @Override
     public void loadSaveFile(File file) {
-        System.out.println("Loading save file: " + file.getName());
+        Logger.log("Loading save file: " + file.getName());
     }
 
     @Override
     public void saveGame(GameData gameData) {
-        System.out.println("Saving game: " + gameData.getSaveFile().getName());
+        Logger.log("Saving game: " + gameData.getSaveFile().getName());
     }
 
     @Override
     public void timeStop() {
-        System.out.println("Time stopped");
+        Logger.log("Time stopped");
     }
 
     @Override
     public void timeNormal() {
-        System.out.println("Time flows normally");
+        Logger.log("Time flows normally");
     }
 
     @Override
     public void timeFast() {
-        System.out.println("Time flows fast");
+        Logger.log("Time flows fast");
     }
 
     @Override
     public void timeFaster() {
-        System.out.println("Time flows faster");
+        Logger.log("Time flows faster");
     }
 }

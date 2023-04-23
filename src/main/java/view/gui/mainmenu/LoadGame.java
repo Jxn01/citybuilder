@@ -3,6 +3,7 @@ package view.gui.mainmenu;
 import java.awt.*;
 import java.io.IOException;
 
+import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
 import view.components.custom.MyButton;
@@ -81,14 +82,17 @@ public class LoadGame {
      */
     public void click(Point p) {
         if (backBtn.isHovered(p)) {
+            Logger.log("Back to main menu");
             panel.setState(MenuState.MAINMENU);
         } else if (btnGrp.isAnyBtnHovered(p)) {
             btnGrp.select(p);
         } else if (loadBtn.isHovered(p)) {
             if (btnGrp.hasSelected()) {
+                Logger.log("Loading game");
                 panel.setState(MenuState.GAME);
             }
         } else if (deleteBtn.isHovered(p)) {
+            Logger.log("Deleting save");
             btnGrp.removeSelectedBtn();
         }
     }

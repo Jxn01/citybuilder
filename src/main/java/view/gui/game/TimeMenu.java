@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import util.Logger;
 import view.Game;
 import view.components.custom.MyButton;
 
@@ -90,15 +91,19 @@ public class TimeMenu extends GameMenu {
     @Override
     public void click(Point p){
         if(pauseBtn.isHovered(p)){
+            Logger.log("Pause button clicked");
             gameSpeed = Speed.PAUSE;
         }
         else if(speed1Btn.isHovered(p)){
+            Logger.log("1x speed button clicked");
             gameSpeed = Speed.ONEX;
         }
         else if(speed2Btn.isHovered(p)){
+            Logger.log("2x speed button clicked");
             gameSpeed = Speed.TWOX;
         }
         else if(speed3Btn.isHovered(p)){
+            Logger.log("3x speed button clicked");
             gameSpeed = Speed.THREEX;
         }
     }

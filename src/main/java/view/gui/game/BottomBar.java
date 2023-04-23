@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import util.Logger;
 import view.*;
 import view.components.custom.MyButton;
 
@@ -90,21 +91,24 @@ public class BottomBar extends GameMenu {
         timeMenu.click(p);
         
         if(statsBtn.isHovered(p)){
+            Logger.log("Stats button clicked");
             taxMenu.setIsOpen(false);
             catastropheMenu.setIsOpen(false);
-            Boolean negated = !statsMenu.getIsOpen();
+            boolean negated = !statsMenu.getIsOpen();
             statsMenu.setIsOpen(negated);
         }
         else if(taxBtn.isHovered(p)){
+            Logger.log("Tax button clicked");
             statsMenu.setIsOpen(false);
             catastropheMenu.setIsOpen(false);
-            Boolean negated = !taxMenu.getIsOpen();
+            boolean negated = !taxMenu.getIsOpen();
             taxMenu.setIsOpen(negated);
         }
         else if(catastrophesBtn.isHovered(p)){
+            Logger.log("Catastrophes button clicked");
             statsMenu.setIsOpen(false);
             taxMenu.setIsOpen(false);
-            Boolean negated = !catastropheMenu.getIsOpen();
+            boolean negated = !catastropheMenu.getIsOpen();
             catastropheMenu.setIsOpen(negated);
         }
     }

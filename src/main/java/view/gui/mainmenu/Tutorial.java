@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
 import view.components.custom.MyButton;
@@ -120,20 +121,20 @@ public class Tutorial {
      * @param p is the Point where the click happened 
      */
     public void click(Point p) {
-        //the left button was clicked
         if (leftBtn.isHovered(p)) {
+            Logger.log("left button clicked");
             currentImg--;
             if (currentImg < MINIMG) {
                 currentImg = MAXIMG;
             }
-        //the right button was clicked
         } else if (rightBtn.isHovered(p)) {
+            Logger.log("right button clicked");
             currentImg++;
             if (currentImg > MAXIMG) {
                 currentImg = MINIMG;
             }
-        //the back button was clicked
         } else if (backBtn.isHovered(p)) {
+            Logger.log("back button clicked");
             panel.setState(MenuState.MAINMENU);
         }
     }

@@ -1,5 +1,7 @@
 package controller.catastrophies;
 
+import util.Logger;
+
 /**
  * This class represents a financial crisis.
  */
@@ -24,6 +26,6 @@ public class FinancialCrisis extends Catastrophe {
 
     @Override
     protected void effect() {
-        System.out.println("Financial crisis happening!");
+        Logger.log("Financial crisis happening!");
     }
 }

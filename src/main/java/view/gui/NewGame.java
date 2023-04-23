@@ -1,5 +1,6 @@
 package view.gui;
 
+import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
 import view.components.custom.MyButton;
@@ -69,8 +70,10 @@ public class NewGame {
      */
     public void click(Point p) {
         if (backBtn.isHovered(p)) {
+            Logger.log("Back button clicked");
             panel.setState(MenuState.MAINMENU);
         } else if (startBtn.isHovered(p)) {
+            Logger.log("Start button clicked");
             panel.setState(MenuState.GAME);
         }
     }

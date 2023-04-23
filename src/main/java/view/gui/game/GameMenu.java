@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * This class summarizes the functionality of a game menu
  */
 public abstract class GameMenu {
-    private Boolean isOpen;
+    private boolean isOpen;
     protected Game game;
 
     /**
@@ -27,7 +27,7 @@ public abstract class GameMenu {
      * Getter for open
      * @return open
      */
-    public Boolean getIsOpen() {
+    public boolean getIsOpen() {
         return isOpen;
     }
 
@@ -35,7 +35,7 @@ public abstract class GameMenu {
      * Setter for open
      * @param isOpen is the new value for open
      */
-    public void setIsOpen(Boolean isOpen) {
+    public void setIsOpen(boolean isOpen) {
         this.isOpen = isOpen;
     }
     

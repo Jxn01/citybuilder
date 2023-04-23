@@ -3,6 +3,7 @@ package model.buildings.generated;
 import model.Coordinate;
 import model.Person;
 import model.enums.SaturationRate;
+import util.Logger;
 import util.ResourceLoader;
 
 import java.io.IOException;
@@ -19,8 +20,8 @@ public class ServiceWorkplace extends Workplace {
 
         try{
             texture = ResourceLoader.loadImage("serviceZone.png");
-        }catch (IOException e) {
-            e.printStackTrace();
+        }catch (IOException exc) {
+            exc.printStackTrace();
             texture = null;
         }
 
@@ -28,7 +29,7 @@ public class ServiceWorkplace extends Workplace {
         saturationRate = SaturationRate.EMPTY;
         publicSafety = 100;
         maxCapacity = 20;
-        System.out.println("Service workplace created at " + coords.toString());
+        Logger.log("Service workplace created at " + coords.toString());
     }
 
     @Override
@@ -38,32 +39,32 @@ public class ServiceWorkplace extends Workplace {
         statistics += "Number of people working here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
         statistics += "Saturation rate: " + saturationRate + "\n";
-        System.out.println(statistics);
+        Logger.log(statistics);
         return statistics;
     }
 
     @Override
     public void setOnFire() {
         onFire = true;
-        System.out.println("Service workplace at " + coords.toString() + " is on fire!");
+        Logger.log("Service workplace at " + coords.toString() + " is on fire!");
     }
 
     @Override
     public void extinguish() {
         onFire = false;
-        System.out.println("Service workplace at " + coords.toString() + " is extinguished!");
+        Logger.log("Service workplace at " + coords.toString() + " is extinguished!");
     }
 
     @Override
     public void addPerson(Person person) throws RuntimeException{
         if(people.size() == maxCapacity){
-            System.out.println("Can't add person " + person.getName() + " to service workplace at " + coords.toString() + " because maximum capacity reached!");
+            Logger.log("Can't add person " + person.getName() + " to service workplace at " + coords.toString() + " because maximum capacity reached!");
             throw new RuntimeException("Maximum capacity reached! Can't add new person!");
         }
         people.add(person);
         person.setWorkplace(this);
         updateSaturationRate();
-        System.out.println("Person " + person.getName() + " added to service workplace at " + coords.toString());
+        Logger.log("Person " + person.getName() + " added to service workplace at " + coords.toString());
     }
 
     @Override
@@ -71,6 +72,6 @@ public class ServiceWorkplace extends Workplace {
         people.remove(person);
         person.setWorkplace(null);
         updateSaturationRate();
-        System.out.println("Person " + person.getName() + " removed from service workplace at " + coords.toString());
+        Logger.log("Person " + person.getName() + " removed from service workplace at " + coords.toString());
     }
 }

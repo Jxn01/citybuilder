@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import util.Logger;
 import view.Game;
 import view.enums.MenuState;
 import view.components.custom.MyButton;
@@ -69,14 +70,16 @@ public class HamburgerMenu extends GameMenu {
         if(!getIsOpen()){return;}
         
         if(saveBtn.isHovered(p)){
-            System.out.println("save button clicked");
+            Logger.log("Save button clicked");
         }
         else if(newGameBtn.isHovered(p)){
+            Logger.log("New game button clicked");
             setIsOpen(false);
             game.constructMap();
             game.setState(MenuState.NEWGAME);
         }
         else if(exitBtn.isHovered(p)){
+            Logger.log("Exit button clicked");
             game.exit();
         }
     }

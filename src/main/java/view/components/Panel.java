@@ -5,6 +5,8 @@ import view.enums.MenuState;
 import view.gui.NewGame;
 import view.gui.mainmenu.*;
 
+import util.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -97,13 +99,27 @@ public class Panel extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         Graphics2D gr = (Graphics2D) g;
         switch (state) {
-            case INTRO -> intro.draw(this, gr);
-            case MAINMENU -> mainMenu.draw(this, gr);
-            case TUTORIAL -> tutorial.draw(this, gr);
-            case NEWGAME -> newGame.draw(this, gr);
-            case LOADGAME -> loadGame.draw(this, gr);
-            case GAME -> game.draw(this, gr);
-            case EXIT -> frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            case INTRO -> {
+                intro.draw(this, gr);
+            }
+            case MAINMENU -> {
+                mainMenu.draw(this, gr);
+            }
+            case TUTORIAL -> {
+                tutorial.draw(this, gr);
+            }
+            case NEWGAME -> {
+                newGame.draw(this, gr);
+            }
+            case LOADGAME -> {
+                loadGame.draw(this, gr);
+            }
+            case GAME -> {
+                game.draw(this, gr);
+            }
+            case EXIT -> {
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            }
 
         }
     }

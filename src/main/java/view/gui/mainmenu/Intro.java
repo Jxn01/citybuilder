@@ -15,9 +15,9 @@ public class Intro {
 
     private Image background;
     private int alphaLevel = 255;
-    private Boolean fadeInComplete;
-    private Boolean waitingComplete;
-    private Boolean fadeOutComplete;
+    private boolean fadeInComplete;
+    private boolean waitingComplete;
+    private boolean fadeOutComplete;
     private final view.components.Panel panel;
 
     /**

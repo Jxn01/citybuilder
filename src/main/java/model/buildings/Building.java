@@ -2,6 +2,7 @@ package model.buildings;
 
 import model.Coordinate;
 import model.buildings.interfaces.Flammable;
+import util.Logger;
 import util.ResourceLoader;
 
 import java.awt.*;
@@ -53,7 +54,7 @@ public abstract class Building implements Flammable {
      */
     public void setTexture(String textureName) throws IOException {
         this.texture = ResourceLoader.loadImage(textureName);
-        System.out.println("Texture set to " + textureName + " at " + coords.toString());
+        Logger.log("Texture set to " + textureName + " at " + coords.toString());
     }
 
     /**
@@ -86,7 +87,7 @@ public abstract class Building implements Flammable {
      */
     public void setFirePossibility(double firePossibility) {
         this.firePossibility = firePossibility;
-        System.out.println("Fire possibility set to " + firePossibility + " at " + coords.toString());
+        Logger.log("Fire possibility set to " + firePossibility + " at " + coords.toString());
     }
 
     /**
@@ -110,7 +111,7 @@ public abstract class Building implements Flammable {
      * @param address is the address of the building
      */
     public void setAddress(String address) {
-        System.out.println("Setting address to " + address + " at " + coords.toString());
+        Logger.log("Setting address to " + address + " at " + coords.toString());
         this.address = address;
     }
 }

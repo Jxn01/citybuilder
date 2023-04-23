@@ -2,6 +2,7 @@ package model.buildings.playerbuilt;
 
 import model.Coordinate;
 import model.buildings.Building;
+import util.Logger;
 
 import java.awt.*;
 
@@ -38,7 +39,7 @@ public abstract class PlayerBuilding extends Building {
      */
     public void setBuildCost(int buildCost) {
         this.buildCost = buildCost;
-        System.out.println("Build cost of building at" + coords.toString() + " set to " + buildCost);
+        Logger.log("Build cost of building at" + coords.toString() + " set to " + buildCost);
     }
 
     /**
@@ -55,6 +56,6 @@ public abstract class PlayerBuilding extends Building {
      */
     public void setMaintenanceCost(int maintenanceCost) {
         this.maintenanceCost = maintenanceCost;
-        System.out.println("Maintenance cost of building at" + coords.toString() + " set to " + maintenanceCost);
+        Logger.log("Maintenance cost of building at" + coords.toString() + " set to " + maintenanceCost);
     }
 }

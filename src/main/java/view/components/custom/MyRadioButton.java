@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class MyRadioButton {
     private final Rectangle rect;
-    private Boolean selected;
+    private boolean selected;
     public String name;
     public String time;
     public String funds;
@@ -34,7 +34,7 @@ public class MyRadioButton {
      * Getter for selected
      * @return selected
      */
-    public Boolean getSelected() {
+    public boolean getSelected() {
         return selected;
     }
 
@@ -42,7 +42,7 @@ public class MyRadioButton {
      * Setter for selected
      * @param selected is the new value for selected
      */
-    public void setSelected(Boolean selected) {
+    public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
@@ -59,9 +59,9 @@ public class MyRadioButton {
     /**
      * Checks if the button is currently hovered
      * @param p is the cursor position
-     * @return a Boolean value
+     * @return a boolean value
      */
-    public Boolean isHovered(Point p) {
+    public boolean isHovered(Point p) {
         if (p != null) {
             return rect.contains(p);
         } else return false;

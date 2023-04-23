@@ -1,5 +1,6 @@
 package view.gui.mainmenu;
 
+import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
 import view.components.custom.MyButton;
@@ -69,12 +70,16 @@ public class MainMenu {
      */
     public void click(Point p) {
         if (tutorialBtn.isHovered(p)) {
+            Logger.log("Tutorial button clicked");
             panel.setState(MenuState.TUTORIAL);
         } else if (newGameBtn.isHovered(p)) {
+            Logger.log("New game button clicked");
             panel.setState(MenuState.NEWGAME);
         } else if (saveBtn.isHovered(p)) {
+            Logger.log("Save button clicked");
             panel.setState(MenuState.LOADGAME);
         } else if (exitBtn.isHovered(p)) {
+            Logger.log("Exit button clicked");
             panel.exit();
         }
     }

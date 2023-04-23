@@ -1,6 +1,7 @@
 package model.buildings.playerbuilt;
 
 import model.Coordinate;
+import util.Logger;
 import util.ResourceLoader;
 
 import java.io.IOException;
@@ -21,8 +22,8 @@ public class Forest extends RangedBuilding {
 
         try{
             texture = ResourceLoader.loadImage("forest.png");
-        }catch (IOException e) {
-            e.printStackTrace();
+        }catch (IOException exc) {
+            exc.printStackTrace();
             texture = null;
         }
 
@@ -34,7 +35,7 @@ public class Forest extends RangedBuilding {
         this.growTime = 10;
         this.growStage = 0;
 
-        System.out.println("Forest created at " + coords.toString());
+        Logger.log("Forest created at " + coords.toString());
     }
 
     /**
@@ -44,7 +45,7 @@ public class Forest extends RangedBuilding {
         if(growStage < growTime){
             growStage++;
         }
-        System.out.println("Forest grew to " + growStage + " years old");
+        Logger.log("Forest grew to " + growStage + " years old");
     }
 
     @Override
@@ -55,20 +56,20 @@ public class Forest extends RangedBuilding {
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
-        System.out.println(statistics);
+        Logger.log(statistics);
         return statistics;
     }
 
     @Override
     public void setOnFire() {
         onFire = true;
-        System.out.println("Forest is on fire at " + coords.toString());
+        Logger.log("Forest is on fire at " + coords.toString());
     }
 
     @Override
     public void extinguish() {
         onFire = false;
-        System.out.println("Forest is extinguished at " + coords.toString());
+        Logger.log("Forest is extinguished at " + coords.toString());
     }
 
     @Override

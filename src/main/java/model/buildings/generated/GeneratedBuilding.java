@@ -4,6 +4,7 @@ import model.Coordinate;
 import model.Person;
 import model.buildings.Building;
 import model.enums.SaturationRate;
+import util.Logger;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -80,12 +81,12 @@ public abstract class GeneratedBuilding extends Building {
         } else {
             saturationRate = SaturationRate.FULL;
         }
-        System.out.println("Saturation rate of building at" + coords.toString() + " is now " + saturationRate);
+        Logger.log("Saturation rate of building at" + coords.toString() + " is now " + saturationRate);
     }
 
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
-        System.out.println("Max capacity of building at " + coords.toString() + " is now " + maxCapacity);
+        Logger.log("Max capacity of building at " + coords.toString() + " is now " + maxCapacity);
     }
 
     /**
@@ -102,6 +103,6 @@ public abstract class GeneratedBuilding extends Building {
      */
     public void setPublicSafety(int publicSafety) {
         this.publicSafety = publicSafety;
-        System.out.println("Public safety of building at " + coords.toString() + " is now " + publicSafety);
+        Logger.log("Public safety of building at " + coords.toString() + " is now " + publicSafety);
     }
 }

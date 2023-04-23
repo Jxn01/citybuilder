@@ -1,5 +1,7 @@
 package model;
 
+import util.Logger;
+
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -60,7 +62,7 @@ public class GameData {
 
     public GameData() {
         this.id = "game_data" + new Date().getTime();
-        System.out.println("New game data created: " + this.id);
+        Logger.log("New game data created: " + this.id);
     }
 
     /**
@@ -77,7 +79,7 @@ public class GameData {
      */
     public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
-        System.out.println("Game data " + this.id + " start date set to: " + startDate);
+        Logger.log("Game data " + this.id + " start date set to: " + startDate);
     }
 
     /**
@@ -94,7 +96,7 @@ public class GameData {
      */
     public void setCurrentDate(LocalDateTime currentDate) {
         this.currentDate = currentDate;
-        System.out.println("Game data " + this.id + " current date set to: " + currentDate);
+        Logger.log("Game data " + this.id + " current date set to: " + currentDate);
     }
 
     /**
@@ -111,7 +113,7 @@ public class GameData {
      */
     public void setInGameStartDate(LocalDateTime inGameStartDate) {
         this.inGameStartDate = inGameStartDate;
-        System.out.println("Game data " + this.id + " in game start date set to: " + inGameStartDate);
+        Logger.log("Game data " + this.id + " in game start date set to: " + inGameStartDate);
     }
 
     /**
@@ -128,7 +130,7 @@ public class GameData {
      */
     public void setInGameCurrentDate(LocalDateTime inGameCurrentDate) {
         this.inGameCurrentDate = inGameCurrentDate;
-        System.out.println("Game data " + this.id + " in game current date set to: " + inGameCurrentDate);
+        Logger.log("Game data " + this.id + " in game current date set to: " + inGameCurrentDate);
     }
 
     /**
@@ -145,7 +147,7 @@ public class GameData {
      */
     public void setPlayTime(LocalTime playTime) {
         this.playTime = playTime;
-        System.out.println("Game data " + this.id + " play time set to: " + playTime);
+        Logger.log("Game data " + this.id + " play time set to: " + playTime);
     }
 
     /**
@@ -166,7 +168,7 @@ public class GameData {
             satisfaction += person.calculateSatisfaction();
         }
         satisfaction /= people.size();
-        System.out.println("Game data " + this.id + " average satisfaction calculated: " + satisfaction);
+        Logger.log("Game data " + this.id + " average satisfaction calculated: " + satisfaction);
         return satisfaction;
     }
 
@@ -184,7 +186,7 @@ public class GameData {
      */
     public void setBudget(Integer budget) {
         this.budget = budget;
-        System.out.println("Game data " + this.id + " budget set to: " + budget);
+        Logger.log("Game data " + this.id + " budget set to: " + budget);
     }
 
     /**
@@ -201,7 +203,7 @@ public class GameData {
      */
     public void setCityName(String cityName) {
         this.cityName = cityName;
-        System.out.println("Game data " + this.id + " city name set to: " + cityName);
+        Logger.log("Game data " + this.id + " city name set to: " + cityName);
     }
 
     /**
@@ -218,7 +220,7 @@ public class GameData {
      */
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
-        System.out.println("Game data " + this.id + " game over set to: " + gameOver);
+        Logger.log("Game data " + this.id + " game over set to: " + gameOver);
     }
 
     /**
@@ -235,7 +237,7 @@ public class GameData {
      */
     public void setSaveFile(File saveFile) {
         this.saveFile = saveFile;
-        System.out.println("Game data " + this.id + " save file set to: " + saveFile.getAbsolutePath());
+        Logger.log("Game data " + this.id + " save file set to: " + saveFile.getAbsolutePath());
     }
 
     /**
@@ -252,7 +254,7 @@ public class GameData {
      */
     public void setYearlyTaxes(int yearlyTaxes) {
         this.yearlyTaxes = yearlyTaxes;
-        System.out.println("Game data " + this.id + " yearly taxes set to: " + yearlyTaxes);
+        Logger.log("Game data " + this.id + " yearly taxes set to: " + yearlyTaxes);
     }
 
     /**
@@ -269,7 +271,7 @@ public class GameData {
      */
     public void setFields(ArrayList<Field> fields) {
         this.fields = fields;
-        System.out.println("Game data " + this.id + " fields set.");
+        Logger.log("Game data " + this.id + " fields set.");
     }
 
     /**
@@ -286,7 +288,7 @@ public class GameData {
      */
     public void setPeople(ArrayList<Person> people) {
         this.people = people;
-        System.out.println("Game data " + this.id + " people set.");
+        Logger.log("Game data " + this.id + " people set.");
     }
 
     /**

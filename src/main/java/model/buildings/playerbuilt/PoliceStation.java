@@ -1,6 +1,7 @@
 package model.buildings.playerbuilt;
 
 import model.Coordinate;
+import util.Logger;
 import util.ResourceLoader;
 
 import java.io.IOException;
@@ -16,8 +17,8 @@ public class PoliceStation extends RangedBuilding {
 
         try{
             texture = ResourceLoader.loadImage("police.png");
-        }catch (IOException e) {
-            e.printStackTrace();
+        }catch (IOException exc) {
+            exc.printStackTrace();
             texture = null;
         }
 
@@ -26,7 +27,7 @@ public class PoliceStation extends RangedBuilding {
         maintenanceCost = 100; //TODO: Change this
         range = 10; //TODO: Change this
 
-        System.out.println("Police station created at " + coords.toString());
+        Logger.log("Police station created at " + coords.toString());
     }
 
     @Override
@@ -35,20 +36,20 @@ public class PoliceStation extends RangedBuilding {
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
-        System.out.println(statistics);
+        Logger.log(statistics);
         return statistics;
     }
 
     @Override
     public void setOnFire() {
         onFire = true;
-        System.out.println("Police station is on fire at " + coords.toString());
+        Logger.log("Police station is on fire at " + coords.toString());
     }
 
     @Override
     public void extinguish() {
         onFire = false;
-        System.out.println("Police station is extinguished at " + coords.toString());
+        Logger.log("Police station is extinguished at " + coords.toString());
     }
 
     @Override
