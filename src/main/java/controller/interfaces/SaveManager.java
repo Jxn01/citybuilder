@@ -13,7 +13,7 @@ public interface SaveManager {
      * This method returns the list of save files.
      * @return The list of save files.
      */
-    ArrayList<File> listSaveFiles();
+    ArrayList<File> readSaveFiles();
     /**
      * This method loads a save file.
      * @param file The file to load.
@@ -24,4 +24,10 @@ public interface SaveManager {
      * @param gameData The game data to save.
      */
     void saveGame(GameData gameData);
+
+    /**
+     * This method deletes a save file.
+     * @param file The file to delete.
+     */
+    void deleteSaveFile(File file);
 }

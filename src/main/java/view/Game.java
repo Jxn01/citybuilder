@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class Game {
 
-    view.components.Panel panel;
+    Panel panel;
     private int balance;
     private int population;
 
@@ -202,7 +202,6 @@ public class Game {
     }
     
     public void constructMap(){
-        
         map.constructMap();
     }
 }

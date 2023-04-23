@@ -1,7 +1,9 @@
 package view.gui.mainmenu;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import util.Logger;
 import util.ResourceLoader;
@@ -17,16 +19,12 @@ import view.enums.MenuState;
 public class LoadGame {
 
     private Image background;
-    private final view.components.Panel panel;
+    private final Panel panel;
     private final MyButton backBtn;
     private final MyButton loadBtn;
     private final MyButton deleteBtn;
-    private final MyRadioButton btn1;
-    private final MyRadioButton btn2;
-    private final MyRadioButton btn3;
-    private final MyRadioButton btn4;
-    private final MyRadioButton btn5;
     private final MyRadioButtonGroup btnGrp;
+    private final ArrayList<File> saveFiles;
 
     /**
      * Constructor of the LoadGame class
@@ -34,25 +32,24 @@ public class LoadGame {
      */
     public LoadGame(view.components.Panel panel) {
         this.panel = panel;
+        this.saveFiles = panel.getGameManager().getSaveFiles();
+
         try {
             background = ResourceLoader.loadImage("savebg.png");
         } catch (IOException exc) {
             exc.printStackTrace();
         }
+
         backBtn = new MyButton(0, 0, 75, 75, "back");
         loadBtn = new MyButton(50, 0, 300, 100, "load");
         deleteBtn = new MyButton(1200, 675, 300, 100, "delete");
-        btn1 = new MyRadioButton(10, 80, 1516, 50, "Mentés1", "1:54", "16.000$");
-        btn2 = new MyRadioButton(10, 140, 1516, 50, "Mentés2", "3:11", "2.000$");
-        btn3 = new MyRadioButton(10, 200, 1516, 50, "Mentés3", "0:10", "-5.000$");
-        btn4 = new MyRadioButton(10, 260, 1516, 50, "Mentés4", "42:42", "350$");
-        btn5 = new MyRadioButton(10, 320, 1516, 50, "Mentés5", "2:01", "420$");
         btnGrp = new MyRadioButtonGroup();
-        btnGrp.add(btn1);
-        btnGrp.add(btn2);
-        btnGrp.add(btn3);
-        btnGrp.add(btn4);
-        btnGrp.add(btn5);
+        if(saveFiles != null && !saveFiles.isEmpty()){
+            int i = 1;
+            for(File sf : saveFiles){
+                btnGrp.add(new MyRadioButton(10, 80 + i++ * 60, 1516, 50, sf.getName(), "time", "money"));
+            }
+        }
     }
 
     /**
@@ -89,10 +86,15 @@ public class LoadGame {
         } else if (loadBtn.isHovered(p)) {
             if (btnGrp.hasSelected()) {
                 Logger.log("Loading game");
+                int selected = btnGrp.getSelectedIndex();
+                panel.getGameManager().loadSaveFile(saveFiles.get(selected));
                 panel.setState(MenuState.GAME);
             }
         } else if (deleteBtn.isHovered(p)) {
             Logger.log("Deleting save");
+            if(btnGrp.hasSelected()){
+                panel.getGameManager().deleteSaveFile(saveFiles.get(btnGrp.getSelectedIndex()));
+            }
             btnGrp.removeSelectedBtn();
         }
     }

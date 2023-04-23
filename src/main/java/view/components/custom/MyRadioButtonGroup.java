@@ -70,6 +70,19 @@ public class MyRadioButtonGroup {
     }
 
     /**
+     * Returns the index of the selected button
+     * @return an integer value
+     */
+    public int getSelectedIndex(){
+        for (int i = 0; i < buttons.size(); ++i) {
+            if (buttons.get(i).getSelected()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Removes the currently selected button from the group
      */
     public void removeSelectedBtn() {

@@ -1,11 +1,10 @@
 package view.components;
 
+import controller.GameManager;
 import view.*;
 import view.enums.MenuState;
 import view.gui.NewGame;
 import view.gui.mainmenu.*;
-
-import util.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +21,7 @@ import java.awt.event.WindowEvent;
  */
 public class Panel extends JPanel implements ActionListener {
 
-    private final view.components.Frame frame;
+    private final GameGUI gameGUI;
     private Timer timer;
     private MenuState state;
     
@@ -32,26 +31,29 @@ public class Panel extends JPanel implements ActionListener {
     private final NewGame newGame;
     private final LoadGame loadGame;
     private final Game game;
+
+    private final GameManager gm;
     
     private int width;
     private int height;
 
     /**
      * The constructor of the Panel class
-     * @param frame is the main window, where the panel is placed on
+     * @param gameGUI is the main window, where the panel is placed on
      */
-    public Panel(Frame frame) {
-        setPreferredSize(frame.getContentPane().getSize());
-        setSize(frame.getContentPane().getSize());
+    public Panel(GameGUI gameGUI) {
+        this.gm = new GameManager();
+        setPreferredSize(gameGUI.getContentPane().getSize());
+        setSize(gameGUI.getContentPane().getSize());
         setFocusable(true);
-        this.frame = frame;
+        this.gameGUI = gameGUI;
    
-        Timer timer = new Timer(50, (ActionEvent e) -> {
+        Timer responsivityTimer = new Timer(50, (ActionEvent e) -> {
             Dimension panelSize = getSize();
             width = panelSize.width;
             height = panelSize.height;
         });
-        timer.start();
+        responsivityTimer.start();
         
         state = MenuState.GAME;
 
@@ -99,28 +101,13 @@ public class Panel extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         Graphics2D gr = (Graphics2D) g;
         switch (state) {
-            case INTRO -> {
-                intro.draw(this, gr);
-            }
-            case MAINMENU -> {
-                mainMenu.draw(this, gr);
-            }
-            case TUTORIAL -> {
-                tutorial.draw(this, gr);
-            }
-            case NEWGAME -> {
-                newGame.draw(this, gr);
-            }
-            case LOADGAME -> {
-                loadGame.draw(this, gr);
-            }
-            case GAME -> {
-                game.draw(this, gr);
-            }
-            case EXIT -> {
-                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            }
-
+            case INTRO -> intro.draw(this, gr);
+            case MAINMENU -> mainMenu.draw(this, gr);
+            case TUTORIAL -> tutorial.draw(this, gr);
+            case NEWGAME -> newGame.draw(this, gr);
+            case LOADGAME -> loadGame.draw(this, gr);
+            case GAME -> game.draw(this, gr);
+            case EXIT -> gameGUI.dispatchEvent(new WindowEvent(gameGUI, WindowEvent.WINDOW_CLOSING));
         }
     }
 
@@ -147,7 +134,7 @@ public class Panel extends JPanel implements ActionListener {
      * Allows the gui submenus to call the Frame's exit method
      */
     public void exit(){
-        frame.exit();
+        gameGUI.exit();
     }
 
     /**
@@ -165,5 +152,12 @@ public class Panel extends JPanel implements ActionListener {
     public int height() {
         return height;
     }
-    
+
+    /**
+     * Getter for the game manager
+     * @return game manager
+     */
+    public GameManager getGameManager() {
+        return gm;
+    }
 }

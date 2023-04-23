@@ -23,6 +23,8 @@ public class GameManager implements SaveManager, SpeedManager {
 
     private final ArrayList<Catastrophe> catastrophes;
 
+    private ArrayList<File> saveFiles;
+
     /**
      * Constructor of the game manager.
      */
@@ -123,8 +125,17 @@ public class GameManager implements SaveManager, SpeedManager {
         Logger.log("Game data set to " + gameData.getId());
     }
 
+
+    /**
+     * Getter for the save files
+     * @return the save files
+     */
+    public ArrayList<File> getSaveFiles() {
+        return saveFiles;
+    }
+
     @Override
-    public ArrayList<File> listSaveFiles() {
+    public ArrayList<File> readSaveFiles() {
         return null;
     }
 
@@ -136,6 +147,11 @@ public class GameManager implements SaveManager, SpeedManager {
     @Override
     public void saveGame(GameData gameData) {
         Logger.log("Saving game: " + gameData.getSaveFile().getName());
+    }
+
+    @Override
+    public void deleteSaveFile(File file) {
+        Logger.log("Deleting save file: " + file.getName());
     }
 
     @Override

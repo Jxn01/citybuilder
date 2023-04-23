@@ -76,7 +76,7 @@ public class MainMenu {
             Logger.log("New game button clicked");
             panel.setState(MenuState.NEWGAME);
         } else if (saveBtn.isHovered(p)) {
-            Logger.log("Save button clicked");
+            Logger.log("Saves button clicked");
             panel.setState(MenuState.LOADGAME);
         } else if (exitBtn.isHovered(p)) {
             Logger.log("Exit button clicked");

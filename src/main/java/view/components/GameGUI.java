@@ -1,15 +1,17 @@
 package view.components;
 
+import controller.GameManager;
+
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 
 /**
  * This class creates the window of the game
  */
-public class Frame extends JFrame {
+public class GameGUI extends JFrame {
     private final Panel panel;
 
-    public Frame() {
+    public GameGUI() {
         //maximize the JFrame
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         //add the panel
