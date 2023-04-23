@@ -86,7 +86,7 @@ public abstract class GeneratedBuilding extends Building {
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
         System.out.println("Max capacity of building at " + coords.toString() + " is now " + maxCapacity);
-    };
+    }
 
     /**
      * Get the public safety of the building

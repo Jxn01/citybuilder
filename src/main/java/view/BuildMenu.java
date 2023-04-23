@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * This class implements the build menu of the game gui
@@ -13,7 +12,7 @@ public class BuildMenu extends GameMenu{
     MyButton deleteBtn;
     MyButton fireFighterBtn;
     MyButton roadBtn;
-    MyButton statiumBtn;
+    MyButton stadiumBtn;
     MyButton serviceZoneBtn;
     MyButton forestBtn;
     MyButton factoryZoneBtn;
@@ -29,7 +28,7 @@ public class BuildMenu extends GameMenu{
         deleteBtn = new MyButton(620, 753, 40, 40, "x");
         fireFighterBtn = new MyButton(700, 753, 40, 40, "fireFighter");
         roadBtn = new MyButton(740, 753, 40, 40, "road");
-        statiumBtn = new MyButton(780, 753, 40, 40, "stadium");
+        stadiumBtn = new MyButton(780, 753, 40, 40, "stadium");
         serviceZoneBtn = new MyButton(820, 753, 40, 40, "serviceZone");
         forestBtn = new MyButton(860, 753, 40, 40, "forest");
         factoryZoneBtn = new MyButton(900, 753, 40, 40, "factoryZone");
@@ -49,8 +48,8 @@ public class BuildMenu extends GameMenu{
         fireFighterBtn.draw(gr, game.getMousePosition());
         roadBtn.setY(game.height() - 40);
         roadBtn.draw(gr, game.getMousePosition());
-        statiumBtn.setY(game.height() - 40);
-        statiumBtn.draw(gr, game.getMousePosition());
+        stadiumBtn.setY(game.height() - 40);
+        stadiumBtn.draw(gr, game.getMousePosition());
         serviceZoneBtn.setY(game.height() - 40);
         serviceZoneBtn.draw(gr, game.getMousePosition());
         forestBtn.setY(game.height() - 40);
@@ -65,7 +64,7 @@ public class BuildMenu extends GameMenu{
     
     /**
      * Upon a click event, call the appropriate button's functionality
-     * @param p p is the current cursor loaction
+     * @param p p is the current cursor location
      */
     @Override
     public void click(Point p){
@@ -81,7 +80,7 @@ public class BuildMenu extends GameMenu{
         else if(forestBtn.isHovered(p)){
             game.setSelectedBuildingType(Tile.FOREST);
         }
-        else if(statiumBtn.isHovered(p)){
+        else if(stadiumBtn.isHovered(p)){
             game.setSelectedBuildingType(Tile.STADIUM);
         }
         else if(serviceZoneBtn.isHovered(p)){

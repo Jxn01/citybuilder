@@ -26,7 +26,8 @@ public class MyButton {
         try {
             img = ResourceLoader.loadImage(imgLocation + ".png");
             imgHover = ResourceLoader.loadImage(imgLocation + "Hover.png");
-        } catch (IOException ex) {
+        } catch (IOException exc) {
+            exc.printStackTrace();
         }
     }
 

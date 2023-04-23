@@ -8,10 +8,10 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
- * This class represents the catastrophies menu on the gui
+ * This class represents the catastrophe menu on the gui
  * @author Felhasználó
  */
-public class CatastrophiesMenu extends GameMenu{
+public class CatastropheMenu extends GameMenu{
     private final Rectangle menuArea;
     private final Color menuColor;
     Game game;
@@ -22,11 +22,11 @@ public class CatastrophiesMenu extends GameMenu{
      * Constructor of the statistics menu
      * @param game is the main Game object 
      */
-    public CatastrophiesMenu(Game game){
+    public CatastropheMenu(Game game){
         super(game);
         this.game = game;
         econBtn = new MyButton(268 + 0 + 30,120,250,300,"econ");
-        virusBtn = new MyButton(268 +375,120,250,300,"virus");
+        virusBtn = new MyButton(268 + 375,120,250,300,"virus");
         fireBtn = new MyButton(988,120,250,300,"fire");
         xBtn = new MyButton(1228, 50, 40, 40, "x");
         menuArea = new Rectangle(268, 50, 1000, 400);
@@ -34,7 +34,7 @@ public class CatastrophiesMenu extends GameMenu{
     }
     
     /**
-     * Draw the catastrophies menu on the screen
+     * Draw the catastrophe menu on the screen
      * @param gr is the graphics context of the main Panel object
      */
     @Override
@@ -57,7 +57,7 @@ public class CatastrophiesMenu extends GameMenu{
     }
     
     /**
-     * Draw the catastrophies menu's background area on the screen
+     * Draw the catastrophe menu's background area on the screen
      * @param gr is the graphics context of the main Panel object
      */
     private void paintStatsMenuArea(Graphics2D gr){

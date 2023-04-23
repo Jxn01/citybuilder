@@ -5,7 +5,7 @@ package controller.interfaces;
  */
 public interface SpeedManager {
     /**
-     * Set the simulation speed to paused.
+     * Set the simulation speed to pause.
      */
     void timeStop();
     /**

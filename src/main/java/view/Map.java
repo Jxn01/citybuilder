@@ -17,11 +17,11 @@ import util.ResourceLoader;
  * This class implements the map of the game using a 2D array of tiles
  */
 public class Map {
-    private Game game;
+    private final Game game;
     private Image grass_1,grass_2,grass_3, rocks, road, fireStation;
     private Image stadium,serviceZone,forest,factoryZone;
     private Image house_1,house_2,house_3,police,construction;
-    private Tile[][] tiles;
+    private final Tile[][] tiles;
     private Tile selectedBuildingType;
     private Point selectedTile;
     
@@ -52,13 +52,15 @@ public class Map {
             house_3 = ResourceLoader.loadImage("HOUSE_3.png");
             police = ResourceLoader.loadImage("POLICE_1.png");
             construction = ResourceLoader.loadImage("CONSTRUCTION.png");
-        } catch (IOException ex) {}
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
         stadiums = new ArrayList<>();
         constructMap();
     }
     
     /**
-     * Paint the map with all of it's tiles on the screen
+     * Paint the map with all of its tiles on the screen
      * @param gr is the graphics context of the main Panel object
      */
     public void paint(Graphics2D gr) {
@@ -73,10 +75,10 @@ public class Map {
                 
                 if(tiles[row][col] == Tile.STADIUM){
                     Point p = new Point(row,col);
-                    for(int i=0;i<stadiums.size();++i){
-                        if(stadiums.get(i).get(0).equals(p)){
-                           gr.drawImage(img, col * (64 + zoom) + cameraOffsetX, row * (64 + zoom) + cameraOffsetY, 128 + zoom, 128 + zoom, null); 
-                        }    
+                    for (ArrayList<Point> points : stadiums) {
+                        if (points.get(0).equals(p)) {
+                            gr.drawImage(img, col * (64 + zoom) + cameraOffsetX, row * (64 + zoom) + cameraOffsetY, 128 + zoom, 128 + zoom, null);
+                        }
                     }
                 }
                 else {
@@ -91,7 +93,7 @@ public class Map {
     }
     
     private Image tileToImg(Tile tile){
-        Image img = grass_1;
+        Image img;
         switch(tile){
             case GRASS_1 -> img = grass_1;
             case GRASS_2 -> img = grass_2;
@@ -108,7 +110,7 @@ public class Map {
             case HOUSE_3 -> img = house_3;
             case POLICE -> img = police;
             case CONSTRUCTION -> img = construction;
-            default -> {}
+            default -> img = grass_1;
         }
         return img;
     }
@@ -126,15 +128,15 @@ public class Map {
         //do nothing if one of the submenus is hovered
         Point p = MouseInfo.getPointerInfo().getLocation();
         ArrayList<Rectangle> areas = game.getMenuAreas();
-        for(int i=0;i<areas.size();++i){
-            if(areas.get(i).contains(p)){
+        for (Rectangle area : areas) {
+            if (area.contains(p)) {
                 return;
             }
         }
 
         long currentTime = System.currentTimeMillis();
         double randomDouble = (double) (currentTime % 1000) / 1000; // limit the value between 0 and 1
-        double currentSeconds = currentTime / 1000;
+        double currentSeconds = (double) currentTime / 1000;
         
         int redVal;
         int greenVal;
@@ -190,10 +192,7 @@ public class Map {
      * @return a Boolean value
      */
     private boolean isFieldValid(int y, int x) {
-        if (tiles[y][x] == Tile.ROCKS) {
-            return false;
-        }
-        return true;
+        return tiles[y][x] != Tile.ROCKS;
     }
 
     /**
@@ -203,10 +202,7 @@ public class Map {
      * @return is a Boolean value
      */
     private boolean isFieldEmpty(int y, int x) {
-        if (tiles[y][x] == Tile.GRASS_1) {
-            return true;
-        }
-        return false;
+        return tiles[y][x] == Tile.GRASS_1;
     }
 
     /**
@@ -218,14 +214,8 @@ public class Map {
     private boolean isNextToRoad(int y, int x) {
         if (!isFieldValid(y, x)) {
             return false;
-        }
-        if (tiles[y - 1][x] == Tile.ROAD || tiles[y + 1][x] == Tile.ROAD) {
-            return true;
-        }
-        if (tiles[y][x - 1] == Tile.ROAD || tiles[y][x + 1] == Tile.ROAD) {
-            return true;
-        }
-        return false;
+        }else return tiles[y - 1][x] == Tile.ROAD || tiles[y + 1][x] == Tile.ROAD || tiles[y][x - 1] == Tile.ROAD || tiles[y][x + 1] == Tile.ROAD;
+        //alatta, felette, balra, jobbra
     }
     
     /**
@@ -250,17 +240,11 @@ public class Map {
                     Random rand = new Random();
                     int randomNum = rand.nextInt(3) + 1;
                     switch (randomNum) {
-                        case 1:
-                            tiles[i][j] = Tile.GRASS_1;
-                            break;
-                        case 2:
-                            tiles[i][j] = Tile.GRASS_2;
-                            break;
-                        case 3: 
-                            tiles[i][j] = Tile.GRASS_3;
-                            break;
-                        default:
-                            break;
+                        case 1 -> tiles[i][j] = Tile.GRASS_1;
+                        case 2 -> tiles[i][j] = Tile.GRASS_2;
+                        case 3 -> tiles[i][j] = Tile.GRASS_3;
+                        default -> {
+                        }
                     }
                     
                 }
@@ -301,8 +285,8 @@ public class Map {
         
         //return if the user clicked one of the submenus
         ArrayList<Rectangle> menuAreas = game.getMenuAreas();
-        for(int i=0;i<menuAreas.size();++i){
-            if(menuAreas.get(i).contains(p)) {
+        for (Rectangle menuArea : menuAreas) {
+            if (menuArea.contains(p)) {
                 selectedTile = null;
                 return;
             }
@@ -340,7 +324,7 @@ public class Map {
      * Build the selected building type onto a tile
      * @param x is te x index of the field
      * @param y is te y index of the field
-     * @param newTile 
+     * @param newTile is the new tile type
      */
     public void build(int x,int y,Tile newTile){
         
@@ -396,8 +380,8 @@ public class Map {
         }
         //do nothing if one of the submenus is hovered
         ArrayList<Rectangle> areas = game.getMenuAreas();
-        for(int i=0;i<areas.size();++i){
-            if(areas.get(i).contains(p)){
+        for (Rectangle area : areas) {
+            if (area.contains(p)) {
                 return null;
             }
         }
@@ -417,8 +401,8 @@ public class Map {
         }
         //do nothing if one of the submenus is hovered
         ArrayList<Rectangle> areas = game.getMenuAreas();
-        for(int i=0;i<areas.size();++i){
-            if(areas.get(i).contains(p)){
+        for (Rectangle area : areas) {
+            if (area.contains(p)) {
                 return null;
             }
         }

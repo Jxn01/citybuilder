@@ -24,7 +24,7 @@ public class Tutorial {
          * One step of the tutorial consists of a description, an image and a number
          * @param imgText description of the step
          * @param img image of the step
-         * @param imgNumber number of the step
+         * @param imgNumber number of the steps
          */
         public TutorialData(String imgText, Image img, int imgNumber) {
             this.imgText = imgText;
@@ -33,7 +33,7 @@ public class Tutorial {
         }
     }
 
-    private Panel panel;
+    private final Panel panel;
     private final int MINIMG = 0;
     private final int MAXIMG = 2;
     private int currentImg;
@@ -41,8 +41,8 @@ public class Tutorial {
     private MyButton leftBtn;
     private MyButton rightBtn;
     private MyButton backBtn;
-    private ArrayList<TutorialData> allData;
-    private ArrayList<String> allText;
+    private final ArrayList<TutorialData> allData;
+    private final ArrayList<String> allText;
 
     /**
      * The constructor of the tutorial submenu
@@ -75,7 +75,9 @@ public class Tutorial {
             leftBtn = new MyButton(10, 350, 100, 100, "arrowLeft");
             rightBtn = new MyButton(1436, 350, 100, 100, "arrowRight");
             backBtn = new MyButton(0, 0, 75, 75, "back");
-        } catch (IOException ex) {}
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
     }
 
     /**

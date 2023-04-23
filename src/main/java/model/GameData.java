@@ -55,7 +55,7 @@ public class GameData {
         this.people = people;
         this.id = "game_data" + new Date().getTime();
         System.out.println("Game data created: " + this.id);
-        System.out.println(this.toString());
+        System.out.println(this);
     }
 
     public GameData() {

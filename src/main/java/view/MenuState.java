@@ -1,7 +1,7 @@
 package view;
 
 /**
- * This enum holds all possible values of the menustate of the gui
+ * This enum contains all possible states of the GUI
  */
 public enum MenuState {
     INTRO,

@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class MainMenu {
 
-    private Panel panel;
+    private final Panel panel;
     private Image background;
     private MyButton tutorialBtn;
     private MyButton newGameBtn;
@@ -31,7 +31,8 @@ public class MainMenu {
             newGameBtn = new MyButton(0, 350, btnWidth, btnHeight, "newGame");
             saveBtn = new MyButton(0, 500, btnWidth, btnHeight, "save");
             exitBtn = new MyButton(0, 650, btnWidth, btnHeight, "exit");
-        } catch (IOException ex) {
+        } catch (IOException exc) {
+            exc.printStackTrace();
         }
     }
 

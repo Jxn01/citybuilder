@@ -2,14 +2,12 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 
 /**
- * The gui representation of the main gamescreen
+ * The gui representation of the main game screen
  */
 public class Game {
 
@@ -17,7 +15,7 @@ public class Game {
     private int balance;
     private int population;
 
-    private CameraMovementHandler cameraMovementHandler;
+    private final CameraMovementHandler cameraMovementHandler;
     private final Map map;
     TopBar topBar;
     BottomBar bottomBar;
@@ -37,20 +35,17 @@ public class Game {
         population = 100;
 
         //MAIN GAME LOOP
-        Timer gameplayTimer = new Timer(40, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { 
-                //check if the camera collides with the edge of the game map
-                cameraMovementHandler.checkMapBorder();
-                //repaint the game gui
-                panel.repaint();
-            }
+        Timer gameplayTimer = new Timer(40, actionEvent -> {
+            //check if the camera collides with the edge of the game map
+            cameraMovementHandler.checkMapBorder();
+            //repaint the game gui
+            panel.repaint();
         });
         gameplayTimer.start();
     }
     
     /**
-     * Draw the gui of the gamescreen
+     * Draw the gui of the game screen
      * @param panel is the main Panel object of the game
      * @param gr is the graphics context of the main Panel object
      */
@@ -64,7 +59,7 @@ public class Game {
     }
     
     /**
-     * The click event handler of the gamescreen
+     * The click event handler of the game screen
      * @param p is the current cursor position
      */
     public void click(Point p) {
@@ -82,7 +77,7 @@ public class Game {
     }
     
     /**
-     * Getter for the camera offset on the x axis
+     * Getter for the camera offset on the x-axis
      * @return cameraOffsetX
      */
     public int getCameraOffsetX() {
@@ -90,7 +85,7 @@ public class Game {
     }
 
     /**
-     * Getter for the camera offset on the y axis
+     * Getter for the camera offset on the y-axis
      * @return cameraOffsetY
      */
     public int getCameraOffsetY() {
@@ -98,7 +93,7 @@ public class Game {
     }
     
     /**
-     * The mousewheel event handler of the gamescreen
+     * The mouse-wheel event handler of the game screen
      * @param e is the MouseWheelEvent
      */
     public void mouseWheelRotated(MouseWheelEvent e){
@@ -106,7 +101,7 @@ public class Game {
     }
     
     /**
-     * The keypress event handler of the gamescreen
+     * The key press event handler of the game screen
      * @param e is the KeyEvent
      */
     public void keyPressed(KeyEvent e) {
@@ -177,7 +172,7 @@ public class Game {
     }
 
     /**
-     * Get the areas of every menu on the gamescreen as rectangles
+     * Get the areas of every menu on the game screen as rectangles
      * this is important for click exceptions
      * @return an ArrayList of Rectangle objects
      */

@@ -11,7 +11,7 @@ import java.net.URL;
  */
 public class ResourceLoader {
     /**
-     * Loads a resource from the resources folder.
+     * Loads a resource from the resources' folder.
      * @param resName The name of the resource.
      * @return The resource as an InputStream.
      */
@@ -20,7 +20,7 @@ public class ResourceLoader {
     }
 
     /**
-     * Loads an image from the resources folder.
+     * Loads an image from the resources' folder.
      * @param resName The name of the image.
      * @return The image.
      * @throws IOException If the image could not be loaded.

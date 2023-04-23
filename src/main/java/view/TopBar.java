@@ -61,7 +61,7 @@ public class TopBar extends GameMenu {
     
     /**
      * Upon a click event, roll the click event further into a submenu
-     * @param p is the current cursor loaction
+     * @param p is the current cursor location
      */
     @Override
     public void click(Point p){

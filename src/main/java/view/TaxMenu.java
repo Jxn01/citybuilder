@@ -80,12 +80,12 @@ public class TaxMenu extends GameMenu {
             setIsOpen(false);
         }
         else if(modifyBtn.isHovered(p)){
-            System.out.println("modifybutton pressed");
+            System.out.println("modify-button pressed");
         }
     }
     
     /**
-     * The keypress event handler of the taxmenu
+     * The keypress event handler of the tax menu
      * @param e is the KeyEvent
      */
     public void keyPressed(KeyEvent e){
@@ -93,7 +93,7 @@ public class TaxMenu extends GameMenu {
         
         char c = e.getKeyChar();
         if (c == KeyEvent.VK_BACK_SPACE) {
-            input.deletelLast();
+            input.deleteLast();
         } else if (Character.isDigit(c)) {
             input.add(c);
         }

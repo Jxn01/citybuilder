@@ -105,7 +105,7 @@ public class Person {
         int satisfaction = 60;
 
         for (Effect effect : effects) {
-            satisfaction += effect.ordinal();
+            satisfaction += effect.getValue();
         }
 
         System.out.println("Satisfaction of " + name + " is " + satisfaction);
@@ -230,7 +230,12 @@ public class Person {
      */
     public void setHome(ResidentialBuilding residentialBuilding) {
         this.home = residentialBuilding;
-        System.out.println("New home of " + name + " is" + residentialBuilding.toString());
+        if(residentialBuilding != null){
+            System.out.println("New home of " + name + " is" + residentialBuilding);
+        }else{
+            System.out.println("New home of " + name + " is null");
+        }
+
     }
 
     /**
@@ -247,7 +252,11 @@ public class Person {
      */
     public void setWorkplace(Workplace workplace) {
         this.workplace = workplace;
-        System.out.println("New workplace of " + name + " is" + workplace.toString());
+        if(workplace != null){
+            System.out.println("New home of " + name + " is" + workplace);
+        }else{
+            System.out.println("New home of " + name + " is null");
+        }
     }
 
     /**

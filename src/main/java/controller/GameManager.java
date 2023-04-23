@@ -20,7 +20,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private double hospitalChance;
     private GameData gameData;
 
-    private ArrayList<Catastrophe> catastrophies;
+    private final ArrayList<Catastrophe> catastrophes;
 
     /**
      * Constructor of the game manager.
@@ -28,10 +28,10 @@ public class GameManager implements SaveManager, SpeedManager {
     public GameManager() {
         catastropheChance = 0.1;
         hospitalChance = 0.1;
-        catastrophies = new ArrayList<>();
-        catastrophies.add(FinancialCrisis.getInstance());
-        catastrophies.add(Covid.getInstance());
-        catastrophies.add(Firestorm.getInstance());
+        catastrophes = new ArrayList<>();
+        catastrophes.add(FinancialCrisis.getInstance());
+        catastrophes.add(Covid.getInstance());
+        catastrophes.add(Firestorm.getInstance());
 
         System.out.println("Game manager created.");
     }
@@ -60,7 +60,7 @@ public class GameManager implements SaveManager, SpeedManager {
     /**
      * Getter for workplace distribution. (Service/Industry)
      */
-    public double getWorkplaceDistr(){
+    public double getWorkplaceDistribution(){
         return 0.0;
     }
 

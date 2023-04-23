@@ -51,7 +51,7 @@ public class CameraMovementHandler {
     }
     
     /**
-     * Add offset to the camera on the x axis
+     * Add offset to the camera on the x-axis
      * @param val is the value added to the x offset
      */
     public void addToOffsetX(int val) {
@@ -59,7 +59,7 @@ public class CameraMovementHandler {
     }
 
     /**
-     * Add offset to the camera on the y axis
+     * Add offset to the camera on the y-axis
      * @param val is the value added to the y offset
      */
     public void addToOffsetY(int val) {
@@ -89,8 +89,8 @@ public class CameraMovementHandler {
     }
     
     /**
-     * Add/substract an int value to/from zoom
-     * @param val is the added/substracted int value
+     * Add/subtract an int value to/from zoom
+     * @param val is the added/subtracted int value
      * @param p is the current cursor location
      */
     public void addToZoom(int val, Point p) {
@@ -110,16 +110,16 @@ public class CameraMovementHandler {
     }
 
     /**
-     * getter for the camera offset on the x axis
-     * @return the camera offset on the x axis
+     * getter for the camera offset on the x-axis
+     * @return the camera offset on the x-axis
      */
     public int getCameraOffsetX() {
         return cameraOffsetX;
     }
 
     /**
-     * getter for the camera offset on the y axis
-     * @return the camera offset on the y axis
+     * getter for the camera offset on the y-axis
+     * @return the camera offset on the y-axis
      */
     public int getCameraOffsetY() {
         return cameraOffsetY;
@@ -149,7 +149,7 @@ public class CameraMovementHandler {
     }
     
     /**
-     * A movementstate has an x and a y direction
+     * A movement state has an x and a y direction
      * which allows the player to move the camera
      * on both of the axes simultaneously
      */
@@ -190,7 +190,7 @@ public class CameraMovementHandler {
 
     /**
      * This class is a derived class of the AbstractDirectionAction class
-     * It implements the camera movement on the y axis
+     * It implements the camera movement on the y-axis
      */
     public class YDirectionAction extends AbstractDirectionAction {
 
@@ -207,7 +207,7 @@ public class CameraMovementHandler {
 
     /**
      * This class is a derived class of the AbstractDirectionAction class
-     * It implements the camera movement on the x axis
+     * It implements the camera movement on the x-axis
      */
     public class XDirectionAction extends AbstractDirectionAction {
 

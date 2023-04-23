@@ -1,7 +1,6 @@
 package model.buildings.playerbuilt;
 
 import model.Coordinate;
-import model.buildings.playerbuilt.PlayerBuilding;
 import util.ResourceLoader;
 
 import java.io.IOException;

@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
- * This class summarizes the functionalty of a game menu
+ * This class summarizes the functionality of a game menu
  */
 public abstract class GameMenu {
     private Boolean isOpen;
@@ -38,7 +38,7 @@ public abstract class GameMenu {
     }
     
     /**
-     * Draw the gamemenu on the screen
+     * Draw the game menu on the screen
      * @param gr is the graphics context of the main Panel object
      */
     public abstract void draw(Graphics2D gr);

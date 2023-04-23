@@ -40,7 +40,7 @@ public class MyRadioButton {
 
     /**
      * Setter for selected
-     * @param selected 
+     * @param selected is the new value for selected
      */
     public void setSelected(Boolean selected) {
         this.selected = selected;
@@ -59,7 +59,7 @@ public class MyRadioButton {
     /**
      * Checks if the button is currently hovered
      * @param p is the cursor position
-     * @return 
+     * @return a Boolean value
      */
     public Boolean isHovered(Point p) {
         if (p != null) {

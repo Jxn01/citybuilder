@@ -25,7 +25,9 @@ public class NewGame {
         this.panel = panel;
         try {
             background = ResourceLoader.loadImage("newgamebg.png");
-        } catch (IOException ex) {}
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
         backBtn = new MyButton(0, 0, 75, 75, "back");
         startBtn = new MyButton(618, 600, 300, 100, "start");
         input = new MyInputField(700, 220, 300, 40);
@@ -70,13 +72,13 @@ public class NewGame {
     }
 
     /**
-     * The NewGame submenu's kespress handler
-     * @param e is the KeyEvent of the keypress
+     * The NewGame submenu's key press handler
+     * @param e is the KeyEvent of the key press
      */
     public void keyPressed(KeyEvent e) {
         char c = e.getKeyChar();
         if (c == KeyEvent.VK_BACK_SPACE) {
-            input.deletelLast();
+            input.deleteLast();
         } else if (Character.isLetter(c) || Character.isDigit(c)) {
             input.add(c);
         }

@@ -8,10 +8,10 @@ import java.awt.*;
 public class MyInputField {
     public Rectangle rect;
     private String text;
-    private int MAXLENGTH;
+    private final int MAXLENGTH;
 
     /**
-     * Constructor of the imput class
+     * Constructor of the input class
      * @param x is the starting horizontal coordinate of the input field
      * @param y is the starting vertical coordinate of the input field
      * @param width is the input field's width
@@ -47,7 +47,7 @@ public class MyInputField {
     /**
      * Deletes the last character from the current content of the input field
      */
-    public void deletelLast() {
+    public void deleteLast() {
         if (text.length() > 0) {
             text = text.substring(0, text.length() - 1);
         }

@@ -1,14 +1,13 @@
 package view;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowEvent;
 
 /**
  * This class creates the window of the game
  */
 public class Frame extends JFrame {
-    private Panel panel;
+    private final Panel panel;
 
     public Frame() {
         //maximize the JFrame
@@ -17,7 +16,7 @@ public class Frame extends JFrame {
         panel = new Panel(this);
         add(panel);
     
-        setTitle("City builder");
+        setTitle("City Builder");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
@@ -25,7 +24,9 @@ public class Frame extends JFrame {
         // Wait for the frame to become visible
         try {
             Thread.sleep(100);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException exc) {
+            exc.printStackTrace();
+        }
 
         // Validate the container to ensure the panel's size is calculated
         getContentPane().validate();

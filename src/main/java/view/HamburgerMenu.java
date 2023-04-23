@@ -58,7 +58,7 @@ public class HamburgerMenu extends GameMenu{
     
     /**
      * Upon a click event, call the appropriate button's functionality
-     * @param p is the current cursor loaction
+     * @param p is the current cursor location
      */
     @Override
     public void click(Point p){

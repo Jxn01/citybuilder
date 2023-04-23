@@ -11,12 +11,16 @@ import util.ResourceLoader;
 public class LoadGame {
 
     private Image background;
-    private Panel panel;
-    private MyButton backBtn;
-    private MyButton loadBtn;
-    private MyButton deleteBtn;
-    private MyRadioButton btn1, btn2, btn3, btn4, btn5;
-    private MyRadioButtonGroup btnGrp;
+    private final Panel panel;
+    private final MyButton backBtn;
+    private final MyButton loadBtn;
+    private final MyButton deleteBtn;
+    private final MyRadioButton btn1;
+    private final MyRadioButton btn2;
+    private final MyRadioButton btn3;
+    private final MyRadioButton btn4;
+    private final MyRadioButton btn5;
+    private final MyRadioButtonGroup btnGrp;
 
     /**
      * Constructor of the LoadGame class
@@ -26,7 +30,9 @@ public class LoadGame {
         this.panel = panel;
         try {
             background = ResourceLoader.loadImage("savebg.png");
-        } catch (IOException ex) {}
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
         backBtn = new MyButton(0, 0, 75, 75, "back");
         loadBtn = new MyButton(50, 0, 300, 100, "load");
         deleteBtn = new MyButton(1200, 675, 300, 100, "delete");

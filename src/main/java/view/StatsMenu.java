@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * This class implements the statistics menu of the game gui
  */
 public class StatsMenu extends GameMenu{
-    private final Rectangle statsMenuArea;
+    private final Rectangle statMenuArea;
     private final Color statsMenuColor;
     Game game;
     MyButton xBtn;
@@ -24,7 +24,7 @@ public class StatsMenu extends GameMenu{
         super(game);
         this.game = game;
         xBtn = new MyButton(1228, 50, 40, 40, "x");
-        statsMenuArea = new Rectangle(268, 50, 1000, 690);
+        statMenuArea = new Rectangle(268, 50, 1000, 690);
         statsMenuColor = Color.white;
     }
     
@@ -76,10 +76,10 @@ public class StatsMenu extends GameMenu{
      */
     private void paintStatsMenuArea(Graphics2D gr){
         gr.setColor(statsMenuColor);
-        int x = statsMenuArea.x;
-        int y = statsMenuArea.y;
-        int width = statsMenuArea.width;
-        int height = statsMenuArea.height;
+        int x = statMenuArea.x;
+        int y = statMenuArea.y;
+        int width = statMenuArea.width;
+        int height = statMenuArea.height;
         gr.fillRect(x, y, width, height);
     }
     
@@ -105,7 +105,7 @@ public class StatsMenu extends GameMenu{
     public ArrayList<Rectangle> getMenuAreas(){
         ArrayList<Rectangle> areas = new ArrayList<>();
         if(this.getIsOpen()){
-            areas.add(statsMenuArea);
+            areas.add(statMenuArea);
         }
         return areas;
     }

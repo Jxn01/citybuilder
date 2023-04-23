@@ -16,7 +16,7 @@ public class Intro {
     private Boolean fadeInComplete;
     private Boolean waitingComplete;
     private Boolean fadeOutComplete;
-    private Panel panel;
+    private final Panel panel;
 
     /**
      * Constructor of the Intro class
@@ -29,7 +29,9 @@ public class Intro {
         fadeOutComplete = false;
         try {
             background = ResourceLoader.loadImage("background.png");
-        } catch (IOException ex) {}
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
     }
 
     /**
@@ -59,7 +61,8 @@ public class Intro {
             try {
                 sleep(1500);
                 waitingComplete = true;
-            } catch (InterruptedException ignored) {
+            } catch (InterruptedException exc) {
+                exc.printStackTrace();
             }
             return;
         }

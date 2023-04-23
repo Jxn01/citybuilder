@@ -137,7 +137,7 @@ public class Field {
      * Builds a building on the field
      * @param buildingType is the type of the building
      * @param budget is the budget of the player
-     * @throws RuntimeException if there is already a building on the field or if the building type is not specified
+     * @throws RuntimeException if there is already a building on the field, or if the building type is not specified
      */
     public void buildBuilding(String buildingType, Integer budget) throws RuntimeException {
         if (building != null) {
@@ -209,7 +209,7 @@ public class Field {
     /**
      * Gets the current capacity of the field
      * @return the current capacity of the field
-     * @throws RuntimeException if there is no building on the field or if the building is not a generated building
+     * @throws RuntimeException if there is no building on the field, or if the building is not a generated building
      */
     public int getCurrentCapacity() throws RuntimeException {
         if (building == null) {
@@ -241,7 +241,7 @@ public class Field {
     }
 
     /**
-     * Get the move in factor of the field
+     * Get the move-in-factor of the field
      * @return the move in factor of the field
      */
     public int getMoveInFactor() {
@@ -249,7 +249,7 @@ public class Field {
     }
 
     /**
-     * Calculate the move in factor of the field
+     * Calculate the move-in-factor of the field
      */
     public int calculateMoveInFactor() {
         int moveInFactor = 0;

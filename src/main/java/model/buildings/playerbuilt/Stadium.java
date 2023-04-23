@@ -1,11 +1,7 @@
 package model.buildings.playerbuilt;
-
 import model.Coordinate;
-
-import java.io.IOException;
-
-import model.buildings.playerbuilt.RangedBuilding;
 import util.ResourceLoader;
+import java.io.IOException;
 
 
 public class Stadium extends RangedBuilding {

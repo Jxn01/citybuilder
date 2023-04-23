@@ -15,16 +15,16 @@ import java.awt.event.WindowEvent;
  */
 public class Panel extends JPanel implements ActionListener {
 
-    private Frame frame;
+    private final Frame frame;
     private Timer timer;
     private MenuState state;
     
-    private Intro intro;
-    private MainMenu mainMenu;
-    private Tutorial tutorial;
-    private NewGame newGame;
-    private LoadGame loadGame;
-    private Game game;
+    private final Intro intro;
+    private final MainMenu mainMenu;
+    private final Tutorial tutorial;
+    private final NewGame newGame;
+    private final LoadGame loadGame;
+    private final Game game;
     
     private int width;
     private int height;
@@ -81,13 +81,11 @@ public class Panel extends JPanel implements ActionListener {
         });
 
         //MOUSE WHEEL EVENT
-        addMouseWheelListener(e -> {
-            game.mouseWheelRotated(e);
-        });
+        addMouseWheelListener(game::mouseWheelRotated);
     }
 
     /**
-     * The panel draws the menu based on the current menustate
+     * The panel draws the menu based on the current menu state
      * @param g is the graphics context of the Panel object
      */
     @Override
@@ -117,8 +115,8 @@ public class Panel extends JPanel implements ActionListener {
     }
 
     /**
-     * Setter for the menustate
-     * @param s is the new menustate
+     * Setter for the menu state
+     * @param s is the new menu state
      */
     public void setState(MenuState s) {
         this.state = s;

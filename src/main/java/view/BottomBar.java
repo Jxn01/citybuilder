@@ -17,9 +17,9 @@ public class BottomBar extends GameMenu {
     StatsMenu statsMenu;
     MyButton taxBtn;
     MyButton statsBtn;
-    MyButton catastrophiesBtn;
+    MyButton catastrophesBtn;
     BuildMenu buildMenu;
-    CatastrophiesMenu catastrophiesMenu;
+    CatastropheMenu catastropheMenu;
     TimeMenu timeMenu;
     
 
@@ -33,11 +33,11 @@ public class BottomBar extends GameMenu {
         statsMenu = new StatsMenu(game);
         statsBtn = new MyButton(0, 0, 80, 40, "stats");
         taxBtn = new MyButton(80, 0, 40, 40, "tax");
-        catastrophiesBtn = new MyButton(120, 0, 80, 40, "catastrophies");
+        catastrophesBtn = new MyButton(120, 0, 80, 40, "catastrophes");
         bottomBarArea = new Rectangle(0, 753, 1536, 40);
         bottomBarAreaColor = Color.white;
         buildMenu = new BuildMenu(game);
-        catastrophiesMenu = new CatastrophiesMenu(game);
+        catastropheMenu = new CatastropheMenu(game);
         timeMenu = new TimeMenu(game);
     }
     
@@ -47,25 +47,25 @@ public class BottomBar extends GameMenu {
      */
     @Override
     public void draw(Graphics2D gr){   
-        paintBottomMenubar(gr);
+        paintBottomMenuBar(gr);
         statsBtn.setY(game.height() - 40);
         statsBtn.draw(gr, game.getMousePosition());
         taxBtn.setY(game.height() - 40);
         taxBtn.draw(gr, game.getMousePosition());
-        catastrophiesBtn.setY(game.height() - 40);
-        catastrophiesBtn.draw(gr, game.getMousePosition());
+        catastrophesBtn.setY(game.height() - 40);
+        catastrophesBtn.draw(gr, game.getMousePosition());
         buildMenu.draw(gr);
         timeMenu.draw(gr);
         statsMenu.draw(gr);
         taxMenu.draw(gr);
-        catastrophiesMenu.draw(gr);
+        catastropheMenu.draw(gr);
     }
     
     /**
      * Draw the bottom bar's background area on the screen
      * @param gr is the graphics context of the main Panel object
      */
-    public void paintBottomMenubar(Graphics2D gr){
+    public void paintBottomMenuBar(Graphics2D gr){
         gr.setColor(bottomBarAreaColor);
         int x = bottomBarArea.x;
         int y = game.height() - bottomBarArea.height;
@@ -76,39 +76,39 @@ public class BottomBar extends GameMenu {
 
     /**
      * Upon a click event, roll the click event further into a submenu
-     * @param p is the current cursor loaction
+     * @param p is the current cursor location
      */
     @Override
     public void click(Point p){
         buildMenu.click(p);
         statsMenu.click(p);
         taxMenu.click(p);
-        catastrophiesMenu.click(p);
+        catastropheMenu.click(p);
         timeMenu.click(p);
         
         if(statsBtn.isHovered(p)){
             taxMenu.setIsOpen(false);
-            catastrophiesMenu.setIsOpen(false);
+            catastropheMenu.setIsOpen(false);
             Boolean negated = !statsMenu.getIsOpen();
             statsMenu.setIsOpen(negated);
         }
         else if(taxBtn.isHovered(p)){
             statsMenu.setIsOpen(false);
-            catastrophiesMenu.setIsOpen(false);
+            catastropheMenu.setIsOpen(false);
             Boolean negated = !taxMenu.getIsOpen();
             taxMenu.setIsOpen(negated);
         }
-        else if(catastrophiesBtn.isHovered(p)){
+        else if(catastrophesBtn.isHovered(p)){
             statsMenu.setIsOpen(false);
             taxMenu.setIsOpen(false);
-            Boolean negated = !catastrophiesMenu.getIsOpen();
-            catastrophiesMenu.setIsOpen(negated);
+            Boolean negated = !catastropheMenu.getIsOpen();
+            catastropheMenu.setIsOpen(negated);
         }
     }
     
     /**
-     * Upon keypress event, roll the keypress event further into a submenu
-     * @param e is the keypress event
+     * Upon key-press event, roll the key-press event further into a submenu
+     * @param e is the key-press event
      */
     public void keyPressed(KeyEvent e){
         taxMenu.keyPressed(e);
@@ -125,7 +125,7 @@ public class BottomBar extends GameMenu {
         areas.add(bottomBarArea);
         areas.addAll(statsMenu.getMenuAreas());
         areas.addAll(taxMenu.getMenuAreas());
-        areas.addAll(catastrophiesMenu.getMenuAreas());
+        areas.addAll(catastropheMenu.getMenuAreas());
         areas.addAll(buildMenu.getMenuAreas());
         areas.addAll(timeMenu.getMenuAreas());
         return areas;
