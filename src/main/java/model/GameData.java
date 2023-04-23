@@ -3,21 +3,23 @@ package model;
 import util.Logger;
 
 import java.io.File;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
+import static util.Date.getLongDate;
 
 /**
  * This class contains all the data that is needed to save the game.
  */
 public class GameData {
+    private final int starterMapSize = 51;
+    private final int starterPeople = 20;
+    private final int starterBudget = 10000;
+    private final int starterTaxes = 1000;
     private String id;
-    private LocalDateTime startDate;
-    private LocalDateTime currentDate;
-    private LocalDateTime inGameStartDate;
-    private LocalDateTime inGameCurrentDate;
-    private LocalTime playTime;
+    private String startDate;
+    private String currentDate;
+    private String inGameStartDate;
+    private String inGameCurrentDate;
+    private String playTime;
     private Integer budget;
     private String cityName;
     private boolean gameOver;
@@ -42,7 +44,7 @@ public class GameData {
      * @param fields the fields of the city
      * @param people the people of the city
      */
-    public GameData(LocalDateTime startDate, LocalDateTime currentDate, LocalDateTime inGameStartDate, LocalDateTime inGameCurrentDate, LocalTime playTime, int budget, String cityName, boolean gameOver, File saveFile, int yearlyTaxes, ArrayList<Field> fields, ArrayList<Person> people) {
+    public GameData(String startDate, String currentDate, String inGameStartDate, String inGameCurrentDate, String playTime, int budget, String cityName, boolean gameOver, File saveFile, int yearlyTaxes, ArrayList<Field> fields, ArrayList<Person> people, String id) {
         this.startDate = startDate;
         this.currentDate = currentDate;
         this.inGameStartDate = inGameStartDate;
@@ -55,13 +57,37 @@ public class GameData {
         this.yearlyTaxes = yearlyTaxes;
         this.fields = fields;
         this.people = people;
-        this.id = "game_data" + new Date().getTime();
-        System.out.println("Game data created: " + this.id);
-        System.out.println(this);
+        this.id = id;
+        Logger.log("Game data created: " + this.id);
+        Logger.log(String.valueOf(this));
     }
 
-    public GameData() {
-        this.id = "game_data" + new Date().getTime();
+    /**
+     * Constructor for GameData
+     * @param cityName the name of the city
+     */
+    public GameData(String cityName) {
+        this.id = "game_data_" + getLongDate(System.currentTimeMillis());
+        this.startDate = getLongDate(System.currentTimeMillis());
+        this.currentDate = getLongDate(System.currentTimeMillis());
+        this.inGameStartDate = getLongDate(System.currentTimeMillis());
+        this.inGameCurrentDate = getLongDate(System.currentTimeMillis());
+        this.playTime = "00:00:01";
+        this.budget = starterBudget;
+        this.cityName = cityName;
+        this.gameOver = false;
+        this.saveFile = null;
+        this.yearlyTaxes = starterTaxes;
+        this.fields = new ArrayList<>();
+        for(int i = 0; i < starterMapSize; i++){
+            for(int j = 0; j < starterMapSize; j++){
+                this.fields.add(new Field(new Coordinate(i, j)));
+            }
+        }
+        this.people = new ArrayList<>();
+        for(int i = 0; i < starterPeople; i++){
+            this.people.add(new Person());
+        }
         Logger.log("New game data created: " + this.id);
     }
 
@@ -69,7 +95,7 @@ public class GameData {
      * Getter for the start date
      * @return the start date
      */
-    public LocalDateTime getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
@@ -77,7 +103,7 @@ public class GameData {
      * Setter for the start date
      * @param startDate the start date
      */
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
         Logger.log("Game data " + this.id + " start date set to: " + startDate);
     }
@@ -86,7 +112,7 @@ public class GameData {
      * Getter for the current date
      * @return the current date
      */
-    public LocalDateTime getCurrentDate() {
+    public String getCurrentDate() {
         return currentDate;
     }
 
@@ -94,7 +120,7 @@ public class GameData {
      * Setter for the current date
      * @param currentDate the current date
      */
-    public void setCurrentDate(LocalDateTime currentDate) {
+    public void setCurrentDate(String currentDate) {
         this.currentDate = currentDate;
         Logger.log("Game data " + this.id + " current date set to: " + currentDate);
     }
@@ -103,7 +129,7 @@ public class GameData {
      * Getter for the in game start date
      * @return the in game start date
      */
-    public LocalDateTime getInGameStartDate() {
+    public String getInGameStartDate() {
         return inGameStartDate;
     }
 
@@ -111,7 +137,7 @@ public class GameData {
      * Setter for the in game start date
      * @param inGameStartDate the in game start date
      */
-    public void setInGameStartDate(LocalDateTime inGameStartDate) {
+    public void setInGameStartDate(String inGameStartDate) {
         this.inGameStartDate = inGameStartDate;
         Logger.log("Game data " + this.id + " in game start date set to: " + inGameStartDate);
     }
@@ -120,7 +146,7 @@ public class GameData {
      * Getter for the in game current date
      * @return the in game current date
      */
-    public LocalDateTime getInGameCurrentDate() {
+    public String getInGameCurrentDate() {
         return inGameCurrentDate;
     }
 
@@ -128,7 +154,7 @@ public class GameData {
      * Setter for the in game current date
      * @param inGameCurrentDate the in game current date
      */
-    public void setInGameCurrentDate(LocalDateTime inGameCurrentDate) {
+    public void setInGameCurrentDate(String inGameCurrentDate) {
         this.inGameCurrentDate = inGameCurrentDate;
         Logger.log("Game data " + this.id + " in game current date set to: " + inGameCurrentDate);
     }
@@ -137,7 +163,7 @@ public class GameData {
      * Getter for the play time
      * @return the play time
      */
-    public LocalTime getPlayTime() {
+    public String getPlayTime() {
         return playTime;
     }
 
@@ -145,7 +171,7 @@ public class GameData {
      * Setter for the play time
      * @param playTime the play time
      */
-    public void setPlayTime(LocalTime playTime) {
+    public void setPlayTime(String playTime) {
         this.playTime = playTime;
         Logger.log("Game data " + this.id + " play time set to: " + playTime);
     }

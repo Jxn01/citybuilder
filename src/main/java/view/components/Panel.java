@@ -55,7 +55,7 @@ public class Panel extends JPanel implements ActionListener {
         });
         responsivityTimer.start();
         
-        state = MenuState.GAME;
+        state = MenuState.INTRO;
 
         intro = new Intro(this);
         mainMenu = new MainMenu(this);

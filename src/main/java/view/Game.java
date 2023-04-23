@@ -37,8 +37,8 @@ public class Game {
         bottomBar = new BottomBar(this);
         cameraMovementHandler = new CameraMovementHandler(panel);
         map = new Map(this);
-        balance = 10000;
-        population = 100;
+        balance = panel.getGameManager().getGameData().getBudget();
+        population = panel.getGameManager().getGameData().getPopulation();
 
         //MAIN GAME LOOP
         Timer gameplayTimer = new Timer(40, actionEvent -> {

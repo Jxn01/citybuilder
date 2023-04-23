@@ -1,5 +1,6 @@
 package view.gui;
 
+import model.GameData;
 import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
@@ -74,6 +75,8 @@ public class NewGame {
             panel.setState(MenuState.MAINMENU);
         } else if (startBtn.isHovered(p)) {
             Logger.log("Start button clicked");
+            Logger.log("New city name: " + input.getText());
+            panel.getGameManager().setGameData(new GameData(input.getText()));
             panel.setState(MenuState.GAME);
         }
     }
