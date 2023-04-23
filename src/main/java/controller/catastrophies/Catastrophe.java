@@ -7,5 +7,5 @@ public abstract class Catastrophe {
     /**
      * Effect of the catastrophe.
      */
-    protected abstract void effect();
+    public abstract void effect();
 }

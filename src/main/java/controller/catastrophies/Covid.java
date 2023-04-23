@@ -25,7 +25,7 @@ public class Covid extends Catastrophe {
     }
 
     @Override
-    protected void effect() {
+    public void effect() {
         Logger.log("Covid catastrophe happening!");
     }
 }

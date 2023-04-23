@@ -1,5 +1,7 @@
 package view.gui.game;
 
+import controller.GameManager;
+import controller.SimulationSpeed;
 import util.Logger;
 import view.gui.Game;
 import view.components.custom.MyButton;
@@ -13,21 +15,11 @@ import java.util.ArrayList;
  * This class implements the time menu of the game gui
  */
 public class TimeMenu extends GameMenu {
-    
-    public enum Speed {
-        PAUSE,
-        ONEX,
-        TWOX,
-        THREEX
-    }
-    
     MyButton pauseBtn;
     MyButton speed1Btn;
     MyButton speed2Btn;
     MyButton speed3Btn;
-    Speed gameSpeed;
 
-    
     /**
      * Constructor of the time menu
      * @param game is the main Game object 
@@ -38,7 +30,6 @@ public class TimeMenu extends GameMenu {
         speed2Btn = new MyButton(1455, 753, 40, 40, "2xspeed");
         speed1Btn = new MyButton(1415, 753, 40, 40, "1xspeed");
         pauseBtn = new MyButton(1375, 753, 40, 40, "pause");
-        gameSpeed = Speed.ONEX;
     }
     
     /**
@@ -47,9 +38,10 @@ public class TimeMenu extends GameMenu {
      */
     @Override
     public void draw(Graphics2D gr){
+        SimulationSpeed sp = game.getPanel().getGameManager().getSimulationSpeed();
         speed3Btn.setY(game.height() - 40);
         speed3Btn.setX(game.width() - 40);
-        if(gameSpeed == Speed.THREEX){
+        if(sp == SimulationSpeed.FASTER){
             speed3Btn.drawHovered(gr);
         }
         else {
@@ -58,7 +50,7 @@ public class TimeMenu extends GameMenu {
         
         speed2Btn.setX(game.width() - 80);
         speed2Btn.setY(game.height() - 40);
-        if(gameSpeed == Speed.TWOX){
+        if(sp == SimulationSpeed.FAST){
             speed2Btn.drawHovered(gr);
         }
         else {
@@ -67,7 +59,7 @@ public class TimeMenu extends GameMenu {
         
         speed1Btn.setX(game.width() - 120);
         speed1Btn.setY(game.height() - 40);
-        if(gameSpeed == Speed.ONEX){
+        if(sp == SimulationSpeed.NORMAL){
             speed1Btn.drawHovered(gr);
         }
         else {
@@ -76,7 +68,7 @@ public class TimeMenu extends GameMenu {
         
         pauseBtn.setX(game.width() - 160);
         pauseBtn.setY(game.height() - 40);
-        if(gameSpeed == Speed.PAUSE){
+        if(sp == SimulationSpeed.PAUSED){
             pauseBtn.drawHovered(gr);
         }
         else {
@@ -90,21 +82,22 @@ public class TimeMenu extends GameMenu {
      */
     @Override
     public void click(Point p){
+        GameManager gm = game.getPanel().getGameManager();
         if(pauseBtn.isHovered(p)){
             Logger.log("Pause button clicked");
-            gameSpeed = Speed.PAUSE;
+             gm.setSimulationSpeed(SimulationSpeed.PAUSED);
         }
         else if(speed1Btn.isHovered(p)){
             Logger.log("1x speed button clicked");
-            gameSpeed = Speed.ONEX;
+            gm.setSimulationSpeed(SimulationSpeed.NORMAL);
         }
         else if(speed2Btn.isHovered(p)){
             Logger.log("2x speed button clicked");
-            gameSpeed = Speed.TWOX;
+            gm.setSimulationSpeed(SimulationSpeed.FAST);
         }
         else if(speed3Btn.isHovered(p)){
             Logger.log("3x speed button clicked");
-            gameSpeed = Speed.THREEX;
+            gm.setSimulationSpeed(SimulationSpeed.FASTER);
         }
     }
     

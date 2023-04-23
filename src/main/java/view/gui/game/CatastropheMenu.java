@@ -87,12 +87,18 @@ public class CatastropheMenu extends GameMenu {
         }
         else if(virusBtn.isHovered(p)){
             Logger.log("Virus button clicked");
+            game.getPanel().getGameManager().evokeCovid();
+            this.setIsOpen(false);
         }
         else if(fireBtn.isHovered(p)){
             Logger.log("Fire button clicked");
+            game.getPanel().getGameManager().evokeFirestorm();
+            this.setIsOpen(false);
         }
         else if(econBtn.isHovered(p)){
             Logger.log("Economy button clicked");
+            game.getPanel().getGameManager().evokeFinancialCrisis();
+            this.setIsOpen(false);
         }
     }
     

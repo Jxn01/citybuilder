@@ -21,6 +21,8 @@ public class GameManager implements SaveManager, SpeedManager {
     private double hospitalChance;
     private GameData gameData;
 
+    private SimulationSpeed simulationSpeed;
+
     private final ArrayList<Catastrophe> catastrophes;
 
     private ArrayList<File> saveFiles;
@@ -54,6 +56,30 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void nextDay(){
         Logger.log("A day passes...");
+    }
+
+    /**
+     * Evokes a financial crisis.
+     */
+    public void evokeFinancialCrisis(){
+        Logger.log("Financial crisis evoked.");
+        catastrophes.get(0).effect();
+    }
+
+    /**
+     * Evokes a covid pandemic.
+     */
+    public void evokeCovid(){
+        Logger.log("Covid evoked.");
+        catastrophes.get(1).effect();
+    }
+
+    /**
+     * Evokes a firestorm.
+     */
+    public void evokeFirestorm(){
+        Logger.log("Firestorm evoked.");
+        catastrophes.get(2).effect();
     }
 
     /**
@@ -128,6 +154,22 @@ public class GameManager implements SaveManager, SpeedManager {
         Logger.log("Game data set to " + gameData.getId());
     }
 
+    /**
+     * Getter for the simulation speed.
+     * @return the simulation speed
+     */
+    public SimulationSpeed getSimulationSpeed() {
+        return simulationSpeed;
+    }
+
+    /**
+     * Setter for the simulation speed.
+     * @param simulationSpeed the new simulation speed
+     */
+    public void setSimulationSpeed(SimulationSpeed simulationSpeed) {
+        this.simulationSpeed = simulationSpeed;
+        Logger.log("Simulation speed set to " + simulationSpeed);
+    }
 
     /**
      * Getter for the save files
@@ -160,20 +202,24 @@ public class GameManager implements SaveManager, SpeedManager {
     @Override
     public void timeStop() {
         Logger.log("Time stopped");
+        simulationSpeed = SimulationSpeed.PAUSED;
     }
 
     @Override
     public void timeNormal() {
         Logger.log("Time flows normally");
+        simulationSpeed = SimulationSpeed.NORMAL;
     }
 
     @Override
     public void timeFast() {
         Logger.log("Time flows fast");
+        simulationSpeed = SimulationSpeed.FAST;
     }
 
     @Override
     public void timeFaster() {
         Logger.log("Time flows faster");
+        simulationSpeed = SimulationSpeed.FASTER;
     }
 }

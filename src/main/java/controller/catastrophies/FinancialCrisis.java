@@ -25,7 +25,7 @@ public class FinancialCrisis extends Catastrophe {
     }
 
     @Override
-    protected void effect() {
+    public void effect() {
         Logger.log("Financial crisis happening!");
     }
 }
