@@ -125,6 +125,7 @@ public class BottomBar extends GameMenu {
         areas.add(bottomBarArea);
         areas.addAll(statsMenu.getMenuAreas());
         areas.addAll(taxMenu.getMenuAreas());
+        areas.addAll(catastrophiesMenu.getMenuAreas());
         areas.addAll(buildMenu.getMenuAreas());
         areas.addAll(timeMenu.getMenuAreas());
         return areas;

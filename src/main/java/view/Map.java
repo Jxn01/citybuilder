@@ -22,6 +22,8 @@ public class Map {
     private Tile[][] tiles;
     private Tile selectedBuildingType;
     
+    private ArrayList<ArrayList<Point>> stadiums;
+    
     /**
      * Constructor of the Map class
      * @param game is the main Game object
@@ -47,6 +49,7 @@ public class Map {
             police = ResourceLoader.loadImage("POLICE_1.png");
             construction = ResourceLoader.loadImage("CONSTRUCTION.png");
         } catch (IOException ex) {}
+        stadiums = new ArrayList<>();
         constructMap();
     }
     
@@ -61,8 +64,22 @@ public class Map {
         
         for (int row = 0; row < 51; ++row) {
             for (int col = 0; col < 51; ++col) {
+                
                 Image img = tileToImg(tiles[row][col]);
-                gr.drawImage(img, col * (64 + zoom) + cameraOffsetX, row * (64 + zoom) + cameraOffsetY, 64 + zoom, 64 + zoom, null);
+                
+                if(tiles[row][col] == Tile.STADIUM){
+                    Point p = new Point(row,col);
+                    for(int i=0;i<stadiums.size();++i){
+                        if(stadiums.get(i).get(0).equals(p)){
+                           gr.drawImage(img, col * (64 + zoom) + cameraOffsetX, row * (64 + zoom) + cameraOffsetY, 128 + zoom, 128 + zoom, null); 
+                        }    
+                    }
+                }
+                else {
+                    gr.drawImage(img, col * (64 + zoom) + cameraOffsetX, row * (64 + zoom) + cameraOffsetY, 64 + zoom, 64 + zoom, null);
+                }
+                
+   
             }
         }
         paintHover(gr);
@@ -147,8 +164,18 @@ public class Map {
         gr.setColor(color);
         
         Image img = tileToImg(selectedBuildingType);
+        
+        if(selectedBuildingType == Tile.STADIUM){
+            gr.drawImage(img, x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 128 + zoom, 128 + zoom, null);
+            gr.fillRect(x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 128 + zoom, 128 + zoom);
+            return;
+        }
+        
+        
         gr.drawImage(img, x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom, null);
         gr.fillRect(x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY, 64 + zoom, 64 + zoom);
+        
+        
     }
     
     /**
@@ -238,6 +265,11 @@ public class Map {
     }
     
     public void click(Point p){
+        if(selectedBuildingType == null) return;
+        ArrayList<Rectangle> menuAreas = game.getMenuAreas();
+        for(int i=0;i<menuAreas.size();++i){
+            if(menuAreas.get(i).contains(p)) return;
+        }
         Point click = pointToXY(p);
         build(click.x,click.y,selectedBuildingType);
     }
@@ -261,8 +293,43 @@ public class Map {
         
         game.setBalance(game.getBalance() - 100);
         game.setPopulation(game.getPopulation() + 50);
-        tiles[x][y] = newTile;
         
+        //build not stadium
+        tiles[x][y] = newTile;
+        selectedBuildingType = null;
+        
+        //build stadium
+        if(newTile == Tile.STADIUM){
+            ArrayList<Point> array = new ArrayList<>();
+            array.add(new Point(x,y));
+            array.add(new Point(x,y+1));
+            array.add(new Point(x+1,y));
+            array.add(new Point(x+1,y+1));
+            stadiums.add(array);
+            
+            tiles[x][y] = Tile.STADIUM;
+            tiles[x][y+1] = Tile.STADIUM;
+            tiles[x+1][y] = Tile.STADIUM;
+            tiles[x+1][y+1] = Tile.STADIUM;
+            return;
+        }
+        
+        //remove stadium
+        Point p = new Point(x,y);
+        for(int i=0;i<stadiums.size();++i){
+            if(newTile == Tile.GRASS_1 && stadiums.get(i).contains(p)){
+                Point firstTile = stadiums.get(i).get(0);
+                int tileX = firstTile.x;
+                int tileY = firstTile.y;
+                tiles[tileX][tileY] = Tile.GRASS_1;
+                tiles[tileX][tileY+1] = Tile.GRASS_1;
+                tiles[tileX+1][tileY] = Tile.GRASS_1;
+                tiles[tileX+1][tileY+1] = Tile.GRASS_1;
+                stadiums.remove(i);
+                break;
+            }
+        }
+            
     }
     
     /**

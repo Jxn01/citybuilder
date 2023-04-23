@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * This class implements the build menu of the game gui
@@ -33,7 +34,7 @@ public class BuildMenu extends GameMenu{
         forestBtn = new MyButton(860, 753, 40, 40, "forest");
         factoryZoneBtn = new MyButton(900, 753, 40, 40, "factoryZone");
         livingZoneBtn = new MyButton(940, 753, 40, 40, "livingZone");
-        policeStationBtn = new MyButton(940, 753, 40, 40, "police"); 
+        policeStationBtn = new MyButton(980, 753, 40, 40, "police"); 
     }
     
     /**
@@ -69,7 +70,7 @@ public class BuildMenu extends GameMenu{
     @Override
     public void click(Point p){
         if(deleteBtn.isHovered(p)){
-            System.out.println("delete button clicked");
+            game.setSelectedBuildingType(Tile.GRASS_1);
         }
         else if(fireFighterBtn.isHovered(p)){
             game.setSelectedBuildingType(Tile.FIRESTATION);
