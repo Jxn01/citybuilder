@@ -17,28 +17,25 @@ import java.util.ArrayList;
  */
 public class Game {
 
-    Panel panel;
-    private int balance;
-    private int population;
-
+    private final Panel panel;
     private final CameraMovementHandler cameraMovementHandler;
     private final Map map;
-    TopBar topBar;
-    BottomBar bottomBar;
+    private final TopBar topBar;
+    private final BottomBar bottomBar;
+
+
 
     /**
      * Constructor of the game class
      * it contains the MAIN GAME LOOP
      * @param panel is the main Panel object of the game
      */
-    public Game(view.components.Panel panel) {
+    public Game(Panel panel) {
         this.panel = panel;
         topBar = new TopBar(this);
         bottomBar = new BottomBar(this);
         cameraMovementHandler = new CameraMovementHandler(panel);
         map = new Map(this);
-        balance = panel.getGameManager().getGameData().getBudget();
-        population = panel.getGameManager().getGameData().getPopulation();
 
         //MAIN GAME LOOP
         Timer gameplayTimer = new Timer(40, actionEvent -> {
@@ -136,39 +133,7 @@ public class Game {
     public Point getMousePosition(){
         return panel.getMousePosition();
     }
-    
-    /**
-     * Getter for the player balance (in dollars)
-     * @return balance
-     */
-    public int getBalance(){
-        return balance;
-    }
 
-    /**
-     * Setter for the player balance (in dollars)
-     * @param balance is the new balance
-     */
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-    
-    /**
-     * Getter for city population
-     * @return population
-     */
-    public int getPopulation() {
-        return population;
-    }
-
-    /**
-     * Setter for city population
-     * @param population is the new population
-     */
-    public void setPopulation(int population) {
-        this.population = population;
-    }
-    
     /**
      * Set the selected building type
      * @param selectedBuildingType is the selected building type
@@ -188,20 +153,40 @@ public class Game {
         areas.addAll(bottomBar.getMenuAreas());
         return areas;
     }
-    
+
+    /**
+     * Getter for the width of the panel
+     * @return width of the panel
+     */
     public int width(){
         return panel.width();
     }
-    
+
+    /**
+     * Getter for the height of the panel
+     * @return height of the panel
+     */
     public int height(){
         return panel.height();
     }
-    
+
+    /**
+     * Getter for the current menu state
+     * @return menu state
+     */
     public void setState(MenuState s){
         panel.setState(s);
     }
-    
+
     public void constructMap(){
         map.constructMap();
+    }
+
+    /**
+     * Getter for the main Panel object
+     * @return panel
+     */
+    public Panel getPanel() {
+        return panel;
     }
 }

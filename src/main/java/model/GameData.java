@@ -4,7 +4,7 @@ import util.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
-import static util.Date.getLongDate;
+import static util.Date.*;
 
 /**
  * This class contains all the data that is needed to save the game.
@@ -25,6 +25,9 @@ public class GameData {
     private boolean gameOver;
     private File saveFile;
     private int yearlyTaxes;
+    private int averageSatisfaction;
+
+    private int population;
     private ArrayList<Field> fields; //matrix, row length is sqrt of size
 
     private ArrayList<Person> people;
@@ -70,8 +73,8 @@ public class GameData {
         this.id = "game_data_" + getLongDate(System.currentTimeMillis());
         this.startDate = getLongDate(System.currentTimeMillis());
         this.currentDate = getLongDate(System.currentTimeMillis());
-        this.inGameStartDate = getLongDate(System.currentTimeMillis());
-        this.inGameCurrentDate = getLongDate(System.currentTimeMillis());
+        this.inGameStartDate = getDate(System.currentTimeMillis());
+        this.inGameCurrentDate = getDate(System.currentTimeMillis());
         this.playTime = "00:00:01";
         this.budget = starterBudget;
         this.cityName = cityName;
@@ -177,25 +180,17 @@ public class GameData {
     }
 
     /**
-     * Getter for the population
-     * @return the population
-     */
-    public int getPopulation() {
-        return people.size();
-    }
-
-    /**
      *  Calculates the average satisfaction of the people
      *  @return the average satisfaction
      */
-    public int calculateAverageSatisfaction() {
+    public void calculateAverageSatisfaction() {
         int satisfaction = 0;
         for(Person person : people) {
             satisfaction += person.calculateSatisfaction();
         }
         satisfaction /= people.size();
         Logger.log("Game data " + this.id + " average satisfaction calculated: " + satisfaction);
-        return satisfaction;
+        this.averageSatisfaction  = satisfaction;
     }
 
     /**
@@ -213,6 +208,29 @@ public class GameData {
     public void setBudget(Integer budget) {
         this.budget = budget;
         Logger.log("Game data " + this.id + " budget set to: " + budget);
+    }
+
+    /**
+     * Getter for the average satisfaction
+     * @return the average satisfaction
+     */
+    public int getAverageSatisfaction() {
+        return averageSatisfaction;
+    }
+
+    /**
+     * Calculate the population size
+     */
+    public void calculatePopulation() {
+        this.population = people.size();
+    }
+
+    /**
+     * Getter for the population
+     * @return the population size
+     */
+    public int getPopulation() {
+        return population;
     }
 
     /**

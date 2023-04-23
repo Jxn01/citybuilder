@@ -29,23 +29,24 @@ public class Date {
         return getLongString(cal);
     }
 
-    public static String nextDay(String longDate){ //format is "YYYY-MM-DD hh:mm:ss"
-        String[] dateParts = longDate.split(" ");
-        String[] dateParts2 = dateParts[0].split("-");
-        String[] timeParts = dateParts[1].split(":");
-        int year = Integer.parseInt(dateParts2[0]);
-        int month = Integer.parseInt(dateParts2[1]);
-        int day = Integer.parseInt(dateParts2[2]);
-        int hour = Integer.parseInt(timeParts[0]);
-        int minute = Integer.parseInt(timeParts[1]);
-        int second = Integer.parseInt(timeParts[2]);
+    public static String getDate(long time){
         Calendar cal = Calendar.getInstance();
-        cal.set(year, month - 1, day, hour, minute, second);
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        return getLongString(cal);
+        cal.setTime(new java.util.Date(time));
+        return getLongString(cal).split(" ")[0];
     }
 
-    public static String nextSecond(String shortDate){ // format is hh:mm:ss
+    public static String nextDay(String date){ // the format is "YYYY-MM-DD"
+        String[] dateParts = date.split("-");
+        int year = Integer.parseInt(dateParts[0]);
+        int month = Integer.parseInt(dateParts[1]);
+        int day = Integer.parseInt(dateParts[2]);
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month - 1, day);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        return getLongString(cal).split(" ")[0];
+    }
+
+    public static String nextSecond(String shortDate){ // the format is hh:mm:ss
         String[] timeParts = shortDate.split(":");
         int hour = Integer.parseInt(timeParts[0]);
         int minute = Integer.parseInt(timeParts[1]);

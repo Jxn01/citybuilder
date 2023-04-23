@@ -76,7 +76,7 @@ public class NewGame {
         } else if (startBtn.isHovered(p)) {
             Logger.log("Start button clicked");
             Logger.log("New city name: " + input.getText());
-            panel.getGameManager().setGameData(new GameData(input.getText()));
+            panel.getGameManager().initGame(input.getText());
             panel.setState(MenuState.GAME);
         }
     }

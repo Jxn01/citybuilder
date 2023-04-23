@@ -42,8 +42,11 @@ public class GameManager implements SaveManager, SpeedManager {
     /**
      * This method initializes the game.
      */
-    public void initGame(){
-
+    public void initGame(String cityName){
+        setGameData(new GameData(cityName));
+        gameData.calculateAverageSatisfaction();
+        gameData.calculatePopulation();
+        Logger.log("Game initialized.");
     }
 
     /**

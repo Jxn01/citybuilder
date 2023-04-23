@@ -30,7 +30,7 @@ public class LoadGame {
      * Constructor of the LoadGame class
      * @param panel is the game's main Panel object
      */
-    public LoadGame(view.components.Panel panel) {
+    public LoadGame(Panel panel) {
         this.panel = panel;
         this.saveFiles = panel.getGameManager().getSaveFiles();
 

@@ -330,8 +330,8 @@ public class Map {
      */
     public void build(int x,int y,Tile newTile){
         
-        game.setBalance(game.getBalance() - 100);
-        game.setPopulation(game.getPopulation() + 50);
+        //game.setBalance(game.getBalance() - 100);
+        //game.setPopulation(game.getPopulation() + 50);
         
         //build not stadium
         tiles[x][y] = newTile;

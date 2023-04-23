@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import model.GameData;
 import util.Logger;
 import view.Game;
 import view.components.custom.MyButton;
@@ -38,16 +39,17 @@ public class TopBar extends GameMenu {
      */
     @Override
     public void draw(Graphics2D gr){
+        GameData gd = game.getPanel().getGameManager().getGameData();
+
         paintTopBarArea(gr);
-  
         hamburgerMenu.draw(gr);
         hamburgerBtn.draw(gr, game.getMousePosition());
         gr.setColor(Color.black);
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 25));
-        gr.drawString("Költségvetés:" + game.getBalance() + "$", 40, 30);
-        gr.drawString("Elégedettség: 85%", 400, 30);
-        gr.drawString("Populáció :"+ game.getPopulation() +" ezer", 700, 30);
-        gr.drawString("Idő: 135.nap", 1000, 30);  
+        gr.drawString("Költségvetés:" + gd.getBudget() + "$", 40, 30);
+        gr.drawString("Elégedettség:"+ gd.getAverageSatisfaction() +"%", 400, 30);
+        gr.drawString("Populáció :"+ gd.getPopulation(), 700, 30);
+        gr.drawString(gd.getInGameCurrentDate(), 1000, 30);
     }
     
     /**
