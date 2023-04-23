@@ -2,7 +2,7 @@ package view.gui.game;
 
 import model.GameData;
 import util.Logger;
-import view.Game;
+import view.gui.Game;
 import view.components.custom.MyButton;
 
 import java.awt.Color;
@@ -49,7 +49,8 @@ public class TopBar extends GameMenu {
         gr.drawString("Költségvetés:" + gd.getBudget() + "$", 40, 30);
         gr.drawString("Elégedettség:"+ gd.getAverageSatisfaction() +"%", 400, 30);
         gr.drawString("Populáció :"+ gd.getPopulation(), 700, 30);
-        gr.drawString(gd.getInGameCurrentDate(), 1000, 30);
+        gr.drawString("Dátum: "+gd.getInGameCurrentDate(), 1000, 30);
+        gr.drawString("Éves adók: "+gd.getYearlyTaxes() + "$", 1300, 30);
     }
     
     /**

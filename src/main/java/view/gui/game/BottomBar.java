@@ -1,8 +1,8 @@
 package view.gui.game;
 
 import util.Logger;
-import view.*;
 import view.components.custom.MyButton;
+import view.gui.Game;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

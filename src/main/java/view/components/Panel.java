@@ -1,8 +1,8 @@
 package view.components;
 
 import controller.GameManager;
-import view.*;
 import view.enums.MenuState;
+import view.gui.Game;
 import view.gui.NewGame;
 import view.gui.mainmenu.*;
 

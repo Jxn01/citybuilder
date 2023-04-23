@@ -1,4 +1,4 @@
-package view;
+package view.gui;
 
 import view.components.Panel;
 

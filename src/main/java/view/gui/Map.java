@@ -1,4 +1,4 @@
-package view;
+package view.gui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,6 +14,7 @@ import java.util.Random;
 import util.ResourceLoader;
 import view.components.custom.MyButton;
 import view.enums.Tile;
+import view.gui.Game;
 
 /**
  * This class implements the map of the game using a 2D array of tiles

@@ -1,7 +1,7 @@
 package view.gui.game;
 
 import util.Logger;
-import view.Game;
+import view.gui.Game;
 import view.components.custom.MyButton;
 
 import java.awt.Graphics2D;

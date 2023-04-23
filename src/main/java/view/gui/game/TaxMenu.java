@@ -1,7 +1,7 @@
 package view.gui.game;
 
 import util.Logger;
-import view.Game;
+import view.gui.Game;
 import view.components.custom.MyButton;
 import view.components.custom.MyInputField;
 
@@ -87,6 +87,9 @@ public class TaxMenu extends GameMenu {
         }
         else if(modifyBtn.isHovered(p)){
             Logger.log("Modify-tax button clicked");
+            String inputText = input.getText();
+            game.getPanel().getGameManager().getGameData().setYearlyTaxes(Integer.parseInt(inputText));
+            setIsOpen(false);
         }
     }
     

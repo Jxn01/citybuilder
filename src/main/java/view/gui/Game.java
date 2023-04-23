@@ -1,4 +1,4 @@
-package view;
+package view.gui;
 
 import view.components.Panel;
 import view.enums.MenuState;
@@ -22,8 +22,6 @@ public class Game {
     private final Map map;
     private final TopBar topBar;
     private final BottomBar bottomBar;
-
-
 
     /**
      * Constructor of the game class

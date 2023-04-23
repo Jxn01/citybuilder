@@ -1,7 +1,7 @@
 package view.gui.game;
 
 import util.Logger;
-import view.Game;
+import view.gui.Game;
 import view.enums.MenuState;
 import view.components.custom.MyButton;
 

@@ -1,6 +1,6 @@
 package view.gui.game;
 
-import view.Game;
+import view.gui.Game;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
