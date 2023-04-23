@@ -1,10 +1,12 @@
-package view;
+package view.gui.mainmenu;
 
 import java.awt.*;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 
 import util.ResourceLoader;
+import view.components.Panel;
+import view.enums.MenuState;
 
 /**
  * This class implements the intro animation
@@ -16,13 +18,13 @@ public class Intro {
     private Boolean fadeInComplete;
     private Boolean waitingComplete;
     private Boolean fadeOutComplete;
-    private final Panel panel;
+    private final view.components.Panel panel;
 
     /**
      * Constructor of the Intro class
      * @param panel is the Game's main Panel object
      */
-    public Intro(Panel panel) {
+    public Intro(view.components.Panel panel) {
         this.panel = panel;
         fadeInComplete = false;
         waitingComplete = false;

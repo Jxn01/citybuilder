@@ -1,4 +1,6 @@
-package view;
+package view.gui.game;
+
+import view.Game;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
  */
 public abstract class GameMenu {
     private Boolean isOpen;
-    Game game;
+    protected Game game;
 
     /**
      * Constructor of a game menu

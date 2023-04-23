@@ -1,9 +1,14 @@
-package view;
+package view.gui.mainmenu;
 
 import java.awt.*;
 import java.io.IOException;
 
 import util.ResourceLoader;
+import view.components.Panel;
+import view.components.custom.MyButton;
+import view.components.custom.MyRadioButton;
+import view.components.custom.MyRadioButtonGroup;
+import view.enums.MenuState;
 
 /**
  * The gui representation of the LoadGame submenu
@@ -11,7 +16,7 @@ import util.ResourceLoader;
 public class LoadGame {
 
     private Image background;
-    private final Panel panel;
+    private final view.components.Panel panel;
     private final MyButton backBtn;
     private final MyButton loadBtn;
     private final MyButton deleteBtn;
@@ -26,7 +31,7 @@ public class LoadGame {
      * Constructor of the LoadGame class
      * @param panel is the game's main Panel object
      */
-    public LoadGame(Panel panel) {
+    public LoadGame(view.components.Panel panel) {
         this.panel = panel;
         try {
             background = ResourceLoader.loadImage("savebg.png");

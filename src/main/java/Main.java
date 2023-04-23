@@ -1,4 +1,4 @@
-import view.Frame;
+import view.components.Frame;
 
 public class Main {
     public static void main(String[] args) {

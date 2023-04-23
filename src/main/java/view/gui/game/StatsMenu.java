@@ -1,4 +1,7 @@
-package view;
+package view.gui.game;
+
+import view.Game;
+import view.components.custom.MyButton;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -10,7 +13,7 @@ import java.util.ArrayList;
 /**
  * This class implements the statistics menu of the game gui
  */
-public class StatsMenu extends GameMenu{
+public class StatsMenu extends GameMenu {
     private final Rectangle statMenuArea;
     private final Color statsMenuColor;
     Game game;

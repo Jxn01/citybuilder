@@ -1,4 +1,4 @@
-package view;
+package view.enums;
 
 /**
  * This enum contains all possible states of the GUI

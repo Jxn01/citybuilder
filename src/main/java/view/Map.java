@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import util.ResourceLoader;
+import view.components.custom.MyButton;
+import view.enums.Tile;
 
 /**
  * This class implements the map of the game using a 2D array of tiles

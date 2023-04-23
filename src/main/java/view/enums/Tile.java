@@ -1,4 +1,4 @@
-package view;
+package view.enums;
 
 /**
  * This enum holds all possible values of a field on the game's map

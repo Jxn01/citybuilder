@@ -1,4 +1,8 @@
-package view;
+package view.gui.game;
+
+import view.Game;
+import view.components.custom.MyButton;
+import view.enums.Tile;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -8,7 +12,7 @@ import java.util.ArrayList;
 /**
  * This class implements the build menu of the game gui
  */
-public class BuildMenu extends GameMenu{
+public class BuildMenu extends GameMenu {
     MyButton deleteBtn;
     MyButton fireFighterBtn;
     MyButton roadBtn;

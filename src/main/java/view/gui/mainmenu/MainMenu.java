@@ -1,6 +1,9 @@
-package view;
+package view.gui.mainmenu;
 
 import util.ResourceLoader;
+import view.components.Panel;
+import view.components.custom.MyButton;
+import view.enums.MenuState;
 
 import java.awt.*;
 import java.io.IOException;
@@ -10,7 +13,7 @@ import java.io.IOException;
  */
 public class MainMenu {
 
-    private final Panel panel;
+    private final view.components.Panel panel;
     private Image background;
     private MyButton tutorialBtn;
     private MyButton newGameBtn;
@@ -21,7 +24,7 @@ public class MainMenu {
      * Constructor of the MainMenu class
      * @param panel is the game's main Panel object
      */
-    public MainMenu(Panel panel) {
+    public MainMenu(view.components.Panel panel) {
         this.panel = panel;
         final int btnWidth = 300;
         final int btnHeight = 100;

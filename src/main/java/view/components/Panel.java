@@ -1,4 +1,9 @@
-package view;
+package view.components;
+
+import view.*;
+import view.enums.MenuState;
+import view.gui.NewGame;
+import view.gui.mainmenu.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +20,7 @@ import java.awt.event.WindowEvent;
  */
 public class Panel extends JPanel implements ActionListener {
 
-    private final Frame frame;
+    private final view.components.Frame frame;
     private Timer timer;
     private MenuState state;
     

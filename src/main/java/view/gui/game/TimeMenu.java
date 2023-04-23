@@ -1,4 +1,7 @@
-package view;
+package view.gui.game;
+
+import view.Game;
+import view.components.custom.MyButton;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -8,7 +11,7 @@ import java.util.ArrayList;
 /**
  * This class implements the time menu of the game gui
  */
-public class TimeMenu extends GameMenu{
+public class TimeMenu extends GameMenu {
     
     public enum Speed {
         PAUSE,

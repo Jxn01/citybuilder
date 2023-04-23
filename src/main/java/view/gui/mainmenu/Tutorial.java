@@ -1,10 +1,13 @@
-package view;
+package view.gui.mainmenu;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import util.ResourceLoader;
+import view.components.Panel;
+import view.components.custom.MyButton;
+import view.enums.MenuState;
 
 /**
  * This class implements the GUI of the tutorial submenu
@@ -33,7 +36,7 @@ public class Tutorial {
         }
     }
 
-    private final Panel panel;
+    private final view.components.Panel panel;
     private final int MINIMG = 0;
     private final int MAXIMG = 2;
     private int currentImg;
@@ -48,7 +51,7 @@ public class Tutorial {
      * The constructor of the tutorial submenu
      * @param panel is the game's main Panel object
      */
-    public Tutorial(Panel panel) {
+    public Tutorial(view.components.Panel panel) {
         this.panel = panel;
         currentImg = 0;
         allText = new ArrayList<>();

@@ -1,5 +1,11 @@
 package view;
 
+import view.components.Panel;
+import view.enums.MenuState;
+import view.enums.Tile;
+import view.gui.game.BottomBar;
+import view.gui.game.TopBar;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -11,7 +17,7 @@ import java.util.ArrayList;
  */
 public class Game {
 
-    Panel panel;
+    view.components.Panel panel;
     private int balance;
     private int population;
 
@@ -25,7 +31,7 @@ public class Game {
      * it contains the MAIN GAME LOOP
      * @param panel is the main Panel object of the game
      */
-    public Game(Panel panel) {
+    public Game(view.components.Panel panel) {
         this.panel = panel;
         topBar = new TopBar(this);
         bottomBar = new BottomBar(this);

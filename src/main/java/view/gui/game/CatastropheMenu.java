@@ -1,4 +1,7 @@
-package view;
+package view.gui.game;
+
+import view.Game;
+import view.components.custom.MyButton;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
  * This class represents the catastrophe menu on the gui
  * @author Felhasználó
  */
-public class CatastropheMenu extends GameMenu{
+public class CatastropheMenu extends GameMenu {
     private final Rectangle menuArea;
     private final Color menuColor;
     Game game;

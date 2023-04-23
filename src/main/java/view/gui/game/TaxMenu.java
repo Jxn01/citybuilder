@@ -1,4 +1,8 @@
-package view;
+package view.gui.game;
+
+import view.Game;
+import view.components.custom.MyButton;
+import view.components.custom.MyInputField;
 
 import java.awt.Color;
 import java.awt.Font;

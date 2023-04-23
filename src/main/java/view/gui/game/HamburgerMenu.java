@@ -1,4 +1,8 @@
-package view;
+package view.gui.game;
+
+import view.Game;
+import view.enums.MenuState;
+import view.components.custom.MyButton;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -9,7 +13,7 @@ import java.util.ArrayList;
 /**
  * This class implements the hamburger menu of the game gui
  */
-public class HamburgerMenu extends GameMenu{
+public class HamburgerMenu extends GameMenu {
     private final Rectangle hamburgerMenuArea;
     private final Color hamburgerMenuColor;
     MyButton saveBtn;

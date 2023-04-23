@@ -1,6 +1,10 @@
-package view;
+package view.gui;
 
 import util.ResourceLoader;
+import view.components.Panel;
+import view.components.custom.MyButton;
+import view.components.custom.MyInputField;
+import view.enums.MenuState;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -11,7 +15,7 @@ import java.io.IOException;
  */
 public class NewGame {
 
-    Panel panel;
+    view.components.Panel panel;
     Image background;
     private final MyButton backBtn;
     private final MyButton startBtn;
@@ -21,7 +25,7 @@ public class NewGame {
      * Constructor of the NewGame class
      * @param panel is the game's main Panel object
      */
-    public NewGame(Panel panel) {
+    public NewGame(view.components.Panel panel) {
         this.panel = panel;
         try {
             background = ResourceLoader.loadImage("newgamebg.png");
