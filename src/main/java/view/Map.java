@@ -1,6 +1,8 @@
 package view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.MouseInfo;
@@ -21,6 +23,7 @@ public class Map {
     private Image house_1,house_2,house_3,police,construction;
     private Tile[][] tiles;
     private Tile selectedBuildingType;
+    private Point selectedTile;
     
     private ArrayList<ArrayList<Point>> stadiums;
     
@@ -32,6 +35,7 @@ public class Map {
         this.game = game;
         tiles = new Tile[51][51];
         selectedBuildingType = null;
+        selectedTile = null;
         try {
             grass_1 = ResourceLoader.loadImage("GRASS_1.png");
             grass_2 = ResourceLoader.loadImage("GRASS_2.png");
@@ -83,6 +87,7 @@ public class Map {
             }
         }
         paintHover(gr);
+        drawSelectedTile(gr);
     }
     
     private Image tileToImg(Tile tile){
@@ -264,13 +269,61 @@ public class Map {
         }
     }
     
+    public void drawSelectedTile(Graphics2D gr){
+        if(selectedTile == null){return;}
+
+        gr.setColor(Color.CYAN);
+        gr.setStroke(new BasicStroke(5));
+        int cameraOffsetX = game.getCameraOffsetX();
+        int cameraOffsetY = game.getCameraOffsetY();
+        gr.drawRect(selectedTile.y * 64 + cameraOffsetX,selectedTile.x * 64 + cameraOffsetY,64,64);
+        
+        gr.setColor(Color.WHITE);
+        gr.fillRect(selectedTile.y * 64 + cameraOffsetX - 64*2,selectedTile.x * 64 + cameraOffsetY - 64*3,64 * 5,64*3);
+        gr.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+        
+        gr.setColor(Color.BLACK);
+        int x = selectedTile.y * 64 + cameraOffsetX - 64*2 + 10;
+        int y = selectedTile.x * 64 + cameraOffsetY - 64*3;
+        gr.drawString("Tile Stat 1: abababababa",x,y + 20);
+        gr.drawString("Tile Stat 2: abababababa",x,y + 50);
+        gr.drawString("Tile Stat 3: abababababa",x,y + 80);
+        gr.drawString("Tile Stat 4: abababababa",x,y + 110);
+
+        MyButton upgradeBtn = new MyButton(x, y + 140, 80, 40, "upgrade");
+        MyButton delBtn = new MyButton(x + 100, y + 140, 80, 40, "delTile");
+        upgradeBtn.draw(gr, game.getMousePosition());
+        delBtn.draw(gr, game.getMousePosition());
+        
+    }
+    
     public void click(Point p){
-        if(selectedBuildingType == null) return;
+        
+        //return if the user clicked one of the submenus
         ArrayList<Rectangle> menuAreas = game.getMenuAreas();
         for(int i=0;i<menuAreas.size();++i){
-            if(menuAreas.get(i).contains(p)) return;
+            if(menuAreas.get(i).contains(p)) {
+                selectedTile = null;
+                return;
+            }
         }
+        
+        //what happens when te user selects a tile
         Point click = pointToXY(p);
+        if(selectedBuildingType == null) {
+            if(selectedTile == null){
+                selectedTile = click;
+            }
+            else if(selectedTile.equals(click)){
+                selectedTile = null;
+            }
+            else {
+                selectedTile = click;
+            }
+            
+            return;
+        }
+        
         build(click.x,click.y,selectedBuildingType);
     }
 

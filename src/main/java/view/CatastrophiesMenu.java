@@ -39,9 +39,7 @@ public class CatastrophiesMenu extends GameMenu{
      */
     @Override
     public void draw(Graphics2D gr){
-        if(!getIsOpen()){
-            return;
-        }
+        if(!getIsOpen()){return;}
                 
 
         paintStatsMenuArea(gr);
@@ -77,6 +75,8 @@ public class CatastrophiesMenu extends GameMenu{
      */
     @Override
     public void click(Point p){
+        if(!getIsOpen()){return;}
+        
         if(xBtn.isHovered(p)){
             this.setIsOpen(false);
         }

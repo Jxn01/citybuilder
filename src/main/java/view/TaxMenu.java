@@ -38,9 +38,8 @@ public class TaxMenu extends GameMenu {
      */
     @Override
     public void draw(Graphics2D gr){
-        if(!getIsOpen()){
-            return;
-        }
+        if(!getIsOpen()){return;}
+        
         paintTaxMenuArea(gr);
        
         xBtn.draw(gr, game.getMousePosition());
@@ -75,6 +74,8 @@ public class TaxMenu extends GameMenu {
      */
     @Override
     public void click(Point p){
+        if(!getIsOpen()){return;}
+        
         if(xBtn.isHovered(p)){
             setIsOpen(false);
         }
@@ -88,6 +89,8 @@ public class TaxMenu extends GameMenu {
      * @param e is the KeyEvent
      */
     public void keyPressed(KeyEvent e){
+        if(!getIsOpen()){return;}
+        
         char c = e.getKeyChar();
         if (c == KeyEvent.VK_BACK_SPACE) {
             input.deletelLast();

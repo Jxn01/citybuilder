@@ -35,9 +35,8 @@ public class HamburgerMenu extends GameMenu{
      */
     @Override
     public void draw(Graphics2D gr){ 
-        if(!getIsOpen()){
-            return;
-        }
+        if(!getIsOpen()){return;}
+        
         paintHamburgerMenuArea(gr);
         newGameBtn.draw(gr, game.getMousePosition());
         saveBtn.draw(gr, game.getMousePosition());
@@ -63,14 +62,18 @@ public class HamburgerMenu extends GameMenu{
      */
     @Override
     public void click(Point p){
+        if(!getIsOpen()){return;}
+        
         if(saveBtn.isHovered(p)){
             System.out.println("save button clicked");
         }
         else if(newGameBtn.isHovered(p)){
-            System.out.println("newgame button clicked");
+            setIsOpen(false);
+            game.constructMap();
+            game.setState(MenuState.NEWGAME);
         }
         else if(exitBtn.isHovered(p)){
-            System.out.println("exit button clicked");
+            game.exit();
         }
     }
     

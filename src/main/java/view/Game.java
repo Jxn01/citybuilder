@@ -195,4 +195,13 @@ public class Game {
     public int height(){
         return panel.height();
     }
+    
+    public void setState(MenuState s){
+        panel.setState(s);
+    }
+    
+    public void constructMap(){
+        
+        map.constructMap();
+    }
 }

@@ -55,6 +55,10 @@ public class MyButton {
 
     }
     
+    public void drawHovered(Graphics2D gr){
+        gr.drawImage(imgHover, rect.x, rect.y, rect.width, rect.height, null);
+    }
+    
     public void setX(int x){
         rect.x = x;
     }
