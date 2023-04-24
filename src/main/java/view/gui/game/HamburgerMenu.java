@@ -75,7 +75,6 @@ public class HamburgerMenu extends GameMenu {
         else if(newGameBtn.isHovered(p)){
             Logger.log("New game button clicked");
             setIsOpen(false);
-            game.constructMap();
             game.setState(MenuState.NEWGAME);
         }
         else if(exitBtn.isHovered(p)){

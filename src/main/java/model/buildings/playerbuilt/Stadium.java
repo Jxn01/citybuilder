@@ -12,14 +12,7 @@ public class Stadium extends RangedBuilding {
      * @param coords is the coordinates of the stadium
      */
     public Stadium(Coordinate coords) {
-        super(null, coords, 0.0, false, 0, 0, 0);
-
-        try{
-            texture = ResourceLoader.loadImage("stadium.png");
-        }catch (IOException exc) {
-            exc.printStackTrace();
-            texture = null;
-        }
+        super(coords, 0.0, false, 0, 0, 0);
 
         buildCost = 1000; //TODO: Change this
         maintenanceCost = 100; //TODO: Change this

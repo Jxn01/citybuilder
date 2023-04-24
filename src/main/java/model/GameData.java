@@ -1,9 +1,14 @@
 package model;
 
+import model.field.BorderField;
+import model.field.Field;
+import model.field.PlayableField;
 import util.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
 import static util.Date.*;
 
 /**
@@ -28,7 +33,7 @@ public class GameData {
     private int averageSatisfaction;
 
     private int population;
-    private ArrayList<Field> fields; //matrix, row length is sqrt of size
+    private Field[][] fields;
 
     private ArrayList<Person> people;
 
@@ -47,7 +52,7 @@ public class GameData {
      * @param fields the fields of the city
      * @param people the people of the city
      */
-    public GameData(String startDate, String currentDate, String inGameStartDate, String inGameCurrentDate, String playTime, int budget, String cityName, boolean gameOver, File saveFile, int yearlyTaxes, ArrayList<Field> fields, ArrayList<Person> people, String id) {
+    public GameData(String startDate, String currentDate, String inGameStartDate, String inGameCurrentDate, String playTime, int budget, String cityName, boolean gameOver, File saveFile, int yearlyTaxes, Field[][] fields, ArrayList<Person> people, String id) {
         this.startDate = startDate;
         this.currentDate = currentDate;
         this.inGameStartDate = inGameStartDate;
@@ -81,10 +86,18 @@ public class GameData {
         this.gameOver = false;
         this.saveFile = null;
         this.yearlyTaxes = starterTaxes;
-        this.fields = new ArrayList<>();
+        this.fields = new Field[51][51];
         for(int i = 0; i < starterMapSize; i++){
-            for(int j = 0; j < starterMapSize; j++){
-                this.fields.add(new Field(new Coordinate(i, j)));
+            for(int j = 0; j < starterMapSize; j++){ // 2 thick border, 49x49 playable area
+                if (i == 0 || i == 1 || i == 49 || i == 50 || j == 0 || j == 1 || j == 49 || j == 50) {
+                    this.fields[i][j] = new BorderField(new Coordinate(i, j));
+                }else{
+                    try {
+                        this.fields[i][j] = new PlayableField(new Coordinate(i, j));
+                    } catch (IOException exc) {
+                        exc.printStackTrace();
+                    }
+                }
             }
         }
         this.people = new ArrayList<>();
@@ -305,7 +318,7 @@ public class GameData {
      * Getter for the fields
      * @return the fields
      */
-    public ArrayList<Field> getFields() {
+    public Field[][]  getFields() {
         return fields;
     }
 
@@ -313,7 +326,7 @@ public class GameData {
      * Setter for the fields
      * @param fields the fields
      */
-    public void setFields(ArrayList<Field> fields) {
+    public void setFields(Field[][] fields) {
         this.fields = fields;
         Logger.log("Game data " + this.id + " fields set.");
     }

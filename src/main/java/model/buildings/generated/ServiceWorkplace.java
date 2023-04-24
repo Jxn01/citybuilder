@@ -16,14 +16,7 @@ public class ServiceWorkplace extends Workplace {
      * @param coords is the coordinates of the service workplace
      */
     public ServiceWorkplace(Coordinate coords) {
-        super(null, coords, 0.0, false, null, null, 0, 0);
-
-        try{
-            texture = ResourceLoader.loadImage("serviceZone.png");
-        }catch (IOException exc) {
-            exc.printStackTrace();
-            texture = null;
-        }
+        super(coords, 0.0, false, null, null, 0, 0);
 
         people = new ArrayList<>();
         saturationRate = SaturationRate.EMPTY;

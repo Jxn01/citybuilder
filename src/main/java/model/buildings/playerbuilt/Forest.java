@@ -18,14 +18,7 @@ public class Forest extends RangedBuilding {
      * @param coords is the coordinates of the forest
      */
     public Forest(Coordinate coords) {
-        super(null, coords, 0.0, false, 0, 0, 0);
-
-        try{
-            texture = ResourceLoader.loadImage("forest.png");
-        }catch (IOException exc) {
-            exc.printStackTrace();
-            texture = null;
-        }
+        super(coords, 0.0, false, 0, 0, 0);
 
         firePossibility = 0.1;
         buildCost = 1000; //TODO: Change this
@@ -95,7 +88,6 @@ public class Forest extends RangedBuilding {
                 ", range=" + range +
                 ", buildCost=" + buildCost +
                 ", maintenanceCost=" + maintenanceCost +
-                ", texture=" + texture +
                 ", coords=" + coords +
                 ", firePossibility=" + firePossibility +
                 ", isOnFire=" + onFire +

@@ -16,15 +16,7 @@ public class IndustrialWorkplace extends Workplace {
      * @param coords is the coordinates of the industrial workplace
      */
     public IndustrialWorkplace(Coordinate coords){
-        super(null, coords, 0.0, false, null, null, 0, 0);
-
-        try{
-            texture = ResourceLoader.loadImage("factoryZone.png");
-        }catch (IOException e) {
-            e.printStackTrace();
-            texture = null;
-        }
-
+        super(coords, 0.0, false, null, null, 0, 0);
         people = new ArrayList<>();
         saturationRate = SaturationRate.EMPTY;
         publicSafety = 100;

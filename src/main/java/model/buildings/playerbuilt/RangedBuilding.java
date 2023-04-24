@@ -10,7 +10,6 @@ public abstract class RangedBuilding extends PlayerBuilding implements Functiona
 
     /**
      * Constructor of the ranged building
-     * @param texture is the texture of the ranged building
      * @param coords is the coordinates of the ranged building
      * @param firePossibility is the fire possibility of the ranged building
      * @param isOnFire is the ranged building on fire
@@ -18,8 +17,8 @@ public abstract class RangedBuilding extends PlayerBuilding implements Functiona
      * @param maintenanceCost is the maintenance cost of the ranged building
      * @param range is the range of the ranged building
      */
-    public RangedBuilding(Image texture, Coordinate coords, double firePossibility, boolean isOnFire, int buildCost, int maintenanceCost, int range) {
-        super(texture, coords, firePossibility, isOnFire, buildCost, maintenanceCost);
+    public RangedBuilding(Coordinate coords, double firePossibility, boolean isOnFire, int buildCost, int maintenanceCost, int range) {
+        super(coords, firePossibility, isOnFire, buildCost, maintenanceCost);
         this.range = range;
     }
 }

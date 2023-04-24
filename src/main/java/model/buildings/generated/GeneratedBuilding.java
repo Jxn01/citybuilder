@@ -21,7 +21,6 @@ public abstract class GeneratedBuilding extends Building {
 
     /**
      * Constructor of the generated building
-     * @param texture is the texture of the building
      * @param coords is the coordinates of the building
      * @param firePossibility is the fire possibility of the building
      * @param isOnFire is the building on fire
@@ -30,8 +29,8 @@ public abstract class GeneratedBuilding extends Building {
      * @param publicSafety is the public safety of the building
      * @param maxCapacity is the maximum capacity of the building
      */
-    public GeneratedBuilding(Image texture, Coordinate coords, double firePossibility, boolean isOnFire, ArrayList<Person> people, SaturationRate saturationRate, int publicSafety, int maxCapacity) {
-        super(texture, coords, firePossibility, isOnFire);
+    public GeneratedBuilding(Coordinate coords, double firePossibility, boolean isOnFire, ArrayList<Person> people, SaturationRate saturationRate, int publicSafety, int maxCapacity) {
+        super(coords, firePossibility, isOnFire);
         this.people = people;
         this.saturationRate = saturationRate;
         this.publicSafety = publicSafety;

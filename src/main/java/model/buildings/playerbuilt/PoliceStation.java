@@ -13,14 +13,7 @@ public class PoliceStation extends RangedBuilding {
      * @param coords is the coordinates of the police station
      */
     public PoliceStation(Coordinate coords) {
-        super(null, coords, 0.0, false, 0, 0, 0);
-
-        try{
-            texture = ResourceLoader.loadImage("police.png");
-        }catch (IOException exc) {
-            exc.printStackTrace();
-            texture = null;
-        }
+        super(coords, 0.0, false, 0, 0, 0);
 
         firePossibility = 0.1;
         buildCost = 1000; //TODO: Change this

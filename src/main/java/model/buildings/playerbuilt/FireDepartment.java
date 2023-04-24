@@ -18,14 +18,7 @@ public class FireDepartment extends RangedBuilding {
      * @param coords is the coordinates of the fire department
      */
     public FireDepartment(Coordinate coords) {
-        super(null, coords, 0.0, false, 0, 0, 0);
-
-        try{
-            texture = ResourceLoader.loadImage("fireFighter.png");
-        }catch (IOException exc) {
-            exc.printStackTrace();
-            texture = null;
-        }
+        super(coords, 0.0, false, 0, 0, 0);
 
         firePossibility = 0.0;
         buildCost = 1000; //TODO: Change this
@@ -83,7 +76,6 @@ public class FireDepartment extends RangedBuilding {
                 ", range=" + range +
                 ", buildCost=" + buildCost +
                 ", maintenanceCost=" + maintenanceCost +
-                ", texture=" + texture +
                 ", coords=" + coords +
                 ", firePossibility=" + firePossibility +
                 ", isOnFire=" + onFire +

@@ -15,20 +15,17 @@ import com.github.javafaker.Faker;
  */
 public abstract class Building implements Flammable {
     protected String address = Faker.instance().address().streetAddressNumber();
-    protected Image texture;
     protected Coordinate coords;
     protected double firePossibility;
     protected boolean onFire;
 
     /**
      * Constructor of the building
-     * @param texture is the texture of the building
      * @param coords is the coordinates of the building
      * @param firePossibility is the fire possibility of the building
      * @param onFire is the building on fire
      */
-    public Building(Image texture, Coordinate coords, double firePossibility, boolean onFire) {
-        this.texture = texture;
+    public Building(Coordinate coords, double firePossibility, boolean onFire) {
         this.coords = coords;
         this.firePossibility = firePossibility;
         this.onFire = onFire;
@@ -38,24 +35,7 @@ public abstract class Building implements Flammable {
      * Get the statistics of the building
      * @return the statistics of the building
      */
-    protected abstract String getStatistics();
-
-    /**
-     * Get the texture of the building
-     * @return the texture of the building
-     */
-    public Image getTexture() {
-        return texture;
-    }
-
-    /**
-     * Set the texture of the building
-     * @param textureName is the texture of the building
-     */
-    public void setTexture(String textureName) throws IOException {
-        this.texture = ResourceLoader.loadImage(textureName);
-        Logger.log("Texture set to " + textureName + " at " + coords.toString());
-    }
+    public abstract String getStatistics();
 
     /**
      * Get the coordinates of the building
@@ -86,8 +66,8 @@ public abstract class Building implements Flammable {
      * @param firePossibility is the fire possibility of the building
      */
     public void setFirePossibility(double firePossibility) {
-        this.firePossibility = firePossibility;
         Logger.log("Fire possibility set to " + firePossibility + " at " + coords.toString());
+        this.firePossibility = firePossibility;
     }
 
     /**

@@ -103,7 +103,7 @@ public class BuildMenu extends GameMenu {
         }
         else if(livingZoneBtn.isHovered(p)){
             Logger.log("Living zone button clicked");
-            game.setSelectedBuildingType(Tile.HOUSE_1);
+            game.setSelectedBuildingType(Tile.RESIDENTIALZONE);
         }
         else if(policeStationBtn.isHovered(p)){
             Logger.log("Police station button clicked");

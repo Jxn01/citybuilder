@@ -176,10 +176,6 @@ public class Game {
         panel.setState(s);
     }
 
-    public void constructMap(){
-        map.constructMap();
-    }
-
     /**
      * Getter for the main Panel object
      * @return panel
