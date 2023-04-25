@@ -29,9 +29,11 @@ public class MyInputField {
      * @return a boolean value
      */
     public boolean isHovered(Point p) {
-        if (p != null) {
+        if(p != null) {
             return rect.contains(p);
-        } else return false;
+        } else{
+            return false;
+        }
     }
 
     /**
@@ -39,7 +41,7 @@ public class MyInputField {
      * @param c is the new character
      */
     public void add(char c) {
-        if (text.length() < MAXLENGTH) {
+        if(text.length() < MAXLENGTH) {
             text += c;
         }
     }
@@ -48,7 +50,7 @@ public class MyInputField {
      * Deletes the last character from the current content of the input field
      */
     public void deleteLast() {
-        if (text.length() > 0) {
+        if(text.length() > 0) {
             text = text.substring(0, text.length() - 1);
         }
     }
@@ -81,9 +83,20 @@ public class MyInputField {
             gr.drawString(text, rect.x, rect.y + rect.height - 10);
         }
     }
-    
-    public void setX(int x){
+
+    /**
+     * Set the x coordinate of the input field
+     * @param x is the new x coordinate
+     */
+    public void setX(int x) {
         rect.x = x;
     }
 
+    /**
+     * Set the y coordinate of the input field
+     * @param y is the new y coordinate
+     */
+    public void setY(int y) {
+        rect.y = y;
+    }
 }

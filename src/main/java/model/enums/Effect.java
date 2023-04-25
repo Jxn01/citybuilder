@@ -14,7 +14,7 @@ public enum Effect {
 
     private final int value;
 
-    Effect(int value){
+    Effect(int value) {
         this.value = value;
     }
 

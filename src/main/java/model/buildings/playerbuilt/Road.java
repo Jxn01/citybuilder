@@ -26,7 +26,6 @@ public class Road extends PlayerBuilding {
         String statistics = "Road statistics:\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
-        Logger.log(statistics);
         return statistics;
     }
 

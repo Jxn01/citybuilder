@@ -73,7 +73,7 @@ public class Game {
      * Getter for camera zoom
      * @return zoom
      */
-    public int getZoom(){
+    public int getZoom() {
         return cameraMovementHandler.getZoom();
     }
     
@@ -97,7 +97,7 @@ public class Game {
      * The mouse-wheel event handler of the game screen
      * @param e is the MouseWheelEvent
      */
-    public void mouseWheelRotated(MouseWheelEvent e){
+    public void mouseWheelRotated(MouseWheelEvent e) {
         cameraMovementHandler.mouseWheelRotated(e);
     }
     
@@ -113,14 +113,14 @@ public class Game {
      * Getter for panel size
      * @return panel size
      */
-    public Dimension getSize(){
+    public Dimension getSize() {
         return panel.getSize();
     }
     
     /**
      * Exit the application
      */
-    public void exit(){
+    public void exit() {
         panel.exit();
     }
     
@@ -128,7 +128,7 @@ public class Game {
      * Getter for the current mouse position
      * @return mouse position
      */
-    public Point getMousePosition(){
+    public Point getMousePosition() {
         return panel.getMousePosition();
     }
 
@@ -156,7 +156,7 @@ public class Game {
      * Getter for the width of the panel
      * @return width of the panel
      */
-    public int width(){
+    public int width() {
         return panel.width();
     }
 
@@ -164,7 +164,7 @@ public class Game {
      * Getter for the height of the panel
      * @return height of the panel
      */
-    public int height(){
+    public int height() {
         return panel.height();
     }
 
@@ -172,7 +172,7 @@ public class Game {
      * Getter for the current menu state
      * @return menu state
      */
-    public void setState(MenuState s){
+    public void setState(MenuState s) {
         panel.setState(s);
     }
 

@@ -1,6 +1,5 @@
 package view.gui;
 
-import model.GameData;
 import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
@@ -29,11 +28,8 @@ public class NewGame {
      */
     public NewGame(view.components.Panel panel) {
         this.panel = panel;
-        try {
-            background = ResourceLoader.loadImage("newgamebg.png");
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }
+        try { background = ResourceLoader.loadImage("newgamebg.png"); }
+        catch(IOException exc) { exc.printStackTrace(); }
         backBtn = new MyButton(0, 0, 75, 75, "back");
         startBtn = new MyButton(618, 600, 300, 100, "start");
         input = new MyInputField(700, 220, 300, 40);
@@ -70,10 +66,10 @@ public class NewGame {
      * @param p is the location of the click
      */
     public void click(Point p) {
-        if (backBtn.isHovered(p)) {
+        if(backBtn.isHovered(p)) {
             Logger.log("Back button clicked");
             panel.setState(MenuState.MAINMENU);
-        } else if (startBtn.isHovered(p)) {
+        } else if(startBtn.isHovered(p)) {
             Logger.log("Start button clicked");
             Logger.log("New city name: " + input.getText());
             panel.getGameManager().initGame(input.getText());
@@ -87,9 +83,9 @@ public class NewGame {
      */
     public void keyPressed(KeyEvent e) {
         char c = e.getKeyChar();
-        if (c == KeyEvent.VK_BACK_SPACE) {
+        if(c == KeyEvent.VK_BACK_SPACE) {
             input.deleteLast();
-        } else if (Character.isLetter(c) || Character.isDigit(c)) {
+        } else if(Character.isLetter(c) || Character.isDigit(c)) {
             input.add(c);
         }
     }

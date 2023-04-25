@@ -12,6 +12,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import static model.GameData.budget;
+
 /**
  * This class implements the top bar of the game gui
  */
@@ -25,8 +27,9 @@ public class TopBar extends GameMenu {
      * Constructor of the top bar
      * @param game is the main game object 
      */
-    public TopBar(Game game){
+    public TopBar(Game game) {
         super(game);
+
         hamburgerMenu = new HamburgerMenu(game);
         hamburgerBtn = new MyButton(0, 0, 40, 40, "hamburgerMenu");
         topBarArea = new Rectangle(0, 0, 1536, 40);
@@ -38,7 +41,7 @@ public class TopBar extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr){
+    public void draw(Graphics2D gr) {
         GameData gd = game.getPanel().getGameManager().getGameData();
 
         paintTopBarArea(gr);
@@ -46,7 +49,7 @@ public class TopBar extends GameMenu {
         hamburgerBtn.draw(gr, game.getMousePosition());
         gr.setColor(Color.black);
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 25));
-        gr.drawString("Költségvetés:" + gd.getBudget() + "$", 40, 30);
+        gr.drawString("Költségvetés:" + budget + "$", 40, 30);
         gr.drawString("Elégedettség:"+ gd.getAverageSatisfaction() +"%", 400, 30);
         gr.drawString("Populáció :"+ gd.getPopulation(), 700, 30);
         gr.drawString("Dátum: "+gd.getInGameCurrentDate(), 1000, 30);
@@ -58,7 +61,7 @@ public class TopBar extends GameMenu {
      * Draw the top bar's background area on the screen
      * @param gr is the graphics context of the main Panel object
      */
-    private void paintTopBarArea(Graphics2D gr){
+    private void paintTopBarArea(Graphics2D gr) {
         gr.setColor(topBarColor);
         int x = topBarArea.x;
         int y = topBarArea.y;
@@ -72,9 +75,9 @@ public class TopBar extends GameMenu {
      * @param p is the current cursor location
      */
     @Override
-    public void click(Point p){
+    public void click(Point p) {
         hamburgerMenu.click(p);
-        if (hamburgerBtn.isHovered(p)) {
+        if(hamburgerBtn.isHovered(p)) {
             Logger.log("Hamburger menu opened");
             boolean negated = !hamburgerMenu.getIsOpen();
             hamburgerMenu.setIsOpen(negated);
@@ -87,14 +90,14 @@ public class TopBar extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas(){
+    public ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         areas.add(topBarArea);
         areas.addAll(hamburgerMenu.getMenuAreas());
         return areas;
     }
     
-    public void setWidth(int width){
+    public void setWidth(int width) {
         topBarArea.width = width;
     }
     

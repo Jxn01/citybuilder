@@ -29,11 +29,8 @@ public class Intro {
         fadeInComplete = false;
         waitingComplete = false;
         fadeOutComplete = false;
-        try {
-            background = ResourceLoader.loadImage("background.png");
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }
+        try { background = ResourceLoader.loadImage("background.png"); }
+        catch(IOException exc) { exc.printStackTrace(); }
     }
 
     /**
@@ -52,30 +49,25 @@ public class Intro {
         gr.setColor(myColour);
         gr.fillRect(0, 0,panel.width(),panel.height());
 
-        if (!fadeInComplete && alphaLevel >= 5) {
+        if(!fadeInComplete && alphaLevel >= 5) {
             alphaLevel -= 5;
-            return;
-        }
-        fadeInComplete = true;
+        } else {
+            fadeInComplete = true;
 
-        //wait 1,5 seconds
-        if (!waitingComplete) {
-            try {
-                sleep(1500);
-                waitingComplete = true;
-            } catch (InterruptedException exc) {
-                exc.printStackTrace();
+            //wait 1,5 seconds
+            if(!waitingComplete) {
+                try {
+                    sleep(1500);
+                    waitingComplete = true;
+                } catch(InterruptedException exc) {
+                    exc.printStackTrace();
+                }
+            } else if(!fadeOutComplete && alphaLevel <= 250) { //fade out phase
+                alphaLevel += 5;
+            } else {
+                fadeOutComplete = true;
+                panel.setState(MenuState.MAINMENU);
             }
-            return;
         }
-
-        //fade out phase
-        if (!fadeOutComplete && alphaLevel <= 250) {
-            alphaLevel += 5;
-            return;
-        }
-        fadeOutComplete = true;
-
-        panel.setState(MenuState.MAINMENU);
     }
 }

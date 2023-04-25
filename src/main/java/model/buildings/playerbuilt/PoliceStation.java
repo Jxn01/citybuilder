@@ -29,20 +29,19 @@ public class PoliceStation extends RangedBuilding {
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
-        Logger.log(statistics);
         return statistics;
     }
 
     @Override
     public void setOnFire() {
-        onFire = true;
         Logger.log("Police station is on fire at " + coords.toString());
+        onFire = true;
     }
 
     @Override
     public void extinguish() {
-        onFire = false;
         Logger.log("Police station is extinguished at " + coords.toString());
+        onFire = false;
     }
 
     @Override

@@ -24,7 +24,7 @@ public class CameraMovementHandler {
     private int zoom;
     private final Panel panel;
     
-    public CameraMovementHandler(Panel panel){
+    public CameraMovementHandler(Panel panel) {
         this.panel = panel;
         movementState = new MovementState();
         cameraOffsetX = 0;
@@ -72,7 +72,7 @@ public class CameraMovementHandler {
      * Event handler for mouse wheel events
      * @param e is the MouseWheelEvent
      */
-    public void mouseWheelRotated(MouseWheelEvent e){
+    public void mouseWheelRotated(MouseWheelEvent e) {
         /*
         if (e.getWheelRotation() < 0) {
             addToZoom(1, e.getPoint());
@@ -102,11 +102,9 @@ public class CameraMovementHandler {
 
         zoom += val;
         //limit how big a tile can be shown on the map
-        if (zoom > 0) {
+        if(zoom > 0) {
             zoom = 0;
-        }
-        //limit how small a tile can be shown on the map
-        else if (Math.abs(cameraOffsetX) + panel.getSize().width > 50 * (64 + zoom)) {
+        } else if(Math.abs(cameraOffsetX) + panel.getSize().width > 50 * (64 + zoom)) { //limit how small a tile can be shown on the map
             zoom = (Math.abs(cameraOffsetX) + panel.getSize().width - 3200) / 50;
         }
     }
@@ -131,20 +129,20 @@ public class CameraMovementHandler {
      * Apply modifications to the camera offset if the camera reaches the border 
      * (prevent the player from moving the camera out of the playable area)
      */
-    public void checkMapBorder(){
+    public void checkMapBorder() {
         //left wall
-        if (cameraOffsetX + movementState.xDirection <= 0) {
+        if(cameraOffsetX + movementState.xDirection <= 0) {
             cameraOffsetX += movementState.xDirection;
             //right wall
-            if (Math.abs(cameraOffsetX) + panel.getSize().width > 51 * (64 + zoom)) {
+            if(Math.abs(cameraOffsetX) + panel.getSize().width > 51 * (64 + zoom)) {
                 cameraOffsetX = -(51 * (64 + zoom) - panel.getSize().width);
             }
         }
         //top wall
-        if (cameraOffsetY + movementState.yDirection <= 0) {
+        if(cameraOffsetY + movementState.yDirection <= 0) {
             cameraOffsetY += movementState.yDirection;
             //bottom wall
-            if (Math.abs(cameraOffsetY) + panel.getSize().height >= 51 * (64 + zoom)) {
+            if(Math.abs(cameraOffsetY) + panel.getSize().height >= 51 * (64 + zoom)) {
                 cameraOffsetY = -(51 * (64 + zoom) - panel.getSize().height);
             }
         }
@@ -159,7 +157,7 @@ public class CameraMovementHandler {
         public int xDirection;
         public int yDirection;
         
-        public MovementState(){
+        public MovementState() {
             xDirection = 0;
             yDirection = 0;
         }
@@ -187,7 +185,6 @@ public class CameraMovementHandler {
         public int getValue() {
             return value;
         }
-
     }
 
     /**
@@ -204,7 +201,6 @@ public class CameraMovementHandler {
         public void actionPerformed(ActionEvent e) {
             getMovementState().yDirection = getValue();
         }
-
     }
 
     /**
@@ -221,6 +217,5 @@ public class CameraMovementHandler {
         public void actionPerformed(ActionEvent e) {
             getMovementState().xDirection = getValue();
         }
-
     }
 }

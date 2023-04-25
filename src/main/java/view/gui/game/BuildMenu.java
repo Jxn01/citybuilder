@@ -28,7 +28,7 @@ public class BuildMenu extends GameMenu {
      * Constructor of the build menu
      * @param game is the main game object
      */
-    public BuildMenu(Game game){
+    public BuildMenu(Game game) {
         super(game);
         deleteBtn = new MyButton(620, 753, 40, 40, "x");
         fireFighterBtn = new MyButton(700, 753, 40, 40, "fireFighter");
@@ -46,7 +46,7 @@ public class BuildMenu extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr){
+    public void draw(Graphics2D gr) {
         deleteBtn.setY(game.height() - 40);
         deleteBtn.draw(gr, game.getMousePosition());
         fireFighterBtn.setY(game.height() - 40);
@@ -72,42 +72,52 @@ public class BuildMenu extends GameMenu {
      * @param p p is the current cursor location
      */
     @Override
-    public void click(Point p){
-        if(deleteBtn.isHovered(p)){
+    public void click(Point p) {
+        if(deleteBtn.isHovered(p)) {
+
             Logger.log("Delete button clicked");
             game.setSelectedBuildingType(Tile.GRASS_1);
-        }
-        else if(fireFighterBtn.isHovered(p)){
+
+        } else if(fireFighterBtn.isHovered(p)) {
+
             Logger.log("Firefighter button clicked");
             game.setSelectedBuildingType(Tile.FIRESTATION);
-        }
-        else if(roadBtn.isHovered(p)){
+
+        } else if(roadBtn.isHovered(p)) {
+
             Logger.log("Road button clicked");
             game.setSelectedBuildingType(Tile.ROAD);
-        }
-        else if(forestBtn.isHovered(p)){
+
+        } else if(forestBtn.isHovered(p)) {
+
             Logger.log("Forest button clicked");
             game.setSelectedBuildingType(Tile.FOREST);
-        }
-        else if(stadiumBtn.isHovered(p)){
+
+        } else if(stadiumBtn.isHovered(p)) {
+
             Logger.log("Stadium button clicked");
             game.setSelectedBuildingType(Tile.STADIUM);
-        }
-        else if(serviceZoneBtn.isHovered(p)){
+
+        } else if(serviceZoneBtn.isHovered(p)) {
+
             Logger.log("Service zone button clicked");
             game.setSelectedBuildingType(Tile.SERVICEZONE);
-        }
-        else if(factoryZoneBtn.isHovered(p)){
+
+        } else if(factoryZoneBtn.isHovered(p)) {
+
             Logger.log("Factory zone button clicked");
             game.setSelectedBuildingType(Tile.FACTORYZONE);
-        }
-        else if(livingZoneBtn.isHovered(p)){
+
+        } else if(livingZoneBtn.isHovered(p)) {
+
             Logger.log("Living zone button clicked");
             game.setSelectedBuildingType(Tile.RESIDENTIALZONE);
-        }
-        else if(policeStationBtn.isHovered(p)){
+
+        } else if(policeStationBtn.isHovered(p)) {
+
             Logger.log("Police station button clicked");
             game.setSelectedBuildingType(Tile.POLICE);
+
         }
     }
     
@@ -117,7 +127,7 @@ public class BuildMenu extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas(){
+    public ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         return areas;
     }

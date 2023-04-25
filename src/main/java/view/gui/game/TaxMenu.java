@@ -27,8 +27,9 @@ public class TaxMenu extends GameMenu {
      * Constructor of the tax menu
      * @param game is the main Game object 
      */
-    public TaxMenu(Game game){
+    public TaxMenu(Game game) {
         super(game);
+
         this.game = game;
         xBtn = new MyButton(1228, 50, 40, 40, "x");
         modifyBtn = new MyButton(960, 130, 120, 40, "modify");
@@ -42,29 +43,29 @@ public class TaxMenu extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr){
-        if(!getIsOpen()){return;}
-        
-        paintTaxMenuArea(gr);
-       
-        xBtn.draw(gr, game.getMousePosition());
+    public void draw(Graphics2D gr) {
+        if(getIsOpen()) {
+            paintTaxMenuArea(gr);
 
-        gr.setColor(Color.black);
-        gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        gr.drawString("Adó", 750, 80);
+            xBtn.draw(gr, game.getMousePosition());
 
-        gr.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        gr.drawString("Éves adó módosítása ($/fő/év): ", 350, 160);
-        
-        input.draw(gr, game.getMousePosition());
-        modifyBtn.draw(gr, game.getMousePosition());
+            gr.setColor(Color.black);
+            gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+            gr.drawString("Adó", 750, 80);
+
+            gr.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+            gr.drawString("Éves adó módosítása ($/fő/év): ", 350, 160);
+
+            input.draw(gr, game.getMousePosition());
+            modifyBtn.draw(gr, game.getMousePosition());
+        }
     }
     
     /**
      * Draw the tax menu's background area on the screen
      * @param gr is the graphics context of the main Panel object
      */
-    private void paintTaxMenuArea(Graphics2D gr){
+    private void paintTaxMenuArea(Graphics2D gr) {
         gr.setColor(taxMenuColor);
         int x = taxMenuArea.x;
         int y = taxMenuArea.y;
@@ -78,18 +79,21 @@ public class TaxMenu extends GameMenu {
      * @param p is the current mouse position
      */
     @Override
-    public void click(Point p){
-        if(!getIsOpen()){return;}
-        
-        if(xBtn.isHovered(p)){
-            Logger.log("Closed the tax menu");
-            setIsOpen(false);
-        }
-        else if(modifyBtn.isHovered(p)){
-            Logger.log("Modify-tax button clicked");
-            String inputText = input.getText();
-            game.getPanel().getGameManager().getGameData().setYearlyTaxes(Integer.parseInt(inputText));
-            setIsOpen(false);
+    public void click(Point p) {
+        if(getIsOpen()) {
+            if(xBtn.isHovered(p)) {
+
+                Logger.log("Closed the tax menu");
+                setIsOpen(false);
+
+            } else if(modifyBtn.isHovered(p)) {
+
+                Logger.log("Modify-tax button clicked");
+                String inputText = input.getText();
+                game.getPanel().getGameManager().getGameData().setYearlyTaxes(Integer.parseInt(inputText));
+                setIsOpen(false);
+
+            }
         }
     }
     
@@ -98,14 +102,16 @@ public class TaxMenu extends GameMenu {
      * @param e is the KeyEvent
      */
     public void keyPressed(KeyEvent e){
-        if(!getIsOpen()){return;}
-        
-        char c = e.getKeyChar();
-        if (c == KeyEvent.VK_BACK_SPACE) {
-            input.deleteLast();
-        } else if (Character.isDigit(c)) {
-            input.add(c);
+        if(getIsOpen()) {
+            char c = e.getKeyChar();
+            if(c == KeyEvent.VK_BACK_SPACE) {
+                input.deleteLast();
+            } else if(Character.isDigit(c)) {
+                input.add(c);
+            }
         }
+        
+
     }
     
     /**

@@ -25,20 +25,19 @@ public class BottomBar extends GameMenu {
     BuildMenu buildMenu;
     CatastropheMenu catastropheMenu;
     TimeMenu timeMenu;
-    
 
     /**
      * Constructor of the bottom bar
      * @param game is the main game object 
      */
-    public BottomBar(Game game){
+    public BottomBar(Game game) {
         super(game);
         taxMenu = new TaxMenu(game);
         statsMenu = new StatsMenu(game);
         statsBtn = new MyButton(0, 0, 80, 40, "stats");
         taxBtn = new MyButton(80, 0, 40, 40, "tax");
         catastrophesBtn = new MyButton(120, 0, 80, 40, "catastrophes");
-        bottomBarArea = new Rectangle(0, 753, 1536, 40);
+        bottomBarArea = new Rectangle(0, game.height() - 40, game.width(), 40);
         bottomBarAreaColor = Color.white;
         buildMenu = new BuildMenu(game);
         catastropheMenu = new CatastropheMenu(game);
@@ -50,7 +49,7 @@ public class BottomBar extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr){   
+    public void draw(Graphics2D gr) {
         paintBottomMenuBar(gr);
         statsBtn.setY(game.height() - 40);
         statsBtn.draw(gr, game.getMousePosition());
@@ -69,7 +68,7 @@ public class BottomBar extends GameMenu {
      * Draw the bottom bar's background area on the screen
      * @param gr is the graphics context of the main Panel object
      */
-    public void paintBottomMenuBar(Graphics2D gr){
+    public void paintBottomMenuBar(Graphics2D gr) {
         gr.setColor(bottomBarAreaColor);
         int x = bottomBarArea.x;
         int y = game.height() - bottomBarArea.height;
@@ -83,29 +82,32 @@ public class BottomBar extends GameMenu {
      * @param p is the current cursor location
      */
     @Override
-    public void click(Point p){
+    public void click(Point p) {
         buildMenu.click(p);
         statsMenu.click(p);
         taxMenu.click(p);
         catastropheMenu.click(p);
         timeMenu.click(p);
         
-        if(statsBtn.isHovered(p)){
+        if(statsBtn.isHovered(p)) {
             Logger.log("Stats button clicked");
+
             taxMenu.setIsOpen(false);
             catastropheMenu.setIsOpen(false);
             boolean negated = !statsMenu.getIsOpen();
             statsMenu.setIsOpen(negated);
-        }
-        else if(taxBtn.isHovered(p)){
+
+        } else if(taxBtn.isHovered(p)) {
             Logger.log("Tax button clicked");
+
             statsMenu.setIsOpen(false);
             catastropheMenu.setIsOpen(false);
             boolean negated = !taxMenu.getIsOpen();
             taxMenu.setIsOpen(negated);
-        }
-        else if(catastrophesBtn.isHovered(p)){
+
+        } else if(catastrophesBtn.isHovered(p)) {
             Logger.log("Catastrophes button clicked");
+
             statsMenu.setIsOpen(false);
             taxMenu.setIsOpen(false);
             boolean negated = !catastropheMenu.getIsOpen();
@@ -117,7 +119,7 @@ public class BottomBar extends GameMenu {
      * Upon key-press event, roll the key-press event further into a submenu
      * @param e is the key-press event
      */
-    public void keyPressed(KeyEvent e){
+    public void keyPressed(KeyEvent e) {
         taxMenu.keyPressed(e);
     }
     
@@ -127,7 +129,7 @@ public class BottomBar extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas(){
+    public ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         areas.add(bottomBarArea);
         areas.addAll(statsMenu.getMenuAreas());
@@ -137,12 +139,16 @@ public class BottomBar extends GameMenu {
         areas.addAll(timeMenu.getMenuAreas());
         return areas;
     }
-    
-    public void setWidth(int width){
+
+    /**
+     * Set the width of the bottom bar
+     * @param width is the new width
+     */
+    public void setWidth(int width) {
         bottomBarArea.width = width;
     }
-    
-    public void setY(int y){
+
+    public void setY(int y) {
         bottomBarArea.y = y;
     }
 }

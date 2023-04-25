@@ -27,7 +27,6 @@ public class Stadium extends RangedBuilding {
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
-        Logger.log(statistics);
         return statistics;
     }
 

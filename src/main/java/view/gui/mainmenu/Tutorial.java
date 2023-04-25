@@ -67,7 +67,7 @@ public class Tutorial {
             background = ResourceLoader.loadImage("tutbg.png");
 
             //add all IMAGES
-            for (int i = MINIMG; i <= MAXIMG; ++i) {
+            for(int i = MINIMG; i <= MAXIMG; ++i) {
                 String imgText = allText.get(i);
                 //images are labeled with a number
                 Image img = ResourceLoader.loadImage("tutorialImg" + i + ".png");
@@ -79,9 +79,7 @@ public class Tutorial {
             leftBtn = new MyButton(10, 350, 100, 100, "arrowLeft");
             rightBtn = new MyButton(1436, 350, 100, 100, "arrowRight");
             backBtn = new MyButton(0, 0, 75, 75, "back");
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }
+        } catch(IOException exc) { exc.printStackTrace(); }
     }
 
     /**
@@ -121,19 +119,19 @@ public class Tutorial {
      * @param p is the Point where the click happened 
      */
     public void click(Point p) {
-        if (leftBtn.isHovered(p)) {
+        if(leftBtn.isHovered(p)) {
             Logger.log("left button clicked");
             currentImg--;
-            if (currentImg < MINIMG) {
+            if(currentImg < MINIMG) {
                 currentImg = MAXIMG;
             }
-        } else if (rightBtn.isHovered(p)) {
+        } else if(rightBtn.isHovered(p)) {
             Logger.log("right button clicked");
             currentImg++;
-            if (currentImg > MAXIMG) {
+            if(currentImg > MAXIMG) {
                 currentImg = MINIMG;
             }
-        } else if (backBtn.isHovered(p)) {
+        } else if(backBtn.isHovered(p)) {
             Logger.log("back button clicked");
             panel.setState(MenuState.MAINMENU);
         }

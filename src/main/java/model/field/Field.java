@@ -22,18 +22,14 @@ public abstract class Field {
         this.coord = coord;
         Random rand = new Random();
         int randomNum = rand.nextInt(3) + 1;
-        try{
-            switch (randomNum) {
+        try { switch(randomNum) {
                 case 1 -> texture = loadImage("GRASS_1.png");
                 case 2 -> texture = loadImage("GRASS_2.png");
-                case 3 -> texture = loadImage("GRASS_3.png");
-            }
-        }catch (Exception exc){
-            exc.printStackTrace();
-        }
+                case 3 -> texture = loadImage("GRASS_3.png"); }
+        } catch(Exception exc){ exc.printStackTrace(); }
     }
 
-/**
+    /**
      * This method returns the coordinate of the field.
      * @return The coordinate of the field.
      */

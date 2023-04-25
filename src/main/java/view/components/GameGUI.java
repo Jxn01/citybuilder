@@ -24,11 +24,8 @@ public class GameGUI extends JFrame {
         setVisible(true);
         
         // Wait for the frame to become visible
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException exc) {
-            exc.printStackTrace();
-        }
+        try { Thread.sleep(100); }
+        catch(InterruptedException exc) { exc.printStackTrace(); }
 
         // Validate the container to ensure the panel's size is calculated
         getContentPane().validate();
@@ -38,7 +35,7 @@ public class GameGUI extends JFrame {
     /**
      * Initialize the game window after creation
      */
-    public void init() {}
+    public void init() { }
 
     /**
      * Exit the program

@@ -18,7 +18,7 @@ public abstract class GameMenu {
      * Constructor of a game menu
      * @param game is the main Game object
      */
-    public GameMenu(Game game){
+    public GameMenu(Game game) {
         this.game = game;
         isOpen = false;
     }

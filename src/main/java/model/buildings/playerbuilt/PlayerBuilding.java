@@ -20,6 +20,7 @@ public abstract class PlayerBuilding extends Building {
      */
     public PlayerBuilding(Coordinate coords, double firePossibility, boolean isOnFire, int buildCost, int maintenanceCost) {
         super(coords, firePossibility, isOnFire);
+
         this.buildCost = buildCost;
         this.maintenanceCost = maintenanceCost;
     }
@@ -37,8 +38,8 @@ public abstract class PlayerBuilding extends Building {
      * @param buildCost is the new build cost of the player building
      */
     public void setBuildCost(int buildCost) {
-        this.buildCost = buildCost;
         Logger.log("Build cost of building at" + coords.toString() + " set to " + buildCost);
+        this.buildCost = buildCost;
     }
 
     /**
@@ -54,7 +55,7 @@ public abstract class PlayerBuilding extends Building {
      * @param maintenanceCost is the new maintenance cost of the player building
      */
     public void setMaintenanceCost(int maintenanceCost) {
-        this.maintenanceCost = maintenanceCost;
         Logger.log("Maintenance cost of building at" + coords.toString() + " set to " + maintenanceCost);
+        this.maintenanceCost = maintenanceCost;
     }
 }

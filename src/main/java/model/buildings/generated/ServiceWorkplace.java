@@ -22,6 +22,7 @@ public class ServiceWorkplace extends Workplace {
         saturationRate = SaturationRate.EMPTY;
         publicSafety = 100;
         maxCapacity = 20;
+
         Logger.log("Service workplace created at " + coords.toString());
     }
 
@@ -32,39 +33,43 @@ public class ServiceWorkplace extends Workplace {
         statistics += "Number of people working here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
         statistics += "Saturation rate: " + saturationRate + "\n";
-        Logger.log(statistics);
         return statistics;
     }
 
     @Override
     public void setOnFire() {
-        onFire = true;
         Logger.log("Service workplace at " + coords.toString() + " is on fire!");
+        onFire = true;
     }
 
     @Override
     public void extinguish() {
-        onFire = false;
         Logger.log("Service workplace at " + coords.toString() + " is extinguished!");
+        onFire = false;
     }
 
     @Override
-    public void addPerson(Person person) throws RuntimeException{
-        if(people.size() == maxCapacity){
+    public void addPerson(Person person) throws RuntimeException {
+        if(people.size() == maxCapacity) {
             Logger.log("Can't add person " + person.getName() + " to service workplace at " + coords.toString() + " because maximum capacity reached!");
             throw new RuntimeException("Maximum capacity reached! Can't add new person!");
+        } else {
+            Logger.log("Person " + person.getName() + " added to service workplace at " + coords.toString());
+
+            people.add(person);
+
+            person.setWorkplace(this);
+            updateSaturationRate();
         }
-        people.add(person);
-        person.setWorkplace(this);
-        updateSaturationRate();
-        Logger.log("Person " + person.getName() + " added to service workplace at " + coords.toString());
     }
 
     @Override
     public void removePerson(Person person) {
+        Logger.log("Person " + person.getName() + " removed from service workplace at " + coords.toString());
+
         people.remove(person);
         person.setWorkplace(null);
+
         updateSaturationRate();
-        Logger.log("Person " + person.getName() + " removed from service workplace at " + coords.toString());
     }
 }

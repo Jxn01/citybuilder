@@ -25,8 +25,9 @@ public class HamburgerMenu extends GameMenu {
      * Constructor of the hamburger menu
      * @param game is the main game object 
      */
-    public HamburgerMenu(Game game){
+    public HamburgerMenu(Game game) {
         super(game);
+
         saveBtn = new MyButton(0, 40, 120, 40, "saveGame");
         newGameBtn = new MyButton(0, 90, 120, 40, "newGame");
         exitBtn = new MyButton(0, 140, 120, 40, "exit");
@@ -39,13 +40,13 @@ public class HamburgerMenu extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr){ 
-        if(!getIsOpen()){return;}
-        
-        paintHamburgerMenuArea(gr);
-        newGameBtn.draw(gr, game.getMousePosition());
-        saveBtn.draw(gr, game.getMousePosition());
-        exitBtn.draw(gr, game.getMousePosition());
+    public void draw(Graphics2D gr) {
+        if(getIsOpen()) {
+            paintHamburgerMenuArea(gr);
+            newGameBtn.draw(gr, game.getMousePosition());
+            saveBtn.draw(gr, game.getMousePosition());
+            exitBtn.draw(gr, game.getMousePosition());
+        }
     }
     
     /**
@@ -67,19 +68,23 @@ public class HamburgerMenu extends GameMenu {
      */
     @Override
     public void click(Point p){
-        if(!getIsOpen()){return;}
-        
-        if(saveBtn.isHovered(p)){
-            Logger.log("Save button clicked");
-        }
-        else if(newGameBtn.isHovered(p)){
-            Logger.log("New game button clicked");
-            setIsOpen(false);
-            game.setState(MenuState.NEWGAME);
-        }
-        else if(exitBtn.isHovered(p)){
-            Logger.log("Exit button clicked");
-            game.exit();
+        if(getIsOpen()) {
+            if(saveBtn.isHovered(p)) {
+
+                Logger.log("Save button clicked");
+
+            } else if(newGameBtn.isHovered(p)) {
+
+                Logger.log("New game button clicked");
+                setIsOpen(false);
+                game.setState(MenuState.NEWGAME);
+
+            } else if(exitBtn.isHovered(p)) {
+
+                Logger.log("Exit button clicked");
+                game.exit();
+
+            }
         }
     }
     
@@ -89,9 +94,9 @@ public class HamburgerMenu extends GameMenu {
      * @return an arraylist of rectangles (with one rectangle)
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas(){
+    public ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
-        if(this.getIsOpen()){
+        if(this.getIsOpen()) {
             areas.add(hamburgerMenuArea);
         }
         return areas;

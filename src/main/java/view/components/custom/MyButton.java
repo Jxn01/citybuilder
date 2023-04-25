@@ -37,9 +37,11 @@ public class MyButton {
      * @return a boolean value
      */
     public boolean isHovered(Point p) {
-        if (p != null) {
+        if(p != null) {
             return rect.contains(p);
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -48,23 +50,34 @@ public class MyButton {
      * @param p is the current cursor position
      */
     public void draw(Graphics2D gr, Point p) {
-        if (!isHovered(p)) {
+        if(!isHovered(p)) {
             gr.drawImage(img, rect.x, rect.y, rect.width, rect.height, null);
         } else {
             gr.drawImage(imgHover, rect.x, rect.y, rect.width, rect.height, null);
         }
-
     }
-    
-    public void drawHovered(Graphics2D gr){
+
+    /**
+     * Draw the button when it is hovered
+     * @param gr is the graphics context of the main Panel object
+     */
+    public void drawHovered(Graphics2D gr) {
         gr.drawImage(imgHover, rect.x, rect.y, rect.width, rect.height, null);
     }
-    
-    public void setX(int x){
+
+    /**
+     * Set the x coordinate of the button
+     * @param x is the x coordinate
+     */
+    public void setX(int x) {
         rect.x = x;
     }
-    
-    public void setY(int y){
+
+    /**
+     * Set the y coordinate of the button
+     * @param y is the y coordinate
+     */
+    public void setY(int y) {
         rect.y = y;
     }
 }

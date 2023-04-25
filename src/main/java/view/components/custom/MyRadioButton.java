@@ -45,16 +45,6 @@ public class MyRadioButton {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-
-    /**
-     * This function allows the buttongroup to adjust 
-     * how high the button is when the user
-     * deletes another radiobutton from the buttongroup
-     * @param y is the new y coordinate on the screen
-     */
-    public void setY(int y) {
-        rect.y = y;
-    }
     
     /**
      * Checks if the button is currently hovered
@@ -74,9 +64,9 @@ public class MyRadioButton {
      */
     public void draw(Graphics2D gr, Point cursorPos) {
         //fill the button with color 
-        if (selected) {
+        if(selected) {
             gr.setColor(Color.green);
-        } else if (isHovered(cursorPos)) {
+        } else if(isHovered(cursorPos)) {
             gr.setColor(Color.pink);
         } else {
             gr.setColor(Color.white);
@@ -91,12 +81,30 @@ public class MyRadioButton {
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
         gr.drawString(name + " ; " + time + " ; " + funds, rect.x + 20, rect.y + (rect.height / 2) + 10);
     }
-    
+
+    /**
+     * Getter for the button's width
+     * @param width is the new width of the button
+     */
     public void setWidth(int width){
         rect.width = width;
     }
-    
+
+    /**
+     * Setter for the button's x coordinate
+     * @param x is the new x coordinate of the button
+     */
     public void setX(int x){
         rect.x = x;
+    }
+
+    /**
+     * This function allows the buttongroup to adjust
+     * how high the button is when the user
+     * deletes another radiobutton from the buttongroup
+     * @param y is the new y coordinate on the screen
+     */
+    public void setY(int y) {
+        rect.y = y;
     }
 }

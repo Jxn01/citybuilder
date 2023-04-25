@@ -12,7 +12,7 @@ public class Date {
      * @param time is the time
      * @return the date as a string
      */
-    public static String getShortDate(long time){
+    public static String getShortDate(long time) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new java.util.Date(time));
         return getShortString(cal);
@@ -23,19 +23,19 @@ public class Date {
      * @param time is the time
      * @return the date as a string
      */
-    public static String getLongDate(long time){
+    public static String getLongDate(long time) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new java.util.Date(time));
         return getLongString(cal);
     }
 
-    public static String getDate(long time){
+    public static String getDate(long time) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new java.util.Date(time));
         return getLongString(cal).split(" ")[0];
     }
 
-    public static String nextDay(String date){ // the format is "YYYY-MM-DD"
+    public static String nextDay(String date) { // the format is "YYYY-MM-DD"
         String[] dateParts = date.split("-");
         int year = Integer.parseInt(dateParts[0]);
         int month = Integer.parseInt(dateParts[1]);
@@ -46,7 +46,7 @@ public class Date {
         return getLongString(cal).split(" ")[0];
     }
 
-    public static String nextSecond(String shortDate){ // the format is hh:mm:ss
+    public static String nextSecond(String shortDate) { // the format is hh:mm:ss
         String[] timeParts = shortDate.split(":");
         int hour = Integer.parseInt(timeParts[0]);
         int minute = Integer.parseInt(timeParts[1]);

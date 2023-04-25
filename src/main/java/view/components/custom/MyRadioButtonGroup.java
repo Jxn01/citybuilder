@@ -33,9 +33,9 @@ public class MyRadioButtonGroup {
      * @return a boolean value
      */
     public boolean isAnyBtnHovered(Point p) {
-        if (p != null) {
-            for (MyRadioButton button : buttons) {
-                if (button.isHovered(p)) {
+        if(p != null) {
+            for(MyRadioButton button : buttons) {
+                if(button.isHovered(p)) {
                     return true;
                 }
             }
@@ -48,9 +48,9 @@ public class MyRadioButtonGroup {
      * @param p is the current cursor location
      */
     public void select(Point p) {
-        for (MyRadioButton button : buttons) {
+        for(MyRadioButton button : buttons) {
             button.setSelected(false);
-            if (button.isHovered(p)) {
+            if(button.isHovered(p)) {
                 button.setSelected(true);
             }
         }
@@ -61,8 +61,8 @@ public class MyRadioButtonGroup {
      * @return a boolean value
      */
     public boolean hasSelected() {
-        for (MyRadioButton button : buttons) {
-            if (button.getSelected()) {
+        for(MyRadioButton button : buttons) {
+            if(button.getSelected()) {
                 return true;
             }
         }
@@ -73,9 +73,9 @@ public class MyRadioButtonGroup {
      * Returns the index of the selected button
      * @return an integer value
      */
-    public int getSelectedIndex(){
-        for (int i = 0; i < buttons.size(); ++i) {
-            if (buttons.get(i).getSelected()) {
+    public int getSelectedIndex() {
+        for(int i = 0; i < buttons.size(); ++i) {
+            if(buttons.get(i).getSelected()) {
                 return i;
             }
         }
@@ -87,16 +87,16 @@ public class MyRadioButtonGroup {
      */
     public void removeSelectedBtn() {
         int toRemove = -1;
-        for (int i = 0; i < buttons.size(); ++i) {
-            if (buttons.get(i).getSelected()) {
+        for(int i = 0; i < buttons.size(); ++i) {
+            if(buttons.get(i).getSelected()) {
                 toRemove = i;
                 break;
             }
         }
-        if (toRemove != -1) {
+        if(toRemove != -1) {
             buttons.remove(toRemove);
         }
-        for (int i = 0; i < buttons.size(); ++i) {
+        for(int i = 0; i < buttons.size(); ++i) {
             buttons.get(i).setY(80 + i * 60);
         }
     }
@@ -107,19 +107,19 @@ public class MyRadioButtonGroup {
      * @param cursorPos is the graphics context of the main Panel object
      */
     public void draw(Graphics2D gr, Point cursorPos) {
-        for (MyRadioButton button : buttons) {
+        for(MyRadioButton button : buttons) {
             button.draw(gr, cursorPos);
         }
     }
     
     public void setWidth(int width){
-        for (MyRadioButton button : buttons) {
+        for(MyRadioButton button : buttons) {
             button.setWidth(width);
         } 
     }
     
     public void setX(int x){
-        for (MyRadioButton button : buttons) {
+        for(MyRadioButton button : buttons) {
             button.setX(x);
         } 
     }

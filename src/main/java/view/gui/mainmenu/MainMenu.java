@@ -35,9 +35,7 @@ public class MainMenu {
             newGameBtn = new MyButton(0, 350, btnWidth, btnHeight, "newGame");
             saveBtn = new MyButton(0, 500, btnWidth, btnHeight, "save");
             exitBtn = new MyButton(0, 650, btnWidth, btnHeight, "exit");
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }
+        } catch (IOException exc) { exc.printStackTrace(); }
     }
 
     /**
@@ -69,18 +67,26 @@ public class MainMenu {
      * @param p is the location of the click
      */
     public void click(Point p) {
-        if (tutorialBtn.isHovered(p)) {
+        if(tutorialBtn.isHovered(p)) {
+
             Logger.log("Tutorial button clicked");
             panel.setState(MenuState.TUTORIAL);
-        } else if (newGameBtn.isHovered(p)) {
+
+        } else if(newGameBtn.isHovered(p)) {
+
             Logger.log("New game button clicked");
             panel.setState(MenuState.NEWGAME);
-        } else if (saveBtn.isHovered(p)) {
+
+        } else if(saveBtn.isHovered(p)) {
+
             Logger.log("Saves button clicked");
             panel.setState(MenuState.LOADGAME);
-        } else if (exitBtn.isHovered(p)) {
+
+        } else if(exitBtn.isHovered(p)) {
+
             Logger.log("Exit button clicked");
             panel.exit();
+
         }
     }
 

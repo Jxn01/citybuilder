@@ -11,7 +11,7 @@ public class Firestorm extends Catastrophe {
     /**
      * Constructor of the firestorm.
      */
-    private Firestorm() {}
+    private Firestorm() { }
 
     /**
      * Get the instance of the firestorm.

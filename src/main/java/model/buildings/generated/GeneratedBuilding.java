@@ -38,14 +38,6 @@ public abstract class GeneratedBuilding extends Building {
     }
 
     /**
-     * Get the people in the building
-     * @return the people in the building
-     */
-    public ArrayList<Person> getPeople() {
-        return people;
-    }
-
-    /**
      * Add a person to the building
      * @param person is the person to add
      */
@@ -56,14 +48,6 @@ public abstract class GeneratedBuilding extends Building {
      * @param person is the person to remove
      */
     public abstract void removePerson(Person person);
-
-    /**
-     * Get the saturation rate of the building
-     * @return the saturation rate of the building
-     */
-    public SaturationRate getSaturationRate() {
-        return saturationRate;
-    }
 
     /**
      * Updates the saturation rate of the building
@@ -83,6 +67,10 @@ public abstract class GeneratedBuilding extends Building {
         Logger.log("Saturation rate of building at" + coords.toString() + " is now " + saturationRate);
     }
 
+    /**
+     * Setter for the max capacity of the building
+     * @param maxCapacity is the maximum capacity of the building
+     */
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
         Logger.log("Max capacity of building at " + coords.toString() + " is now " + maxCapacity);
@@ -104,4 +92,22 @@ public abstract class GeneratedBuilding extends Building {
         this.publicSafety = publicSafety;
         Logger.log("Public safety of building at " + coords.toString() + " is now " + publicSafety);
     }
+
+    /**
+     * Get the people in the building
+     * @return the people in the building
+     */
+    public ArrayList<Person> getPeople() {
+        return people;
+    }
+
+    /**
+     * Get the saturation rate of the building
+     * @return the saturation rate of the building
+     */
+    public SaturationRate getSaturationRate() {
+        return saturationRate;
+    }
 }
+
+

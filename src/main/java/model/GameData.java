@@ -25,7 +25,7 @@ public class GameData {
     private String inGameStartDate;
     private String inGameCurrentDate;
     private String playTime;
-    private Integer budget;
+    public static Integer budget;
     private String cityName;
     private boolean gameOver;
     private File saveFile;
@@ -58,7 +58,7 @@ public class GameData {
         this.inGameStartDate = inGameStartDate;
         this.inGameCurrentDate = inGameCurrentDate;
         this.playTime = playTime;
-        this.budget = budget;
+        GameData.budget = budget;
         this.cityName = cityName;
         this.gameOver = gameOver;
         this.saveFile = saveFile;
@@ -81,29 +81,32 @@ public class GameData {
         this.inGameStartDate = getDate(System.currentTimeMillis());
         this.inGameCurrentDate = getDate(System.currentTimeMillis());
         this.playTime = "00:00:01";
-        this.budget = starterBudget;
+        budget = starterBudget;
         this.cityName = cityName;
         this.gameOver = false;
         this.saveFile = null;
         this.yearlyTaxes = starterTaxes;
         this.fields = new Field[51][51];
-        for(int i = 0; i < starterMapSize; i++){
-            for(int j = 0; j < starterMapSize; j++){ // 2 thick border, 49x49 playable area
-                if (i == 0 || i == 1 || i == 49 || i == 50 || j == 0 || j == 1 || j == 49 || j == 50) {
+
+        for(int i = 0; i < starterMapSize; i++) {
+            for(int j = 0; j < starterMapSize; j++) { // 2 thick border, 49x49 playable area
+
+                if(i == 0 || i == 1 || i == 49 || i == 50 || j == 0 || j == 1 || j == 49 || j == 50) {
                     this.fields[i][j] = new BorderField(new Coordinate(i, j));
-                }else{
-                    try {
-                        this.fields[i][j] = new PlayableField(new Coordinate(i, j));
-                    } catch (IOException exc) {
-                        exc.printStackTrace();
-                    }
+                } else {
+                    try { this.fields[i][j] = new PlayableField(new Coordinate(i, j)); }
+                    catch(IOException exc) { exc.printStackTrace(); }
                 }
+
             }
         }
+
         this.people = new ArrayList<>();
-        for(int i = 0; i < starterPeople; i++){
+
+        for(int i = 0; i < starterPeople; i++) {
             this.people.add(new Person());
         }
+
         Logger.log("New game data created: " + this.id);
     }
 
@@ -120,8 +123,8 @@ public class GameData {
      * @param startDate the start date
      */
     public void setStartDate(String startDate) {
-        this.startDate = startDate;
         Logger.log("Game data " + this.id + " start date set to: " + startDate);
+        this.startDate = startDate;
     }
 
     /**
@@ -137,8 +140,8 @@ public class GameData {
      * @param currentDate the current date
      */
     public void setCurrentDate(String currentDate) {
-        this.currentDate = currentDate;
         Logger.log("Game data " + this.id + " current date set to: " + currentDate);
+        this.currentDate = currentDate;
     }
 
     /**
@@ -154,8 +157,8 @@ public class GameData {
      * @param inGameStartDate the in game start date
      */
     public void setInGameStartDate(String inGameStartDate) {
-        this.inGameStartDate = inGameStartDate;
         Logger.log("Game data " + this.id + " in game start date set to: " + inGameStartDate);
+        this.inGameStartDate = inGameStartDate;
     }
 
     /**
@@ -171,8 +174,8 @@ public class GameData {
      * @param inGameCurrentDate the in game current date
      */
     public void setInGameCurrentDate(String inGameCurrentDate) {
-        this.inGameCurrentDate = inGameCurrentDate;
         Logger.log("Game data " + this.id + " in game current date set to: " + inGameCurrentDate);
+        this.inGameCurrentDate = inGameCurrentDate;
     }
 
     /**
@@ -188,13 +191,12 @@ public class GameData {
      * @param playTime the play time
      */
     public void setPlayTime(String playTime) {
-        this.playTime = playTime;
         Logger.log("Game data " + this.id + " play time set to: " + playTime);
+        this.playTime = playTime;
     }
 
     /**
      *  Calculates the average satisfaction of the people
-     *  @return the average satisfaction
      */
     public void calculateAverageSatisfaction() {
         int satisfaction = 0;
@@ -202,25 +204,8 @@ public class GameData {
             satisfaction += person.calculateSatisfaction();
         }
         satisfaction /= people.size();
-        Logger.log("Game data " + this.id + " average satisfaction calculated: " + satisfaction);
         this.averageSatisfaction  = satisfaction;
-    }
-
-    /**
-     * Getter for the budget
-     * @return the budget
-     */
-    public Integer getBudget() {
-        return budget;
-    }
-
-    /**
-     * Setter for the budget
-     * @param budget the budget
-     */
-    public void setBudget(Integer budget) {
-        this.budget = budget;
-        Logger.log("Game data " + this.id + " budget set to: " + budget);
+        Logger.log("Game data " + this.id + " average satisfaction calculated: " + satisfaction);
     }
 
     /**
@@ -259,8 +244,8 @@ public class GameData {
      * @param cityName the city name
      */
     public void setCityName(String cityName) {
-        this.cityName = cityName;
         Logger.log("Game data " + this.id + " city name set to: " + cityName);
+        this.cityName = cityName;
     }
 
     /**
@@ -276,8 +261,8 @@ public class GameData {
      * @param gameOver if the game is over
      */
     public void setGameOver(boolean gameOver) {
-        this.gameOver = gameOver;
         Logger.log("Game data " + this.id + " game over set to: " + gameOver);
+        this.gameOver = gameOver;
     }
 
     /**
@@ -293,8 +278,8 @@ public class GameData {
      * @param saveFile the save file
      */
     public void setSaveFile(File saveFile) {
-        this.saveFile = saveFile;
         Logger.log("Game data " + this.id + " save file set to: " + saveFile.getAbsolutePath());
+        this.saveFile = saveFile;
     }
 
     /**
@@ -310,15 +295,15 @@ public class GameData {
      * @param yearlyTaxes the yearly taxes
      */
     public void setYearlyTaxes(int yearlyTaxes) {
-        this.yearlyTaxes = yearlyTaxes;
         Logger.log("Game data " + this.id + " yearly taxes set to: " + yearlyTaxes);
+        this.yearlyTaxes = yearlyTaxes;
     }
 
     /**
      * Getter for the fields
      * @return the fields
      */
-    public Field[][]  getFields() {
+    public Field[][] getFields() {
         return fields;
     }
 
@@ -327,8 +312,8 @@ public class GameData {
      * @param fields the fields
      */
     public void setFields(Field[][] fields) {
-        this.fields = fields;
         Logger.log("Game data " + this.id + " fields set.");
+        this.fields = fields;
     }
 
     /**
@@ -344,8 +329,8 @@ public class GameData {
      * @param people the people
      */
     public void setPeople(ArrayList<Person> people) {
-        this.people = people;
         Logger.log("Game data " + this.id + " people set.");
+        this.people = people;
     }
 
     /**

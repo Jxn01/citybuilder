@@ -19,6 +19,7 @@ public abstract class RangedBuilding extends PlayerBuilding implements Functiona
      */
     public RangedBuilding(Coordinate coords, double firePossibility, boolean isOnFire, int buildCost, int maintenanceCost, int range) {
         super(coords, firePossibility, isOnFire, buildCost, maintenanceCost);
+
         this.range = range;
     }
 }

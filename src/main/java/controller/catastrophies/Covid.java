@@ -11,7 +11,7 @@ public class Covid extends Catastrophe {
     /**
      * Constructor of the covid catastrophe.
      */
-    private Covid() {}
+    private Covid() { }
 
     /**
      * Get the instance of the covid catastrophe.

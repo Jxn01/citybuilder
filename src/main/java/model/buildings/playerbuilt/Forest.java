@@ -35,10 +35,12 @@ public class Forest extends RangedBuilding {
      * Grow the forest
      */
     public void grow() {
-        if(growStage < growTime){
+        if(growStage < growTime) {
             growStage++;
+            Logger.log("Forest grew to " + growStage + " years old");
+        } else {
+            Logger.log("Forest is fully grown");
         }
-        Logger.log("Forest grew to " + growStage + " years old");
     }
 
     @Override
@@ -49,20 +51,19 @@ public class Forest extends RangedBuilding {
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
-        Logger.log(statistics);
         return statistics;
     }
 
     @Override
     public void setOnFire() {
-        onFire = true;
         Logger.log("Forest is on fire at " + coords.toString());
+        onFire = true;
     }
 
     @Override
     public void extinguish() {
-        onFire = false;
         Logger.log("Forest is extinguished at " + coords.toString());
+        onFire = false;
     }
 
     @Override

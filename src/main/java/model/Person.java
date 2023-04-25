@@ -6,6 +6,7 @@ import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
 import model.enums.Effect;
 import util.Logger;
+import static model.GameData.budget;
 
 /**
  * This class represents a person in the game
@@ -26,6 +27,7 @@ public class Person {
         this.age = (int) (Math.random() * 47 + 18);
         this.name = Faker.instance().name().fullName();
         this.effects = new ArrayList<>();
+
         Logger.log("Person created: " + name + " (" + age + ")");
     }
 
@@ -33,7 +35,7 @@ public class Person {
      * Constructor for Person
      * @param founder if the person is a founder
      */
-    public Person(boolean founder){
+    public Person(boolean founder) {
         this();
         this.founder = founder;
     }
@@ -44,15 +46,15 @@ public class Person {
      */
     public double calculateDeceaseChance() {
         double deceaseChance;
-        if(age < 65){
+        if(age < 65) {
             deceaseChance = 0.0;
-        }else if(age < 70){
+        } else if(age < 70) {
             deceaseChance = 0.2;
-        }else if(age < 80){
+        } else if(age < 80) {
             deceaseChance = 0.5;
-        }else if(age < 90){
+        } else if(age < 90) {
             deceaseChance = 0.8;
-        }else{
+        } else {
             deceaseChance = 1.0;
         }
         Logger.log("Decease chance of " + name + " is " + deceaseChance);
@@ -65,17 +67,17 @@ public class Person {
      */
     public double calculateMoveAwayChance() {
         double moveAwayChance;
-        if(founder){
+        if(founder) {
             moveAwayChance = 0.0;
-        }else{
+        } else {
             int satisfaction = calculateSatisfaction();
-            if (satisfaction < 20) {
+            if(satisfaction < 20) {
                 moveAwayChance = 1.0;
-            } else if (satisfaction < 40) {
+            } else if(satisfaction < 40) {
                 moveAwayChance = 0.5;
-            } else if (satisfaction < 60) {
+            } else if(satisfaction < 60) {
                 moveAwayChance = 0.2;
-            } else if (satisfaction < 80) {
+            } else if(satisfaction < 80) {
                 moveAwayChance = 0.1;
             } else {
                 moveAwayChance = 0.0;
@@ -105,7 +107,7 @@ public class Person {
         //calculate satisfaction based on effects
         int satisfaction = 60;
 
-        for (Effect effect : effects) {
+        for(Effect effect : effects) {
             satisfaction += effect.getValue();
         }
 
@@ -157,20 +159,19 @@ public class Person {
 
     /**
      * This method pays the taxes of the person
-     * @param budget the budget of the city
      */
-    public void payTaxes(Integer budget) {
-        budget += 1000;
+    public void payTaxes() {
         Logger.log(name + " has paid taxes");
+        budget += 1000;
         //exact amount to be determined
     }
 
     /**
      * This method pays the pension of the person
      */
-    public void getsPension(Integer budget) {
-        budget -= 1000;
+    public void getsPension() {
         Logger.log(name + " has received pension");
+        budget -= 1000;
         //exact amount to be determined
     }
 
@@ -187,8 +188,8 @@ public class Person {
      * @param age the age of the person
      */
     public void setAge(int age) {
-        this.age = age;
         Logger.log("New age of " + name + " is " + age);
+        this.age = age;
     }
 
     /**
@@ -221,8 +222,8 @@ public class Person {
      * @param effects the effects of the person
      */
     public void setEffects(ArrayList<Effect> effects) {
-        this.effects = effects;
         Logger.log("New effects of " + name + " are " + effects.toString());
+        this.effects = effects;
     }
 
     /**
@@ -231,9 +232,9 @@ public class Person {
      */
     public void setHome(ResidentialBuilding residentialBuilding) {
         this.home = residentialBuilding;
-        if(residentialBuilding != null){
+        if(residentialBuilding != null) {
             Logger.log("New home of " + name + " is" + residentialBuilding);
-        }else{
+        } else {
             Logger.log("New home of " + name + " is null");
         }
 
@@ -253,9 +254,9 @@ public class Person {
      */
     public void setWorkplace(Workplace workplace) {
         this.workplace = workplace;
-        if(workplace != null){
+        if(workplace != null) {
             Logger.log("New home of " + name + " is" + workplace);
-        }else{
+        } else {
             Logger.log("New home of " + name + " is null");
         }
     }

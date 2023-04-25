@@ -24,8 +24,9 @@ public class StatsMenu extends GameMenu {
      * Constructor of the statistics menu
      * @param game is the main Game object 
      */
-    public StatsMenu(Game game){
+    public StatsMenu(Game game) {
         super(game);
+
         this.game = game;
         xBtn = new MyButton(1228, 50, 40, 40, "x");
         statMenuArea = new Rectangle(268, 50, 1000, 690);
@@ -37,48 +38,48 @@ public class StatsMenu extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr){
-        if(!getIsOpen()){return;}
-                
-        paintStatsMenuArea(gr);
-      
-        xBtn.draw(gr, game.getMousePosition());
+    public void draw(Graphics2D gr) {
+        if(getIsOpen()) {
+            paintStatsMenuArea(gr);
 
-        gr.setColor(Color.black);
-        gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        gr.drawString("Statisztikák", 700, 80);
+            xBtn.draw(gr, game.getMousePosition());
 
-        gr.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        gr.drawString("Bevételek", 278, 120);
-        gr.drawString("- Bevétel1: ababababababababababababab", 278, 160);
-        gr.drawString("- Bevétel2: ababababababababababababab", 278, 200);
-        gr.drawString("- Bevétel3: ababababababababababababab", 278, 240);
-        gr.drawString("- Bevétel4: ababababababababababababab", 800, 160);
-        gr.drawString("- Bevétel5: ababababababababababababab", 800, 200);
-        gr.drawString("- Bevétel6: ababababababababababababab", 800, 240);
+            gr.setColor(Color.black);
+            gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+            gr.drawString("Statisztikák", 700, 80);
 
-        gr.drawString("Kiadások", 278, 320);
-        gr.drawString("- Kiadás1: ababababababababababababab", 278, 360);
-        gr.drawString("- Kiadás2: ababababababababababababab", 278, 400);
-        gr.drawString("- Kiadás3: ababababababababababababab", 278, 440);
-        gr.drawString("- Kiadás4: ababababababababababababab", 800, 360);
-        gr.drawString("- Kiadás5: ababababababababababababab", 800, 400);
-        gr.drawString("- Kiadás6: ababababababababababababab", 800, 440);
+            gr.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+            gr.drawString("Bevételek", 278, 120);
+            gr.drawString("- Bevétel1: ababababababababababababab", 278, 160);
+            gr.drawString("- Bevétel2: ababababababababababababab", 278, 200);
+            gr.drawString("- Bevétel3: ababababababababababababab", 278, 240);
+            gr.drawString("- Bevétel4: ababababababababababababab", 800, 160);
+            gr.drawString("- Bevétel5: ababababababababababababab", 800, 200);
+            gr.drawString("- Bevétel6: ababababababababababababab", 800, 240);
 
-        gr.drawString("Építési adatok", 278, 520);
-        gr.drawString("- Építési adat1: ababababababababababababab", 278, 560);
-        gr.drawString("- Építési adat2: ababababababababababababab", 278, 600);
-        gr.drawString("- Építési adat3: ababababababababababababab", 278, 640);
-        gr.drawString("- Építési adat4: ababababababababababababab", 800, 560);
-        gr.drawString("- Építési adat5: ababababababababababababab", 800, 600);
-        gr.drawString("- Építési adat6: ababababababababababababab", 800, 640);
+            gr.drawString("Kiadások", 278, 320);
+            gr.drawString("- Kiadás1: ababababababababababababab", 278, 360);
+            gr.drawString("- Kiadás2: ababababababababababababab", 278, 400);
+            gr.drawString("- Kiadás3: ababababababababababababab", 278, 440);
+            gr.drawString("- Kiadás4: ababababababababababababab", 800, 360);
+            gr.drawString("- Kiadás5: ababababababababababababab", 800, 400);
+            gr.drawString("- Kiadás6: ababababababababababababab", 800, 440);
+
+            gr.drawString("Építési adatok", 278, 520);
+            gr.drawString("- Építési adat1: ababababababababababababab", 278, 560);
+            gr.drawString("- Építési adat2: ababababababababababababab", 278, 600);
+            gr.drawString("- Építési adat3: ababababababababababababab", 278, 640);
+            gr.drawString("- Építési adat4: ababababababababababababab", 800, 560);
+            gr.drawString("- Építési adat5: ababababababababababababab", 800, 600);
+            gr.drawString("- Építési adat6: ababababababababababababab", 800, 640);
+        }
     }
     
     /**
      * Draw the statistics menu's background area on the screen
      * @param gr is the graphics context of the main Panel object
      */
-    private void paintStatsMenuArea(Graphics2D gr){
+    private void paintStatsMenuArea(Graphics2D gr) {
         gr.setColor(statsMenuColor);
         int x = statMenuArea.x;
         int y = statMenuArea.y;
@@ -92,12 +93,12 @@ public class StatsMenu extends GameMenu {
      * @param p is the current mouse position
      */
     @Override
-    public void click(Point p){
-        if(!getIsOpen()){return;}
-        
-        if(xBtn.isHovered(p)){
-            Logger.log("Closed statistics menu");
-            this.setIsOpen(false);
+    public void click(Point p) {
+        if(getIsOpen()) {
+            if(xBtn.isHovered(p)) {
+                Logger.log("Closed statistics menu");
+                this.setIsOpen(false);
+            }
         }
     }
     
@@ -107,9 +108,9 @@ public class StatsMenu extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas(){
+    public ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
-        if(this.getIsOpen()){
+        if(this.getIsOpen()) {
             areas.add(statMenuArea);
         }
         return areas;

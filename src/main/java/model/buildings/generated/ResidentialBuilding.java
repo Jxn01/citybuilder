@@ -26,25 +26,31 @@ public class ResidentialBuilding extends GeneratedBuilding {
         saturationRate = SaturationRate.EMPTY;
         publicSafety = 100;
         maxCapacity = 20;
+
         Logger.log("Residential building created at " + coords.toString());
     }
 
-    public void addPerson(Person person) throws RuntimeException{
-        if(people.size() == maxCapacity){
+    public void addPerson(Person person) throws RuntimeException {
+        if(people.size() == maxCapacity) {
             Logger.log("Can't add person " + person.getName() + " to residential building at " + coords.toString() + " because maximum capacity reached!");
             throw new RuntimeException("Maximum capacity reached! Can't add new person!");
+        } else {
+            Logger.log("Person " + person.getName() + " added to residential building at " + coords.toString());
+
+            people.add(person);
+            person.setHome(this);
+
+            updateSaturationRate();
         }
-        people.add(person);
-        person.setHome(this);
-        updateSaturationRate();
-        Logger.log("Person " + person.getName() + " added to residential building at " + coords.toString());
     }
 
-    public void removePerson(Person person){
+    public void removePerson(Person person) {
+        Logger.log("Person " + person.getName() + " removed from residential building at " + coords.toString());
+
         people.remove(person);
         person.setHome(null);
+
         updateSaturationRate();
-        Logger.log("Person " + person.getName() + " removed from residential building at " + coords.toString());
     }
 
     @Override
@@ -54,19 +60,18 @@ public class ResidentialBuilding extends GeneratedBuilding {
         statistics += "Number of people living here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
         statistics += "Saturation rate: " + saturationRate + "\n";
-        Logger.log(statistics);
         return statistics;
     }
 
     @Override
     public void setOnFire() {
-        onFire = true;
         Logger.log("Residential building set on fire at " + coords.toString());
+        onFire = true;
     }
 
     @Override
     public void extinguish() {
-        onFire = false;
         Logger.log("Residential building extinguished at " + coords.toString());
+        onFire = false;
     }
 }

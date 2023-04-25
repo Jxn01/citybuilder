@@ -44,7 +44,7 @@ public class GameManager implements SaveManager, SpeedManager {
     /**
      * This method initializes the game.
      */
-    public void initGame(String cityName){
+    public void initGame(String cityName) {
         setGameData(new GameData(cityName));
         gameData.calculateAverageSatisfaction();
         gameData.calculatePopulation();
@@ -54,14 +54,14 @@ public class GameManager implements SaveManager, SpeedManager {
     /**
      * This method simulates.
      */
-    public void nextDay(){
+    public void nextDay() {
         Logger.log("A day passes...");
     }
 
     /**
      * Evokes a financial crisis.
      */
-    public void evokeFinancialCrisis(){
+    public void evokeFinancialCrisis() {
         Logger.log("Financial crisis evoked.");
         catastrophes.get(0).effect();
     }
@@ -69,7 +69,7 @@ public class GameManager implements SaveManager, SpeedManager {
     /**
      * Evokes a covid pandemic.
      */
-    public void evokeCovid(){
+    public void evokeCovid() {
         Logger.log("Covid evoked.");
         catastrophes.get(1).effect();
     }
@@ -77,7 +77,7 @@ public class GameManager implements SaveManager, SpeedManager {
     /**
      * Evokes a firestorm.
      */
-    public void evokeFirestorm(){
+    public void evokeFirestorm() {
         Logger.log("Firestorm evoked.");
         catastrophes.get(2).effect();
     }
@@ -85,21 +85,21 @@ public class GameManager implements SaveManager, SpeedManager {
     /**
      * This method sets the taxes.
      */
-    public void setTaxes(int taxes){
+    public void setTaxes(int taxes) {
         Logger.log("Taxes set to " + taxes);
     }
 
     /**
      * Getter for workplace distribution. (Service/Industry)
      */
-    public double getWorkplaceDistribution(){
+    public double getWorkplaceDistribution() {
         return 0.0;
     }
 
     /**
      * Getter for the expenses.
      */
-    public Pair<String, Integer> getExpenses(){
+    public Pair<String, Integer> getExpenses() {
         return new Pair<>("", 0);
     }
 

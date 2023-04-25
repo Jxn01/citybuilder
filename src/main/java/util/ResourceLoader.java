@@ -27,10 +27,11 @@ public class ResourceLoader {
      */
     public static Image loadImage(String resName) throws IOException {
         URL url = ResourceLoader.class.getClassLoader().getResource(resName);
-        if (url == null) {
+        if(url == null) {
             throw new IOException("Resource not found: " + resName);
+        } else {
+            return ImageIO.read(url);
         }
-        return ImageIO.read(url);
     }
 }
 
