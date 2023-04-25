@@ -1,8 +1,10 @@
-import view.Frame;
+import controller.GameManager;
+import util.Logger;
+import view.components.GameGUI;
 
 public class Main {
     public static void main(String[] args) {
-        Frame testing = new Frame();
-        testing.init();
+        Logger.log("Starting the game...");
+        GameGUI game = new GameGUI();
     }
 }
