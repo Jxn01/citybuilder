@@ -1,5 +1,7 @@
 package model;
 
+import com.google.common.graph.Graph;
+import com.google.common.graph.GraphBuilder;
 import model.field.BorderField;
 import model.field.Field;
 import model.field.PlayableField;
@@ -8,6 +10,7 @@ import util.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static util.Date.*;
 
@@ -35,6 +38,7 @@ public class GameData {
     private int population;
     private Field[][] fields;
 
+    private Graph<Field> graph;
     private ArrayList<Person> people;
 
     /**
@@ -52,7 +56,7 @@ public class GameData {
      * @param fields the fields of the city
      * @param people the people of the city
      */
-    public GameData(String startDate, String currentDate, String inGameStartDate, String inGameCurrentDate, String playTime, int budget, String cityName, boolean gameOver, File saveFile, int yearlyTaxes, Field[][] fields, ArrayList<Person> people, String id) {
+    public GameData(String startDate, String currentDate, String inGameStartDate, String inGameCurrentDate, String playTime, int budget, String cityName, boolean gameOver, File saveFile, int yearlyTaxes, Field[][] fields, ArrayList<Person> people, String id, Graph<Field> graph) {
         this.startDate = startDate;
         this.currentDate = currentDate;
         this.inGameStartDate = inGameStartDate;
@@ -64,6 +68,7 @@ public class GameData {
         this.saveFile = saveFile;
         this.yearlyTaxes = yearlyTaxes;
         this.fields = fields;
+        this.graph = graph;
         this.people = people;
         this.id = id;
         Logger.log("Game data created: " + this.id);
@@ -87,6 +92,7 @@ public class GameData {
         this.saveFile = null;
         this.yearlyTaxes = starterTaxes;
         this.fields = new Field[51][51];
+        this.graph = GraphBuilder.undirected().allowsSelfLoops(false).build();
 
         for(int i = 0; i < starterMapSize; i++) {
             for(int j = 0; j < starterMapSize; j++) { // 2 thick border, 49x49 playable area
@@ -317,6 +323,22 @@ public class GameData {
     }
 
     /**
+     * Getter for the graph
+     * @return the graph
+     */
+    public Graph<Field> getGraph() {
+        return graph;
+    }
+
+    /**
+     * Setter for the graph
+     * @param graph the graph
+     */
+    public void setGraph(Graph<Field> graph) {
+        this.graph = graph;
+    }
+
+    /**
      * Getter for the people
      * @return the people
      */
@@ -353,17 +375,18 @@ public class GameData {
     public String toString() {
         return "GameData{" +
                 "id='" + id + '\'' +
-                ", startDate=" + startDate +
-                ", currentDate=" + currentDate +
-                ", inGameStartDate=" + inGameStartDate +
-                ", inGameCurrentDate=" + inGameCurrentDate +
-                ", playTime=" + playTime +
-                ", budget=" + budget +
-                ", cityName='" + cityName + '\'' +
-                ", gameOver=" + gameOver +
                 ", saveFile=" + saveFile +
+                ", cityName='" + cityName + '\'' +
+                ", population=" + population +
+                ", averageSatisfaction=" + averageSatisfaction +
+                ", playTime='" + playTime + '\'' +
+                ", inGameStartDate='" + inGameStartDate + '\'' +
+                ", inGameCurrentDate='" + inGameCurrentDate + '\'' +
+                ", currentDate='" + currentDate + '\'' +
                 ", yearlyTaxes=" + yearlyTaxes +
-                ", fields=" + fields +
+                ", gameOver=" + gameOver +
+                ", fields=" + Arrays.toString(fields) +
+                ", graph=" + graph +
                 ", people=" + people +
                 '}';
     }

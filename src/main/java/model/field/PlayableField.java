@@ -33,8 +33,6 @@ public class PlayableField extends Field {
      */
     public PlayableField(Coordinate coord) throws IOException {
         super(coord);
-
-        Logger.log("Field created at " + coord.toString());
     }
 
     /**
