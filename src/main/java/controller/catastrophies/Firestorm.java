@@ -1,5 +1,6 @@
 package controller.catastrophies;
 
+import model.GameData;
 import util.Logger;
 
 /**
@@ -25,7 +26,7 @@ public class Firestorm extends Catastrophe {
     }
 
     @Override
-    public void effect() {
+    public void effect(GameData gameData) {
         Logger.log("Firestorm happening!");
     }
 }

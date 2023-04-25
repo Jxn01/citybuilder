@@ -233,6 +233,7 @@ public class GameData {
      * @return the population size
      */
     public int getPopulation() {
+        calculatePopulation();
         return population;
     }
 

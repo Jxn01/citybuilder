@@ -63,7 +63,7 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void evokeFinancialCrisis() {
         Logger.log("Financial crisis evoked.");
-        catastrophes.get(0).effect();
+        catastrophes.get(0).effect(gameData);
     }
 
     /**
@@ -71,7 +71,7 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void evokeCovid() {
         Logger.log("Covid evoked.");
-        catastrophes.get(1).effect();
+        catastrophes.get(1).effect(gameData);
     }
 
     /**
@@ -79,7 +79,7 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void evokeFirestorm() {
         Logger.log("Firestorm evoked.");
-        catastrophes.get(2).effect();
+        catastrophes.get(2).effect(gameData);
     }
 
     /**
