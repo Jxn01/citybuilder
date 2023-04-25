@@ -103,7 +103,6 @@ public class GameData {
                     try { this.fields[i][j] = new PlayableField(new Coordinate(i, j)); }
                     catch(IOException exc) { exc.printStackTrace(); }
                 }
-
             }
         }
 
