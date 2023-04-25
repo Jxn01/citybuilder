@@ -16,10 +16,12 @@ public class Covid extends Catastrophe {
     /**
      * Constructor of the covid catastrophe.
      */
-    private Covid() { }
+    private Covid() {
+    }
 
     /**
      * Get the instance of the covid catastrophe.
+     *
      * @return the instance of the covid catastrophe
      */
     public static Covid getInstance() {
@@ -29,20 +31,20 @@ public class Covid extends Catastrophe {
         return instance;
     }
 
-    private int randomNumberGenerator(int max){
+    private int randomNumberGenerator(int max) {
         Random random = new Random();
         int randomNumber = random.nextInt(max + 1); // generates a random number between 0 and x (inclusive)
         return randomNumber;
-    };
+    }
 
     @Override
     public void effect(GameData gameData) {
-        Logger.log("Actual population: "+gameData.getPopulation());
+        Logger.log("Actual population: " + gameData.getPopulation());
 
         ArrayList<Person> people = gameData.getPeople();
         int deaths_count = people.size() / 10;
 
-        while(deaths_count > 0){
+        while (deaths_count > 0) {
             int randomIndex = randomNumberGenerator(people.size());
 
             people.get(randomIndex).decease();
@@ -51,8 +53,7 @@ public class Covid extends Catastrophe {
             deaths_count--;
         }
 
-        Logger.log("Actual population: "+gameData.getPopulation());
-
         Logger.log("Covid catastrophe happening!");
+        Logger.log("Actual population: " + gameData.getPopulation());
     }
 }

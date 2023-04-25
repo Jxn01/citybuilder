@@ -44,7 +44,7 @@ public class FireDepartment extends RangedBuilding {
 
     @Override
     public void setOnFire() {
-        //cant be on fire
+        Logger.log("Firestation is set on fire");
     }
 
     @Override

@@ -2,10 +2,11 @@ package model;
 
 import java.util.ArrayList;
 import com.github.javafaker.Faker;
+import util.Logger;
+
 import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
 import model.enums.Effect;
-import util.Logger;
 import static model.GameData.budget;
 
 /**
@@ -147,6 +148,9 @@ public class Person {
     public void decease() {
         Logger.log(name + " has died");
         this.name = "Deceased";
+        this.effects = null;
+        this.home = null;
+        this.workplace = null;
     }
 
     /**

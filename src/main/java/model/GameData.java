@@ -313,6 +313,31 @@ public class GameData {
         return fields;
     }
 
+    public ArrayList<PlayableField> getPlayableFields() {
+        ArrayList<PlayableField> result = new ArrayList<>();
+
+        for (int i = 0; i < starterMapSize; i++) {
+            for (int j = 0; j < starterMapSize; j++) {
+                if(fields[i][j] instanceof PlayableField field) result.add(field);
+            }
+        }
+
+        return result;
+    }
+
+    public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
+        ArrayList<PlayableField> playableFields = getPlayableFields();
+        ArrayList<PlayableField> result = new ArrayList<>();
+
+        for (PlayableField playableField : playableFields) {
+            if(playableField.getBuilding() != null){
+                result.add(playableField);
+            }
+        }
+
+        return result;
+    }
+
     /**
      * Setter for the fields
      * @param fields the fields

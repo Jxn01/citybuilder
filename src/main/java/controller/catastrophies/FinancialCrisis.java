@@ -14,10 +14,12 @@ public class FinancialCrisis extends Catastrophe {
     /**
      * Constructor of the financial crisis.
      */
-    private FinancialCrisis() { }
+    private FinancialCrisis() {
+    }
 
     /**
      * Get the instance of the financial crisis.
+     *
      * @return the instance of the financial crisis
      */
     public static FinancialCrisis getInstance() {

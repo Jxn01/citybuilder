@@ -1,7 +1,6 @@
 package controller.catastrophies;
 
 import model.GameData;
-import view.gui.Game;
 
 /**
  * This class represents a catastrophe.
