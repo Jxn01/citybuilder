@@ -1,9 +1,24 @@
 package model.buildings.playerbuilt;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import model.Coordinate;
+import model.buildings.generated.GeneratedBuilding;
 import model.buildings.interfaces.FunctionalBuilding;
+import model.field.BorderField;
+import model.field.PlayableField;
 
 import java.awt.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = PoliceStation.class, name = "police"),
+        @JsonSubTypes.Type(value = Stadium.class, name = "stadium"),
+        @JsonSubTypes.Type(value = FireDepartment.class, name = "firedepartment"),
+        @JsonSubTypes.Type(value = Forest.class, name = "forest")
+})
 
 public abstract class RangedBuilding extends PlayerBuilding implements FunctionalBuilding {
     protected int range;
@@ -17,7 +32,9 @@ public abstract class RangedBuilding extends PlayerBuilding implements Functiona
      * @param maintenanceCost is the maintenance cost of the ranged building
      * @param range is the range of the ranged building
      */
-    public RangedBuilding(Coordinate coords, double firePossibility, boolean isOnFire, int buildCost, int maintenanceCost, int range) {
+
+    @JsonCreator
+    public RangedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("buildCost") int buildCost, @JsonProperty("maintenanceCost") int maintenanceCost, @JsonProperty("range") int range) {
         super(coords, firePossibility, isOnFire, buildCost, maintenanceCost);
 
         this.range = range;

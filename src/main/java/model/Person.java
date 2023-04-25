@@ -1,6 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.javafaker.Faker;
 import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
@@ -29,6 +33,16 @@ public class Person {
         this.effects = new ArrayList<>();
 
         Logger.log("Person created: " + name + " (" + age + ")");
+    }
+
+    @JsonCreator
+    public Person(@JsonProperty("age") int age, @JsonProperty("name") String name, @JsonProperty("effects") ArrayList<Effect> effects, @JsonProperty("home") ResidentialBuilding home, @JsonProperty("workplace") Workplace workplace, @JsonProperty("founder") boolean founder) {
+        this.age = age;
+        this.name = name;
+        this.effects = effects;
+        this.home = home;
+        this.workplace = workplace;
+        this.founder = founder;
     }
 
     /**
@@ -137,6 +151,7 @@ public class Person {
      * This method checks if the person is retired
      * @return true if the person is retired
      */
+    @JsonIgnore
     public boolean isRetired() {
         return age > 65;
     }

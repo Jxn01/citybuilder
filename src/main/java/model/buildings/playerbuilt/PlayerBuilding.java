@@ -1,10 +1,22 @@
 package model.buildings.playerbuilt;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import model.Coordinate;
 import model.buildings.Building;
+import model.field.BorderField;
+import model.field.PlayableField;
 import util.Logger;
 
 import java.awt.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Road.class, name = "road"),
+        @JsonSubTypes.Type(value = RangedBuilding.class, name = "ranged")
+})
 
 public abstract class PlayerBuilding extends Building {
     protected int buildCost;
@@ -18,7 +30,8 @@ public abstract class PlayerBuilding extends Building {
      * @param buildCost is the build cost of the player building
      * @param maintenanceCost is the maintenance cost of the player building
      */
-    public PlayerBuilding(Coordinate coords, double firePossibility, boolean isOnFire, int buildCost, int maintenanceCost) {
+    @JsonCreator
+    public PlayerBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("buildCost") int buildCost, @JsonProperty("maintenanceCost") int maintenanceCost) {
         super(coords, firePossibility, isOnFire);
 
         this.buildCost = buildCost;

@@ -1,14 +1,22 @@
 package model.buildings;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import model.Coordinate;
+import model.buildings.generated.GeneratedBuilding;
 import model.buildings.interfaces.Flammable;
+import model.buildings.playerbuilt.PlayerBuilding;
 import util.Logger;
-import util.ResourceLoader;
-
-import java.awt.*;
-import java.io.IOException;
 
 import com.github.javafaker.Faker;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = PlayerBuilding.class, name = "playerbuilt"),
+        @JsonSubTypes.Type(value = GeneratedBuilding.class, name = "generated")
+})
 
 /**
  * This class represents a building.
@@ -26,6 +34,14 @@ public abstract class Building implements Flammable {
      * @param onFire is the building on fire
      */
     public Building(Coordinate coords, double firePossibility, boolean onFire) {
+        this.coords = coords;
+        this.firePossibility = firePossibility;
+        this.onFire = onFire;
+    }
+
+    @JsonCreator
+    public Building(@JsonProperty("address") String address, @JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("onFire") boolean onFire) {
+        this.address = address;
         this.coords = coords;
         this.firePossibility = firePossibility;
         this.onFire = onFire;

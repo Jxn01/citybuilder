@@ -9,6 +9,7 @@ import controller.interfaces.SpeedManager;
 import model.GameData;
 import org.javatuples.Pair;
 import util.Logger;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class GameManager implements SaveManager, SpeedManager {
         catastrophes.add(Covid.getInstance());
         catastrophes.add(Firestorm.getInstance());
 
+        setSimulationSpeed(SimulationSpeed.PAUSED);
         Logger.log("Game manager created.");
     }
 
@@ -81,6 +83,84 @@ public class GameManager implements SaveManager, SpeedManager {
         Logger.log("Firestorm evoked.");
         catastrophes.get(2).effect();
     }
+
+    @Override
+    public ArrayList<File> readSaveFiles() {
+        Logger.log("Reading save files...");
+        saveFiles = new ArrayList<>();
+        File[] files = new File("src/main/resources/saves").listFiles();
+        if(files != null) {
+            for(File file : files) {
+                if(file.isFile() && file.getName().endsWith(".json")) {
+                    saveFiles.add(file);
+                }
+            }
+        }
+        return saveFiles;
+    }
+
+    @Override
+    public void deleteSaveFile(File file) {
+        Logger.log("Deleting save file: " + file.getName());
+        if(file.delete()) {
+            Logger.log("Save file deleted.");
+        } else {
+            Logger.log("Save file could not be deleted.");
+        }
+    }
+
+    @Override
+    public void loadSaveFile(File file) {
+        Logger.log("Loading save file: " + file.getName());
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            setGameData(objectMapper.readValue(file, GameData.class));
+            Logger.log("Save file loaded.");
+        } catch(Exception exc) {
+            Logger.log("Save file could not be loaded.");
+            exc.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveGame(GameData gameData) {
+        if(gameData.getSaveFile() == null) {
+            Logger.log("Game has not been saved yet, creating new save file...");
+            File file = new File("src/main/resources/saves/" + gameData.getId() + ".json");
+            try {
+
+                if(file.createNewFile()) {
+                    Logger.log("Save file created.");
+                } else {
+                    Logger.log("Save file already exists.");
+                    Logger.log("Deleting old save file...");
+                    if(file.delete()) {
+                        Logger.log("Old save file deleted.");
+                    } else {
+                        Logger.log("Old save file could not be deleted.");
+                    }
+                }
+
+                gameData.setSaveFile(file);
+                Logger.log("Save file created.");
+
+            } catch(Exception exc) {
+                Logger.log("Save file could not be created.");
+                exc.printStackTrace();
+            }
+        }
+        Logger.log("Saving game...");
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(gameData.getSaveFile(), gameData);
+            Logger.log("Game saved.");
+        } catch(Exception exc) {
+            Logger.log("Game could not be saved.");
+            exc.printStackTrace();
+        }
+    }
+
+
 
     /**
      * This method sets the taxes.
@@ -177,26 +257,6 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public ArrayList<File> getSaveFiles() {
         return saveFiles;
-    }
-
-    @Override
-    public ArrayList<File> readSaveFiles() {
-        return null;
-    }
-
-    @Override
-    public void loadSaveFile(File file) {
-        Logger.log("Loading save file: " + file.getName());
-    }
-
-    @Override
-    public void saveGame(GameData gameData) {
-        Logger.log("Saving game: " + gameData.getSaveFile().getName());
-    }
-
-    @Override
-    public void deleteSaveFile(File file) {
-        Logger.log("Deleting save file: " + file.getName());
     }
 
     @Override

@@ -1,11 +1,11 @@
 package model.field;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import model.Coordinate;
 import model.buildings.*;
-import model.buildings.generated.GeneratedBuilding;
-import model.buildings.generated.IndustrialWorkplace;
-import model.buildings.generated.ResidentialBuilding;
-import model.buildings.generated.ServiceWorkplace;
+import model.buildings.generated.*;
 import model.buildings.playerbuilt.*;
 import model.enums.UpgradeLevel;
 import model.enums.Zone;
@@ -13,9 +13,6 @@ import util.Logger;
 import view.enums.Tile;
 
 import static model.GameData.budget;
-import static util.ResourceLoader.*;
-
-import java.io.IOException;
 
 /**
  * This class represents a field on the map
@@ -31,8 +28,18 @@ public class PlayableField extends Field {
      * Constructor of the field
      * @param coord is the coordinate of the field
      */
-    public PlayableField(Coordinate coord) throws IOException {
+    public PlayableField(Coordinate coord) {
         super(coord);
+    }
+
+    @JsonCreator
+    public PlayableField(@JsonProperty("coord") Coordinate coord, @JsonProperty("tile") Tile tile, @JsonProperty("maxCapacity") int maxCapacity, @JsonProperty("moveInFactor") int moveInFactor, @JsonProperty("zone") Zone zone, @JsonProperty("upgradeLevel") UpgradeLevel upgradeLevel, @JsonProperty("building") Building building) {
+        super(coord, tile);
+        this.maxCapacity = maxCapacity;
+        this.moveInFactor = moveInFactor;
+        this.zone = zone;
+        this.upgradeLevel = upgradeLevel;
+        this.building = building;
     }
 
     /**
@@ -54,11 +61,11 @@ public class PlayableField extends Field {
                     building = new ResidentialBuilding(coord);
                     ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
 
-                    try { switch(upgradeLevel) {
-                            case TOWN -> texture = loadImage("HOUSE_1.png");
-                            case CITY -> texture = loadImage("HOUSE_2.png");
-                            case METROPOLIS -> texture = loadImage("HOUSE_3.png"); }
-                    } catch(IOException exc) { exc.printStackTrace(); }
+                    switch(upgradeLevel) {
+                        case TOWN -> tile = Tile.HOUSE_1;
+                        case CITY -> tile = Tile.HOUSE_2;
+                        case METROPOLIS -> tile = Tile.HOUSE_3;
+                    }
                 }
 
                 case INDUSTRIAL_ZONE -> {
@@ -67,11 +74,11 @@ public class PlayableField extends Field {
                     building = new IndustrialWorkplace(coord);
                     ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
 
-                    try { switch(upgradeLevel) {
-                        case TOWN -> texture = loadImage("FACTORY_LVL1.png");
-                        case CITY -> texture = loadImage("FACTORY_LVL2.png");
-                        case METROPOLIS -> texture = loadImage("FACTORY_LVL3.png"); }
-                    } catch(IOException exc) { exc.printStackTrace(); }
+                    switch(upgradeLevel) {
+                        case TOWN -> tile = Tile.FACTORY_1;
+                        case CITY -> tile = Tile.FACTORY_2;
+                        case METROPOLIS -> tile = Tile.FACTORY_3;
+                    }
                 }
 
                 case SERVICE_ZONE -> {
@@ -80,11 +87,11 @@ public class PlayableField extends Field {
                     building = new ServiceWorkplace(coord);
                     ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
 
-                    try { switch(upgradeLevel) {
-                        case TOWN -> texture = loadImage("SERVICE_LVL1.png");
-                        case CITY -> texture = loadImage("SERVICE_LVL2.png");
-                        case METROPOLIS -> texture = loadImage("SERVICE_LVL3.png");}
-                    } catch(IOException exc) { exc.printStackTrace(); }
+                    switch(upgradeLevel) {
+                        case TOWN -> tile = Tile.SERVICE_1;
+                        case CITY -> tile = Tile.SERVICE_2;
+                        case METROPOLIS -> tile = Tile.SERVICE_3;
+                    }
                 }
 
                 default -> {
@@ -100,9 +107,6 @@ public class PlayableField extends Field {
 
                     building = new PoliceStation(coord);
                     budget -= ((PoliceStation)building).getBuildCost();
-
-                    try { texture = loadImage("POLICE_1.png"); }
-                    catch(IOException exc) { exc.printStackTrace(); }
                 }
 
                 case FIRESTATION -> {
@@ -112,8 +116,7 @@ public class PlayableField extends Field {
                     building = new FireDepartment(coord);
                     budget -= ((FireDepartment)building).getBuildCost();
 
-                    try { texture = loadImage("FIRESTATION.png"); }
-                    catch(IOException exc) { exc.printStackTrace(); }
+                    tile = Tile.FIRESTATION;
                 }
 
                 case FOREST -> {
@@ -122,9 +125,6 @@ public class PlayableField extends Field {
 
                     building = new Forest(coord);
                     budget -= ((Forest)building).getBuildCost();
-
-                    try { texture = loadImage("FOREST_1.png"); }
-                    catch(IOException exc) { exc.printStackTrace(); }
                 }
 
                 case ROAD -> {
@@ -133,9 +133,6 @@ public class PlayableField extends Field {
 
                     building = new Road(coord);
                     budget -= ((Road)building).getBuildCost();
-
-                    try { texture = loadImage("road_tile.png"); }
-                    catch(IOException exc) { exc.printStackTrace(); }
                 }
 
                 default -> {
@@ -143,6 +140,7 @@ public class PlayableField extends Field {
                     throw new RuntimeException("Unrecognized building type!");
                 }
             }
+            tile = buildingType;
         }
     }
 
@@ -169,8 +167,7 @@ public class PlayableField extends Field {
             building = stadium;
             budget -= ((PlayerBuilding)building).getBuildCost();
 
-            try { texture = loadImage("STADIUM_1.png"); }
-            catch(IOException exc) { exc.printStackTrace(); }
+            tile = Tile.STADIUM;
         }
     }
 
@@ -199,11 +196,11 @@ public class PlayableField extends Field {
             maxCapacity = 20;
             budget -= 100; //exact amount is TODO
 
-            try { switch(zone) {
-                    case RESIDENTIAL_ZONE -> texture = loadImage("residential_zone.png");
-                    case INDUSTRIAL_ZONE -> texture = loadImage("industrial_zone.png");
-                    case SERVICE_ZONE -> texture = loadImage("service_zone.png"); }
-            } catch(IOException exc) { exc.printStackTrace(); }
+            switch(zone) {
+                case RESIDENTIAL_ZONE -> tile = Tile.RESIDENTIALZONE;
+                case INDUSTRIAL_ZONE -> tile = Tile.FACTORYZONE;
+                case SERVICE_ZONE -> tile = Tile.SERVICEZONE;
+            }
         }
     }
 
@@ -229,8 +226,7 @@ public class PlayableField extends Field {
             budget += ((PlayerBuilding)building).getBuildCost();
             building = null;
 
-            try { texture = loadImage("GRASS_1.png"); }
-            catch (IOException exc) { exc.printStackTrace(); }
+            tile = Tile.GRASS_1;
         }
     }
 
@@ -256,8 +252,7 @@ public class PlayableField extends Field {
             budget += 100; //exact amount is TODO
             zone = null;
 
-            try { texture = loadImage("GRASS_1.png"); }
-            catch(IOException exc) { exc.printStackTrace(); }
+            tile = Tile.GRASS_1;
         }
     }
 
@@ -289,11 +284,11 @@ public class PlayableField extends Field {
 
                     if(building != null) {
                         ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
-                        try { switch(zone) {
-                                case RESIDENTIAL_ZONE -> texture = loadImage("HOUSE_2.png");
-                                case INDUSTRIAL_ZONE -> texture = loadImage("FACTORY_LVL2.png");
-                                case SERVICE_ZONE -> texture = loadImage("SERVICE_LVL2.png"); }
-                        } catch(IOException exc) { exc.printStackTrace(); }
+                        switch(zone) {
+                            case RESIDENTIAL_ZONE -> tile = Tile.HOUSE_2;
+                            case INDUSTRIAL_ZONE -> tile = Tile.FACTORY_2;
+                            case SERVICE_ZONE -> tile = Tile.SERVICE_2;
+                        }
                     }
                 }
 
@@ -308,11 +303,11 @@ public class PlayableField extends Field {
 
                     if(building != null){
                         ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
-                        try{ switch(zone) {
-                                case RESIDENTIAL_ZONE -> texture = loadImage("HOUSE_3.png");
-                                case INDUSTRIAL_ZONE -> texture = loadImage("FACTORY_LVL3.png");
-                                case SERVICE_ZONE -> texture = loadImage("SERVICE_LVL3.png");}
-                        } catch(IOException exc){exc.printStackTrace();}
+                        switch(zone) {
+                            case RESIDENTIAL_ZONE -> tile = Tile.HOUSE_3;
+                            case INDUSTRIAL_ZONE -> tile = Tile.FACTORY_3;
+                            case SERVICE_ZONE -> tile = Tile.SERVICE_3;
+                        }
                     }
                 }
 
@@ -329,6 +324,7 @@ public class PlayableField extends Field {
      * @return the current capacity of the field
      * @throws RuntimeException if there is no building on the field, or if the building is not a generated building
      */
+    @JsonIgnore
     public int getCurrentCapacity() throws RuntimeException {
         if(building == null) {
 
@@ -338,7 +334,7 @@ public class PlayableField extends Field {
         } else if(!(building instanceof GeneratedBuilding)) {
 
             Logger.log("Field at " + coord + " has a generated building on it, can't get current capacity!");
-            throw new RuntimeException("The building on the field is not a generated building!");
+            throw new RuntimeException("Building is not a generated building!");
 
         } else {
             Logger.log("Current capacity of field at " + coord + " is " + ((GeneratedBuilding) building).getPeople().size() + "!");
@@ -374,6 +370,7 @@ public class PlayableField extends Field {
     /**
      * Calculate the move-in-factor of the field
      */
+    @JsonIgnore
     public int calculateMoveInFactor() {
         int moveInFactor = 0;
         Logger.log("Move in factor of field at " + coord + " is " + moveInFactor);

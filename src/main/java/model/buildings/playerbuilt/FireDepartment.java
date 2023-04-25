@@ -1,5 +1,8 @@
 package model.buildings.playerbuilt;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import model.Coordinate;
 import util.Logger;
 import util.ResourceLoader;
@@ -31,6 +34,14 @@ public class FireDepartment extends RangedBuilding {
         Logger.log("Fire department created at " + coords.toString());
     }
 
+    @JsonCreator
+    public FireDepartment(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("onFire") boolean onFire, @JsonProperty("buildCost") int buildCost, @JsonProperty("maintenanceCost") int maintenanceCost, @JsonProperty("range") int range, @JsonProperty("maxFireTrucks") int maxFireTrucks, @JsonProperty("availableFireTrucks") int availableFireTrucks) {
+        super(coords, firePossibility, onFire, buildCost, maintenanceCost, range);
+        this.maxFireTrucks = maxFireTrucks;
+        this.availableFireTrucks = availableFireTrucks;
+    }
+
+    @JsonIgnore
     @Override
     public String getStatistics() {
         String statistics = "Fire department statistics:\n";

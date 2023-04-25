@@ -26,9 +26,7 @@ import model.field.*;
  */
 public class Map {
     private final Game game;
-    private Image grass_1,grass_2,grass_3, rocks, road, fireStation;
-    private Image stadium,serviceZone,forest,factoryZone;
-    private Image house_1,house_2,house_3,police,construction;
+    private Image rocks, grass_1, grass_2, grass_3, house_1, house_2, house_3, service_1, service_2, service_3, factory_1, factory_2, factory_3, serviceZone, factoryZone, residentialZone, road, fireStation, stadium, forest, police, construction;
     private Tile selectedBuildingType;
     private Point selectedTile;
     private Field[][] fields;
@@ -41,19 +39,26 @@ public class Map {
     public Map(Game game) {
         this.game = game;
         try {
+            rocks = ResourceLoader.loadImage("PATHROCKS.png");
             grass_1 = ResourceLoader.loadImage("GRASS_1.png");
             grass_2 = ResourceLoader.loadImage("GRASS_2.png");
             grass_3 = ResourceLoader.loadImage("GRASS_3.png");
-            rocks = ResourceLoader.loadImage("PATHROCKS.png");
-            fireStation = ResourceLoader.loadImage("FIRESTATION.png");
-            road = ResourceLoader.loadImage("ROAD_1.png");
-            stadium = ResourceLoader.loadImage("STADIUM_1.png");
-            serviceZone = ResourceLoader.loadImage("SERVICE_LVL1.png");
-            forest = ResourceLoader.loadImage("FOREST_1.png");
-            factoryZone = ResourceLoader.loadImage("FACTORY_LVL1.png");
             house_1 = ResourceLoader.loadImage("HOUSE_1.png");
             house_2 = ResourceLoader.loadImage("HOUSE_2.png");
             house_3 = ResourceLoader.loadImage("HOUSE_3.png");
+            service_1 = ResourceLoader.loadImage("SERVICE_LVL1.png");
+            service_2 = ResourceLoader.loadImage("SERVICE_LVL2.png");
+            service_3 = ResourceLoader.loadImage("SERVICE_LVL3.png");
+            factory_1 = ResourceLoader.loadImage("FACTORY_LVL1.png");
+            factory_2 = ResourceLoader.loadImage("FACTORY_LVL2.png");
+            factory_3 = ResourceLoader.loadImage("FACTORY_LVL3.png");
+            serviceZone = ResourceLoader.loadImage("service_zone.png");
+            factoryZone = ResourceLoader.loadImage("industrial_zone.png");
+            residentialZone = ResourceLoader.loadImage("residential_zone.png");
+            fireStation = ResourceLoader.loadImage("FIRESTATION.png");
+            road = ResourceLoader.loadImage("road_tile.png");
+            stadium = ResourceLoader.loadImage("STADIUM_1.png");
+            forest = ResourceLoader.loadImage("FOREST_1.png");
             police = ResourceLoader.loadImage("POLICE_1.png");
             construction = ResourceLoader.loadImage("CONSTRUCTION.png");
         } catch(IOException exc) { exc.printStackTrace(); }
@@ -72,7 +77,7 @@ public class Map {
         
         for(int row = 0; row < 51; ++row) {
             for(int col = 0; col < 51; ++col) {
-                Image img = fields[row][col].getTexture();
+                Image img = tileToImg(fields[row][col].getTile());
                 if(row > 1 && col > 1 && row < 49 && col < 49 && ((PlayableField) fields[row][col]).getBuilding() instanceof Stadium) {
                     Point p = new Point(row, col);
                     for(ArrayList<Point> points : stadiums) {
@@ -168,40 +173,39 @@ public class Map {
      * @param p is the point where the user clicked
      */
     public void click(Point p) {
-        if(submenuHovered(p)){
-            selectedTile = null;
-            return;
-        }
-
-        Point click = pointToXY(p);
-        if (selectedBuildingType != null && p.y < game.height() - 40) {
-            if(selectedBuildingType != Tile.GRASS_1){
-                if(isFieldEmpty(click.x, click.y)){
-                    if(selectedBuildingType != Tile.ROAD) {
-                        if(selectedBuildingType == Tile.STADIUM){
-                            if(isFieldEmpty(click.x, click.y + 1) && isFieldEmpty(click.x - 1, click.y) && isFieldEmpty(click.x - 1, click.y + 1) && stadiumIsNextToRoad(click.x, click.y)){
-                                build(click.x-1, click.y, selectedBuildingType);
-                            } else {
-                                Logger.log("You can only build a stadium on 4 tiles!");
-                            }
-                        } else if(isNextToRoad(click.x, click.y)) {
-                            build(click.x, click.y, selectedBuildingType);
-                        } else {
-                            Logger.log("You can only build next to a road!");
-                        }
-                    } else {
-                        build(click.x, click.y, selectedBuildingType);
-                    }
-                }
-            } else {
-                build(click.x, click.y, selectedBuildingType);
-            }
-        } else if(selectedTile == null) {
-            selectedTile = click;
-        } else if(selectedTile.equals(click)) {
+        if(submenuHovered(p)) {
             selectedTile = null;
         } else {
-            selectedTile = click;
+            Point click = pointToXY(p);
+            if (selectedBuildingType != null && p.y < game.height() - 40) {
+                if (selectedBuildingType != Tile.GRASS_1) {
+                    if (isFieldEmpty(click.x, click.y)) {
+                        if (selectedBuildingType != Tile.ROAD) {
+                            if (selectedBuildingType == Tile.STADIUM) {
+                                if (isFieldEmpty(click.x, click.y + 1) && isFieldEmpty(click.x - 1, click.y) && isFieldEmpty(click.x - 1, click.y + 1) && stadiumIsNextToRoad(click.x, click.y)) {
+                                    build(click.x - 1, click.y, selectedBuildingType);
+                                } else {
+                                    Logger.log("You can only build a stadium on 4 tiles!");
+                                }
+                            } else if (isNextToRoad(click.x, click.y)) {
+                                build(click.x, click.y, selectedBuildingType);
+                            } else {
+                                Logger.log("You can only build next to a road!");
+                            }
+                        } else {
+                            build(click.x, click.y, selectedBuildingType);
+                        }
+                    }
+                } else {
+                    build(click.x, click.y, selectedBuildingType);
+                }
+            } else if (selectedTile == null) {
+                selectedTile = click;
+            } else if (selectedTile.equals(click)) {
+                selectedTile = null;
+            } else {
+                selectedTile = click;
+            }
         }
     }
 
@@ -409,24 +413,30 @@ public class Map {
 
 
     private Image tileToImg(Tile tile) {
-        Image img;
+        Image img = null;
         switch(tile) {
+            case ROCKS -> img = rocks;
             case GRASS_1 -> img = grass_1;
             case GRASS_2 -> img = grass_2;
             case GRASS_3 -> img = grass_3;
-            case ROCKS -> img = rocks;
-            case FIRESTATION -> img = fireStation;
-            case ROAD -> img = road;
-            case STADIUM -> img = stadium;
-            case SERVICEZONE -> img = serviceZone;
-            case FOREST -> img = forest;
-            case FACTORYZONE -> img = factoryZone;
             case HOUSE_1 -> img = house_1;
             case HOUSE_2 -> img = house_2;
             case HOUSE_3 -> img = house_3;
+            case SERVICE_1 -> img = service_1;
+            case SERVICE_2 -> img = service_2;
+            case SERVICE_3 -> img = service_3;
+            case FACTORY_1 -> img = factory_1;
+            case FACTORY_2 -> img = factory_2;
+            case FACTORY_3 -> img = factory_3;
+            case RESIDENTIALZONE -> img = residentialZone;
+            case FACTORYZONE -> img = factoryZone;
+            case SERVICEZONE -> img = serviceZone;
+            case FIRESTATION -> img = fireStation;
+            case ROAD -> img = road;
+            case STADIUM -> img = stadium;
+            case FOREST -> img = forest;
             case POLICE -> img = police;
             case CONSTRUCTION -> img = construction;
-            default -> img = grass_1;
         }
         return img;
     }

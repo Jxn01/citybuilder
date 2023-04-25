@@ -1,5 +1,8 @@
 package model.buildings.playerbuilt;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import model.Coordinate;
 import util.Logger;
 import util.ResourceLoader;
@@ -31,6 +34,13 @@ public class Forest extends RangedBuilding {
         Logger.log("Forest created at " + coords.toString());
     }
 
+    @JsonCreator
+    public Forest(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("onFire") boolean onFire, @JsonProperty("buildCost") int buildCost, @JsonProperty("maintenanceCost") int maintenanceCost, @JsonProperty("range") int range, @JsonProperty("growTime") int growTime, @JsonProperty("growStage") int growStage) {
+        super(coords, firePossibility, onFire, buildCost, maintenanceCost, range);
+        this.growTime = growTime;
+        this.growStage = growStage;
+    }
+
     /**
      * Grow the forest
      */
@@ -43,6 +53,7 @@ public class Forest extends RangedBuilding {
         }
     }
 
+    @JsonIgnore
     @Override
     public String getStatistics() {
         String statistics = "Forest statistics:\n";
