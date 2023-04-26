@@ -25,12 +25,13 @@ public abstract class RangedBuilding extends PlayerBuilding implements Functiona
 
     /**
      * Constructor of the ranged building
-     * @param coords is the coordinates of the ranged building
+     *
+     * @param coords          is the coordinates of the ranged building
      * @param firePossibility is the fire possibility of the ranged building
-     * @param isOnFire is the ranged building on fire
-     * @param buildCost is the build cost of the ranged building
+     * @param isOnFire        is the ranged building on fire
+     * @param buildCost       is the build cost of the ranged building
      * @param maintenanceCost is the maintenance cost of the ranged building
-     * @param range is the range of the ranged building
+     * @param range           is the range of the ranged building
      */
 
     @JsonCreator

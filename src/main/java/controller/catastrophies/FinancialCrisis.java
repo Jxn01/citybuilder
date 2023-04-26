@@ -1,5 +1,6 @@
 package controller.catastrophies;
 
+import model.GameData;
 import util.Logger;
 
 /**
@@ -11,10 +12,12 @@ public class FinancialCrisis extends Catastrophe {
     /**
      * Constructor of the financial crisis.
      */
-    private FinancialCrisis() { }
+    private FinancialCrisis() {
+    }
 
     /**
      * Get the instance of the financial crisis.
+     *
      * @return the instance of the financial crisis
      */
     public static FinancialCrisis getInstance() {
@@ -25,7 +28,8 @@ public class FinancialCrisis extends Catastrophe {
     }
 
     @Override
-    public void effect() {
+    public void effect(GameData gameData) {
+        //gameData.setBudget(gameData.getBudget() / 2);
         Logger.log("Financial crisis happening!");
     }
 }

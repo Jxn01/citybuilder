@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import model.Coordinate;
 import util.Logger;
 import util.ResourceLoader;
+
 import java.io.IOException;
 
 
@@ -28,8 +29,8 @@ public class Stadium extends RangedBuilding {
         this.bottomLeftCoords = bottomLeftCoords;
         this.bottomRightCoords = bottomRightCoords;
 
-        buildCost = 1000; //TODO: Change this
-        maintenanceCost = 100; //TODO: Change this
+        buildCost = 20000;
+        maintenanceCost = 5000;
         range = 10; //TODO: Change this
 
 

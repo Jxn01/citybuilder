@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.javafaker.Faker;
+import util.Logger;
+
 import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
 import model.enums.Effect;
@@ -161,6 +163,9 @@ public class Person {
     public void decease() {
         Logger.log(name + " has died");
         this.name = "Deceased";
+        this.effects = null;
+        this.home = null;
+        this.workplace = null;
     }
 
     /**
