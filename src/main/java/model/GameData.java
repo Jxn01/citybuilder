@@ -35,7 +35,6 @@ public class GameData {
     private int yearlyTaxes;
     private int averageSatisfaction;
 
-    private int population;
     private Field[][] fields;
 
     private Graph<Field> graph;
@@ -224,17 +223,13 @@ public class GameData {
     /**
      * Calculate the population size
      */
-    public void calculatePopulation() {
-        this.population = people.size();
-    }
 
     /**
      * Getter for the population
      * @return the population size
      */
     public int getPopulation() {
-        calculatePopulation();
-        return population;
+        return people.size();
     }
 
     /**
@@ -313,25 +308,22 @@ public class GameData {
         return fields;
     }
 
-    public ArrayList<PlayableField> getPlayableFields() {
+    /**
+     * Getter for the playable fields
+     * @return
+     */
+    public ArrayList<PlayableField> getPlayableFieldsWithBuildings(){
         ArrayList<PlayableField> result = new ArrayList<>();
 
         for (int i = 0; i < starterMapSize; i++) {
             for (int j = 0; j < starterMapSize; j++) {
-                if(fields[i][j] instanceof PlayableField field) result.add(field);
-            }
-        }
 
-        return result;
-    }
+                if(fields[i][j] instanceof PlayableField){
+                    if(((PlayableField) fields[i][j]).getBuilding() != null){
+                        result.add((PlayableField) fields[i][j]);
+                    }
+                }
 
-    public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
-        ArrayList<PlayableField> playableFields = getPlayableFields();
-        ArrayList<PlayableField> result = new ArrayList<>();
-
-        for (PlayableField playableField : playableFields) {
-            if(playableField.getBuilding() != null){
-                result.add(playableField);
             }
         }
 
@@ -402,7 +394,7 @@ public class GameData {
                 "id='" + id + '\'' +
                 ", saveFile=" + saveFile +
                 ", cityName='" + cityName + '\'' +
-                ", population=" + population +
+                ", population=" + getPopulation() +
                 ", averageSatisfaction=" + averageSatisfaction +
                 ", playTime='" + playTime + '\'' +
                 ", inGameStartDate='" + inGameStartDate + '\'' +

@@ -5,7 +5,6 @@ import model.field.PlayableField;
 import util.Logger;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * This class represents a firestorm.
@@ -31,15 +30,14 @@ public class Firestorm extends Catastrophe {
         return instance;
     }
 
-    private int randomNumberGenerator(int max) {
-        Random random = new Random();
-        int randomNumber = random.nextInt(max + 1); // generates a random number between 0 and x (inclusive)
-        return randomNumber;
-    }
-
     @Override
     public void effect(GameData gameData) {
         ArrayList<PlayableField> fields = gameData.getPlayableFieldsWithBuildings();
+
+        if (fields.size() == 0) {
+            throw new RuntimeException("No playable fields found with building on it.");
+        }
+
         int counter = randomNumberGenerator(5);
 
         Logger.log("Number of buildings on fire: " + counter);

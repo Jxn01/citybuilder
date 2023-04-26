@@ -5,7 +5,6 @@ import model.Person;
 import util.Logger;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * This class represents a covid catastrophe.
@@ -29,12 +28,6 @@ public class Covid extends Catastrophe {
             instance = new Covid();
         }
         return instance;
-    }
-
-    private int randomNumberGenerator(int max) {
-        Random random = new Random();
-        int randomNumber = random.nextInt(max + 1); // generates a random number between 0 and x (inclusive)
-        return randomNumber;
     }
 
     @Override

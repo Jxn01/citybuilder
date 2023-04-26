@@ -3,8 +3,6 @@ package controller.catastrophies;
 import model.GameData;
 import util.Logger;
 
-import static model.GameData.budget;
-
 /**
  * This class represents a financial crisis.
  */
@@ -31,7 +29,7 @@ public class FinancialCrisis extends Catastrophe {
 
     @Override
     public void effect(GameData gameData) {
-        budget = budget / 2;
+        //gameData.setBudget(gameData.getBudget() / 2);
         Logger.log("Financial crisis happening!");
     }
 }

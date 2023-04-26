@@ -42,9 +42,10 @@ public class FireDepartment extends RangedBuilding {
         return statistics;
     }
 
+    // TODO: FireDepartment can't be on fire
     @Override
     public void setOnFire() {
-        Logger.log("Firestation is set on fire");
+        Logger.log("Firestation is on fire at " + coords.toString());
     }
 
     @Override
