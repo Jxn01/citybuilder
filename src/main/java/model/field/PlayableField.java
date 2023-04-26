@@ -1,25 +1,24 @@
 package model.field;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import controller.GameManager;
 import model.Coordinate;
 import model.buildings.*;
-import model.buildings.generated.GeneratedBuilding;
-import model.buildings.generated.IndustrialWorkplace;
-import model.buildings.generated.ResidentialBuilding;
-import model.buildings.generated.ServiceWorkplace;
+import model.buildings.generated.*;
 import model.buildings.playerbuilt.*;
 import model.enums.UpgradeLevel;
 import model.enums.Zone;
 import util.Logger;
 import view.enums.Tile;
 
-import static model.GameData.budget;
-import static util.ResourceLoader.*;
-
-import java.io.IOException;
-
 /**
  * This class represents a field on the map
  */
+
+@JsonTypeName("playable")
 public class PlayableField extends Field {
     private int maxCapacity;
     private int moveInFactor;
@@ -31,8 +30,18 @@ public class PlayableField extends Field {
      * Constructor of the field
      * @param coord is the coordinate of the field
      */
-    public PlayableField(Coordinate coord) throws IOException {
+    public PlayableField(Coordinate coord) {
         super(coord);
+    }
+
+    @JsonCreator
+    public PlayableField(@JsonProperty("coord") Coordinate coord, @JsonProperty("tile") Tile tile, @JsonProperty("maxCapacity") int maxCapacity, @JsonProperty("moveInFactor") int moveInFactor, @JsonProperty("zone") Zone zone, @JsonProperty("upgradeLevel") UpgradeLevel upgradeLevel, @JsonProperty("building") Building building) {
+        super(coord, tile);
+        this.maxCapacity = maxCapacity;
+        this.moveInFactor = moveInFactor;
+        this.zone = zone;
+        this.upgradeLevel = upgradeLevel;
+        this.building = building;
     }
 
     /**
@@ -54,11 +63,11 @@ public class PlayableField extends Field {
                     building = new ResidentialBuilding(coord);
                     ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
 
-                    try { switch(upgradeLevel) {
-                            case TOWN -> texture = loadImage("HOUSE_1.png");
-                            case CITY -> texture = loadImage("HOUSE_2.png");
-                            case METROPOLIS -> texture = loadImage("HOUSE_3.png"); }
-                    } catch(IOException exc) { exc.printStackTrace(); }
+                    switch(upgradeLevel) {
+                        case TOWN -> tile = Tile.HOUSE_1;
+                        case CITY -> tile = Tile.HOUSE_2;
+                        case METROPOLIS -> tile = Tile.HOUSE_3;
+                    }
                 }
 
                 case INDUSTRIAL_ZONE -> {
@@ -67,11 +76,11 @@ public class PlayableField extends Field {
                     building = new IndustrialWorkplace(coord);
                     ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
 
-                    try { switch(upgradeLevel) {
-                        case TOWN -> texture = loadImage("FACTORY_LVL1.png");
-                        case CITY -> texture = loadImage("FACTORY_LVL2.png");
-                        case METROPOLIS -> texture = loadImage("FACTORY_LVL3.png"); }
-                    } catch(IOException exc) { exc.printStackTrace(); }
+                    switch(upgradeLevel) {
+                        case TOWN -> tile = Tile.FACTORY_1;
+                        case CITY -> tile = Tile.FACTORY_2;
+                        case METROPOLIS -> tile = Tile.FACTORY_3;
+                    }
                 }
 
                 case SERVICE_ZONE -> {
@@ -80,11 +89,11 @@ public class PlayableField extends Field {
                     building = new ServiceWorkplace(coord);
                     ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
 
-                    try { switch(upgradeLevel) {
-                        case TOWN -> texture = loadImage("SERVICE_LVL1.png");
-                        case CITY -> texture = loadImage("SERVICE_LVL2.png");
-                        case METROPOLIS -> texture = loadImage("SERVICE_LVL3.png");}
-                    } catch(IOException exc) { exc.printStackTrace(); }
+                    switch(upgradeLevel) {
+                        case TOWN -> tile = Tile.SERVICE_1;
+                        case CITY -> tile = Tile.SERVICE_2;
+                        case METROPOLIS -> tile = Tile.SERVICE_3;
+                    }
                 }
 
                 default -> {
@@ -92,50 +101,72 @@ public class PlayableField extends Field {
                     throw new RuntimeException("Building type not specified! (Zone is null)");
                 }
             }
+            GameManager.getGraph().addNode(this.coord);
+
         } else if(zone == null) { //playerbuilt
             switch (buildingType) {
                 case POLICE -> {
                     Logger.log("Building of field at " + coord + " set to PoliceStation!");
-                    Logger.log("Current budget: " + budget);
 
                     building = new PoliceStation(coord);
-                    budget -= ((PoliceStation)building).getBuildCost();
+                    GameManager.getGameData().subtractFromBudget(((PoliceStation)building).getBuildCost());
+                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
-                    try { texture = loadImage("POLICE_1.png"); }
-                    catch(IOException exc) { exc.printStackTrace(); }
+                    GameManager.getGraph().addNode(this.coord);
                 }
 
                 case FIRESTATION -> {
                     Logger.log("Building of field at " + coord + " set to FireDepartment!");
-                    Logger.log("Current budget: " + budget);
 
                     building = new FireDepartment(coord);
-                    budget -= ((FireDepartment)building).getBuildCost();
+                    GameManager.getGameData().subtractFromBudget(((FireDepartment)building).getBuildCost());
+                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
-                    try { texture = loadImage("FIRESTATION.png"); }
-                    catch(IOException exc) { exc.printStackTrace(); }
+                    GameManager.getGraph().addNode(this.coord);
+                }
+
+                case STADIUM -> {
+                    Logger.log("Building of field at " + coord + " set to Stadium!");
+
+                    Field[][] fields = GameManager.getGameData().getFields();
+                    int x = coord.getX();
+                    int y = coord.getY();
+
+                    if(isFieldEmpty(x, y) && isFieldEmpty(x, y+1) && isFieldEmpty(x+1, y) && isFieldEmpty(x+1, y+1)) {
+                        Logger.log("Building of field at " + coord + " set to Stadium!");
+
+                        Stadium st = new Stadium(coord, new Coordinate(x, y+1), new Coordinate(x+1, y), new Coordinate(x+1, y+1));
+
+                        buildStadium(x, y, Tile.STADIUM_TOPLEFT, st);
+                        buildStadium(x, y+1, Tile.STADIUM_TOPRIGHT, st);
+                        buildStadium(x+1, y, Tile.STADIUM_BOTTOMLEFT, st);
+                        buildStadium(x+1, y+1, Tile.STADIUM_BOTTOMRIGHT, st);
+
+                        Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                    } else {
+                        Logger.log("Can't build stadium at " + coord + "!");
+                        throw new RuntimeException("Can't build stadium at " + coord + "!");
+                    }
                 }
 
                 case FOREST -> {
                     Logger.log("Building of field at " + coord + " set to Forest!");
-                    Logger.log("Current budget: " + budget);
 
                     building = new Forest(coord);
-                    budget -= ((Forest)building).getBuildCost();
+                    GameManager.getGameData().subtractFromBudget(((Forest)building).getBuildCost());
+                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
-                    try { texture = loadImage("FOREST_1.png"); }
-                    catch(IOException exc) { exc.printStackTrace(); }
+                    GameManager.getGraph().addNode(this.coord);
                 }
 
                 case ROAD -> {
                     Logger.log("Building of field at " + coord + " set to Road!");
-                    Logger.log("Current budget: " + budget);
 
                     building = new Road(coord);
-                    budget -= ((Road)building).getBuildCost();
+                    GameManager.getGameData().subtractFromBudget(((Road)building).getBuildCost());
+                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
-                    try { texture = loadImage("road_tile.png"); }
-                    catch(IOException exc) { exc.printStackTrace(); }
+                    GameManager.getGraph().addNode(this.coord);
                 }
 
                 default -> {
@@ -143,34 +174,23 @@ public class PlayableField extends Field {
                     throw new RuntimeException("Unrecognized building type!");
                 }
             }
+            if(buildingType != Tile.STADIUM) tile = buildingType;
         }
     }
 
     /**
-     * Builds a stadium on the field
-     * @param stadium is the stadium to be built
+     * Builds a stadium-part on the field
+     * @param x is the x coordinate of the field
+     * @param y is the y coordinate of the field
+     * @param tile is the tile of the stadium
      */
-    public void buildStadium(Building stadium){
-        if(building != null) {
-
-            Logger.log("Field at " + coord + " has a building on it, can't build!");
-            throw new RuntimeException("There already is a building on this field!");
-
-        } else if(stadium == null) {
-
-            Logger.log("Stadium is null!");
-            throw new NullPointerException("Stadium can't be null!");
-
-        } else {
-
-            Logger.log("Stadium built on field at " + coord + "!");
-            Logger.log("Current budget: " + budget);
-
-            building = stadium;
-            budget -= ((PlayerBuilding)building).getBuildCost();
-
-            try { texture = loadImage("STADIUM_1.png"); }
-            catch(IOException exc) { exc.printStackTrace(); }
+    private static void buildStadium(int x, int y, Tile tile, Stadium stadium) {
+        Field[][] fs = GameManager.getGameData().getFields();
+        if(isFieldEmpty(x, y)) {
+            ((PlayableField)fs[x][y]).setBuilding(stadium);
+            (fs[x][y]).setTile(tile);
+            GameManager.getGameData().subtractFromBudget(stadium.getBuildCost());
+            GameManager.getGraph().addNode(new Coordinate(x, y));
         }
     }
 
@@ -192,18 +212,18 @@ public class PlayableField extends Field {
 
         } else {
             Logger.log("Field's zone at " + coord + " marked to " + zone+"!");
-            Logger.log("Current budget: " + budget);
+            Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
             this.zone = newZone;
             upgradeLevel = UpgradeLevel.TOWN;
             maxCapacity = 20;
-            budget -= 100; //exact amount is TODO
+            GameManager.getGameData().subtractFromBudget(100); // exact amount is todo
 
-            try { switch(zone) {
-                    case RESIDENTIAL_ZONE -> texture = loadImage("residential_zone.png");
-                    case INDUSTRIAL_ZONE -> texture = loadImage("industrial_zone.png");
-                    case SERVICE_ZONE -> texture = loadImage("service_zone.png"); }
-            } catch(IOException exc) { exc.printStackTrace(); }
+            switch(zone) {
+                case RESIDENTIAL_ZONE -> tile = Tile.RESIDENTIALZONE;
+                case INDUSTRIAL_ZONE -> tile = Tile.FACTORYZONE;
+                case SERVICE_ZONE -> tile = Tile.SERVICEZONE;
+            }
         }
     }
 
@@ -222,16 +242,170 @@ public class PlayableField extends Field {
             Logger.log("Field at " + coord + " has a zone on it, can't demolish!");
             throw new RuntimeException("Can't demolish public buildings! (There is a zone on the field!)");
 
+        } else if(building instanceof Stadium) {
+            int x = building.getCoords().getX();
+            int y = building.getCoords().getY();
+            Field[][] fs = GameManager.getGameData().getFields();
+            // 1.: starting tile is top left corner
+            // 2.: starting tile is bottom left corner
+            // 3.: starting tile is top right corner
+            // 4.: starting tile is bottom right corner
+            if(isStadiumValid(x, y, x, y+1, x+1, y, x+1, y+1)) {
+                Logger.log("Stadium at " + coord + " demolished!");
+
+                PlayableField.demolishStadiumAt(x, y);
+                PlayableField.demolishStadiumAt(x, y+1);
+                PlayableField.demolishStadiumAt(x+1, y);
+                PlayableField.demolishStadiumAt(x+1, y+1);
+
+                Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+            } else if(isStadiumValid(x, y, x, y+1, x-1, y, x-1, y+1)) {
+                Logger.log("Stadium at " + coord + " demolished!");
+
+                PlayableField.demolishStadiumAt(x, y);
+                PlayableField.demolishStadiumAt(x, y+1);
+                PlayableField.demolishStadiumAt(x-1, y);
+                PlayableField.demolishStadiumAt(x-1, y+1);
+
+                Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+            } else if(isStadiumValid(x, y, x, y-1, x+1, y, x+1, y-1)) {
+                Logger.log("Stadium at " + coord + " demolished!");
+
+                PlayableField.demolishStadiumAt(x, y);
+                PlayableField.demolishStadiumAt(x, y-1);
+                PlayableField.demolishStadiumAt(x+1, y);
+                PlayableField.demolishStadiumAt(x+1, y-1);
+
+                Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+            } else if(isStadiumValid(x, y, x, y-1, x-1, y, x-1, y-1)) {
+                Logger.log("Stadium at " + coord + " demolished!");
+
+                PlayableField.demolishStadiumAt(x, y);
+                PlayableField.demolishStadiumAt(x, y-1);
+                PlayableField.demolishStadiumAt(x-1, y);
+                PlayableField.demolishStadiumAt(x-1, y-1);
+
+                Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+            } else {
+                Logger.log("Stadium at " + coord + " can't be demolished!");
+                throw new RuntimeException("Stadium can't be demolished!");
+            }
+
         } else {
             Logger.log("Building of field at " + coord + " demolished!");
-            Logger.log("Current budget: " + budget);
 
-            budget += ((PlayerBuilding)building).getBuildCost();
+            GameManager.getGameData().addToBudget(((PlayerBuilding)building).getBuildCost());
+            Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+
             building = null;
 
-            try { texture = loadImage("GRASS_1.png"); }
-            catch (IOException exc) { exc.printStackTrace(); }
+            resetTile();
+            GameManager.getGraph().removeNode(this.coord);
         }
+    }
+
+    /**
+     * Demolishes the stadium at the given coordinates
+     * @param x x coordinate of the stadium
+     * @param y y coordinate of the stadium
+     */
+    private static void demolishStadiumAt(int x, int y) {
+        Field[][] fs = GameManager.getGameData().getFields();
+        if(isFieldValid(x, y) && ((PlayableField)fs[x][y]).getBuilding() instanceof Stadium) {
+            Building building = ((PlayableField)fs[x][y]).getBuilding();
+            GameManager.getGameData().addToBudget(((Stadium)building).getBuildCost());
+
+            ((PlayableField)fs[x][y]).setBuilding(null);
+            (fs[x][y]).resetTile();
+            GameManager.getGraph().removeNode(new Coordinate(x, y));
+        }
+    }
+
+    /**
+     * Checks if the building can be built at the given coordinates
+     * @param x x coordinate of the building
+     * @param y y coordinate of the building
+     * @param building the building to be built
+     * @return true if the building can be built, false otherwise
+     */
+    public static boolean canBuildThere(int x, int y, Tile building) {
+        switch(building) {
+            case ROAD -> { return isFieldEmpty(x, y); }
+            case STADIUM -> { return isFieldEmpty(x, y) && isFieldEmpty(x, y+1) && isFieldEmpty(x+1, y) && isFieldEmpty(x+1, y+1) && isStadiumNextToRoad(x, y); }
+            default -> { return isFieldEmpty(x, y) && isNextToRoad(x, y); }
+        }
+    }
+
+    /**
+     * Checks if the stadium at the given coordinates is valid
+     * @param x1 x coordinate of the first stadium-part (top left corner)
+     * @param y1 y coordinate of the first stadium-part (top left corner)
+     * @param x2 x coordinate of the second stadium-part (top right corner)
+     * @param y2 y coordinate of the second stadium-part (top right corner)
+     * @param x3 x coordinate of the third stadium-part (bottom left corner)
+     * @param y3 y coordinate of the third stadium-part (bottom left corner)
+     * @param x4 x coordinate of the fourth stadium-part (bottom right corner)
+     * @param y4 y coordinate of the fourth stadium-part (bottom right corner)
+     * @return a boolean value if the stadium is valid
+     */
+    private static boolean isStadiumValid(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
+        Field[][] fs = GameManager.getGameData().getFields();
+        return isFieldValid(x1, y1) && ((PlayableField)fs[x1][y1]).getBuilding() instanceof Stadium
+                && isFieldValid(x2, y2) && ((PlayableField)fs[x2][y2]).getBuilding() instanceof Stadium
+                && isFieldValid(x3, y3) && ((PlayableField)fs[x3][y3]).getBuilding() instanceof Stadium
+                && isFieldValid(x4, y4) && ((PlayableField)fs[x4][y4]).getBuilding() instanceof Stadium;
+    }
+
+    /**
+     * Check if a field is valid on the map
+     * @param x is the x index of the field
+     * @param y is the y index of the field
+     * @return a boolean value
+     */
+    private static boolean isFieldValid(int x, int y) {
+        Field[][] fields = GameManager.getGameData().getFields();
+        return fields[x][y] instanceof PlayableField;
+    }
+
+    /**
+     * Check if a field is empty on the map
+     * @param x is the x index of the field
+     * @param y is the y index of the field
+     * @return is a boolean value
+     */
+    private static boolean isFieldEmpty(int x, int y) {
+        Field[][] fields = GameManager.getGameData().getFields();
+        return fields[x][y] instanceof PlayableField && ((PlayableField) fields[x][y]).getBuilding() == null && ((PlayableField) fields[x][y]).getZone() == null;
+    }
+
+    /**
+     * Check if a field is next to a road
+     * @param y is the y index of the field
+     * @param x is te x index of the field
+     * @return is a boolean value
+     */
+    private static boolean isNextToRoad(int x, int y) {
+        Field[][] fields = GameManager.getGameData().getFields();
+        if(isFieldValid(x, y)) {
+            return isFieldValid(x - 1, y) && ((PlayableField) fields[x - 1][y]).getBuilding() instanceof Road
+                    || isFieldValid(x + 1, y) && ((PlayableField) fields[x + 1][y]).getBuilding() instanceof Road
+                    || isFieldValid(x, y - 1) && ((PlayableField) fields[x][y - 1]).getBuilding() instanceof Road
+                    || isFieldValid(x, y + 1) && ((PlayableField) fields[x][y + 1]).getBuilding() instanceof Road;
+        } else return false;
+        //balra, jobbra, alatta, felette
+    }
+
+    /**
+     * Check if a stadium is next to a road
+     * @param x is the x index of the field
+     * @param y is the y index of the field
+     * @return is a boolean value
+     */
+
+    private static boolean isStadiumNextToRoad(int x, int y) { // x y is the top left tile of the stadium
+        if(isFieldValid(x, y)) {
+            return isNextToRoad(x, y) || isNextToRoad(x + 1, y) || isNextToRoad(x + 1, y + 1) || isNextToRoad(x, y + 1);
+        } else return false;
     }
 
     /**
@@ -251,13 +425,12 @@ public class PlayableField extends Field {
 
         } else {
             Logger.log("Field's zone at " + coord + " deleted!");
-            Logger.log("Current budget: " + budget);
+            Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
-            budget += 100; //exact amount is TODO
+            GameManager.getGameData().addToBudget(100); //exact amount is TODO
             zone = null;
 
-            try { texture = loadImage("GRASS_1.png"); }
-            catch(IOException exc) { exc.printStackTrace(); }
+            resetTile();
         }
     }
 
@@ -281,38 +454,38 @@ public class PlayableField extends Field {
                 case TOWN -> {
                     Logger.log("Field at " + coord + " upgraded to city level!");
                     Logger.log("Field at " + coord + " has a new max capacity of " + maxCapacity + "!");
-                    Logger.log("Current budget: " + budget);
+                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
                     upgradeLevel = UpgradeLevel.CITY;
                     maxCapacity = 40; //TODO
-                    budget -= 100; //TODO
+                    GameManager.getGameData().addToBudget(100); //exact amount is TODO
 
                     if(building != null) {
                         ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
-                        try { switch(zone) {
-                                case RESIDENTIAL_ZONE -> texture = loadImage("HOUSE_2.png");
-                                case INDUSTRIAL_ZONE -> texture = loadImage("FACTORY_LVL2.png");
-                                case SERVICE_ZONE -> texture = loadImage("SERVICE_LVL2.png"); }
-                        } catch(IOException exc) { exc.printStackTrace(); }
+                        switch(zone) {
+                            case RESIDENTIAL_ZONE -> tile = Tile.HOUSE_2;
+                            case INDUSTRIAL_ZONE -> tile = Tile.FACTORY_2;
+                            case SERVICE_ZONE -> tile = Tile.SERVICE_2;
+                        }
                     }
                 }
 
                 case CITY -> {
                     Logger.log("Field at " + coord + " upgraded to metropolis level!");
                     Logger.log("Field at " + coord + " has a new max capacity of " + maxCapacity + "!");
-                    Logger.log("Current budget: " + budget);
+                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
                     upgradeLevel = UpgradeLevel.METROPOLIS;
                     maxCapacity = 100; //TODO
-                    budget -= 500;
+                    GameManager.getGameData().addToBudget(500); //exact amount is TODO
 
                     if(building != null){
                         ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
-                        try{ switch(zone) {
-                                case RESIDENTIAL_ZONE -> texture = loadImage("HOUSE_3.png");
-                                case INDUSTRIAL_ZONE -> texture = loadImage("FACTORY_LVL3.png");
-                                case SERVICE_ZONE -> texture = loadImage("SERVICE_LVL3.png");}
-                        } catch(IOException exc){exc.printStackTrace();}
+                        switch(zone) {
+                            case RESIDENTIAL_ZONE -> tile = Tile.HOUSE_3;
+                            case INDUSTRIAL_ZONE -> tile = Tile.FACTORY_3;
+                            case SERVICE_ZONE -> tile = Tile.SERVICE_3;
+                        }
                     }
                 }
 
@@ -329,6 +502,7 @@ public class PlayableField extends Field {
      * @return the current capacity of the field
      * @throws RuntimeException if there is no building on the field, or if the building is not a generated building
      */
+    @JsonIgnore
     public int getCurrentCapacity() throws RuntimeException {
         if(building == null) {
 
@@ -338,7 +512,7 @@ public class PlayableField extends Field {
         } else if(!(building instanceof GeneratedBuilding)) {
 
             Logger.log("Field at " + coord + " has a generated building on it, can't get current capacity!");
-            throw new RuntimeException("The building on the field is not a generated building!");
+            throw new RuntimeException("Building is not a generated building!");
 
         } else {
             Logger.log("Current capacity of field at " + coord + " is " + ((GeneratedBuilding) building).getPeople().size() + "!");
@@ -374,6 +548,7 @@ public class PlayableField extends Field {
     /**
      * Calculate the move-in-factor of the field
      */
+    @JsonIgnore
     public int calculateMoveInFactor() {
         int moveInFactor = 0;
         Logger.log("Move in factor of field at " + coord + " is " + moveInFactor);
@@ -409,7 +584,36 @@ public class PlayableField extends Field {
      * @param building is the building of the field
      */
     public void setBuilding(Building building) {
-        Logger.log("Building of field at " + coord + " set to " + building.getClass().getSimpleName());
-        this.building = building;
+        if(building == null) {
+            Logger.log("Building of field at " + coord + " set to null");
+            this.building = null;
+        } else {
+            Logger.log("Building of field at " + coord + " set to " + building.getClass().getSimpleName());
+            this.building = building;
+        }
+    }
+
+    /**
+     * Get the tile of the field
+     * @return the tile of the field
+     */
+    public void setMoveInFactor(int moveInFactor) {
+        this.moveInFactor = moveInFactor;
+    }
+
+    /**
+     * Get the tile of the field
+     * @return the tile of the field
+     */
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    /**
+     * Get the tile of the field
+     * @return the tile of the field
+     */
+    public void setUpgradeLevel(UpgradeLevel upgradeLevel) {
+        this.upgradeLevel = upgradeLevel;
     }
 }

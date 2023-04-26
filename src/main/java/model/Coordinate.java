@@ -1,8 +1,13 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 /**
  * This class represents a coordinate
  */
+@JsonTypeName("coordinate")
 public class Coordinate {
     private int x;
     private int y;
@@ -12,7 +17,9 @@ public class Coordinate {
      * @param x is the x coordinate
      * @param y is the y coordinate
      */
-    public Coordinate(int x, int y) {
+
+    @JsonCreator
+    public Coordinate(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.x = x;
         this.y = y;
     }

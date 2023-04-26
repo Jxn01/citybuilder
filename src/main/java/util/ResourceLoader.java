@@ -26,7 +26,7 @@ public class ResourceLoader {
      * @throws IOException If the image could not be loaded.
      */
     public static Image loadImage(String resName) throws IOException {
-        URL url = ResourceLoader.class.getClassLoader().getResource(resName);
+        URL url = ResourceLoader.class.getClassLoader().getResource("textures/"+resName);
         if(url == null) {
             throw new IOException("Resource not found: " + resName);
         } else {

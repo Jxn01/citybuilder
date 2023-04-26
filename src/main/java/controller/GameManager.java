@@ -1,14 +1,22 @@
 package controller;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.google.common.graph.Graph;
+import com.google.common.graph.MutableGraph;
 import controller.catastrophies.Catastrophe;
 import controller.catastrophies.Covid;
 import controller.catastrophies.FinancialCrisis;
 import controller.catastrophies.Firestorm;
 import controller.interfaces.SaveManager;
 import controller.interfaces.SpeedManager;
+import model.Coordinate;
 import model.GameData;
+import model.Person;
+import model.field.PlayableField;
 import org.javatuples.Pair;
+import util.GraphDeserializer;
 import util.Logger;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,7 +27,7 @@ import java.util.ArrayList;
 public class GameManager implements SaveManager, SpeedManager {
     private double catastropheChance;
     private double hospitalChance;
-    private GameData gameData;
+    private static GameData gameData;
 
     private SimulationSpeed simulationSpeed;
 
@@ -38,6 +46,7 @@ public class GameManager implements SaveManager, SpeedManager {
         catastrophes.add(Covid.getInstance());
         catastrophes.add(Firestorm.getInstance());
 
+        setSimulationSpeed(SimulationSpeed.PAUSED);
         Logger.log("Game manager created.");
     }
 
@@ -55,6 +64,19 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void nextDay() {
         Logger.log("A day passes...");
+    }
+
+    /**
+     * This method does the financials.
+     */
+    public void doFinancials(){
+        for(Person p : gameData.getPeople()) {
+            if(p.isRetired()) {
+                gameData.subtractFromBudget(100);
+            } else {
+                gameData.addToBudget(100);
+            }
+        }
     }
 
     /**
@@ -79,6 +101,85 @@ public class GameManager implements SaveManager, SpeedManager {
     public void evokeFirestorm() {
         Logger.log("Firestorm evoked.");
         catastrophes.get(2).effect(gameData);
+    }
+
+    @Override
+    public ArrayList<File> readSaveFiles() {
+        Logger.log("Reading save files...");
+        saveFiles = new ArrayList<>();
+        File[] files = new File("src/main/resources/saves").listFiles();
+        if(files != null) {
+            for(File file : files) {
+                if(file.isFile() && file.getName().endsWith(".json")) {
+                    saveFiles.add(file);
+                }
+            }
+        }
+        return saveFiles;
+    }
+
+    @Override
+    public void deleteSaveFile(File file) {
+        Logger.log("Deleting save file: " + file.getName());
+        if(file.delete()) {
+            Logger.log("Save file deleted.");
+        } else {
+            Logger.log("Save file could not be deleted.");
+        }
+    }
+
+    @Override
+    public void loadSaveFile(File file) {
+        Logger.log("Loading save file: " + file.getName());
+        ObjectMapper objectMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(MutableGraph.class, new GraphDeserializer());
+        objectMapper.registerModule(module);
+        try {
+            setGameData(objectMapper.readValue(file, GameData.class));
+            Logger.log("Save file loaded.");
+        } catch(Exception exc) {
+            Logger.log("Save file could not be loaded.");
+            exc.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveGame(GameData gameData) {
+        if(gameData.getSaveFile() == null) {
+            Logger.log("Game has not been saved yet, creating new save file...");
+            File file = new File("src/main/resources/saves/" + gameData.getId() + ".json");
+            try {
+
+                if(file.createNewFile()) {
+                    Logger.log("Save file created.");
+                } else {
+                    Logger.log("Save file already exists.");
+                    Logger.log("Deleting old save file...");
+                    if(file.delete()) {
+                        Logger.log("Old save file deleted.");
+                    } else {
+                        Logger.log("Old save file could not be deleted.");
+                    }
+                }
+
+                gameData.setSaveFile(file);
+                Logger.log("Save file created.");
+
+            } catch(Exception exc) {
+                Logger.log("Save file could not be created.");
+                exc.printStackTrace();
+            }
+        }
+        Logger.log("Saving game...");
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(gameData.getSaveFile(), gameData);
+            Logger.log("Game saved.");
+        } catch(Exception exc) {
+            Logger.log("Game could not be saved.");
+            exc.printStackTrace();
+        }
     }
 
     /**
@@ -140,8 +241,16 @@ public class GameManager implements SaveManager, SpeedManager {
      * Getter for the game data.
      * @return the game data
      */
-    public GameData getGameData() {
+    public static GameData getGameData() {
         return gameData;
+    }
+
+    /**
+     * Getter for the graph.
+     * @return the graph
+     */
+    public static MutableGraph<Coordinate> getGraph() {
+        return gameData.getGraph();
     }
 
     /**
@@ -149,7 +258,7 @@ public class GameManager implements SaveManager, SpeedManager {
      * @param gameData the new game data
      */
     public void setGameData(GameData gameData) {
-        this.gameData = gameData;
+        GameManager.gameData = gameData;
         Logger.log("Game data set to " + gameData.getId());
     }
 
@@ -176,26 +285,6 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public ArrayList<File> getSaveFiles() {
         return saveFiles;
-    }
-
-    @Override
-    public ArrayList<File> readSaveFiles() {
-        return null;
-    }
-
-    @Override
-    public void loadSaveFile(File file) {
-        Logger.log("Loading save file: " + file.getName());
-    }
-
-    @Override
-    public void saveGame(GameData gameData) {
-        Logger.log("Saving game: " + gameData.getSaveFile().getName());
-    }
-
-    @Override
-    public void deleteSaveFile(File file) {
-        Logger.log("Deleting save file: " + file.getName());
     }
 
     @Override

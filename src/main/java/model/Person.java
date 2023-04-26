@@ -1,13 +1,17 @@
 package model;
 
 import java.util.ArrayList;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.javafaker.Faker;
 import util.Logger;
 
 import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
 import model.enums.Effect;
-import static model.GameData.budget;
+import util.Logger;
 
 /**
  * This class represents a person in the game
@@ -30,6 +34,16 @@ public class Person {
         this.effects = new ArrayList<>();
 
         Logger.log("Person created: " + name + " (" + age + ")");
+    }
+
+    @JsonCreator
+    public Person(@JsonProperty("age") int age, @JsonProperty("name") String name, @JsonProperty("effects") ArrayList<Effect> effects, @JsonProperty("home") ResidentialBuilding home, @JsonProperty("workplace") Workplace workplace, @JsonProperty("founder") boolean founder) {
+        this.age = age;
+        this.name = name;
+        this.effects = effects;
+        this.home = home;
+        this.workplace = workplace;
+        this.founder = founder;
     }
 
     /**
@@ -138,6 +152,7 @@ public class Person {
      * This method checks if the person is retired
      * @return true if the person is retired
      */
+    @JsonIgnore
     public boolean isRetired() {
         return age > 65;
     }
@@ -159,24 +174,6 @@ public class Person {
     public void moveAway() {
         Logger.log(name + " has moved away");
         this.name = "Moved away";
-    }
-
-    /**
-     * This method pays the taxes of the person
-     */
-    public void payTaxes() {
-        Logger.log(name + " has paid taxes");
-        budget += 1000;
-        //exact amount to be determined
-    }
-
-    /**
-     * This method pays the pension of the person
-     */
-    public void getsPension() {
-        Logger.log(name + " has received pension");
-        budget -= 1000;
-        //exact amount to be determined
     }
 
     /**

@@ -32,7 +32,7 @@ public class LoadGame {
      */
     public LoadGame(Panel panel) {
         this.panel = panel;
-        this.saveFiles = panel.getGameManager().getSaveFiles();
+        this.saveFiles = panel.getGameManager().readSaveFiles();
 
         try { background = ResourceLoader.loadImage("savebg.png"); }
         catch(IOException exc) { exc.printStackTrace(); }

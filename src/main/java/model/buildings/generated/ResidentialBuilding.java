@@ -1,5 +1,8 @@
 package model.buildings.generated;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import model.Coordinate;
 import model.Person;
 import model.enums.SaturationRate;
@@ -30,6 +33,11 @@ public class ResidentialBuilding extends GeneratedBuilding {
         Logger.log("Residential building created at " + coords.toString());
     }
 
+    @JsonCreator
+    public ResidentialBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety, @JsonProperty("maxCapacity") int maxCapacity) {
+        super(coords, firePossibility, isOnFire, people, saturationRate, publicSafety, maxCapacity);
+    }
+
     public void addPerson(Person person) throws RuntimeException {
         if(people.size() == maxCapacity) {
             Logger.log("Can't add person " + person.getName() + " to residential building at " + coords.toString() + " because maximum capacity reached!");
@@ -53,6 +61,7 @@ public class ResidentialBuilding extends GeneratedBuilding {
         updateSaturationRate();
     }
 
+    @JsonIgnore
     @Override
     public String getStatistics() {
         String statistics = "Residential building statistics:\n";

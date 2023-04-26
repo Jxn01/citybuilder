@@ -1,5 +1,8 @@
 package model.buildings.generated;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import model.Coordinate;
 import model.Person;
 import model.enums.SaturationRate;
@@ -26,6 +29,12 @@ public class IndustrialWorkplace extends Workplace {
         Logger.log("Industrial workplace created at " + coords.toString());
     }
 
+    @JsonCreator
+    public IndustrialWorkplace(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety, @JsonProperty("maxCapacity") int maxCapacity) {
+        super(coords, firePossibility, isOnFire, people, saturationRate, publicSafety, maxCapacity);
+    }
+
+    @JsonIgnore
     @Override
     public String getStatistics() {
         String statistics = "Industrial workplace statistics:\n";

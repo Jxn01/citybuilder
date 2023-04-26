@@ -1,5 +1,7 @@
 package view.gui.game;
 
+import controller.GameManager;
+import model.GameData;
 import util.Logger;
 import view.gui.Game;
 import view.enums.MenuState;
@@ -72,6 +74,9 @@ public class HamburgerMenu extends GameMenu {
             if(saveBtn.isHovered(p)) {
 
                 Logger.log("Save button clicked");
+                GameData gd = GameManager.getGameData();
+                game.getPanel().getGameManager().saveGame(gd);
+                setIsOpen(false);
 
             } else if(newGameBtn.isHovered(p)) {
 
@@ -83,7 +88,6 @@ public class HamburgerMenu extends GameMenu {
 
                 Logger.log("Exit button clicked");
                 game.exit();
-
             }
         }
     }

@@ -1,5 +1,8 @@
 package model.buildings.playerbuilt;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import model.Coordinate;
 import util.Logger;
 import util.ResourceLoader;
@@ -24,6 +27,12 @@ public class PoliceStation extends RangedBuilding {
         Logger.log("Police station created at " + coords.toString());
     }
 
+    @JsonCreator
+    public PoliceStation(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("onFire") boolean onFire, @JsonProperty("buildCost") int buildCost, @JsonProperty("maintenanceCost") int maintenanceCost, @JsonProperty("range") int range) {
+        super(coords, firePossibility, onFire, buildCost, maintenanceCost, range);
+    }
+
+    @JsonIgnore
     @Override
     public String getStatistics() {
         String statistics = "Police station statistics:\n";
