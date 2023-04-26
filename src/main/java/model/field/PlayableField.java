@@ -167,7 +167,6 @@ public class PlayableField extends Field {
                     Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
                     GameManager.getGraph().addNode(this.coord);
-                    GameManager.getGraph().putEdge(coord, new Coordinate(coord.getX(), coord.getY()-1));
                 }
 
                 default -> {

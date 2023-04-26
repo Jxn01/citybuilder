@@ -14,6 +14,7 @@ import util.GraphSerializer;
 import util.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -109,11 +110,7 @@ public class GameData {
                 if (i == 0 || i == 1 || i == 49 || i == 50 || j == 0 || j == 1 || j == 49 || j == 50) {
                     this.fields[i][j] = new BorderField(new Coordinate(i, j));
                 } else {
-                    try {
-                        this.fields[i][j] = new PlayableField(new Coordinate(i, j));
-                    } catch (IOException exc) {
-                        exc.printStackTrace();
-                    }
+                    this.fields[i][j] = new PlayableField(new Coordinate(i, j));
                 }
             }
         }
