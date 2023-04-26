@@ -38,12 +38,12 @@ public class Firestorm extends Catastrophe {
             throw new RuntimeException("No playable fields found with building on it.");
         }
 
-        int counter = randomNumberGenerator(5);
+        int counter = randomNumberGenerator(1, 5);
 
         Logger.log("Number of buildings on fire: " + counter);
 
         while (counter > 0) {
-            int randomIndex = randomNumberGenerator(fields.size());
+            int randomIndex = randomNumberGenerator(0, fields.size() - 1);
             fields.get(randomIndex).getBuilding().setOnFire();
             counter--;
         }

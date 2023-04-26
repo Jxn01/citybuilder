@@ -38,7 +38,7 @@ public class Covid extends Catastrophe {
         int deaths_count = people.size() / 10;
 
         while (deaths_count > 0) {
-            int randomIndex = randomNumberGenerator(people.size());
+            int randomIndex = randomNumberGenerator(0, people.size() - 1);
 
             people.get(randomIndex).decease();
             people.remove(randomIndex);

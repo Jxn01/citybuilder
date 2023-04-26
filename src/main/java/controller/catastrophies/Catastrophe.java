@@ -14,9 +14,9 @@ public abstract class Catastrophe {
      * @param max
      * @return a random int number
      */
-    protected int randomNumberGenerator(int max) {
+    protected int randomNumberGenerator(int min, int max) {
         Random random = new Random();
-        return random.nextInt(max + 1);
+        return random.nextInt(max - min + 1) + min;
     }
 
     /**
