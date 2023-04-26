@@ -2,6 +2,7 @@ package model.field;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.Coordinate;
 import view.enums.Tile;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 /**
  * This class represents a border field on the map
  */
+@JsonTypeName("border")
 public class BorderField extends Field {
 
     /**

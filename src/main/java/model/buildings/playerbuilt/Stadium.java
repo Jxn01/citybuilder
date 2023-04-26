@@ -10,16 +10,28 @@ import java.io.IOException;
 
 public class Stadium extends RangedBuilding {
 
+    private Coordinate topRightCoords;
+    private Coordinate bottomLeftCoords;
+    private Coordinate bottomRightCoords;
+
     /**
      * Constructor of the stadium
-     * @param coords is the coordinates of the stadium
+     * @param topLeftCoords is the top left coordinates of the stadium
+     * @param topRightCoords is the top right coordinates of the stadium
+     * @param bottomLeftCoords is the bottom left coordinates of the stadium
+     * @param bottomRightCoords is the bottom right coordinates of the stadium
      */
-    public Stadium(Coordinate coords) {
-        super(coords, 0.0, false, 0, 0, 0);
+    public Stadium(Coordinate topLeftCoords, Coordinate topRightCoords, Coordinate bottomLeftCoords, Coordinate bottomRightCoords) {
+        super(topLeftCoords, 0.0, false, 0, 0, 0);
+
+        this.topRightCoords = topRightCoords;
+        this.bottomLeftCoords = bottomLeftCoords;
+        this.bottomRightCoords = bottomRightCoords;
 
         buildCost = 1000; //TODO: Change this
         maintenanceCost = 100; //TODO: Change this
         range = 10; //TODO: Change this
+
 
         Logger.log("Stadium created at " + coords.toString());
     }
@@ -27,6 +39,54 @@ public class Stadium extends RangedBuilding {
     @JsonCreator
     public Stadium(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("onFire") boolean onFire, @JsonProperty("buildCost") int buildCost, @JsonProperty("maintenanceCost") int maintenanceCost, @JsonProperty("range") int range) {
         super(coords, firePossibility, onFire, buildCost, maintenanceCost, range);
+    }
+
+    /**
+     * Get the top right coordinates of the stadium
+     * @return the top right coordinates of the stadium
+     */
+    public Coordinate getTopRightCoords() {
+        return topRightCoords;
+    }
+
+    /**
+     * Set the top right coordinates of the stadium
+     * @param topRightCoords is the top right coordinates of the stadium
+     */
+    public void setTopRightCoords(Coordinate topRightCoords) {
+        this.topRightCoords = topRightCoords;
+    }
+
+    /**
+     * Get the bottom left coordinates of the stadium
+     * @return the bottom left coordinates of the stadium
+     */
+    public Coordinate getBottomLeftCoords() {
+        return bottomLeftCoords;
+    }
+
+    /**
+     * Set the bottom left coordinates of the stadium
+     * @param bottomLeftCoords is the bottom left coordinates of the stadium
+     */
+    public void setBottomLeftCoords(Coordinate bottomLeftCoords) {
+        this.bottomLeftCoords = bottomLeftCoords;
+    }
+
+    /**
+     * Get the bottom right coordinates of the stadium
+     * @return the bottom right coordinates of the stadium
+     */
+    public Coordinate getBottomRightCoords() {
+        return bottomRightCoords;
+    }
+
+    /**
+     * Set the bottom right coordinates of the stadium
+     * @param bottomRightCoords is the bottom right coordinates of the stadium
+     */
+    public void setBottomRightCoords(Coordinate bottomRightCoords) {
+        this.bottomRightCoords = bottomRightCoords;
     }
 
     @JsonIgnore

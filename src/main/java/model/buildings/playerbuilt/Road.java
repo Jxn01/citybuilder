@@ -3,12 +3,14 @@ package model.buildings.playerbuilt;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.Coordinate;
 import util.Logger;
 import util.ResourceLoader;
 
 import java.io.IOException;
 
+@JsonTypeName("road")
 public class Road extends PlayerBuilding {
 
     /**

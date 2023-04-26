@@ -9,7 +9,7 @@ import java.util.Random;
 
 import static util.ResourceLoader.loadImage;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = BorderField.class, name = "border"),
         @JsonSubTypes.Type(value = PlayableField.class, name = "playable")
@@ -41,6 +41,19 @@ public abstract class Field {
     public Field(@JsonProperty("coord") Coordinate coord, @JsonProperty("tile") Tile tile) {
         this.coord = coord;
         this.tile = tile;
+    }
+
+    /**
+     * Resets the tile of the field
+     */
+    protected void resetTile(){
+        Random rand = new Random();
+        int randomNum = rand.nextInt(3) + 1;
+        switch(randomNum) {
+            case 1 -> tile = Tile.GRASS_1;
+            case 2 -> tile = Tile.GRASS_2;
+            case 3 -> tile = Tile.GRASS_3;
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import controller.GameManager;
 import util.Logger;
 import view.gui.Game;
 import view.components.custom.MyButton;
@@ -90,7 +91,7 @@ public class TaxMenu extends GameMenu {
 
                 Logger.log("Modify-tax button clicked");
                 String inputText = input.getText();
-                game.getPanel().getGameManager().getGameData().setYearlyTaxes(Integer.parseInt(inputText));
+                GameManager.getGameData().setYearlyTaxes(Integer.parseInt(inputText));
                 setIsOpen(false);
 
             }

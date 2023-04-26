@@ -13,7 +13,7 @@ import java.io.IOException;
  * This class represents a forest.
  */
 public class Forest extends RangedBuilding {
-    private final int growTime;
+    private int growTime;
     private int growStage;
 
     /**
@@ -63,6 +63,38 @@ public class Forest extends RangedBuilding {
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
         return statistics;
+    }
+
+    /**
+     * Get the grow time of the forest
+     * @return the grow time of the forest
+     */
+    public int getGrowTime() {
+        return growTime;
+    }
+
+    /**
+     * Set the grow time of the forest
+     * @param growTime is the grow time of the forest
+     */
+    public void setGrowTime(int growTime) {
+        this.growTime = growTime;
+    }
+
+    /**
+     * Get the grow stage of the forest
+     * @return the grow stage of the forest
+     */
+    public int getGrowStage() {
+        return growStage;
+    }
+
+    /**
+     * Set the grow stage of the forest
+     * @param growStage is the grow stage of the forest
+     */
+    public void setGrowStage(int growStage) {
+        this.growStage = growStage;
     }
 
     @Override

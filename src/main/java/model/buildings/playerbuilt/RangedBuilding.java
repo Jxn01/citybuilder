@@ -39,4 +39,20 @@ public abstract class RangedBuilding extends PlayerBuilding implements Functiona
 
         this.range = range;
     }
+
+    /**
+     * Get the range of the ranged building
+     * @return the range of the ranged building
+     */
+    public int getRange() {
+        return range;
+    }
+
+    /**
+     * Set the range of the ranged building
+     * @param range is the range of the ranged building
+     */
+    public void setRange(int range) {
+        this.range = range;
+    }
 }

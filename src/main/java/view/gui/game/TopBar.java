@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import controller.GameManager;
 import model.GameData;
 import util.Logger;
 import view.gui.Game;
@@ -11,8 +12,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-
-import static model.GameData.budget;
 
 /**
  * This class implements the top bar of the game gui
@@ -42,14 +41,14 @@ public class TopBar extends GameMenu {
      */
     @Override
     public void draw(Graphics2D gr) {
-        GameData gd = game.getPanel().getGameManager().getGameData();
+        GameData gd = GameManager.getGameData();
 
         paintTopBarArea(gr);
         hamburgerMenu.draw(gr);
         hamburgerBtn.draw(gr, game.getMousePosition());
         gr.setColor(Color.black);
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 25));
-        gr.drawString("Költségvetés:" + budget + "$", 40, 30);
+        gr.drawString("Költségvetés:" + GameManager.getGameData().getBudget() + "$", 40, 30);
         gr.drawString("Elégedettség:"+ gd.getAverageSatisfaction() +"%", 400, 30);
         gr.drawString("Populáció :"+ gd.getPopulation(), 700, 30);
         gr.drawString("Dátum: "+gd.getInGameCurrentDate(), 1000, 30);

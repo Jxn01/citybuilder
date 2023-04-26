@@ -13,8 +13,8 @@ import java.io.IOException;
  * This class represents a fire department.
  */
 public class FireDepartment extends RangedBuilding {
-    private final int maxFireTrucks;
-    private final int availableFireTrucks;
+    private int maxFireTrucks;
+    private int availableFireTrucks;
 
     /**
      * Constructor of the fire department
@@ -38,6 +38,38 @@ public class FireDepartment extends RangedBuilding {
     public FireDepartment(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("onFire") boolean onFire, @JsonProperty("buildCost") int buildCost, @JsonProperty("maintenanceCost") int maintenanceCost, @JsonProperty("range") int range, @JsonProperty("maxFireTrucks") int maxFireTrucks, @JsonProperty("availableFireTrucks") int availableFireTrucks) {
         super(coords, firePossibility, onFire, buildCost, maintenanceCost, range);
         this.maxFireTrucks = maxFireTrucks;
+        this.availableFireTrucks = availableFireTrucks;
+    }
+
+    /**
+     * Get the max fire trucks of the fire department
+     * @return the max fire trucks of the fire department
+     */
+    public int getMaxFireTrucks() {
+        return maxFireTrucks;
+    }
+
+    /**
+     * Set the max fire trucks of the fire department
+     * @param maxFireTrucks is the max fire trucks of the fire department
+     */
+    public void setMaxFireTrucks(int maxFireTrucks) {
+        this.maxFireTrucks = maxFireTrucks;
+    }
+
+    /**
+     * Get the available fire trucks of the fire department
+     * @return the available fire trucks of the fire department
+     */
+    public int getAvailableFireTrucks() {
+        return availableFireTrucks;
+    }
+
+    /**
+     * Set the available fire trucks of the fire department
+     * @param availableFireTrucks is the available fire trucks of the fire department
+     */
+    public void setAvailableFireTrucks(int availableFireTrucks) {
         this.availableFireTrucks = availableFireTrucks;
     }
 

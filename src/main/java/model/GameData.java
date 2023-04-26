@@ -2,9 +2,15 @@ package model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 import model.field.BorderField;
 import model.field.Field;
 import model.field.PlayableField;
+import util.GraphDeserializer;
+import util.GraphSerializer;
 import util.Logger;
 
 import java.io.File;
@@ -27,7 +33,7 @@ public class GameData {
     private String inGameStartDate;
     private String inGameCurrentDate;
     private String playTime;
-    public static Integer budget = 0;
+    private int budget;
     private String cityName;
     private boolean gameOver;
     private File saveFile;
@@ -37,7 +43,9 @@ public class GameData {
     private int population;
     private Field[][] fields;
 
-    //private Graph<Field> graph;
+    @JsonDeserialize(using = GraphDeserializer.class)
+    @JsonSerialize(using = GraphSerializer.class)
+    private MutableGraph<Coordinate> graph;
     private ArrayList<Person> people;
 
     /**
@@ -56,19 +64,19 @@ public class GameData {
      * @param people the people of the city
      */
     @JsonCreator
-    public GameData(@JsonProperty("startDate") String startDate, @JsonProperty("currentDate") String currentDate, @JsonProperty("inGameStartDate") String inGameStartDate, @JsonProperty("inGameCurrentDate") String inGameCurrentDate, @JsonProperty("playTime") String playTime, @JsonProperty("budget") int budget, @JsonProperty("cityName") String cityName, @JsonProperty("gameOver") boolean gameOver, @JsonProperty("saveFile") File saveFile, @JsonProperty("yearlyTaxes") int yearlyTaxes, @JsonProperty("fields") Field[][] fields, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("id") String id) {
+    public GameData(@JsonProperty("startDate") String startDate, @JsonProperty("currentDate") String currentDate, @JsonProperty("inGameStartDate") String inGameStartDate, @JsonProperty("inGameCurrentDate") String inGameCurrentDate, @JsonProperty("playTime") String playTime, @JsonProperty("budget") int budget, @JsonProperty("cityName") String cityName, @JsonProperty("gameOver") boolean gameOver, @JsonProperty("saveFile") File saveFile, @JsonProperty("yearlyTaxes") int yearlyTaxes, @JsonProperty("fields") Field[][] fields, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("id") String id, @JsonProperty("graph") MutableGraph<Coordinate> graph) {
         this.startDate = startDate;
         this.currentDate = currentDate;
         this.inGameStartDate = inGameStartDate;
         this.inGameCurrentDate = inGameCurrentDate;
         this.playTime = playTime;
-        GameData.budget = budget;
+        this.budget = budget;
         this.cityName = cityName;
         this.gameOver = gameOver;
         this.saveFile = saveFile;
         this.yearlyTaxes = yearlyTaxes;
         this.fields = fields;
-        //this.graph = graph;
+        this.graph = graph;
         this.people = people;
         this.id = id;
         Logger.log("Game data created: " + this.id);
@@ -92,7 +100,7 @@ public class GameData {
         this.saveFile = null;
         this.yearlyTaxes = starterTaxes;
         this.fields = new Field[51][51];
-        //this.graph = GraphBuilder.undirected().allowsSelfLoops(false).build();
+        this.graph = GraphBuilder.undirected().allowsSelfLoops(false).build();
 
         for(int i = 0; i < starterMapSize; i++) {
             for(int j = 0; j < starterMapSize; j++) { // 2 thick border, 49x49 playable area
@@ -325,18 +333,18 @@ public class GameData {
      * Getter for the graph
      * @return the graph
      */
-    /*
-    public Graph<Field> getGraph() {
+
+    public MutableGraph<Coordinate> getGraph() {
         return graph;
     }
-*/
+
     /**
      * Setter for the graph
      * @param graph the graph
-     *//*
-    public void setGraph(Graph<Field> graph) {
+     */
+    public void setGraph(MutableGraph<Coordinate> graph) {
         this.graph = graph;
-    }*/
+    }
 
     /**
      * Getter for the people
@@ -371,12 +379,36 @@ public class GameData {
         this.id = id;
     }
 
-    public static Integer getBudget() {
+    /**
+     * Getter for the budget
+     * @return the budget
+     */
+    public Integer getBudget() {
         return budget;
     }
 
-    public static void setBudget(Integer budget) {
-        GameData.budget = budget;
+    /**
+     * Setter for the budget
+     * @param budget the budget
+     */
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+
+    /**
+     * Substracts the given amount from the budget
+     * @param amount the amount to substract
+     */
+    public void subtractFromBudget(int amount) {
+        this.budget -= amount;
+    }
+
+    /**
+     * Adds the given amount to the budget
+     * @param amount the amount to add
+     */
+    public void addToBudget(int amount) {
+        this.budget += amount;
     }
 
     @Override

@@ -1,13 +1,20 @@
 package controller;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.google.common.graph.Graph;
+import com.google.common.graph.MutableGraph;
 import controller.catastrophies.Catastrophe;
 import controller.catastrophies.Covid;
 import controller.catastrophies.FinancialCrisis;
 import controller.catastrophies.Firestorm;
 import controller.interfaces.SaveManager;
 import controller.interfaces.SpeedManager;
+import model.Coordinate;
 import model.GameData;
+import model.Person;
+import model.field.PlayableField;
 import org.javatuples.Pair;
+import util.GraphDeserializer;
 import util.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,7 +27,7 @@ import java.util.ArrayList;
 public class GameManager implements SaveManager, SpeedManager {
     private double catastropheChance;
     private double hospitalChance;
-    private GameData gameData;
+    private static GameData gameData;
 
     private SimulationSpeed simulationSpeed;
 
@@ -58,6 +65,19 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void nextDay() {
         Logger.log("A day passes...");
+    }
+
+    /**
+     * This method does the financials.
+     */
+    public void doFinancials(){
+        for(Person p : gameData.getPeople()) {
+            if(p.isRetired()) {
+                gameData.subtractFromBudget(100);
+            } else {
+                gameData.addToBudget(100);
+            }
+        }
     }
 
     /**
@@ -113,6 +133,9 @@ public class GameManager implements SaveManager, SpeedManager {
     public void loadSaveFile(File file) {
         Logger.log("Loading save file: " + file.getName());
         ObjectMapper objectMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(MutableGraph.class, new GraphDeserializer());
+        objectMapper.registerModule(module);
         try {
             setGameData(objectMapper.readValue(file, GameData.class));
             Logger.log("Save file loaded.");
@@ -159,8 +182,6 @@ public class GameManager implements SaveManager, SpeedManager {
             exc.printStackTrace();
         }
     }
-
-
 
     /**
      * This method sets the taxes.
@@ -221,8 +242,16 @@ public class GameManager implements SaveManager, SpeedManager {
      * Getter for the game data.
      * @return the game data
      */
-    public GameData getGameData() {
+    public static GameData getGameData() {
         return gameData;
+    }
+
+    /**
+     * Getter for the graph.
+     * @return the graph
+     */
+    public static MutableGraph<Coordinate> getGraph() {
+        return gameData.getGraph();
     }
 
     /**
@@ -230,7 +259,7 @@ public class GameManager implements SaveManager, SpeedManager {
      * @param gameData the new game data
      */
     public void setGameData(GameData gameData) {
-        this.gameData = gameData;
+        GameManager.gameData = gameData;
         Logger.log("Game data set to " + gameData.getId());
     }
 

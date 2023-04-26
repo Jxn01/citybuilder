@@ -10,7 +10,6 @@ import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
 import model.enums.Effect;
 import util.Logger;
-import static model.GameData.budget;
 
 /**
  * This class represents a person in the game
@@ -170,24 +169,6 @@ public class Person {
     public void moveAway() {
         Logger.log(name + " has moved away");
         this.name = "Moved away";
-    }
-
-    /**
-     * This method pays the taxes of the person
-     */
-    public void payTaxes() {
-        Logger.log(name + " has paid taxes");
-        budget += 1000;
-        //exact amount to be determined
-    }
-
-    /**
-     * This method pays the pension of the person
-     */
-    public void getsPension() {
-        Logger.log(name + " has received pension");
-        budget -= 1000;
-        //exact amount to be determined
     }
 
     /**
