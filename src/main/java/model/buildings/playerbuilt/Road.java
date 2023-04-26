@@ -10,13 +10,14 @@ public class Road extends PlayerBuilding {
 
     /**
      * Constructor of the road
+     *
      * @param coords is the coordinates of the road
      */
     public Road(Coordinate coords) {
         super(coords, 0.0, false, 0, 0);
 
-        buildCost = 1000; //TODO: Change this
-        maintenanceCost = 100; //TODO: Change this
+        buildCost = 500;
+        maintenanceCost = 125;
 
         Logger.log("Road created at " + coords.toString());
     }

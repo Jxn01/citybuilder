@@ -15,14 +15,15 @@ public class Forest extends RangedBuilding {
 
     /**
      * Constructor of the forest
+     *
      * @param coords is the coordinates of the forest
      */
     public Forest(Coordinate coords) {
         super(coords, 0.0, false, 0, 0, 0);
 
         firePossibility = 0.1;
-        buildCost = 1000; //TODO: Change this
-        maintenanceCost = 100; //TODO: Change this
+        buildCost = 1000;
+        maintenanceCost = 250;
         range = 10; //TODO: Change this
 
         this.growTime = 10;
@@ -35,7 +36,7 @@ public class Forest extends RangedBuilding {
      * Grow the forest
      */
     public void grow() {
-        if(growStage < growTime) {
+        if (growStage < growTime) {
             growStage++;
             Logger.log("Forest grew to " + growStage + " years old");
         } else {

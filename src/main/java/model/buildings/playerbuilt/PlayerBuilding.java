@@ -12,10 +12,11 @@ public abstract class PlayerBuilding extends Building {
 
     /**
      * Constructor of the player building
-     * @param coords is the coordinates of the player building
+     *
+     * @param coords          is the coordinates of the player building
      * @param firePossibility is the fire possibility of the player building
-     * @param isOnFire is the player building on fire
-     * @param buildCost is the build cost of the player building
+     * @param isOnFire        is the player building on fire
+     * @param buildCost       is the build cost of the player building
      * @param maintenanceCost is the maintenance cost of the player building
      */
     public PlayerBuilding(Coordinate coords, double firePossibility, boolean isOnFire, int buildCost, int maintenanceCost) {
@@ -27,6 +28,7 @@ public abstract class PlayerBuilding extends Building {
 
     /**
      * Get the build cost of the player building
+     *
      * @return the build cost of the player building
      */
     public int getBuildCost() {
@@ -35,6 +37,7 @@ public abstract class PlayerBuilding extends Building {
 
     /**
      * Set the build cost of the player building
+     *
      * @param buildCost is the new build cost of the player building
      */
     public void setBuildCost(int buildCost) {
@@ -44,6 +47,7 @@ public abstract class PlayerBuilding extends Building {
 
     /**
      * Get the maintenance cost of the player building
+     *
      * @return the maintenance cost of the player building
      */
     public int getMaintenanceCost() {
@@ -52,6 +56,7 @@ public abstract class PlayerBuilding extends Building {
 
     /**
      * Set the maintenance cost of the player building
+     *
      * @param maintenanceCost is the new maintenance cost of the player building
      */
     public void setMaintenanceCost(int maintenanceCost) {

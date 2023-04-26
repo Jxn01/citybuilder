@@ -19,8 +19,8 @@ import static util.Date.*;
  */
 public class GameData {
     private final int starterMapSize = 51;
-    private final int starterPeople = 20;
-    private final int starterBudget = 10000;
+    private final int starterPeople = 50;
+    private final int starterBudget = 100000;
     private final int starterTaxes = 1000;
     private String id;
     private String startDate;
@@ -42,18 +42,19 @@ public class GameData {
 
     /**
      * Constructor for GameData
-     * @param startDate the date the game was started
-     * @param currentDate the current date
-     * @param inGameStartDate the date the game was started in game
+     *
+     * @param startDate         the date the game was started
+     * @param currentDate       the current date
+     * @param inGameStartDate   the date the game was started in game
      * @param inGameCurrentDate the current date in game
-     * @param playTime the time the game has been played
-     * @param budget the budget of the city
-     * @param cityName the name of the city
-     * @param gameOver if the game is over
-     * @param saveFile the file the game is saved in
-     * @param yearlyTaxes the yearly taxes of the city
-     * @param fields the fields of the city
-     * @param people the people of the city
+     * @param playTime          the time the game has been played
+     * @param budget            the budget of the city
+     * @param cityName          the name of the city
+     * @param gameOver          if the game is over
+     * @param saveFile          the file the game is saved in
+     * @param yearlyTaxes       the yearly taxes of the city
+     * @param fields            the fields of the city
+     * @param people            the people of the city
      */
     public GameData(String startDate, String currentDate, String inGameStartDate, String inGameCurrentDate, String playTime, int budget, String cityName, boolean gameOver, File saveFile, int yearlyTaxes, Field[][] fields, ArrayList<Person> people, String id, Graph<Field> graph) {
         this.startDate = startDate;
@@ -76,6 +77,7 @@ public class GameData {
 
     /**
      * Constructor for GameData
+     *
      * @param cityName the name of the city
      */
     public GameData(String cityName) {
@@ -93,21 +95,24 @@ public class GameData {
         this.fields = new Field[51][51];
         this.graph = GraphBuilder.undirected().allowsSelfLoops(false).build();
 
-        for(int i = 0; i < starterMapSize; i++) {
-            for(int j = 0; j < starterMapSize; j++) { // 2 thick border, 49x49 playable area
+        for (int i = 0; i < starterMapSize; i++) {
+            for (int j = 0; j < starterMapSize; j++) { // 2 thick border, 49x49 playable area
 
-                if(i == 0 || i == 1 || i == 49 || i == 50 || j == 0 || j == 1 || j == 49 || j == 50) {
+                if (i == 0 || i == 1 || i == 49 || i == 50 || j == 0 || j == 1 || j == 49 || j == 50) {
                     this.fields[i][j] = new BorderField(new Coordinate(i, j));
                 } else {
-                    try { this.fields[i][j] = new PlayableField(new Coordinate(i, j)); }
-                    catch(IOException exc) { exc.printStackTrace(); }
+                    try {
+                        this.fields[i][j] = new PlayableField(new Coordinate(i, j));
+                    } catch (IOException exc) {
+                        exc.printStackTrace();
+                    }
                 }
             }
         }
 
         this.people = new ArrayList<>();
 
-        for(int i = 0; i < starterPeople; i++) {
+        for (int i = 0; i < starterPeople; i++) {
             this.people.add(new Person());
         }
 
@@ -116,6 +121,7 @@ public class GameData {
 
     /**
      * Getter for the start date
+     *
      * @return the start date
      */
     public String getStartDate() {
@@ -124,6 +130,7 @@ public class GameData {
 
     /**
      * Setter for the start date
+     *
      * @param startDate the start date
      */
     public void setStartDate(String startDate) {
@@ -133,6 +140,7 @@ public class GameData {
 
     /**
      * Getter for the current date
+     *
      * @return the current date
      */
     public String getCurrentDate() {
@@ -141,6 +149,7 @@ public class GameData {
 
     /**
      * Setter for the current date
+     *
      * @param currentDate the current date
      */
     public void setCurrentDate(String currentDate) {
@@ -150,6 +159,7 @@ public class GameData {
 
     /**
      * Getter for the in game start date
+     *
      * @return the in game start date
      */
     public String getInGameStartDate() {
@@ -158,6 +168,7 @@ public class GameData {
 
     /**
      * Setter for the in game start date
+     *
      * @param inGameStartDate the in game start date
      */
     public void setInGameStartDate(String inGameStartDate) {
@@ -167,6 +178,7 @@ public class GameData {
 
     /**
      * Getter for the in game current date
+     *
      * @return the in game current date
      */
     public String getInGameCurrentDate() {
@@ -175,6 +187,7 @@ public class GameData {
 
     /**
      * Setter for the in game current date
+     *
      * @param inGameCurrentDate the in game current date
      */
     public void setInGameCurrentDate(String inGameCurrentDate) {
@@ -184,6 +197,7 @@ public class GameData {
 
     /**
      * Getter for the play time
+     *
      * @return the play time
      */
     public String getPlayTime() {
@@ -192,6 +206,7 @@ public class GameData {
 
     /**
      * Setter for the play time
+     *
      * @param playTime the play time
      */
     public void setPlayTime(String playTime) {
@@ -200,20 +215,21 @@ public class GameData {
     }
 
     /**
-     *  Calculates the average satisfaction of the people
+     * Calculates the average satisfaction of the people
      */
     public void calculateAverageSatisfaction() {
         int satisfaction = 0;
-        for(Person person : people) {
+        for (Person person : people) {
             satisfaction += person.calculateSatisfaction();
         }
         satisfaction /= people.size();
-        this.averageSatisfaction  = satisfaction;
+        this.averageSatisfaction = satisfaction;
         Logger.log("Game data " + this.id + " average satisfaction calculated: " + satisfaction);
     }
 
     /**
      * Getter for the average satisfaction
+     *
      * @return the average satisfaction
      */
     public int getAverageSatisfaction() {
@@ -226,6 +242,7 @@ public class GameData {
 
     /**
      * Getter for the population
+     *
      * @return the population size
      */
     public int getPopulation() {
@@ -234,6 +251,7 @@ public class GameData {
 
     /**
      * Getter for the city name
+     *
      * @return the city name
      */
     public String getCityName() {
@@ -242,6 +260,7 @@ public class GameData {
 
     /**
      * Setter for the city name
+     *
      * @param cityName the city name
      */
     public void setCityName(String cityName) {
@@ -251,6 +270,7 @@ public class GameData {
 
     /**
      * Getter for the game over
+     *
      * @return if the game is over
      */
     public boolean isGameOver() {
@@ -259,6 +279,7 @@ public class GameData {
 
     /**
      * Setter for the game over
+     *
      * @param gameOver if the game is over
      */
     public void setGameOver(boolean gameOver) {
@@ -268,6 +289,7 @@ public class GameData {
 
     /**
      * Getter for the save file
+     *
      * @return the save file
      */
     public File getSaveFile() {
@@ -276,6 +298,7 @@ public class GameData {
 
     /**
      * Setter for the save file
+     *
      * @param saveFile the save file
      */
     public void setSaveFile(File saveFile) {
@@ -285,6 +308,7 @@ public class GameData {
 
     /**
      * Getter for the yearly taxes
+     *
      * @return the yearly taxes
      */
     public int getYearlyTaxes() {
@@ -293,6 +317,7 @@ public class GameData {
 
     /**
      * Setter for the yearly taxes
+     *
      * @param yearlyTaxes the yearly taxes
      */
     public void setYearlyTaxes(int yearlyTaxes) {
@@ -302,6 +327,7 @@ public class GameData {
 
     /**
      * Getter for the fields
+     *
      * @return the fields
      */
     public Field[][] getFields() {
@@ -310,16 +336,17 @@ public class GameData {
 
     /**
      * Getter for the playable fields
+     *
      * @return
      */
-    public ArrayList<PlayableField> getPlayableFieldsWithBuildings(){
+    public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
         ArrayList<PlayableField> result = new ArrayList<>();
 
         for (int i = 0; i < starterMapSize; i++) {
             for (int j = 0; j < starterMapSize; j++) {
 
-                if(fields[i][j] instanceof PlayableField){
-                    if(((PlayableField) fields[i][j]).getBuilding() != null){
+                if (fields[i][j] instanceof PlayableField) {
+                    if (((PlayableField) fields[i][j]).getBuilding() != null) {
                         result.add((PlayableField) fields[i][j]);
                     }
                 }
@@ -332,6 +359,7 @@ public class GameData {
 
     /**
      * Setter for the fields
+     *
      * @param fields the fields
      */
     public void setFields(Field[][] fields) {
@@ -341,6 +369,7 @@ public class GameData {
 
     /**
      * Getter for the graph
+     *
      * @return the graph
      */
     public Graph<Field> getGraph() {
@@ -349,6 +378,7 @@ public class GameData {
 
     /**
      * Setter for the graph
+     *
      * @param graph the graph
      */
     public void setGraph(Graph<Field> graph) {
@@ -357,6 +387,7 @@ public class GameData {
 
     /**
      * Getter for the people
+     *
      * @return the people
      */
     public ArrayList<Person> getPeople() {
@@ -365,6 +396,7 @@ public class GameData {
 
     /**
      * Setter for the people
+     *
      * @param people the people
      */
     public void setPeople(ArrayList<Person> people) {
@@ -374,6 +406,7 @@ public class GameData {
 
     /**
      * Getter for the id
+     *
      * @return the id
      */
     public String getId() {
@@ -382,6 +415,7 @@ public class GameData {
 
     /**
      * Setter for the id
+     *
      * @param id the id
      */
     public void setId(String id) {

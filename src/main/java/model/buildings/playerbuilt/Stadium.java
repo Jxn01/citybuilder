@@ -1,7 +1,9 @@
 package model.buildings.playerbuilt;
+
 import model.Coordinate;
 import util.Logger;
 import util.ResourceLoader;
+
 import java.io.IOException;
 
 
@@ -9,13 +11,14 @@ public class Stadium extends RangedBuilding {
 
     /**
      * Constructor of the stadium
+     *
      * @param coords is the coordinates of the stadium
      */
     public Stadium(Coordinate coords) {
         super(coords, 0.0, false, 0, 0, 0);
 
-        buildCost = 1000; //TODO: Change this
-        maintenanceCost = 100; //TODO: Change this
+        buildCost = 20000;
+        maintenanceCost = 5000;
         range = 10; //TODO: Change this
 
         Logger.log("Stadium created at " + coords.toString());

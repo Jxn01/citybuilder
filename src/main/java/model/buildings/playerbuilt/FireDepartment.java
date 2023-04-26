@@ -15,14 +15,15 @@ public class FireDepartment extends RangedBuilding {
 
     /**
      * Constructor of the fire department
+     *
      * @param coords is the coordinates of the fire department
      */
     public FireDepartment(Coordinate coords) {
         super(coords, 0.0, false, 0, 0, 0);
 
         firePossibility = 0.0;
-        buildCost = 1000; //TODO: Change this
-        maintenanceCost = 100; //TODO: Change this
+        buildCost = 10000;
+        maintenanceCost = 2500;
         range = 10; //TODO: Change this
 
         this.maxFireTrucks = 10;

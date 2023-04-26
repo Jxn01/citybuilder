@@ -10,14 +10,15 @@ public class PoliceStation extends RangedBuilding {
 
     /**
      * Constructor of the police station
+     *
      * @param coords is the coordinates of the police station
      */
     public PoliceStation(Coordinate coords) {
         super(coords, 0.0, false, 0, 0, 0);
 
         firePossibility = 0.1;
-        buildCost = 1000; //TODO: Change this
-        maintenanceCost = 100; //TODO: Change this
+        buildCost = 5000;
+        maintenanceCost = 1250;
         range = 10; //TODO: Change this
 
         Logger.log("Police station created at " + coords.toString());
