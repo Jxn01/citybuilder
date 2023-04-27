@@ -26,10 +26,10 @@ import java.util.*;
  * This class represents the game manager.
  */
 public class GameManager implements SaveManager, SpeedManager {
+    private static GameData gameData;
+    private final ArrayList<Catastrophe> catastrophes;
     private double catastropheChance;
     private double hospitalChance;
-    private static GameData gameData;
-
     private SimulationSpeed simulationSpeed;
 
     private final List<Catastrophe> catastrophes;
@@ -64,6 +64,34 @@ public class GameManager implements SaveManager, SpeedManager {
         setGameData(new GameData(cityName));
         gameData.calculateAverageSatisfaction();
         Logger.log("Game initialized.");
+    }
+
+    /**
+     * Getter for the game data.
+     *
+     * @return the game data
+     */
+    public static GameData getGameData() {
+        return gameData;
+    }
+
+    /**
+     * Setter for the game data.
+     *
+     * @param gameData the new game data
+     */
+    public void setGameData(GameData gameData) {
+        GameManager.gameData = gameData;
+        Logger.log("Game data set to " + gameData.getId());
+    }
+
+    /**
+     * Getter for the graph.
+     *
+     * @return the graph
+     */
+    public static MutableGraph<Coordinate> getGraph() {
+        return gameData.getGraph();
     }
 
     /**
@@ -139,14 +167,33 @@ public class GameManager implements SaveManager, SpeedManager {
     /**
      * This method does the financials.
      */
-    public void doFinancials(){
-        for(Person p : gameData.getPeople()) {
-            if(p.isRetired()) {
+    public void doFinancials() {
+        for (Person p : gameData.getPeople()) {
+            if (p.isRetired()) {
                 gameData.subtractFromBudget(100);
             } else {
                 gameData.addToBudget(100);
             }
         }
+    }
+
+    /**
+     * Getter for the catastrophe chance.
+     *
+     * @return the catastrophe chance
+     */
+    public double getCatastropheChance() {
+        return catastropheChance;
+    }
+
+    /**
+     * Setter for the catastrophe chance.
+     *
+     * @param catastropheChance the new catastrophe chance
+     */
+    public void setCatastropheChance(double catastropheChance) {
+        this.catastropheChance = catastropheChance;
+        Logger.log("Catastrophe chance set to " + catastropheChance);
     }
 
     /**
@@ -188,10 +235,19 @@ public class GameManager implements SaveManager, SpeedManager {
         return saveFiles;
     }
 
+    /**
+     * Getter for the save files
+     *
+     * @return the save files
+     */
+    public ArrayList<File> getSaveFiles() {
+        return saveFiles;
+    }
+
     @Override
     public void deleteSaveFile(File file) {
         Logger.log("Deleting save file: " + file.getName());
-        if(file.delete()) {
+        if (file.delete()) {
             Logger.log("Save file deleted.");
         } else {
             Logger.log("Save file could not be deleted.");
@@ -208,7 +264,7 @@ public class GameManager implements SaveManager, SpeedManager {
         try {
             setGameData(objectMapper.readValue(file, GameData.class));
             Logger.log("Save file loaded.");
-        } catch(Exception exc) {
+        } catch (Exception exc) {
             Logger.log("Save file could not be loaded.");
             exc.printStackTrace();
         }
@@ -216,7 +272,7 @@ public class GameManager implements SaveManager, SpeedManager {
 
     @Override
     public void saveGame(GameData gameData) {
-        if(gameData.getSaveFile() == null) {
+        if (gameData.getSaveFile() == null) {
             Logger.log("Game has not been saved yet, creating new save file...");
             File file = new File(saveDirectory + File.separator + gameData.getId() + ".json");
             try {
@@ -237,7 +293,7 @@ public class GameManager implements SaveManager, SpeedManager {
         try {
             objectMapper.writeValue(gameData.getSaveFile(), gameData);
             Logger.log("Game saved.");
-        } catch(Exception exc) {
+        } catch (Exception exc) {
             Logger.log("Game could not be saved.");
             exc.printStackTrace();
         }
@@ -247,6 +303,7 @@ public class GameManager implements SaveManager, SpeedManager {
      * This method sets the taxes.
      */
     public void setTaxes(int taxes) {
+        gameData.setYearlyTaxes(taxes);
         Logger.log("Taxes set to " + taxes);
     }
 
@@ -264,25 +321,10 @@ public class GameManager implements SaveManager, SpeedManager {
         return new Pair<>("", 0);
     }
 
-    /**
-     * Getter for the catastrophe chance.
-     * @return the catastrophe chance
-     */
-    public double getCatastropheChance() {
-        return catastropheChance;
-    }
-
-    /**
-     * Setter for the catastrophe chance.
-     * @param catastropheChance the new catastrophe chance
-     */
-    public void setCatastropheChance(double catastropheChance) {
-        this.catastropheChance = catastropheChance;
-        Logger.log("Catastrophe chance set to " + catastropheChance);
-    }
 
     /**
      * Getter for the hospital chance.
+     *
      * @return the hospital chance
      */
     public double getHospitalChance() {
@@ -291,6 +333,7 @@ public class GameManager implements SaveManager, SpeedManager {
 
     /**
      * Setter for the hospital chance.
+     *
      * @param hospitalChance the new hospital chance
      */
     public void setHospitalChance(double hospitalChance) {
@@ -299,32 +342,8 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     /**
-     * Getter for the game data.
-     * @return the game data
-     */
-    public static GameData getGameData() {
-        return gameData;
-    }
-
-    /**
-     * Getter for the graph.
-     * @return the graph
-     */
-    public static MutableGraph<Coordinate> getGraph() {
-        return gameData.getGraph();
-    }
-
-    /**
-     * Setter for the game data.
-     * @param gameData the new game data
-     */
-    public void setGameData(GameData gameData) {
-        GameManager.gameData = gameData;
-        Logger.log("Game data set to " + gameData.getId());
-    }
-
-    /**
      * Getter for the simulation speed.
+     *
      * @return the simulation speed
      */
     public SimulationSpeed getSimulationSpeed() {
@@ -333,6 +352,7 @@ public class GameManager implements SaveManager, SpeedManager {
 
     /**
      * Setter for the simulation speed.
+     *
      * @param simulationSpeed the new simulation speed
      */
     public void setSimulationSpeed(SimulationSpeed simulationSpeed) {
@@ -350,25 +370,25 @@ public class GameManager implements SaveManager, SpeedManager {
 
     @Override
     public void timeStop() {
-        Logger.log("Time stopped");
         simulationSpeed = SimulationSpeed.PAUSED;
+        Logger.log("Time stopped");
     }
 
     @Override
-    public void timeNormal() {
-        Logger.log("Time flows normally");
+    public void setTimeNormal() {
         simulationSpeed = SimulationSpeed.NORMAL;
+        Logger.log("Time flows normally");
     }
 
     @Override
-    public void timeFast() {
-        Logger.log("Time flows fast");
+    public void setTimeFast() {
         simulationSpeed = SimulationSpeed.FAST;
+        Logger.log("Time flows fast");
     }
 
     @Override
-    public void timeFaster() {
-        Logger.log("Time flows faster");
+    public void setTimeFaster() {
         simulationSpeed = SimulationSpeed.FASTER;
+        Logger.log("Time flows faster");
     }
 }
