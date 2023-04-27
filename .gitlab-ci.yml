@@ -24,9 +24,22 @@ test:
       - build
       - .gradle
 
-
 deploy:
   stage: deploy
-  script: echo "Define your deployment script!"
-  environment: production
+  script:
+    - echo "Deploying the game..."
+    # Add your deployment script or commands here to deploy the game.
+    # For example, you could copy the generated JAR file to a server or execute specific deployment steps.
+    # Replace the echo command with your actual deployment commands.
+    - cp build/libs/*.jar game.jar
+
+  artifacts:
+    paths:
+      - game.jar
+
+release:
+  stage: release
+  script:
+    - echo "Creating GitLab snapshot release..."
+    - gitlab-release create --name "Game Release" --tag-name "v${CI_COMMIT_TAG}" --description "SNAPSHOT release of the game" game.jar
 
