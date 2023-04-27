@@ -16,14 +16,15 @@ deploy:
   stage: deploy
   script:
     - echo "Deploying the game..."
+    - gradle assembleDist
     # Add your deployment script or commands here to deploy the game.
     # For example, you could copy the generated JAR file to a server or execute specific deployment steps.
     # Replace the echo command with your actual deployment commands.
-    - cp build/libs/*.jar game.jar
+    - cp build/distributions/*.zip game.zip
 
   artifacts:
     paths:
-      - game.jar
+      - game.zip
 
 release:
   stage: deploy
