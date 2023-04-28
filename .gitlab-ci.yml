@@ -24,7 +24,6 @@ test:
 
 release:
   stage: deploy
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
   - echo "Creating GitLab snapshot release..."
   - gradle assembleDist
@@ -32,6 +31,7 @@ release:
   artifacts:
     paths:
       - game.zip
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
   release:
     name: "Release SNAPSHOT $(date +'%Y-%m-%d %H:%M:%S')"
     description: 'Rolling snapshot'
