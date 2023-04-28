@@ -1,8 +1,5 @@
 image: gradle:alpine
 
-variables:
-  PREPARE_JOBID: ""
-
 before_script:
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
@@ -31,10 +28,13 @@ prepare:
     - echo "Preparing GitLab snapshot release..."
     - gradle assembleDist
     - cp build/distributions/*.zip game.zip
-    - PREPARE_JOBID=$CI_JOB_ID
+    - touch job_id
+    - echo PR_JOB_ID=$CI_JOB_ID >> job_id.env
   artifacts:
     paths:
       - game.zip
+    reports:
+      dotenv: job_id.env
   rules:
     - if: '$CI_COMMIT_TAG == null'
 
@@ -53,6 +53,6 @@ release:
     assets:
       links:
         - name: 'Release package (Linux/Windows)'
-          url: https://szofttech.inf.elte.hu/szofttech-c-2023/group-05/citybuilder/-/jobs/${PREPARE_JOBID}/artifacts/raw/game.zip
+          url: https://szofttech.inf.elte.hu/szofttech-c-2023/group-05/citybuilder/-/jobs/${PR_JOB_ID}/artifacts/raw/game.zip
   rules:
     - if: '$CI_COMMIT_TAG == null'
