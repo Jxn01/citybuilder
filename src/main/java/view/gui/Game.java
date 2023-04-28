@@ -169,8 +169,7 @@ public class Game {
     }
 
     /**
-     * Getter for the current menu state
-     * @return menu state
+     * Setter for the current menu state
      */
     public void setState(MenuState s) {
         panel.setState(s);

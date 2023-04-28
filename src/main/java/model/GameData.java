@@ -1,6 +1,7 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -14,7 +15,6 @@ import util.GraphSerializer;
 import util.Logger;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -107,7 +107,7 @@ public class GameData {
         for (int i = 0; i < starterMapSize; i++) {
             for (int j = 0; j < starterMapSize; j++) { // 2 thick border, 49x49 playable area
 
-                if (i == 0 || i == 1 || i == 49 || i == 50 || j == 0 || j == 1 || j == 49 || j == 50) {
+                if (i == 0 || i == 1 || i == starterMapSize-2 || i == starterMapSize-1 || j == 0 || j == 1 || j == starterMapSize-2 || j == starterMapSize-1) {
                     this.fields[i][j] = new BorderField(new Coordinate(i, j));
                 } else {
                     this.fields[i][j] = new PlayableField(new Coordinate(i, j));
@@ -118,7 +118,7 @@ public class GameData {
         this.people = new ArrayList<>();
 
         for (int i = 0; i < starterPeople; i++) {
-            this.people.add(new Person());
+            this.people.add(new Person(true ));
         }
 
         Logger.log("New game data created: " + this.id);
@@ -242,14 +242,11 @@ public class GameData {
     }
 
     /**
-     * Calculate the population size
-     */
-
-    /**
      * Getter for the population
      *
      * @return the population size
      */
+    @JsonIgnore
     public int getPopulation() {
         return people.size();
     }
@@ -342,7 +339,7 @@ public class GameData {
     /**
      * Getter for the playable fields
      *
-     * @return
+     * @return the playable fields
      */
     public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
         ArrayList<PlayableField> result = new ArrayList<>();
