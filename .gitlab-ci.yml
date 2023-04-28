@@ -1,5 +1,8 @@
 image: gradle:alpine
 
+variables:
+  PREPARE_JOBID: ""
+
 before_script:
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
@@ -22,15 +25,21 @@ test:
   rules:
     - if: '$CI_COMMIT_TAG == null'
 
-release:
+prepare:
   stage: deploy
   script:
-  - echo "Creating GitLab snapshot release..."
-  - gradle assembleDist
-  - cp build/distributions/*.zip game.zip
+    - echo "Preparing GitLab snapshot release..."
+    - gradle assembleDist
+    - cp build/distributions/*.zip game.zip
+    - $PREPARE_JOBID = $CI_JOB_ID
   artifacts:
     paths:
       - game.zip
+
+release:
+  stage: deploy
+  script:
+    - echo "Creating GitLab snapshot release..."
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   release:
     name: "Release SNAPSHOT $(date +'%Y-%m-%d %H:%M:%S')"
@@ -39,6 +48,6 @@ release:
     assets:
       links:
         - name: 'Release package (Linux/Windows)'
-          url: https://szofttech.inf.elte.hu/szofttech-c-2023/group-05/citybuilder/-/jobs/${CI_JOB_ID}/artifacts/raw/game.zip
+          url: https://szofttech.inf.elte.hu/szofttech-c-2023/group-05/citybuilder/-/jobs/${PREPARE_JOBID}/artifacts/raw/game.zip
   rules:
     - if: '$CI_COMMIT_TAG == null'
