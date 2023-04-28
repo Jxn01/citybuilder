@@ -19,31 +19,19 @@ check:
 test:
   stage: test
   script: gradle test
-  needs:
-    - job: check
-  rules:
-    - if: '$CI_COMMIT_TAG == null'
-
-prepare:
-  stage: deploy
-  script:
-    - echo "Preparing the release package..."
-    - gradle assembleDist
-    - cp build/distributions/*.zip game.zip
-  artifacts:
-    paths:
-      - game.zip
   rules:
     - if: '$CI_COMMIT_TAG == null'
 
 release:
   stage: deploy
   image: registry.gitlab.com/gitlab-org/release-cli:latest
-  needs:
-    - job: prepare
-      artifacts: true
   script:
   - echo "Creating GitLab snapshot release..."
+  - gradle assembleDist
+  - cp build/distributions/*.zip game.zip
+  artifacts:
+    paths:
+      - game.zip
   release:
     name: "Release SNAPSHOT $(date +'%Y-%m-%d %H:%M:%S')"
     description: 'Rolling snapshot'
