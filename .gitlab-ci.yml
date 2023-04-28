@@ -51,6 +51,6 @@ release:
     assets:
       links:
         - name: 'Release package (Linux/Windows)'
-          url: https://szofttech.inf.elte.hu/szofttech-c-2023/group-05/citybuilder/-/jobs/${CI_JOB_ID}/artifacts/file/game.zip
+          url: https://szofttech.inf.elte.hu/szofttech-c-2023/group-05/citybuilder/-/jobs/${CI_JOB_ID}/artifacts/raw/game.zip
   rules:
     - if: '$CI_COMMIT_TAG == null'
