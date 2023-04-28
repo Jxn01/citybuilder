@@ -44,7 +44,7 @@ public class LoadGame {
         if(saveFiles != null && !saveFiles.isEmpty()) {
             int i = 1;
             for(File sf : saveFiles) {
-                btnGrp.add(new MyRadioButton(10, 80 + i++ * 60, 1516, 50, sf.getName(), "time", "money"));
+                btnGrp.add(new MyRadioButton(10, 80 + i++ * 60, 1516, 50, sf.getName(), "", ""));
             }
         }
     }

@@ -79,7 +79,7 @@ public class MyRadioButton {
 
         //write the button's text
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        gr.drawString(name + " ; " + time + " ; " + funds, rect.x + 20, rect.y + (rect.height / 2) + 10);
+        gr.drawString(name, rect.x + 20, rect.y + (rect.height / 2) + 10);
     }
 
     /**

@@ -1,7 +1,6 @@
 package controller;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.google.common.graph.Graph;
 import com.google.common.graph.MutableGraph;
 import controller.catastrophies.Catastrophe;
 import controller.catastrophies.Covid;
@@ -12,13 +11,14 @@ import controller.interfaces.SpeedManager;
 import model.Coordinate;
 import model.GameData;
 import model.Person;
-import model.field.PlayableField;
 import org.javatuples.Pair;
 import util.GraphDeserializer;
 import util.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +34,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private final ArrayList<Catastrophe> catastrophes;
 
     private ArrayList<File> saveFiles;
+    private final String saveDirectory = System.getProperty("user.home") + File.separator + ".citybuilder" + File.separator + "saves";
 
     /**
      * Constructor of the game manager.
@@ -48,6 +49,11 @@ public class GameManager implements SaveManager, SpeedManager {
 
         setSimulationSpeed(SimulationSpeed.PAUSED);
         Logger.log("Game manager created.");
+
+        File directory = new File(saveDirectory);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
     }
 
     /**
@@ -107,10 +113,10 @@ public class GameManager implements SaveManager, SpeedManager {
     public ArrayList<File> readSaveFiles() {
         Logger.log("Reading save files...");
         saveFiles = new ArrayList<>();
-        File[] files = new File("src/main/resources/saves").listFiles();
-        if(files != null) {
-            for(File file : files) {
-                if(file.isFile() && file.getName().endsWith(".json")) {
+        File directory = new File(saveDirectory);
+        if(directory.exists()) {
+            for(File file : directory.listFiles()) {
+                if(file.getName().endsWith(".json")) {
                     saveFiles.add(file);
                 }
             }
@@ -148,24 +154,15 @@ public class GameManager implements SaveManager, SpeedManager {
     public void saveGame(GameData gameData) {
         if(gameData.getSaveFile() == null) {
             Logger.log("Game has not been saved yet, creating new save file...");
-            File file = new File("src/main/resources/saves/" + gameData.getId() + ".json");
+            File file = new File(saveDirectory + File.separator + gameData.getId() + ".json");
             try {
-
                 if(file.createNewFile()) {
                     Logger.log("Save file created.");
                 } else {
                     Logger.log("Save file already exists.");
-                    Logger.log("Deleting old save file...");
-                    if(file.delete()) {
-                        Logger.log("Old save file deleted.");
-                    } else {
-                        Logger.log("Old save file could not be deleted.");
-                    }
                 }
-
                 gameData.setSaveFile(file);
                 Logger.log("Save file created.");
-
             } catch(Exception exc) {
                 Logger.log("Save file could not be created.");
                 exc.printStackTrace();

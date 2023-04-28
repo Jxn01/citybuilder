@@ -1,10 +1,11 @@
-import controller.GameManager;
 import util.Logger;
 import view.components.GameGUI;
 
+import java.io.File;
+
 public class Main {
+
     public static void main(String[] args) {
-        Logger.log("Starting the game...");
         GameGUI game = new GameGUI();
     }
 }

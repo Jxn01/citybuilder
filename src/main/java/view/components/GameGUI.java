@@ -33,9 +33,12 @@ public class GameGUI extends JFrame {
     }
 
     /**
-     * Initialize the game window after creation
+     * Get the panel of the game
+     * @return the panel of the game
      */
-    public void init() { }
+    public Panel getPanel() {
+        return panel;
+    }
 
     /**
      * Exit the program

@@ -594,24 +594,24 @@ public class PlayableField extends Field {
     }
 
     /**
-     * Get the tile of the field
-     * @return the tile of the field
+     * Set the move in factor of the field
+     * @param moveInFactor is the move in factor of the field
      */
     public void setMoveInFactor(int moveInFactor) {
         this.moveInFactor = moveInFactor;
     }
 
     /**
-     * Get the tile of the field
-     * @return the tile of the field
+     * Set the zone of the field
+     * @param zone is the zone of the field
      */
     public void setZone(Zone zone) {
         this.zone = zone;
     }
 
     /**
-     * Get the tile of the field
-     * @return the tile of the field
+     * Set the upgrade level
+     * @param upgradeLevel is the upgrade level
      */
     public void setUpgradeLevel(UpgradeLevel upgradeLevel) {
         this.upgradeLevel = upgradeLevel;
