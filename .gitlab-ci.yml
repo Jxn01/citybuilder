@@ -7,28 +7,50 @@ before_script:
 build:
   stage: build
   script: gradle assemble
+  rules:
+    - if: '$CI_COMMIT_TAG == null'
+
+check:
+  stage: test
+  script: gradle check
+  rules:
+    - if: '$CI_COMMIT_TAG == null'
 
 test:
   stage: test
-  script: gradle check
+  script: gradle test
+  needs:
+    - job: check
+  rules:
+    - if: '$CI_COMMIT_TAG == null'
 
-deploy:
+prepare:
   stage: deploy
   script:
-    - echo "Deploying the game..."
+    - echo "Preparing the release package..."
     - gradle assembleDist
-    # Add your deployment script or commands here to deploy the game.
-    # For example, you could copy the generated JAR file to a server or execute specific deployment steps.
-    # Replace the echo command with your actual deployment commands.
     - cp build/distributions/*.zip game.zip
-
   artifacts:
     paths:
       - game.zip
+  rules:
+    - if: '$CI_COMMIT_TAG == null'
 
 release:
   stage: deploy
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs:
+    - job: prepare
+      artifacts: true
   script:
-    - echo "Creating GitLab snapshot release..."
-    - gitlab-release create --name "Game Release" --tag-name "v${CI_COMMIT_TAG}" --description "SNAPSHOT release of the game" game.jar
-
+  - echo "Creating GitLab snapshot release..."
+  release:
+    name: "Release SNAPSHOT $(date +'%Y-%m-%d %H:%M:%S')"
+    description: 'Rolling snapshot'
+    tag_name: "Release_${CI_JOB_ID}"
+    assets:
+      links:
+        - name: 'Release package (Linux/Windows)'
+          url: https://szofttech.inf.elte.hu/szofttech-c-2023/group-05/citybuilder/-/jobs/${CI_JOB_ID}/artifacts/file/game.zip
+  rules:
+    - if: '$CI_COMMIT_TAG == null'
