@@ -17,6 +17,7 @@ import util.Logger;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static util.Date.*;
 
@@ -46,7 +47,7 @@ public class GameData {
     @JsonDeserialize(using = GraphDeserializer.class)
     @JsonSerialize(using = GraphSerializer.class)
     private MutableGraph<Coordinate> graph;
-    private ArrayList<Person> people;
+    private List<Person> people;
 
     /**
      * Constructor for GameData
@@ -393,7 +394,7 @@ public class GameData {
      *
      * @return the people
      */
-    public ArrayList<Person> getPeople() {
+    public List<Person> getPeople() {
         return people;
     }
 

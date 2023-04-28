@@ -4,7 +4,7 @@ import model.GameData;
 import model.Person;
 import util.Logger;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a covid catastrophe.
@@ -34,7 +34,7 @@ public class Covid extends Catastrophe {
     public void effect(GameData gameData) {
         Logger.log("Actual population: " + gameData.getPopulation());
 
-        ArrayList<Person> people = gameData.getPeople();
+        List<Person> people = gameData.getPeople();
         int deaths_count = people.size() / 10;
 
         while (deaths_count > 0) {

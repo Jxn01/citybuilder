@@ -3,7 +3,7 @@ package view.gui.mainmenu;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import util.Logger;
 import util.ResourceLoader;
@@ -24,7 +24,7 @@ public class LoadGame {
     private final MyButton loadBtn;
     private final MyButton deleteBtn;
     private final MyRadioButtonGroup btnGrp;
-    private final ArrayList<File> saveFiles;
+    private final List<File> saveFiles;
 
     /**
      * Constructor of the LoadGame class

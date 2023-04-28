@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,7 +12,6 @@ import util.Logger;
 import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
 import model.enums.Effect;
-import util.Logger;
 
 /**
  * This class represents a person in the game
@@ -19,7 +19,7 @@ import util.Logger;
 public class Person {
     private int age;
     private String name;
-    private ArrayList<Effect> effects;
+    private List<Effect> effects;
     private ResidentialBuilding home;
     private Workplace workplace;
     boolean founder;
@@ -214,7 +214,7 @@ public class Person {
      * Getter for the effects
      * @return the effects of the person
      */
-    public ArrayList<Effect> getEffects() {
+    public List<Effect> getEffects() {
         return effects;
     }
 

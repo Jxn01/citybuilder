@@ -7,9 +7,7 @@ import model.Coordinate;
 import model.Person;
 import model.enums.SaturationRate;
 import util.Logger;
-import util.ResourceLoader;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**

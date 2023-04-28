@@ -1,6 +1,7 @@
 package controller;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.google.common.graph.Graph;
 import com.google.common.graph.MutableGraph;
 import controller.catastrophies.Catastrophe;
 import controller.catastrophies.Covid;
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * This class represents the game manager.
@@ -31,9 +32,9 @@ public class GameManager implements SaveManager, SpeedManager {
 
     private SimulationSpeed simulationSpeed;
 
-    private final ArrayList<Catastrophe> catastrophes;
+    private final List<Catastrophe> catastrophes;
 
-    private ArrayList<File> saveFiles;
+    private List<File> saveFiles;
     private final String saveDirectory = System.getProperty("user.home") + File.separator + ".citybuilder" + File.separator + "saves";
 
     /**
@@ -70,6 +71,69 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void nextDay() {
         Logger.log("A day passes...");
+    }
+
+    /**
+     * This method calculates the distance between two coordinates.
+     * @param a The first coordinate.
+     * @param b The second coordinate.
+     * @return The distance between the two coordinates.
+     */
+    private static int calculateDistance(Coordinate a, Coordinate b) {
+        int dx = a.getX() - b.getX();
+        int dy = a.getY() - b.getY();
+        return (int) Math.sqrt(dx * dx + dy * dy);
+    }
+
+    /**
+     * This method calculates the shortest path between two coordinates.
+     * @param start The start coordinate.
+     * @param end The end coordinate.
+     * @return The shortest path between the two coordinates.
+     */
+    public static List<Coordinate> findShortestPath(Coordinate start, Coordinate end) {
+        Map<Coordinate, Integer> distances = new HashMap<>();
+        PriorityQueue<Coordinate> queue = new PriorityQueue<>(Comparator.comparingInt(distances::get));
+        Map<Coordinate, Coordinate> previous = new HashMap<>();
+        MutableGraph<Coordinate> graph = getGraph();
+        for (Coordinate vertex : graph.nodes()) {
+            if (vertex.equals(start)) {
+                distances.put(vertex, 0);
+                queue.offer(vertex);
+            } else {
+                distances.put(vertex, Integer.MAX_VALUE);
+            }
+            previous.put(vertex, null);
+        }
+        while (!queue.isEmpty()) {
+            Coordinate current = queue.poll();
+            if (current.equals(end)) {
+                break;
+            }
+            int currentDistance = distances.get(current);
+            if (currentDistance == Integer.MAX_VALUE) {
+                break;
+            }
+            Set<Coordinate> neighbors = graph.adjacentNodes(current);
+            for (Coordinate neighbor : neighbors) {
+                int newDistance = currentDistance + calculateDistance(current, neighbor);
+                if (newDistance < distances.get(neighbor)) {
+                    distances.put(neighbor, newDistance);
+                    previous.put(neighbor, current);
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        if (previous.get(end) == null) {
+            return null; // No path exists between start and end
+        }
+        List<Coordinate> path = new ArrayList<>();
+        Coordinate current = end;
+        while (current != null) {
+            path.add(0, current);
+            current = previous.get(current);
+        }
+        return path;
     }
 
     /**
@@ -110,7 +174,7 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     @Override
-    public ArrayList<File> readSaveFiles() {
+    public List<File> readSaveFiles() {
         Logger.log("Reading save files...");
         saveFiles = new ArrayList<>();
         File directory = new File(saveDirectory);
@@ -280,7 +344,7 @@ public class GameManager implements SaveManager, SpeedManager {
      * Getter for the save files
      * @return the save files
      */
-    public ArrayList<File> getSaveFiles() {
+    public List<File> getSaveFiles() {
         return saveFiles;
     }
 
