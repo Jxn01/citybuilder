@@ -31,16 +31,21 @@ prepare:
     - echo "Preparing GitLab snapshot release..."
     - gradle assembleDist
     - cp build/distributions/*.zip game.zip
-    - $PREPARE_JOBID = $CI_JOB_ID
+    - $PREPARE_JOBID=$CI_JOB_ID
   artifacts:
     paths:
       - game.zip
+  rules:
+    - if: '$CI_COMMIT_TAG == null'
 
 release:
   stage: deploy
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
     - echo "Creating GitLab snapshot release..."
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs:
+    - job: prepare
+      artifacts: true
   release:
     name: "Release SNAPSHOT $(date +'%Y-%m-%d %H:%M:%S')"
     description: 'Rolling snapshot'
