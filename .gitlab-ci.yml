@@ -31,7 +31,7 @@ prepare:
     - echo "Preparing GitLab snapshot release..."
     - gradle assembleDist
     - cp build/distributions/*.zip game.zip
-    - $PREPARE_JOBID=$CI_JOB_ID
+    - PREPARE_JOBID=$CI_JOB_ID
   artifacts:
     paths:
       - game.zip
