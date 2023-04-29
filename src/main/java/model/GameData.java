@@ -30,7 +30,7 @@ import static util.Date.getLongDate;
  */
 public class GameData {
     private String id;
-    private String startDate;
+    private final String startDate;
     private String currentDate;
     private String inGameStartDate;
     private String inGameCurrentDate;
@@ -108,7 +108,7 @@ public class GameData {
         for (int i = 0; i < starterMapSize; i++) {
             for (int j = 0; j < starterMapSize; j++) { // 2 thick border, 49x49 playable area
 
-                if (i == 0 || i == 1 || i == starterMapSize-2 || i == starterMapSize-1 || j == 0 || j == 1 || j == starterMapSize-2 || j == starterMapSize-1) {
+                if (i == 0 || i == 1 || i == starterMapSize - 2 || i == starterMapSize - 1 || j == 0 || j == 1 || j == starterMapSize - 2 || j == starterMapSize - 1) {
                     this.fields[i][j] = new BorderField(new Coordinate(i, j));
                 } else {
                     this.fields[i][j] = new PlayableField(new Coordinate(i, j));
@@ -119,7 +119,7 @@ public class GameData {
         this.people = new ArrayList<>();
 
         for (int i = 0; i < starterPeople; i++) {
-            this.people.add(new Person(true ));
+            this.people.add(new Person(true));
         }
 
         Logger.log("New game data created: " + this.id);
@@ -328,20 +328,6 @@ public class GameData {
     }
 
     /**
-     * Getter for the playable fields
-     *
-     * @return the playable fields
-     */
-    public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
-        return  ((ArrayList<PlayableField>)Arrays.stream(fields)
-                .flatMap(Arrays::stream)
-                .filter(f -> f instanceof PlayableField)
-                .map(f -> (PlayableField) f)
-                .filter(f -> f.getBuilding() != null)
-                .collect(Collectors.toList()));
-    }
-
-    /**
      * Setter for the fields
      *
      * @param fields the fields
@@ -349,6 +335,20 @@ public class GameData {
     public void setFields(Field[][] fields) {
         Logger.log("Game data " + this.id + " fields set.");
         this.fields = fields;
+    }
+
+    /**
+     * Getter for the playable fields
+     *
+     * @return the playable fields
+     */
+    public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
+        return ((ArrayList<PlayableField>) Arrays.stream(fields)
+                .flatMap(Arrays::stream)
+                .filter(f -> f instanceof PlayableField)
+                .map(f -> (PlayableField) f)
+                .filter(f -> f.getBuilding() != null)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -409,6 +409,7 @@ public class GameData {
 
     /**
      * Getter for the budget
+     *
      * @return the budget
      */
     public int getBudget() {
@@ -417,6 +418,7 @@ public class GameData {
 
     /**
      * Setter for the budget
+     *
      * @param budget the budget
      */
     public void setBudget(int budget) {
@@ -425,6 +427,7 @@ public class GameData {
 
     /**
      * Substracts the given amount from the budget
+     *
      * @param amount the amount to substract
      */
     public void subtractFromBudget(int amount) {
@@ -433,6 +436,7 @@ public class GameData {
 
     /**
      * Adds the given amount to the budget
+     *
      * @param amount the amount to add
      */
     public void addToBudget(int amount) {

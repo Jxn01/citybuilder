@@ -14,6 +14,7 @@ public class IndustrialWorkplace extends Workplace {
 
     /**
      * Constructor of the industrial workplace
+     *
      * @param coords is the coordinates of the industrial workplace
      */
     public IndustrialWorkplace(Coordinate coords) {
@@ -55,7 +56,7 @@ public class IndustrialWorkplace extends Workplace {
 
     @Override
     public void addPerson(Person person) throws RuntimeException {
-        if(people.size() == maxCapacity) {
+        if (people.size() == maxCapacity) {
             Logger.log("Can't add person " + person.getName() + " to industrial workplace building at " + coords.toString() + " because maximum capacity reached!");
             throw new RuntimeException("Maximum capacity reached! Can't add new person!");
         } else {

@@ -24,13 +24,14 @@ public abstract class Field {
 
     /**
      * Constructor of the field.
+     *
      * @param coord The coordinate of the field.
      */
     public Field(Coordinate coord) {
         this.coord = coord;
         Random rand = new Random();
         int randomNum = rand.nextInt(3) + 1;
-        switch(randomNum) {
+        switch (randomNum) {
             case 1 -> tile = Tile.GRASS_1;
             case 2 -> tile = Tile.GRASS_2;
             case 3 -> tile = Tile.GRASS_3;
@@ -46,10 +47,10 @@ public abstract class Field {
     /**
      * Resets the tile of the field
      */
-    protected void resetTile(){
+    protected void resetTile() {
         Random rand = new Random();
         int randomNum = rand.nextInt(3) + 1;
-        switch(randomNum) {
+        switch (randomNum) {
             case 1 -> tile = Tile.GRASS_1;
             case 2 -> tile = Tile.GRASS_2;
             case 3 -> tile = Tile.GRASS_3;
@@ -58,6 +59,7 @@ public abstract class Field {
 
     /**
      * This method returns the coordinate of the field.
+     *
      * @return The coordinate of the field.
      */
     public Coordinate getCoord() {
@@ -66,6 +68,7 @@ public abstract class Field {
 
     /**
      * This method returns the texture tile of the field.
+     *
      * @return The texture tile of the field.
      */
     public Tile getTile() {
@@ -74,6 +77,7 @@ public abstract class Field {
 
     /**
      * This method sets the texture tile of the field.
+     *
      * @param tile The texture tile of the field.
      */
     public void setTile(Tile tile) {

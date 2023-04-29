@@ -19,8 +19,6 @@ import java.awt.event.*;
 public class Panel extends JPanel implements ActionListener {
 
     private final GameGUI gameGUI;
-    private Timer timer;
-    private MenuState state;
     private final Intro intro;
     private final MainMenu mainMenu;
     private final Tutorial tutorial;
@@ -28,11 +26,14 @@ public class Panel extends JPanel implements ActionListener {
     private final LoadGame loadGame;
     private final Game game;
     private final GameManager gm;
+    private Timer timer;
+    private MenuState state;
     private int width;
     private int height;
 
     /**
      * The constructor of the Panel class
+     *
      * @param gameGUI is the main window, where the panel is placed on
      */
     public Panel(GameGUI gameGUI) {
@@ -41,14 +42,14 @@ public class Panel extends JPanel implements ActionListener {
         setSize(gameGUI.getContentPane().getSize());
         setFocusable(true);
         this.gameGUI = gameGUI;
-   
+
         Timer responsivityTimer = new Timer(50, (ActionEvent e) -> {
             Dimension panelSize = getSize();
             width = panelSize.width;
             height = panelSize.height;
         });
         responsivityTimer.start();
-        
+
         state = MenuState.INTRO;
 
         intro = new Intro(this);
@@ -61,9 +62,9 @@ public class Panel extends JPanel implements ActionListener {
         //CLICK EVENT
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked (MouseEvent me) {
+            public void mouseClicked(MouseEvent me) {
                 if (me.getButton() == MouseEvent.BUTTON1) {
-                    switch(state) {
+                    switch (state) {
                         case MAINMENU -> mainMenu.click(me.getPoint());
                         case TUTORIAL -> tutorial.click(me.getPoint());
                         case NEWGAME -> newGame.click(me.getPoint());
@@ -73,12 +74,12 @@ public class Panel extends JPanel implements ActionListener {
                 }
             }
         });
-     
+
         //KEYPRESS EVENT
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                switch(state) {
+                switch (state) {
                     case NEWGAME -> newGame.keyPressed(e);
                     case GAME -> game.keyPressed(e);
                 }
@@ -91,12 +92,13 @@ public class Panel extends JPanel implements ActionListener {
 
     /**
      * The panel draws the menu based on the current menu state
+     *
      * @param g is the graphics context of the Panel object
      */
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D gr = (Graphics2D) g;
-        switch(state) {
+        switch (state) {
             case INTRO -> intro.draw(this, gr);
             case MAINMENU -> mainMenu.draw(this, gr);
             case TUTORIAL -> tutorial.draw(this, gr);
@@ -109,23 +111,25 @@ public class Panel extends JPanel implements ActionListener {
 
     /**
      * The main game loop that listens to the timer
-     * @param ev is the event happening on the panel 
+     *
+     * @param ev is the event happening on the panel
      */
     @Override
     public void actionPerformed(ActionEvent ev) {
-        if(ev.getSource() == timer) {
+        if (ev.getSource() == timer) {
             repaint();
         }
     }
 
     /**
      * Setter for the menu state
+     *
      * @param s is the new menu state
      */
     public void setState(MenuState s) {
         this.state = s;
     }
-    
+
     /**
      * Allows the gui submenus to call the Frame's exit method
      */
@@ -135,6 +139,7 @@ public class Panel extends JPanel implements ActionListener {
 
     /**
      * Getter for width
+     *
      * @return width
      */
     public int width() {
@@ -143,6 +148,7 @@ public class Panel extends JPanel implements ActionListener {
 
     /**
      * Getter for height
+     *
      * @return height
      */
     public int height() {
@@ -151,6 +157,7 @@ public class Panel extends JPanel implements ActionListener {
 
     /**
      * Getter for the game manager
+     *
      * @return game manager
      */
     public GameManager getGameManager() {

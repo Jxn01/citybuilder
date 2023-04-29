@@ -9,6 +9,7 @@ public class Date {
 
     /**
      * This method returns the short date as a string.
+     *
      * @param time is the time
      * @return the date as a string
      */
@@ -20,6 +21,7 @@ public class Date {
 
     /**
      * This method returns the long date as a string.
+     *
      * @param time is the time
      * @return the date as a string
      */
@@ -59,6 +61,7 @@ public class Date {
 
     /**
      * This method returns the long date as a string.
+     *
      * @param cal is the calendar
      * @return the date as a string
      */
@@ -72,6 +75,7 @@ public class Date {
 
     /**
      * This method returns the short date as a string.
+     *
      * @param cal is the calendar
      * @return the date as a string
      */

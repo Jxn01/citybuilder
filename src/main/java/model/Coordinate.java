@@ -16,6 +16,7 @@ public class Coordinate {
 
     /**
      * Constructor of the coordinate
+     *
      * @param x is the x coordinate
      * @param y is the y coordinate
      */
@@ -28,6 +29,7 @@ public class Coordinate {
 
     /**
      * Get the x coordinate
+     *
      * @return the x coordinate
      */
     public int getX() {
@@ -36,6 +38,7 @@ public class Coordinate {
 
     /**
      * Set the x coordinate
+     *
      * @param x is the x coordinate
      */
     public void setX(int x) {
@@ -44,6 +47,7 @@ public class Coordinate {
 
     /**
      * Get the y coordinate
+     *
      * @return the y coordinate
      */
     public int getY() {
@@ -52,6 +56,7 @@ public class Coordinate {
 
     /**
      * Set the y coordinate
+     *
      * @param y is the y coordinate
      */
     public void setY(int y) {
@@ -60,7 +65,7 @@ public class Coordinate {
 
     @Override
     public String toString() {
-        return "("+x+", "+y+")";
+        return "(" + x + ", " + y + ")";
     }
 
     @Override

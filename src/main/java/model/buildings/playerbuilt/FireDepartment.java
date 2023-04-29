@@ -37,6 +37,7 @@ public class FireDepartment extends RangedBuilding {
 
     /**
      * Get the max fire trucks of the fire department
+     *
      * @return the max fire trucks of the fire department
      */
     public int getMaxFireTrucks() {
@@ -45,6 +46,7 @@ public class FireDepartment extends RangedBuilding {
 
     /**
      * Set the max fire trucks of the fire department
+     *
      * @param maxFireTrucks is the max fire trucks of the fire department
      */
     public void setMaxFireTrucks(int maxFireTrucks) {
@@ -53,6 +55,7 @@ public class FireDepartment extends RangedBuilding {
 
     /**
      * Get the available fire trucks of the fire department
+     *
      * @return the available fire trucks of the fire department
      */
     public int getAvailableFireTrucks() {
@@ -61,6 +64,7 @@ public class FireDepartment extends RangedBuilding {
 
     /**
      * Set the available fire trucks of the fire department
+     *
      * @param availableFireTrucks is the available fire trucks of the fire department
      */
     public void setAvailableFireTrucks(int availableFireTrucks) {

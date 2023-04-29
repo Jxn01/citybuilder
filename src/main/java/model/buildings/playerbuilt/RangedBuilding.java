@@ -38,6 +38,7 @@ public abstract class RangedBuilding extends PlayerBuilding implements Functiona
 
     /**
      * Get the range of the ranged building
+     *
      * @return the range of the ranged building
      */
     public int getRange() {
@@ -46,6 +47,7 @@ public abstract class RangedBuilding extends PlayerBuilding implements Functiona
 
     /**
      * Set the range of the ranged building
+     *
      * @param range is the range of the ranged building
      */
     public void setRange(int range) {

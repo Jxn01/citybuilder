@@ -33,13 +33,14 @@ public abstract class GeneratedBuilding extends Building {
 
     /**
      * Constructor of the generated building
-     * @param coords is the coordinates of the building
+     *
+     * @param coords          is the coordinates of the building
      * @param firePossibility is the fire possibility of the building
-     * @param isOnFire is the building on fire
-     * @param people is the people in the building
-     * @param saturationRate is the saturation rate of the building
-     * @param publicSafety is the public safety of the building
-     * @param maxCapacity is the maximum capacity of the building
+     * @param isOnFire        is the building on fire
+     * @param people          is the people in the building
+     * @param saturationRate  is the saturation rate of the building
+     * @param publicSafety    is the public safety of the building
+     * @param maxCapacity     is the maximum capacity of the building
      */
     @JsonCreator
     public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
@@ -52,12 +53,14 @@ public abstract class GeneratedBuilding extends Building {
 
     /**
      * Add a person to the building
+     *
      * @param person is the person to add
      */
     public abstract void addPerson(Person person);
 
     /**
      * Remove a person from the building
+     *
      * @param person is the person to remove
      */
     public abstract void removePerson(Person person);
@@ -82,6 +85,7 @@ public abstract class GeneratedBuilding extends Building {
 
     /**
      * Setter for the max capacity of the building
+     *
      * @param maxCapacity is the maximum capacity of the building
      */
     public void setMaxCapacity(int maxCapacity) {
@@ -91,6 +95,7 @@ public abstract class GeneratedBuilding extends Building {
 
     /**
      * Get the public safety of the building
+     *
      * @return the public safety of the building
      */
     public int getPublicSafety() {
@@ -99,6 +104,7 @@ public abstract class GeneratedBuilding extends Building {
 
     /**
      * Set the public safety of the building
+     *
      * @param publicSafety is the public safety of the building
      */
     public void setPublicSafety(int publicSafety) {
@@ -108,6 +114,7 @@ public abstract class GeneratedBuilding extends Building {
 
     /**
      * Get the people in the building
+     *
      * @return the people in the building
      */
     public List<Person> getPeople() {
@@ -116,6 +123,7 @@ public abstract class GeneratedBuilding extends Building {
 
     /**
      * Get the saturation rate of the building
+     *
      * @return the saturation rate of the building
      */
     public SaturationRate getSaturationRate() {

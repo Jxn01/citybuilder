@@ -19,10 +19,11 @@ public class TaxMenu extends GameMenu {
     MyButton xBtn;
     MyInputField input;
     MyButton modifyBtn;
-    
+
     /**
      * Constructor of the tax menu
-     * @param game is the main Game object 
+     *
+     * @param game is the main Game object
      */
     public TaxMenu(Game game) {
         super(game);
@@ -30,18 +31,19 @@ public class TaxMenu extends GameMenu {
         this.game = game;
         xBtn = new MyButton(1228, 50, 40, 40, "x");
         modifyBtn = new MyButton(960, 130, 120, 40, "modify");
-        input = new MyInputField(630,125,325,50);
+        input = new MyInputField(630, 125, 325, 50);
         taxMenuArea = new Rectangle(268, 50, 1000, 150);
         taxMenuColor = Color.white;
     }
-    
+
     /**
      * Draw the tax menu on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     @Override
     public void draw(Graphics2D gr) {
-        if(getIsOpen()) {
+        if (getIsOpen()) {
             paintTaxMenuArea(gr);
 
             xBtn.draw(gr, game.getMousePosition());
@@ -57,9 +59,10 @@ public class TaxMenu extends GameMenu {
             modifyBtn.draw(gr, game.getMousePosition());
         }
     }
-    
+
     /**
      * Draw the tax menu's background area on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     private void paintTaxMenuArea(Graphics2D gr) {
@@ -70,20 +73,21 @@ public class TaxMenu extends GameMenu {
         int height = taxMenuArea.height;
         gr.fillRect(x, y, width, height);
     }
-    
+
     /**
      * Click event handler of the tax menu
+     *
      * @param p is the current mouse position
      */
     @Override
     public void click(Point p) {
-        if(getIsOpen()) {
-            if(xBtn.isHovered(p)) {
+        if (getIsOpen()) {
+            if (xBtn.isHovered(p)) {
 
                 Logger.log("Closed the tax menu");
                 setIsOpen(false);
 
-            } else if(modifyBtn.isHovered(p)) {
+            } else if (modifyBtn.isHovered(p)) {
 
                 Logger.log("Modify-tax button clicked");
                 String inputText = input.getText();
@@ -93,33 +97,35 @@ public class TaxMenu extends GameMenu {
             }
         }
     }
-    
+
     /**
      * The keypress event handler of the tax menu
+     *
      * @param e is the KeyEvent
      */
-    public void keyPressed(KeyEvent e){
-        if(getIsOpen()) {
+    public void keyPressed(KeyEvent e) {
+        if (getIsOpen()) {
             char c = e.getKeyChar();
-            if(c == KeyEvent.VK_BACK_SPACE) {
+            if (c == KeyEvent.VK_BACK_SPACE) {
                 input.deleteLast();
-            } else if(Character.isDigit(c)) {
+            } else if (Character.isDigit(c)) {
                 input.add(c);
             }
         }
-        
+
 
     }
-    
+
     /**
      * Get the tax menu's area as a rectangle
      * This is important for click event exceptions
+     *
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas(){
+    public ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
-        if(this.getIsOpen()){
+        if (this.getIsOpen()) {
             areas.add(taxMenuArea);
         }
         return areas;

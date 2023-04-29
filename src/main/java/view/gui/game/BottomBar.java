@@ -25,7 +25,8 @@ public class BottomBar extends GameMenu {
 
     /**
      * Constructor of the bottom bar
-     * @param game is the main game object 
+     *
+     * @param game is the main game object
      */
     public BottomBar(Game game) {
         super(game);
@@ -40,9 +41,10 @@ public class BottomBar extends GameMenu {
         catastropheMenu = new CatastropheMenu(game);
         timeMenu = new TimeMenu(game);
     }
-    
+
     /**
      * Draw the bottom bar on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     @Override
@@ -60,9 +62,10 @@ public class BottomBar extends GameMenu {
         taxMenu.draw(gr);
         catastropheMenu.draw(gr);
     }
-    
+
     /**
      * Draw the bottom bar's background area on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     public void paintBottomMenuBar(Graphics2D gr) {
@@ -71,11 +74,12 @@ public class BottomBar extends GameMenu {
         int y = game.height() - bottomBarArea.height;
         int width = game.width();
         int height = bottomBarArea.height;
-        gr.fillRect(x,y,width,height);
+        gr.fillRect(x, y, width, height);
     }
 
     /**
      * Upon a click event, roll the click event further into a submenu
+     *
      * @param p is the current cursor location
      */
     @Override
@@ -85,8 +89,8 @@ public class BottomBar extends GameMenu {
         taxMenu.click(p);
         catastropheMenu.click(p);
         timeMenu.click(p);
-        
-        if(statsBtn.isHovered(p)) {
+
+        if (statsBtn.isHovered(p)) {
             Logger.log("Stats button clicked");
 
             taxMenu.setIsOpen(false);
@@ -94,7 +98,7 @@ public class BottomBar extends GameMenu {
             boolean negated = !statsMenu.getIsOpen();
             statsMenu.setIsOpen(negated);
 
-        } else if(taxBtn.isHovered(p)) {
+        } else if (taxBtn.isHovered(p)) {
             Logger.log("Tax button clicked");
 
             statsMenu.setIsOpen(false);
@@ -102,7 +106,7 @@ public class BottomBar extends GameMenu {
             boolean negated = !taxMenu.getIsOpen();
             taxMenu.setIsOpen(negated);
 
-        } else if(catastrophesBtn.isHovered(p)) {
+        } else if (catastrophesBtn.isHovered(p)) {
             Logger.log("Catastrophes button clicked");
 
             statsMenu.setIsOpen(false);
@@ -111,18 +115,20 @@ public class BottomBar extends GameMenu {
             catastropheMenu.setIsOpen(negated);
         }
     }
-    
+
     /**
      * Upon key-press event, roll the key-press event further into a submenu
+     *
      * @param e is the key-press event
      */
     public void keyPressed(KeyEvent e) {
         taxMenu.keyPressed(e);
     }
-    
+
     /**
      * Get the bottom bar's and all it's submenu areas as rectangles
      * This is important for click event exceptions
+     *
      * @return an arraylist of rectangles
      */
     @Override
@@ -139,6 +145,7 @@ public class BottomBar extends GameMenu {
 
     /**
      * Set the width of the bottom bar
+     *
      * @param width is the new width
      */
     public void setWidth(int width) {

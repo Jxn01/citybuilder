@@ -15,10 +15,11 @@ public class MyButton {
 
     /**
      * Constructor of the button class
-     * @param x is the starting horizontal coordinate of the button
-     * @param y is the starting vertical coordinate of the button
-     * @param width is the button's width
-     * @param height is the button's height
+     *
+     * @param x           is the starting horizontal coordinate of the button
+     * @param y           is the starting vertical coordinate of the button
+     * @param width       is the button's width
+     * @param height      is the button's height
      * @param imgLocation is the button's image
      */
     public MyButton(int x, int y, int width, int height, String imgLocation) {
@@ -33,11 +34,12 @@ public class MyButton {
 
     /**
      * Checks if the button is hovered
+     *
      * @param p is the current cursor location
      * @return a boolean value
      */
     public boolean isHovered(Point p) {
-        if(p != null) {
+        if (p != null) {
             return rect.contains(p);
         } else {
             return false;
@@ -46,11 +48,12 @@ public class MyButton {
 
     /**
      * Draw the NewGame submenu on the screen
+     *
      * @param gr is the graphics context of the main Panel object
-     * @param p is the current cursor position
+     * @param p  is the current cursor position
      */
     public void draw(Graphics2D gr, Point p) {
-        if(!isHovered(p)) {
+        if (!isHovered(p)) {
             gr.drawImage(img, rect.x, rect.y, rect.width, rect.height, null);
         } else {
             gr.drawImage(imgHover, rect.x, rect.y, rect.width, rect.height, null);
@@ -59,6 +62,7 @@ public class MyButton {
 
     /**
      * Draw the button when it is hovered
+     *
      * @param gr is the graphics context of the main Panel object
      */
     public void drawHovered(Graphics2D gr) {
@@ -67,6 +71,7 @@ public class MyButton {
 
     /**
      * Set the x coordinate of the button
+     *
      * @param x is the x coordinate
      */
     public void setX(int x) {
@@ -75,6 +80,7 @@ public class MyButton {
 
     /**
      * Set the y coordinate of the button
+     *
      * @param y is the y coordinate
      */
     public void setY(int y) {
@@ -83,6 +89,7 @@ public class MyButton {
 
     /**
      * Set the width of the button
+     *
      * @param width is the width
      */
     public void setWidth(int width) {
@@ -91,6 +98,7 @@ public class MyButton {
 
     /**
      * Set the height of the button
+     *
      * @param height is the height
      */
     public void setHeight(int height) {

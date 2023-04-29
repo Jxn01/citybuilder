@@ -26,6 +26,7 @@ public class Game {
     /**
      * Constructor of the game class
      * it contains the MAIN GAME LOOP
+     *
      * @param panel is the main Panel object of the game
      */
     public Game(Panel panel) {
@@ -44,11 +45,12 @@ public class Game {
         });
         gameplayTimer.start();
     }
-    
+
     /**
      * Draw the gui of the game screen
+     *
      * @param panel is the main Panel object of the game
-     * @param gr is the graphics context of the main Panel object
+     * @param gr    is the graphics context of the main Panel object
      */
     public void draw(Panel panel, Graphics2D gr) {
         //paint the map
@@ -58,9 +60,10 @@ public class Game {
         //paint the bottom bar
         bottomBar.draw(gr);
     }
-    
+
     /**
      * The click event handler of the game screen
+     *
      * @param p is the current cursor position
      */
     public void click(Point p) {
@@ -68,17 +71,19 @@ public class Game {
         bottomBar.click(p);
         map.click(p);
     }
-    
+
     /**
      * Getter for camera zoom
+     *
      * @return zoom
      */
     public int getZoom() {
         return cameraMovementHandler.getZoom();
     }
-    
+
     /**
      * Getter for the camera offset on the x-axis
+     *
      * @return cameraOffsetX
      */
     public int getCameraOffsetX() {
@@ -87,22 +92,25 @@ public class Game {
 
     /**
      * Getter for the camera offset on the y-axis
+     *
      * @return cameraOffsetY
      */
     public int getCameraOffsetY() {
         return cameraMovementHandler.getCameraOffsetY();
     }
-    
+
     /**
      * The mouse-wheel event handler of the game screen
+     *
      * @param e is the MouseWheelEvent
      */
     public void mouseWheelRotated(MouseWheelEvent e) {
         cameraMovementHandler.mouseWheelRotated(e);
     }
-    
+
     /**
      * The key press event handler of the game screen
+     *
      * @param e is the KeyEvent
      */
     public void keyPressed(KeyEvent e) {
@@ -111,21 +119,23 @@ public class Game {
 
     /**
      * Getter for panel size
+     *
      * @return panel size
      */
     public Dimension getSize() {
         return panel.getSize();
     }
-    
+
     /**
      * Exit the application
      */
     public void exit() {
         panel.exit();
     }
-    
+
     /**
      * Getter for the current mouse position
+     *
      * @return mouse position
      */
     public Point getMousePosition() {
@@ -134,6 +144,7 @@ public class Game {
 
     /**
      * Set the selected building type
+     *
      * @param selectedBuildingType is the selected building type
      */
     public void setSelectedBuildingType(Tile selectedBuildingType) {
@@ -143,9 +154,10 @@ public class Game {
     /**
      * Get the areas of every menu on the game screen as rectangles
      * this is important for click exceptions
+     *
      * @return an ArrayList of Rectangle objects
      */
-    public ArrayList<Rectangle> getMenuAreas(){
+    public ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         areas.addAll(topBar.getMenuAreas());
         areas.addAll(bottomBar.getMenuAreas());
@@ -154,6 +166,7 @@ public class Game {
 
     /**
      * Getter for the width of the panel
+     *
      * @return width of the panel
      */
     public int width() {
@@ -162,6 +175,7 @@ public class Game {
 
     /**
      * Getter for the height of the panel
+     *
      * @return height of the panel
      */
     public int height() {
@@ -177,6 +191,7 @@ public class Game {
 
     /**
      * Getter for the main Panel object
+     *
      * @return panel
      */
     public Panel getPanel() {

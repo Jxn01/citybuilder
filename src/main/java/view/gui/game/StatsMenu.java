@@ -22,10 +22,11 @@ public class StatsMenu extends GameMenu {
     private final Color statsMenuColor;
     Game game;
     MyButton xBtn;
-    
+
     /**
      * Constructor of the statistics menu
-     * @param game is the main Game object 
+     *
+     * @param game is the main Game object
      */
     public StatsMenu(Game game) {
         super(game);
@@ -35,14 +36,15 @@ public class StatsMenu extends GameMenu {
         statMenuArea = new Rectangle(268, 50, 1000, 850);
         statsMenuColor = Color.white;
     }
-    
+
     /**
      * Draw the statistics menu on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     @Override
     public void draw(Graphics2D gr) {
-        if(getIsOpen()) {
+        if (getIsOpen()) {
             paintStatsMenuArea(gr);
             GameData gd = GameManager.getGameData();
 
@@ -110,9 +112,10 @@ public class StatsMenu extends GameMenu {
             gr.drawString("- Kifejlett erdők száma: " + grownForests + " (karbantartás: nincs)", 790, 800);
         }
     }
-    
+
     /**
      * Draw the statistics menu's background area on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     private void paintStatsMenuArea(Graphics2D gr) {
@@ -123,30 +126,32 @@ public class StatsMenu extends GameMenu {
         int height = statMenuArea.height;
         gr.fillRect(x, y, width, height);
     }
-    
+
     /**
      * Click event handler of the statistics menu
+     *
      * @param p is the current mouse position
      */
     @Override
     public void click(Point p) {
-        if(getIsOpen()) {
-            if(xBtn.isHovered(p)) {
+        if (getIsOpen()) {
+            if (xBtn.isHovered(p)) {
                 Logger.log("Closed statistics menu");
                 this.setIsOpen(false);
             }
         }
     }
-    
+
     /**
      * Get the statistics menu's area as a rectangle
      * This is important for click event exceptions
+     *
      * @return an arraylist of rectangles
      */
     @Override
     public ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
-        if(this.getIsOpen()) {
+        if (this.getIsOpen()) {
             areas.add(statMenuArea);
         }
         return areas;

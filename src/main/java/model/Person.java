@@ -17,12 +17,12 @@ import java.util.Objects;
  * This class represents a person in the game
  */
 public class Person {
+    boolean founder;
     private int age;
     private String name;
     private List<Effect> effects;
     private ResidentialBuilding home;
     private Workplace workplace;
-    boolean founder;
 
     /**
      * Constructor for Person
@@ -48,6 +48,7 @@ public class Person {
 
     /**
      * Constructor for Person
+     *
      * @param founder if the person is a founder
      */
     public Person(boolean founder) {
@@ -57,17 +58,18 @@ public class Person {
 
     /**
      * Calculates the decease chance of the person
+     *
      * @return the decease chance of the person
      */
     public double calculateDeceaseChance() {
         double deceaseChance;
-        if(age < 65) {
+        if (age < 65) {
             deceaseChance = 0.0;
-        } else if(age < 70) {
+        } else if (age < 70) {
             deceaseChance = 0.2;
-        } else if(age < 80) {
+        } else if (age < 80) {
             deceaseChance = 0.5;
-        } else if(age < 90) {
+        } else if (age < 90) {
             deceaseChance = 0.8;
         } else {
             deceaseChance = 1.0;
@@ -78,21 +80,22 @@ public class Person {
 
     /**
      * Calculates the move away chance of the person
+     *
      * @return the move away chance of the person
      */
     public double calculateMoveAwayChance() {
         double moveAwayChance;
-        if(founder) {
+        if (founder) {
             moveAwayChance = 0.0;
         } else {
             int satisfaction = calculateSatisfaction();
-            if(satisfaction < 20) {
+            if (satisfaction < 20) {
                 moveAwayChance = 1.0;
-            } else if(satisfaction < 40) {
+            } else if (satisfaction < 40) {
                 moveAwayChance = 0.5;
-            } else if(satisfaction < 60) {
+            } else if (satisfaction < 60) {
                 moveAwayChance = 0.2;
-            } else if(satisfaction < 80) {
+            } else if (satisfaction < 80) {
                 moveAwayChance = 0.1;
             } else {
                 moveAwayChance = 0.0;
@@ -104,6 +107,7 @@ public class Person {
 
     /**
      * This method calculates the distance to work of the person
+     *
      * @return the distance to work of the person
      */
     public int calculateDistanceToWork() {
@@ -116,13 +120,14 @@ public class Person {
 
     /**
      * This method calculates the satisfaction of the person
+     *
      * @return the satisfaction of the person
      */
     public int calculateSatisfaction() {
         //calculate satisfaction based on effects
         int satisfaction = 60;
 
-        for(Effect effect : effects) {
+        for (Effect effect : effects) {
             satisfaction += effect.getValue();
         }
 
@@ -132,6 +137,7 @@ public class Person {
 
     /**
      * This method adds an effect to the person
+     *
      * @param effect the effect to add
      */
     public void addEffect(Effect effect) {
@@ -141,6 +147,7 @@ public class Person {
 
     /**
      * This method removes an effect from the person
+     *
      * @param effect the effect to remove
      */
     public void removeEffect(Effect effect) {
@@ -150,6 +157,7 @@ public class Person {
 
     /**
      * This method checks if the person is retired
+     *
      * @return true if the person is retired
      */
     @JsonIgnore
@@ -178,6 +186,7 @@ public class Person {
 
     /**
      * Getter for the age
+     *
      * @return the age of the person
      */
     public int getAge() {
@@ -186,6 +195,7 @@ public class Person {
 
     /**
      * Setter for the age
+     *
      * @param age the age of the person
      */
     public void setAge(int age) {
@@ -195,6 +205,7 @@ public class Person {
 
     /**
      * Getter for the name
+     *
      * @return the name of the person
      */
     public String getName() {
@@ -203,6 +214,7 @@ public class Person {
 
     /**
      * Setter for the name
+     *
      * @param name the name of the person
      */
     public void setName(String name) {
@@ -212,6 +224,7 @@ public class Person {
 
     /**
      * Getter for the effects
+     *
      * @return the effects of the person
      */
     public List<Effect> getEffects() {
@@ -220,6 +233,7 @@ public class Person {
 
     /**
      * Setter for the effects
+     *
      * @param effects the effects of the person
      */
     public void setEffects(ArrayList<Effect> effects) {
@@ -228,12 +242,22 @@ public class Person {
     }
 
     /**
+     * Getter for the home
+     *
+     * @return the home of the person
+     */
+    public ResidentialBuilding getHome() {
+        return home;
+    }
+
+    /**
      * Setter for the home
+     *
      * @param residentialBuilding the home of the person
      */
     public void setHome(ResidentialBuilding residentialBuilding) {
         this.home = residentialBuilding;
-        if(residentialBuilding != null) {
+        if (residentialBuilding != null) {
             Logger.log("New home of " + name + " is" + residentialBuilding);
         } else {
             Logger.log("New home of " + name + " is null");
@@ -242,28 +266,8 @@ public class Person {
     }
 
     /**
-     * Getter for the home
-     * @return the home of the person
-     */
-    public ResidentialBuilding getHome() {
-        return home;
-    }
-
-    /**
-     * Setter for the workplace
-     * @param workplace the workplace of the person
-     */
-    public void setWorkplace(Workplace workplace) {
-        this.workplace = workplace;
-        if(workplace != null) {
-            Logger.log("New home of " + name + " is" + workplace);
-        } else {
-            Logger.log("New home of " + name + " is null");
-        }
-    }
-
-    /**
      * Getter for the workplace
+     *
      * @return the workplace of the person
      */
     public Workplace getWorkplace() {
@@ -271,7 +275,22 @@ public class Person {
     }
 
     /**
+     * Setter for the workplace
+     *
+     * @param workplace the workplace of the person
+     */
+    public void setWorkplace(Workplace workplace) {
+        this.workplace = workplace;
+        if (workplace != null) {
+            Logger.log("New home of " + name + " is" + workplace);
+        } else {
+            Logger.log("New home of " + name + " is null");
+        }
+    }
+
+    /**
      * Getter for the founder
+     *
      * @return true if the person is a founder
      */
     public boolean isFounder() {
@@ -280,6 +299,7 @@ public class Person {
 
     /**
      * Setter for the founder
+     *
      * @param founder true if the person is a founder
      */
     public void setFounder(boolean founder) {

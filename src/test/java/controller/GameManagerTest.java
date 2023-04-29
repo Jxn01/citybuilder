@@ -1,7 +1,6 @@
 package controller;
 
 import model.Coordinate;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +30,7 @@ public class GameManagerTest {
     public void testInitGame() {
         String cityName = "New York";
         gm.initGame(cityName);
-        String setCityName = gm.getGameData().getCityName();
+        String setCityName = GameManager.getGameData().getCityName();
         Assertions.assertEquals(cityName, setCityName, "initGame");
     }
 
@@ -51,11 +50,11 @@ public class GameManagerTest {
      */
     @Test
     public void testCalculateDistance() {
-        Coordinate start = new Coordinate(2,5);
-        Coordinate finish = new Coordinate(6,3);
+        Coordinate start = new Coordinate(2, 5);
+        Coordinate finish = new Coordinate(6, 3);
 
         //List<Coordinate> result = new ArrayList<>();
-        List<Coordinate> result = GameManager.findShortestPath(start,finish);
+        List<Coordinate> result = GameManager.findShortestPath(start, finish);
         List<Coordinate> testResult = new ArrayList<>();
 
         //log the path

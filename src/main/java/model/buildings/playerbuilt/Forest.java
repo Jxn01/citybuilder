@@ -61,6 +61,7 @@ public class Forest extends RangedBuilding {
 
     /**
      * Get the grow time of the forest
+     *
      * @return the grow time of the forest
      */
     public int getGrowTime() {
@@ -69,6 +70,7 @@ public class Forest extends RangedBuilding {
 
     /**
      * Set the grow time of the forest
+     *
      * @param growTime is the grow time of the forest
      */
     public void setGrowTime(int growTime) {
@@ -77,6 +79,7 @@ public class Forest extends RangedBuilding {
 
     /**
      * Get the grow stage of the forest
+     *
      * @return the grow stage of the forest
      */
     public int getGrowStage() {
@@ -85,6 +88,7 @@ public class Forest extends RangedBuilding {
 
     /**
      * Set the grow stage of the forest
+     *
      * @param growStage is the grow stage of the forest
      */
     public void setGrowStage(int growStage) {

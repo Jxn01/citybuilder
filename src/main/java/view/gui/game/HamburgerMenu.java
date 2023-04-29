@@ -19,10 +19,11 @@ public class HamburgerMenu extends GameMenu {
     MyButton saveBtn;
     MyButton newGameBtn;
     MyButton exitBtn;
-    
+
     /**
      * Constructor of the hamburger menu
-     * @param game is the main game object 
+     *
+     * @param game is the main game object
      */
     public HamburgerMenu(Game game) {
         super(game);
@@ -36,23 +37,25 @@ public class HamburgerMenu extends GameMenu {
 
     /**
      * Draw the hamburger menu on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     @Override
     public void draw(Graphics2D gr) {
-        if(getIsOpen()) {
+        if (getIsOpen()) {
             paintHamburgerMenuArea(gr);
             newGameBtn.draw(gr, game.getMousePosition());
             saveBtn.draw(gr, game.getMousePosition());
             exitBtn.draw(gr, game.getMousePosition());
         }
     }
-    
+
     /**
      * Draw the hamburger menu's background area on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
-    private void paintHamburgerMenuArea(Graphics2D gr){
+    private void paintHamburgerMenuArea(Graphics2D gr) {
         gr.setColor(hamburgerMenuColor);
         int x = hamburgerMenuArea.x;
         int y = hamburgerMenuArea.y;
@@ -60,44 +63,46 @@ public class HamburgerMenu extends GameMenu {
         int height = hamburgerMenuArea.height;
         gr.fillRect(x, y, width, height);
     }
-    
+
     /**
      * Upon a click event, call the appropriate button's functionality
+     *
      * @param p is the current cursor location
      */
     @Override
-    public void click(Point p){
-        if(getIsOpen()) {
-            if(saveBtn.isHovered(p)) {
+    public void click(Point p) {
+        if (getIsOpen()) {
+            if (saveBtn.isHovered(p)) {
 
                 Logger.log("Save button clicked");
                 GameData gd = GameManager.getGameData();
                 game.getPanel().getGameManager().saveGame(gd);
                 setIsOpen(false);
 
-            } else if(newGameBtn.isHovered(p)) {
+            } else if (newGameBtn.isHovered(p)) {
 
                 Logger.log("New game button clicked");
                 setIsOpen(false);
                 game.setState(MenuState.NEWGAME);
 
-            } else if(exitBtn.isHovered(p)) {
+            } else if (exitBtn.isHovered(p)) {
 
                 Logger.log("Exit button clicked");
                 game.exit();
             }
         }
     }
-    
+
     /**
      * Get the hamburger menu's area as a rectangle
      * This is important for click event exceptions
+     *
      * @return an arraylist of rectangles (with one rectangle)
      */
     @Override
     public ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
-        if(this.getIsOpen()) {
+        if (this.getIsOpen()) {
             areas.add(hamburgerMenuArea);
         }
         return areas;

@@ -21,9 +21,10 @@ public class BuildMenu extends GameMenu {
     MyButton factoryZoneBtn;
     MyButton livingZoneBtn;
     MyButton policeStationBtn;
-    
+
     /**
      * Constructor of the build menu
+     *
      * @param game is the main game object
      */
     public BuildMenu(Game game) {
@@ -36,11 +37,12 @@ public class BuildMenu extends GameMenu {
         forestBtn = new MyButton(860, 753, 40, 40, "forest");
         factoryZoneBtn = new MyButton(900, 753, 40, 40, "factoryZone");
         livingZoneBtn = new MyButton(940, 753, 40, 40, "livingZone");
-        policeStationBtn = new MyButton(980, 753, 40, 40, "police"); 
+        policeStationBtn = new MyButton(980, 753, 40, 40, "police");
     }
-    
+
     /**
      * Draw the build menu on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     @Override
@@ -64,64 +66,66 @@ public class BuildMenu extends GameMenu {
         policeStationBtn.setY(game.height() - 40);
         policeStationBtn.draw(gr, game.getMousePosition());
     }
-    
+
     /**
      * Upon a click event, call the appropriate button's functionality
+     *
      * @param p p is the current cursor location
      */
     @Override
     public void click(Point p) {
-        if(deleteBtn.isHovered(p)) {
+        if (deleteBtn.isHovered(p)) {
 
             Logger.log("Delete button clicked");
             game.setSelectedBuildingType(Tile.GRASS_1);
 
-        } else if(fireFighterBtn.isHovered(p)) {
+        } else if (fireFighterBtn.isHovered(p)) {
 
             Logger.log("Firefighter button clicked");
             game.setSelectedBuildingType(Tile.FIRESTATION);
 
-        } else if(roadBtn.isHovered(p)) {
+        } else if (roadBtn.isHovered(p)) {
 
             Logger.log("Road button clicked");
             game.setSelectedBuildingType(Tile.ROAD);
 
-        } else if(forestBtn.isHovered(p)) {
+        } else if (forestBtn.isHovered(p)) {
 
             Logger.log("Forest button clicked");
             game.setSelectedBuildingType(Tile.FOREST);
 
-        } else if(stadiumBtn.isHovered(p)) {
+        } else if (stadiumBtn.isHovered(p)) {
 
             Logger.log("Stadium button clicked");
             game.setSelectedBuildingType(Tile.STADIUM);
 
-        } else if(serviceZoneBtn.isHovered(p)) {
+        } else if (serviceZoneBtn.isHovered(p)) {
 
             Logger.log("Service zone button clicked");
             game.setSelectedBuildingType(Tile.SERVICEZONE);
 
-        } else if(factoryZoneBtn.isHovered(p)) {
+        } else if (factoryZoneBtn.isHovered(p)) {
 
             Logger.log("Factory zone button clicked");
             game.setSelectedBuildingType(Tile.FACTORYZONE);
 
-        } else if(livingZoneBtn.isHovered(p)) {
+        } else if (livingZoneBtn.isHovered(p)) {
 
             Logger.log("Living zone button clicked");
             game.setSelectedBuildingType(Tile.RESIDENTIALZONE);
 
-        } else if(policeStationBtn.isHovered(p)) {
+        } else if (policeStationBtn.isHovered(p)) {
 
             Logger.log("Police station button clicked");
             game.setSelectedBuildingType(Tile.POLICE);
 
         }
     }
-    
+
     /**
      * Get the build menu's area as rectangles (empty array = inside bottom bar)
      * This is important for click event exceptions
+     *
      * @return an arraylist of rectangles
      */
     @Override

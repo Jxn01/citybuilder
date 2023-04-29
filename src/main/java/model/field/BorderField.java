@@ -14,6 +14,7 @@ public class BorderField extends Field {
 
     /**
      * Constructor of the border field.
+     *
      * @param coord The coordinate of the border field.
      */
     @JsonCreator

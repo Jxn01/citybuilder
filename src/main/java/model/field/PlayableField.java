@@ -33,6 +33,7 @@ public class PlayableField extends Field {
 
     /**
      * Constructor of the field
+     *
      * @param coord is the coordinate of the field
      */
     public PlayableField(Coordinate coord) {
@@ -49,25 +50,159 @@ public class PlayableField extends Field {
     }
 
     /**
+     * Builds a stadium-part on the field
+     *
+     * @param x    is the x coordinate of the field
+     * @param y    is the y coordinate of the field
+     * @param tile is the tile of the stadium
+     */
+    private static void buildStadium(int x, int y, Tile tile, Stadium stadium) {
+        Field[][] fs = GameManager.getFields();
+        if (isFieldEmpty(x, y)) {
+            ((PlayableField) fs[x][y]).setBuilding(stadium);
+            (fs[x][y]).setTile(tile);
+            GameManager.getGameData().subtractFromBudget(stadium.getBuildCost());
+        }
+    }
+
+    /**
+     * Demolishes the stadium at the given coordinates
+     *
+     * @param x x coordinate of the stadium
+     * @param y y coordinate of the stadium
+     */
+    private static void demolishStadiumAt(int x, int y) {
+        Field[][] fs = GameManager.getGameData().getFields();
+        if (isFieldValid(x, y) && ((PlayableField) fs[x][y]).getBuilding() instanceof Stadium) {
+            Building building = ((PlayableField) fs[x][y]).getBuilding();
+            GameManager.addToBudget(((Stadium) building).getBuildCost());
+
+            ((PlayableField) fs[x][y]).setBuilding(null);
+            (fs[x][y]).resetTile();
+            GameManager.getGraph().removeNode(new Coordinate(x, y));
+        }
+    }
+
+    /**
+     * Checks if the building can be built at the given coordinates
+     *
+     * @param x        x coordinate of the building
+     * @param y        y coordinate of the building
+     * @param building the building to be built
+     * @return true if the building can be built, false otherwise
+     */
+    public static boolean canBuildThere(int x, int y, Tile building) {
+        switch (building) {
+            case ROAD -> {
+                return isFieldEmpty(x, y);
+            }
+            case STADIUM -> {
+                return isFieldEmpty(x, y) && isFieldEmpty(x, y + 1) && isFieldEmpty(x + 1, y) && isFieldEmpty(x + 1, y + 1) && isStadiumNextToRoad(x, y);
+            }
+            default -> {
+                return isFieldEmpty(x, y) && isNextToRoad(x, y);
+            }
+        }
+    }
+
+    /**
+     * Checks if the stadium at the given coordinates is valid
+     *
+     * @param x1 x coordinate of the first stadium-part (top left corner)
+     * @param y1 y coordinate of the first stadium-part (top left corner)
+     * @param x2 x coordinate of the second stadium-part (top right corner)
+     * @param y2 y coordinate of the second stadium-part (top right corner)
+     * @param x3 x coordinate of the third stadium-part (bottom left corner)
+     * @param y3 y coordinate of the third stadium-part (bottom left corner)
+     * @param x4 x coordinate of the fourth stadium-part (bottom right corner)
+     * @param y4 y coordinate of the fourth stadium-part (bottom right corner)
+     * @return a boolean value if the stadium is valid
+     */
+    private static boolean isStadiumValid(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
+        Field[][] fs = GameManager.getGameData().getFields();
+        return isFieldValid(x1, y1) && ((PlayableField) fs[x1][y1]).getBuilding() instanceof Stadium
+                && isFieldValid(x2, y2) && ((PlayableField) fs[x2][y2]).getBuilding() instanceof Stadium
+                && isFieldValid(x3, y3) && ((PlayableField) fs[x3][y3]).getBuilding() instanceof Stadium
+                && isFieldValid(x4, y4) && ((PlayableField) fs[x4][y4]).getBuilding() instanceof Stadium;
+    }
+
+    /**
+     * Check if a field is valid on the map
+     *
+     * @param x is the x index of the field
+     * @param y is the y index of the field
+     * @return a boolean value
+     */
+    private static boolean isFieldValid(int x, int y) {
+        Field[][] fields = GameManager.getGameData().getFields();
+        return fields[x][y] instanceof PlayableField;
+    }
+
+    /**
+     * Check if a field is empty on the map
+     *
+     * @param x is the x index of the field
+     * @param y is the y index of the field
+     * @return is a boolean value
+     */
+    private static boolean isFieldEmpty(int x, int y) {
+        Field[][] fields = GameManager.getGameData().getFields();
+        return fields[x][y] instanceof PlayableField && ((PlayableField) fields[x][y]).getBuilding() == null && ((PlayableField) fields[x][y]).getZone() == null;
+    }
+
+    /**
+     * Check if a field is next to a road
+     *
+     * @param y is the y index of the field
+     * @param x is te x index of the field
+     * @return is a boolean value
+     */
+    private static boolean isNextToRoad(int x, int y) {
+        Field[][] fields = GameManager.getGameData().getFields();
+        if (isFieldValid(x, y)) {
+            return isFieldValid(x - 1, y) && ((PlayableField) fields[x - 1][y]).getBuilding() instanceof Road
+                    || isFieldValid(x + 1, y) && ((PlayableField) fields[x + 1][y]).getBuilding() instanceof Road
+                    || isFieldValid(x, y - 1) && ((PlayableField) fields[x][y - 1]).getBuilding() instanceof Road
+                    || isFieldValid(x, y + 1) && ((PlayableField) fields[x][y + 1]).getBuilding() instanceof Road;
+        } else return false;
+        //balra, jobbra, alatta, felette
+    }
+
+    /**
+     * Check if a stadium is next to a road
+     *
+     * @param x is the x index of the field
+     * @param y is the y index of the field
+     * @return is a boolean value
+     */
+
+    private static boolean isStadiumNextToRoad(int x, int y) { // x y is the top left tile of the stadium
+        if (isFieldValid(x, y)) {
+            return isNextToRoad(x, y) || isNextToRoad(x + 1, y) || isNextToRoad(x + 1, y + 1) || isNextToRoad(x, y + 1);
+        } else return false;
+    }
+
+    /**
      * Builds a building on the field
+     *
      * @param buildingType is the type of the building
      * @throws RuntimeException if there is already a building on the field, or if the building type is not specified
      */
     public void buildBuilding(Tile buildingType) throws RuntimeException {
-        if(building != null) {
+        if (building != null) {
 
             Logger.log("Field at " + coord + " has a building on it, can't build!");
             throw new RuntimeException("There already is a building on this field!");
 
-        } else if(buildingType == null) { //generatedbuilding
-            switch(zone) {
+        } else if (buildingType == null) { //generatedbuilding
+            switch (zone) {
                 case RESIDENTIAL_ZONE -> {
                     Logger.log("Building of field at " + coord + " set to ResidentialBuilding!");
 
                     building = new ResidentialBuilding(coord);
 
 
-                    switch(upgradeLevel) {
+                    switch (upgradeLevel) {
                         case TOWN -> {
                             tile = Tile.HOUSE_1;
                             ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelOneMaxCapacity());
@@ -88,7 +223,7 @@ public class PlayableField extends Field {
 
                     building = new IndustrialWorkplace(coord);
 
-                    switch(upgradeLevel) {
+                    switch (upgradeLevel) {
                         case TOWN -> {
                             tile = Tile.FACTORY_1;
                             ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelOneMaxCapacity());
@@ -109,7 +244,7 @@ public class PlayableField extends Field {
 
                     building = new ServiceWorkplace(coord);
 
-                    switch(upgradeLevel) {
+                    switch (upgradeLevel) {
                         case TOWN -> {
                             tile = Tile.SERVICE_1;
                             ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelOneMaxCapacity());
@@ -132,13 +267,13 @@ public class PlayableField extends Field {
             }
             addToGraph(coord);
 
-        } else if(zone == null) { //playerbuilt
+        } else if (zone == null) { //playerbuilt
             switch (buildingType) {
                 case POLICE -> {
                     Logger.log("Building of field at " + coord + " set to PoliceStation!");
 
                     building = new PoliceStation(coord);
-                    GameManager.subtractFromBudget(((PoliceStation)building).getBuildCost());
+                    GameManager.subtractFromBudget(((PoliceStation) building).getBuildCost());
                     Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
@@ -148,7 +283,7 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to FireDepartment!");
 
                     building = new FireDepartment(coord);
-                    GameManager.getGameData().subtractFromBudget(((FireDepartment)building).getBuildCost());
+                    GameManager.getGameData().subtractFromBudget(((FireDepartment) building).getBuildCost());
                     Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
@@ -161,17 +296,17 @@ public class PlayableField extends Field {
                     int x = coord.getX();
                     int y = coord.getY();
 
-                    if(isFieldEmpty(x, y) && isFieldEmpty(x, y+1) && isFieldEmpty(x+1, y) && isFieldEmpty(x+1, y+1)) {
+                    if (isFieldEmpty(x, y) && isFieldEmpty(x, y + 1) && isFieldEmpty(x + 1, y) && isFieldEmpty(x + 1, y + 1)) {
                         Logger.log("Building of field at " + coord + " set to Stadium!");
 
-                        Stadium st = new Stadium(coord, new Coordinate(x, y+1), new Coordinate(x+1, y), new Coordinate(x+1, y+1));
+                        Stadium st = new Stadium(coord, new Coordinate(x, y + 1), new Coordinate(x + 1, y), new Coordinate(x + 1, y + 1));
 
                         addToGraph(coord);
 
                         buildStadium(x, y, Tile.STADIUM_TOPLEFT, st);
-                        buildStadium(x, y+1, Tile.STADIUM_TOPRIGHT, st);
-                        buildStadium(x+1, y, Tile.STADIUM_BOTTOMLEFT, st);
-                        buildStadium(x+1, y+1, Tile.STADIUM_BOTTOMRIGHT, st);
+                        buildStadium(x, y + 1, Tile.STADIUM_TOPRIGHT, st);
+                        buildStadium(x + 1, y, Tile.STADIUM_BOTTOMLEFT, st);
+                        buildStadium(x + 1, y + 1, Tile.STADIUM_BOTTOMRIGHT, st);
 
                         Logger.log("Current budget: " + GameManager.getBudget());
                     } else {
@@ -184,7 +319,7 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to Forest!");
 
                     building = new Forest(coord);
-                    GameManager.getGameData().subtractFromBudget(((Forest)building).getBuildCost());
+                    GameManager.getGameData().subtractFromBudget(((Forest) building).getBuildCost());
                     Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
@@ -194,7 +329,7 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to Road!");
 
                     building = new Road(coord);
-                    GameManager.getGameData().subtractFromBudget(((Road)building).getBuildCost());
+                    GameManager.getGameData().subtractFromBudget(((Road) building).getBuildCost());
                     Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
@@ -205,106 +340,93 @@ public class PlayableField extends Field {
                     throw new RuntimeException("Unrecognized building type!");
                 }
             }
-            if(buildingType != Tile.STADIUM) tile = buildingType;
-        }
-    }
-
-    /**
-     * Builds a stadium-part on the field
-     * @param x is the x coordinate of the field
-     * @param y is the y coordinate of the field
-     * @param tile is the tile of the stadium
-     */
-    private static void buildStadium(int x, int y, Tile tile, Stadium stadium) {
-        Field[][] fs = GameManager.getFields();
-        if(isFieldEmpty(x, y)) {
-            ((PlayableField)fs[x][y]).setBuilding(stadium);
-            (fs[x][y]).setTile(tile);
-            GameManager.getGameData().subtractFromBudget(stadium.getBuildCost());
+            if (buildingType != Tile.STADIUM) tile = buildingType;
         }
     }
 
     /**
      * Adds the coordinate (the field) to the graph and adds an edge to a road.
+     *
      * @param coord is the coordinate of the field
      */
-    private void addToGraph(Coordinate coord){
+    private void addToGraph(Coordinate coord) {
         MutableGraph<Coordinate> graph = GameManager.getGraph();
         Field[][] fields = GameManager.getFields();
         int x = coord.getX();
         int y = coord.getY();
 
-        if(((PlayableField)fields[x][y]).getBuilding() instanceof Road){
+        if (((PlayableField) fields[x][y]).getBuilding() instanceof Road) {
             graph.addNode(coord);
-            if(isFieldValid(x, y-1) && ((PlayableField)fields[x][y-1]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x, y-1));
+            if (isFieldValid(x, y - 1) && ((PlayableField) fields[x][y - 1]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x, y - 1));
             }
-            if(isFieldValid(x, y+1) && ((PlayableField)fields[x][y+1]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x, y+1));
+            if (isFieldValid(x, y + 1) && ((PlayableField) fields[x][y + 1]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x, y + 1));
             }
-            if(isFieldValid(x-1, y) && ((PlayableField)fields[x-1][y]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x-1, y));
+            if (isFieldValid(x - 1, y) && ((PlayableField) fields[x - 1][y]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x - 1, y));
             }
-            if(isFieldValid(x+1, y) && ((PlayableField)fields[x+1][y]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x+1, y));
+            if (isFieldValid(x + 1, y) && ((PlayableField) fields[x + 1][y]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x + 1, y));
             }
-        } else if(((PlayableField)fields[x][y]).getBuilding() instanceof Stadium) {
+        } else if (((PlayableField) fields[x][y]).getBuilding() instanceof Stadium) {
 
-            if(isFieldValid(x-1, y) && ((PlayableField)fields[x-1][y]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x-1, y));
-            } else if(isFieldValid(x-1, y+1) && ((PlayableField)fields[x-1][y+1]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x-1, y+1));
-            } else if(isFieldValid(x, y-1) && ((PlayableField)fields[x][y-1]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x, y-1));
-            } else if(isFieldValid(x, y+2) && ((PlayableField)fields[x][y+2]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x, y+2));
-            } else if(isFieldValid(x+1, y-1) && ((PlayableField)fields[x+1][y-1]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x+1, y-1));
-            } else if(isFieldValid(x+1, y+2) && ((PlayableField)fields[x+1][y+2]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x+1, y+2));
-            } else if(isFieldValid(x+2, y) && ((PlayableField)fields[x+2][y]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x+2, y));
-            } else if(isFieldValid(x+2, y+1) && ((PlayableField)fields[x+2][y+1]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x+2, y+1));
+            if (isFieldValid(x - 1, y) && ((PlayableField) fields[x - 1][y]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x - 1, y));
+            } else if (isFieldValid(x - 1, y + 1) && ((PlayableField) fields[x - 1][y + 1]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x - 1, y + 1));
+            } else if (isFieldValid(x, y - 1) && ((PlayableField) fields[x][y - 1]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x, y - 1));
+            } else if (isFieldValid(x, y + 2) && ((PlayableField) fields[x][y + 2]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x, y + 2));
+            } else if (isFieldValid(x + 1, y - 1) && ((PlayableField) fields[x + 1][y - 1]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x + 1, y - 1));
+            } else if (isFieldValid(x + 1, y + 2) && ((PlayableField) fields[x + 1][y + 2]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x + 1, y + 2));
+            } else if (isFieldValid(x + 2, y) && ((PlayableField) fields[x + 2][y]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x + 2, y));
+            } else if (isFieldValid(x + 2, y + 1) && ((PlayableField) fields[x + 2][y + 1]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x + 2, y + 1));
             }
 
         } else { // if the field is not a road, we only make an edge to one road (to prevent making circles with buildings)
-            if(isFieldValid(x, y-1) && ((PlayableField)fields[x][y-1]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x, y-1));
-            } else if(isFieldValid(x, y+1) && ((PlayableField)fields[x][y+1]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x, y+1));
-            } else if(isFieldValid(x-1, y) && ((PlayableField)fields[x-1][y]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x-1, y));
-            } else if(isFieldValid(x+1, y) && ((PlayableField)fields[x+1][y]).getBuilding() instanceof Road){
-                graph.putEdge(coord, new Coordinate(x+1, y));
+            if (isFieldValid(x, y - 1) && ((PlayableField) fields[x][y - 1]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x, y - 1));
+            } else if (isFieldValid(x, y + 1) && ((PlayableField) fields[x][y + 1]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x, y + 1));
+            } else if (isFieldValid(x - 1, y) && ((PlayableField) fields[x - 1][y]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x - 1, y));
+            } else if (isFieldValid(x + 1, y) && ((PlayableField) fields[x + 1][y]).getBuilding() instanceof Road) {
+                graph.putEdge(coord, new Coordinate(x + 1, y));
             }
         }
     }
 
     /**
      * Marks the zone of the field
+     *
      * @param newZone is the new zone of the field
      * @throws NullPointerException if the field has a zone already
      */
-    public void markZone(Zone newZone) throws NullPointerException{
-        if(building != null) {
+    public void markZone(Zone newZone) throws NullPointerException {
+        if (building != null) {
 
             Logger.log("Field at " + coord + " has a building on it, can't mark zone!");
             throw new RuntimeException("Can't mark zone, there is a building on the field!");
 
-        } else if(this.zone != null) {
+        } else if (this.zone != null) {
 
             Logger.log("Field at " + coord + " has a zone already!");
             throw new NullPointerException("Field has a zone already!");
 
         } else {
-            Logger.log("Field's zone at " + coord + " marked to " + zone+"!");
+            Logger.log("Field's zone at " + coord + " marked to " + zone + "!");
             Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
             this.zone = newZone;
             upgradeLevel = UpgradeLevel.TOWN;
 
-            switch(zone) {
+            switch (zone) {
                 case RESIDENTIAL_ZONE -> {
                     tile = Tile.RESIDENTIALZONE;
                     GameManager.subtractFromBudget(GameManager.getMarkResidentialCost());
@@ -323,20 +445,21 @@ public class PlayableField extends Field {
 
     /**
      * Demolishes the building of the field
+     *
      * @throws RuntimeException if there is no building on the field or if the building is public
      */
     public void demolishBuilding() throws RuntimeException {
-        if(building == null) {
+        if (building == null) {
 
             Logger.log("Field at " + coord + " has no building on it, can't demolish!");
             throw new RuntimeException("There is no building on the field!");
 
-        } else if(zone != null) {
+        } else if (zone != null) {
 
             Logger.log("Field at " + coord + " has a zone on it, can't demolish!");
             throw new RuntimeException("Can't demolish public buildings! (There is a zone on the field!)");
 
-        } else if(building instanceof Stadium) {
+        } else if (building instanceof Stadium) {
             int x = building.getX();
             int y = building.getY();
             Field[][] fs = GameManager.getFields();
@@ -344,40 +467,40 @@ public class PlayableField extends Field {
             // 2.: starting tile is bottom left corner
             // 3.: starting tile is top right corner
             // 4.: starting tile is bottom right corner
-            if(isStadiumValid(x, y, x, y+1, x+1, y, x+1, y+1)) {
+            if (isStadiumValid(x, y, x, y + 1, x + 1, y, x + 1, y + 1)) {
                 Logger.log("Stadium at " + coord + " demolished!");
 
                 PlayableField.demolishStadiumAt(x, y);
-                PlayableField.demolishStadiumAt(x, y+1);
-                PlayableField.demolishStadiumAt(x+1, y);
-                PlayableField.demolishStadiumAt(x+1, y+1);
+                PlayableField.demolishStadiumAt(x, y + 1);
+                PlayableField.demolishStadiumAt(x + 1, y);
+                PlayableField.demolishStadiumAt(x + 1, y + 1);
 
                 Logger.log("Current budget: " + GameManager.getBudget());
-            } else if(isStadiumValid(x, y, x, y+1, x-1, y, x-1, y+1)) {
+            } else if (isStadiumValid(x, y, x, y + 1, x - 1, y, x - 1, y + 1)) {
                 Logger.log("Stadium at " + coord + " demolished!");
 
                 PlayableField.demolishStadiumAt(x, y);
-                PlayableField.demolishStadiumAt(x, y+1);
-                PlayableField.demolishStadiumAt(x-1, y);
-                PlayableField.demolishStadiumAt(x-1, y+1);
+                PlayableField.demolishStadiumAt(x, y + 1);
+                PlayableField.demolishStadiumAt(x - 1, y);
+                PlayableField.demolishStadiumAt(x - 1, y + 1);
 
                 Logger.log("Current budget: " + GameManager.getBudget());
-            } else if(isStadiumValid(x, y, x, y-1, x+1, y, x+1, y-1)) {
+            } else if (isStadiumValid(x, y, x, y - 1, x + 1, y, x + 1, y - 1)) {
                 Logger.log("Stadium at " + coord + " demolished!");
 
                 PlayableField.demolishStadiumAt(x, y);
-                PlayableField.demolishStadiumAt(x, y-1);
-                PlayableField.demolishStadiumAt(x+1, y);
-                PlayableField.demolishStadiumAt(x+1, y-1);
+                PlayableField.demolishStadiumAt(x, y - 1);
+                PlayableField.demolishStadiumAt(x + 1, y);
+                PlayableField.demolishStadiumAt(x + 1, y - 1);
 
                 Logger.log("Current budget: " + GameManager.getBudget());
-            } else if(isStadiumValid(x, y, x, y-1, x-1, y, x-1, y-1)) {
+            } else if (isStadiumValid(x, y, x, y - 1, x - 1, y, x - 1, y - 1)) {
                 Logger.log("Stadium at " + coord + " demolished!");
 
                 PlayableField.demolishStadiumAt(x, y);
-                PlayableField.demolishStadiumAt(x, y-1);
-                PlayableField.demolishStadiumAt(x-1, y);
-                PlayableField.demolishStadiumAt(x-1, y-1);
+                PlayableField.demolishStadiumAt(x, y - 1);
+                PlayableField.demolishStadiumAt(x - 1, y);
+                PlayableField.demolishStadiumAt(x - 1, y - 1);
 
                 Logger.log("Current budget: " + GameManager.getBudget());
             } else {
@@ -385,25 +508,25 @@ public class PlayableField extends Field {
                 throw new RuntimeException("Stadium can't be demolished!");
             }
 
-        } else if(building instanceof Road) {
+        } else if (building instanceof Road) {
             MutableGraph<Coordinate> graph = GameManager.getGraph();
             var edges = graph.edges();
 
-            if(graph.nodes().size() == 1) {
+            if (graph.nodes().size() == 1) {
                 graph.removeNode(coord);
             } else {
                 MutableGraph<Coordinate> testGraph = GraphBuilder.undirected().allowsSelfLoops(false).build();
-                for(var edge : edges) {
+                for (var edge : edges) {
                     testGraph.putEdge(edge.nodeU(), edge.nodeV());
                 }
 
                 int dPartGraphsBefore = GameManager.countDisconnectedGraphs(testGraph);
                 testGraph.removeNode(coord);
                 int dPartGraphsAfter = GameManager.countDisconnectedGraphs(testGraph);
-                if(dPartGraphsAfter <= dPartGraphsBefore) {
+                if (dPartGraphsAfter <= dPartGraphsBefore) {
                     Logger.log("Road at " + coord + " demolished!");
 
-                    GameManager.addToBudget(((PlayerBuilding)building).getBuildCost());
+                    GameManager.addToBudget(((PlayerBuilding) building).getBuildCost());
                     Logger.log("Current budget: " + GameManager.getBudget());
 
                     graph.removeNode(coord);
@@ -418,7 +541,7 @@ public class PlayableField extends Field {
         } else {
             Logger.log("Building of field at " + coord + " demolished!");
 
-            GameManager.addToBudget(((PlayerBuilding)building).getBuildCost());
+            GameManager.addToBudget(((PlayerBuilding) building).getBuildCost());
             Logger.log("Current budget: " + GameManager.getBudget());
 
             building = null;
@@ -430,120 +553,17 @@ public class PlayableField extends Field {
     }
 
     /**
-     * Demolishes the stadium at the given coordinates
-     * @param x x coordinate of the stadium
-     * @param y y coordinate of the stadium
-     */
-    private static void demolishStadiumAt(int x, int y) {
-        Field[][] fs = GameManager.getGameData().getFields();
-        if(isFieldValid(x, y) && ((PlayableField)fs[x][y]).getBuilding() instanceof Stadium) {
-            Building building = ((PlayableField)fs[x][y]).getBuilding();
-            GameManager.addToBudget(((Stadium)building).getBuildCost());
-
-            ((PlayableField)fs[x][y]).setBuilding(null);
-            (fs[x][y]).resetTile();
-            GameManager.getGraph().removeNode(new Coordinate(x, y));
-        }
-    }
-
-    /**
-     * Checks if the building can be built at the given coordinates
-     * @param x x coordinate of the building
-     * @param y y coordinate of the building
-     * @param building the building to be built
-     * @return true if the building can be built, false otherwise
-     */
-    public static boolean canBuildThere(int x, int y, Tile building) {
-        switch(building) {
-            case ROAD -> { return isFieldEmpty(x, y); }
-            case STADIUM -> { return isFieldEmpty(x, y) && isFieldEmpty(x, y+1) && isFieldEmpty(x+1, y) && isFieldEmpty(x+1, y+1) && isStadiumNextToRoad(x, y); }
-            default -> { return isFieldEmpty(x, y) && isNextToRoad(x, y); }
-        }
-    }
-
-    /**
-     * Checks if the stadium at the given coordinates is valid
-     * @param x1 x coordinate of the first stadium-part (top left corner)
-     * @param y1 y coordinate of the first stadium-part (top left corner)
-     * @param x2 x coordinate of the second stadium-part (top right corner)
-     * @param y2 y coordinate of the second stadium-part (top right corner)
-     * @param x3 x coordinate of the third stadium-part (bottom left corner)
-     * @param y3 y coordinate of the third stadium-part (bottom left corner)
-     * @param x4 x coordinate of the fourth stadium-part (bottom right corner)
-     * @param y4 y coordinate of the fourth stadium-part (bottom right corner)
-     * @return a boolean value if the stadium is valid
-     */
-    private static boolean isStadiumValid(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
-        Field[][] fs = GameManager.getGameData().getFields();
-        return isFieldValid(x1, y1) && ((PlayableField)fs[x1][y1]).getBuilding() instanceof Stadium
-                && isFieldValid(x2, y2) && ((PlayableField)fs[x2][y2]).getBuilding() instanceof Stadium
-                && isFieldValid(x3, y3) && ((PlayableField)fs[x3][y3]).getBuilding() instanceof Stadium
-                && isFieldValid(x4, y4) && ((PlayableField)fs[x4][y4]).getBuilding() instanceof Stadium;
-    }
-
-    /**
-     * Check if a field is valid on the map
-     * @param x is the x index of the field
-     * @param y is the y index of the field
-     * @return a boolean value
-     */
-    private static boolean isFieldValid(int x, int y) {
-        Field[][] fields = GameManager.getGameData().getFields();
-        return fields[x][y] instanceof PlayableField;
-    }
-
-    /**
-     * Check if a field is empty on the map
-     * @param x is the x index of the field
-     * @param y is the y index of the field
-     * @return is a boolean value
-     */
-    private static boolean isFieldEmpty(int x, int y) {
-        Field[][] fields = GameManager.getGameData().getFields();
-        return fields[x][y] instanceof PlayableField && ((PlayableField) fields[x][y]).getBuilding() == null && ((PlayableField) fields[x][y]).getZone() == null;
-    }
-
-    /**
-     * Check if a field is next to a road
-     * @param y is the y index of the field
-     * @param x is te x index of the field
-     * @return is a boolean value
-     */
-    private static boolean isNextToRoad(int x, int y) {
-        Field[][] fields = GameManager.getGameData().getFields();
-        if(isFieldValid(x, y)) {
-            return isFieldValid(x - 1, y) && ((PlayableField) fields[x - 1][y]).getBuilding() instanceof Road
-                    || isFieldValid(x + 1, y) && ((PlayableField) fields[x + 1][y]).getBuilding() instanceof Road
-                    || isFieldValid(x, y - 1) && ((PlayableField) fields[x][y - 1]).getBuilding() instanceof Road
-                    || isFieldValid(x, y + 1) && ((PlayableField) fields[x][y + 1]).getBuilding() instanceof Road;
-        } else return false;
-        //balra, jobbra, alatta, felette
-    }
-
-    /**
-     * Check if a stadium is next to a road
-     * @param x is the x index of the field
-     * @param y is the y index of the field
-     * @return is a boolean value
-     */
-
-    private static boolean isStadiumNextToRoad(int x, int y) { // x y is the top left tile of the stadium
-        if(isFieldValid(x, y)) {
-            return isNextToRoad(x, y) || isNextToRoad(x + 1, y) || isNextToRoad(x + 1, y + 1) || isNextToRoad(x, y + 1);
-        } else return false;
-    }
-
-    /**
      * Deletes the zone of the field
+     *
      * @throws RuntimeException if there is a building on the field or if the field is already empty
      */
     public void deleteZone() throws RuntimeException {
-        if(building != null) {
+        if (building != null) {
 
             Logger.log("Field at " + coord + " has a building on it, can't delete zone!");
             throw new RuntimeException("Can't delete zone, there is a building on the field!");
 
-        }else if(zone == null) {
+        } else if (zone == null) {
 
             Logger.log("Field at " + coord + " has no zone!");
             throw new RuntimeException("Field is already empty!");
@@ -561,15 +581,16 @@ public class PlayableField extends Field {
 
     /**
      * Upgrades the field
+     *
      * @throws RuntimeException if the field can't be upgraded or if the field has no zone
      */
     public void upgrade() throws RuntimeException {
-        if(upgradeLevel == null) {
+        if (upgradeLevel == null) {
 
             Logger.log("Field at " + coord + " can't be upgraded!");
             throw new NullPointerException("Field can't be upgraded!");
 
-        } else if(zone == null) {
+        } else if (zone == null) {
 
             Logger.log("Field at " + coord + " has no zone!");
             throw new NullPointerException("Field has no zone!");
@@ -583,9 +604,9 @@ public class PlayableField extends Field {
                     upgradeLevel = UpgradeLevel.CITY;
                     GameManager.subtractFromBudget(GameManager.getLevelTwoUpgradeCost());
 
-                    if(building != null) {
+                    if (building != null) {
                         ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelTwoMaxCapacity());
-                        switch(zone) {
+                        switch (zone) {
                             case RESIDENTIAL_ZONE -> tile = Tile.HOUSE_2;
                             case INDUSTRIAL_ZONE -> tile = Tile.FACTORY_2;
                             case SERVICE_ZONE -> tile = Tile.SERVICE_2;
@@ -600,9 +621,9 @@ public class PlayableField extends Field {
                     upgradeLevel = UpgradeLevel.METROPOLIS;
                     GameManager.subtractFromBudget(GameManager.getLevelThreeUpgradeCost());
 
-                    if(building != null){
+                    if (building != null) {
                         ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelThreeMaxCapacity());
-                        switch(zone) {
+                        switch (zone) {
                             case RESIDENTIAL_ZONE -> tile = Tile.HOUSE_3;
                             case INDUSTRIAL_ZONE -> tile = Tile.FACTORY_3;
                             case SERVICE_ZONE -> tile = Tile.SERVICE_3;
@@ -620,17 +641,18 @@ public class PlayableField extends Field {
 
     /**
      * Gets the current capacity of the field
+     *
      * @return the current capacity of the field
      * @throws RuntimeException if there is no building on the field, or if the building is not a generated building
      */
     @JsonIgnore
     public int getCurrentCapacity() throws RuntimeException {
-        if(building == null) {
+        if (building == null) {
 
             Logger.log("Field at " + coord + " has no building on it, can't get current capacity!");
             throw new RuntimeException("There is no building on the field!");
 
-        } else if(!(building instanceof GeneratedBuilding)) {
+        } else if (!(building instanceof GeneratedBuilding)) {
 
             Logger.log("Field at " + coord + " has a generated building on it, can't get current capacity!");
             throw new RuntimeException("Building is not a generated building!");
@@ -643,10 +665,20 @@ public class PlayableField extends Field {
 
     /**
      * Get the move-in-factor of the field
+     *
      * @return the move in factor of the field
      */
     public int getMoveInFactor() {
         return moveInFactor;
+    }
+
+    /**
+     * Set the move in factor of the field
+     *
+     * @param moveInFactor is the move in factor of the field
+     */
+    public void setMoveInFactor(int moveInFactor) {
+        this.moveInFactor = moveInFactor;
     }
 
     /**
@@ -661,6 +693,7 @@ public class PlayableField extends Field {
 
     /**
      * Get the zone of the field
+     *
      * @return the zone of the field
      */
     public Zone getZone() {
@@ -668,7 +701,17 @@ public class PlayableField extends Field {
     }
 
     /**
+     * Set the zone of the field
+     *
+     * @param zone is the zone of the field
+     */
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    /**
      * Get the upgrade level of the field
+     *
      * @return the upgrade level of the field
      */
     public UpgradeLevel getUpgradeLevel() {
@@ -676,7 +719,17 @@ public class PlayableField extends Field {
     }
 
     /**
+     * Set the upgrade level
+     *
+     * @param upgradeLevel is the upgrade level
+     */
+    public void setUpgradeLevel(UpgradeLevel upgradeLevel) {
+        this.upgradeLevel = upgradeLevel;
+    }
+
+    /**
      * Get the building of the field
+     *
      * @return the building of the field
      */
     public Building getBuilding() {
@@ -685,40 +738,17 @@ public class PlayableField extends Field {
 
     /**
      * Set the building of the field
+     *
      * @param building is the building of the field
      */
     public void setBuilding(Building building) {
-        if(building == null) {
+        if (building == null) {
             Logger.log("Building of field at " + coord + " set to null");
             this.building = null;
         } else {
             Logger.log("Building of field at " + coord + " set to " + building.getClass().getSimpleName());
             this.building = building;
         }
-    }
-
-    /**
-     * Set the move in factor of the field
-     * @param moveInFactor is the move in factor of the field
-     */
-    public void setMoveInFactor(int moveInFactor) {
-        this.moveInFactor = moveInFactor;
-    }
-
-    /**
-     * Set the zone of the field
-     * @param zone is the zone of the field
-     */
-    public void setZone(Zone zone) {
-        this.zone = zone;
-    }
-
-    /**
-     * Set the upgrade level
-     * @param upgradeLevel is the upgrade level
-     */
-    public void setUpgradeLevel(UpgradeLevel upgradeLevel) {
-        this.upgradeLevel = upgradeLevel;
     }
 
     @Override

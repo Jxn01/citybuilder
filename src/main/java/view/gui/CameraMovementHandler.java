@@ -18,10 +18,10 @@ public class CameraMovementHandler {
     private final MovementState movementState;
     private final InputMap im;
     private final ActionMap am;
+    private final Panel panel;
     private int cameraOffsetX, cameraOffsetY;
     private int zoom;
-    private final Panel panel;
-    
+
     public CameraMovementHandler(Panel panel) {
         this.panel = panel;
         movementState = new MovementState();
@@ -49,9 +49,10 @@ public class CameraMovementHandler {
         am.put("right-pressed", new XDirectionAction(movementState, -12));
         am.put("right-released", new XDirectionAction(movementState, 0));
     }
-    
+
     /**
      * Add offset to the camera on the x-axis
+     *
      * @param val is the value added to the x offset
      */
     public void addToOffsetX(int val) {
@@ -60,14 +61,16 @@ public class CameraMovementHandler {
 
     /**
      * Add offset to the camera on the y-axis
+     *
      * @param val is the value added to the y offset
      */
     public void addToOffsetY(int val) {
         cameraOffsetY += val;
     }
-    
+
     /**
      * Event handler for mouse wheel events
+     *
      * @param e is the MouseWheelEvent
      */
     public void mouseWheelRotated(MouseWheelEvent e) {
@@ -82,16 +85,18 @@ public class CameraMovementHandler {
 
     /**
      * getter for zoom
+     *
      * @return zoom
      */
     public int getZoom() {
         return zoom;
     }
-    
+
     /**
      * Add/subtract an int value to/from zoom
+     *
      * @param val is the added/subtracted int value
-     * @param p is the current cursor location
+     * @param p   is the current cursor location
      */
     public void addToZoom(int val, Point p) {
         int tileX = p.x / (64 + zoom);
@@ -100,15 +105,16 @@ public class CameraMovementHandler {
 
         zoom += val;
         //limit how big a tile can be shown on the map
-        if(zoom > 0) {
+        if (zoom > 0) {
             zoom = 0;
-        } else if(Math.abs(cameraOffsetX) + panel.getSize().width > 50 * (64 + zoom)) { //limit how small a tile can be shown on the map
+        } else if (Math.abs(cameraOffsetX) + panel.getSize().width > 50 * (64 + zoom)) { //limit how small a tile can be shown on the map
             zoom = (Math.abs(cameraOffsetX) + panel.getSize().width - 3200) / 50;
         }
     }
 
     /**
      * getter for the camera offset on the x-axis
+     *
      * @return the camera offset on the x-axis
      */
     public int getCameraOffsetX() {
@@ -117,35 +123,36 @@ public class CameraMovementHandler {
 
     /**
      * getter for the camera offset on the y-axis
+     *
      * @return the camera offset on the y-axis
      */
     public int getCameraOffsetY() {
         return cameraOffsetY;
     }
-    
+
     /**
-     * Apply modifications to the camera offset if the camera reaches the border 
+     * Apply modifications to the camera offset if the camera reaches the border
      * (prevent the player from moving the camera out of the playable area)
      */
     public void checkMapBorder() {
         //left wall
-        if(cameraOffsetX + movementState.xDirection <= 0) {
+        if (cameraOffsetX + movementState.xDirection <= 0) {
             cameraOffsetX += movementState.xDirection;
             //right wall
-            if(Math.abs(cameraOffsetX) + panel.getSize().width > 51 * (64 + zoom)) {
+            if (Math.abs(cameraOffsetX) + panel.getSize().width > 51 * (64 + zoom)) {
                 cameraOffsetX = -(51 * (64 + zoom) - panel.getSize().width);
             }
         }
         //top wall
-        if(cameraOffsetY + movementState.yDirection <= 0) {
+        if (cameraOffsetY + movementState.yDirection <= 0) {
             cameraOffsetY += movementState.yDirection;
             //bottom wall
-            if(Math.abs(cameraOffsetY) + panel.getSize().height >= 51 * (64 + zoom)) {
+            if (Math.abs(cameraOffsetY) + panel.getSize().height >= 51 * (64 + zoom)) {
                 cameraOffsetY = -(51 * (64 + zoom) - panel.getSize().height);
             }
         }
     }
-    
+
     /**
      * A movement state has an x and a y direction
      * which allows the player to move the camera
@@ -154,13 +161,13 @@ public class CameraMovementHandler {
     public class MovementState {
         public int xDirection;
         public int yDirection;
-        
+
         public MovementState() {
             xDirection = 0;
             yDirection = 0;
         }
     }
-    
+
     /**
      * This class contains all functions necessary to move the camera
      * on one axis. It is the superclass of YDirectionAction

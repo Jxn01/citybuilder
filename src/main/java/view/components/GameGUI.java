@@ -15,15 +15,18 @@ public class GameGUI extends JFrame {
         //add the panel
         panel = new Panel(this);
         add(panel);
-    
+
         setTitle("City Builder");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
-        
+
         // Wait for the frame to become visible
-        try { Thread.sleep(100); }
-        catch(InterruptedException exc) { exc.printStackTrace(); }
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException exc) {
+            exc.printStackTrace();
+        }
 
         // Validate the container to ensure the panel's size is calculated
         getContentPane().validate();
@@ -32,6 +35,7 @@ public class GameGUI extends JFrame {
 
     /**
      * Get the panel of the game
+     *
      * @return the panel of the game
      */
     public Panel getPanel() {

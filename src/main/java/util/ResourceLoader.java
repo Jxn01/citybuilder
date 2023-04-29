@@ -12,6 +12,7 @@ import java.net.URL;
 public class ResourceLoader {
     /**
      * Loads a resource from the resources' folder.
+     *
      * @param resName The name of the resource.
      * @return The resource as an InputStream.
      */
@@ -21,13 +22,14 @@ public class ResourceLoader {
 
     /**
      * Loads an image from the resources' folder.
+     *
      * @param resName The name of the image.
      * @return The image.
      * @throws IOException If the image could not be loaded.
      */
     public static Image loadImage(String resName) throws IOException {
-        URL url = ResourceLoader.class.getClassLoader().getResource("textures/"+resName);
-        if(url == null) {
+        URL url = ResourceLoader.class.getClassLoader().getResource("textures/" + resName);
+        if (url == null) {
             throw new IOException("Resource not found: " + resName);
         } else {
             return ImageIO.read(url);

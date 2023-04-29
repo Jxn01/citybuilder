@@ -14,15 +14,16 @@ import static java.lang.Thread.sleep;
  */
 public class Intro {
 
+    private final view.components.Panel panel;
     private Image background;
     private int alphaLevel = 255;
     private boolean fadeInComplete;
     private boolean waitingComplete;
     private boolean fadeOutComplete;
-    private final view.components.Panel panel;
 
     /**
      * Constructor of the Intro class
+     *
      * @param panel is the Game's main Panel object
      */
     public Intro(view.components.Panel panel) {
@@ -30,14 +31,18 @@ public class Intro {
         fadeInComplete = false;
         waitingComplete = false;
         fadeOutComplete = false;
-        try { background = ResourceLoader.loadImage("background.png"); }
-        catch(IOException exc) { exc.printStackTrace(); }
+        try {
+            background = ResourceLoader.loadImage("background.png");
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
     }
 
     /**
      * draw one frame of the animation
+     *
      * @param panel is the game's main Panel object
-     * @param gr is the graphics context of the Panel object
+     * @param gr    is the graphics context of the Panel object
      */
     public void draw(Panel panel, Graphics2D gr) {
         //paint the monkey
@@ -48,22 +53,22 @@ public class Intro {
         //by modifying this alpha level
         Color myColour = new Color(0, 0, 0, alphaLevel);
         gr.setColor(myColour);
-        gr.fillRect(0, 0,panel.width(),panel.height());
+        gr.fillRect(0, 0, panel.width(), panel.height());
 
-        if(!fadeInComplete && alphaLevel >= 5) {
+        if (!fadeInComplete && alphaLevel >= 5) {
             alphaLevel -= 5;
         } else {
             fadeInComplete = true;
 
             //wait 1,5 seconds
-            if(!waitingComplete) {
+            if (!waitingComplete) {
                 try {
                     sleep(1500);
                     waitingComplete = true;
-                } catch(InterruptedException exc) {
+                } catch (InterruptedException exc) {
                     exc.printStackTrace();
                 }
-            } else if(!fadeOutComplete && alphaLevel <= 250) { //fade out phase
+            } else if (!fadeOutComplete && alphaLevel <= 250) { //fade out phase
                 alphaLevel += 5;
             } else {
                 fadeOutComplete = true;

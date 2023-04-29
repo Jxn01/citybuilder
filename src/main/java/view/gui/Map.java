@@ -11,9 +11,9 @@ import view.components.custom.MyButton;
 import view.enums.Tile;
 
 import java.awt.*;
-import java.io.IOException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import static model.field.PlayableField.canBuildThere;
 
@@ -26,11 +26,12 @@ public class Map {
     private Tile selectedBuildingType;
     private Point selectedTile;
     private Field[][] fields;
-    private Rectangle drawnMenuRectangle = new Rectangle(0, 0, 0, 0);
-    private MyButton upgradeBtn = new MyButton(0, 0, 0, 0, "upgrade");
+    private final Rectangle drawnMenuRectangle = new Rectangle(0, 0, 0, 0);
+    private final MyButton upgradeBtn = new MyButton(0, 0, 0, 0, "upgrade");
 
     /**
      * Constructor of the Map class
+     *
      * @param game is the main Game object
      */
     public Map(Game game) {
@@ -73,11 +74,14 @@ public class Map {
             forest = ResourceLoader.loadImage("FOREST_1.png");
             police = ResourceLoader.loadImage("POLICE_1.png");
             construction = ResourceLoader.loadImage("CONSTRUCTION.png");
-        } catch(IOException exc) { exc.printStackTrace(); }
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
     }
-    
+
     /**
      * Paint the map with all of its tiles on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     public void paint(Graphics2D gr) {
@@ -85,9 +89,9 @@ public class Map {
         int zoom = game.getZoom();
         int cameraOffsetX = game.getCameraOffsetX();
         int cameraOffsetY = game.getCameraOffsetY();
-        
-        for(int row = 0; row < 51; ++row) {
-            for(int col = 0; col < 51; ++col) {
+
+        for (int row = 0; row < 51; ++row) {
+            for (int col = 0; col < 51; ++col) {
                 Image img = tileToImg(fields[row][col].getTile());
                 gr.drawImage(img, col * (64 + zoom) + cameraOffsetX, row * (64 + zoom) + cameraOffsetY, 64 + zoom, 64 + zoom, null);
             }
@@ -98,12 +102,13 @@ public class Map {
 
     /**
      * Build the selected building type onto a tile
-     * @param x is te x index of the field
-     * @param y is te y index of the field
+     *
+     * @param x       is te x index of the field
+     * @param y       is te y index of the field
      * @param newTile is the new tile type
      */
     public void build(int x, int y, Tile newTile) {
-        if(newTile != null) {
+        if (newTile != null) {
             switch (newTile) {
                 case SERVICEZONE -> ((PlayableField) fields[x][y]).markZone(Zone.SERVICE_ZONE);
                 case RESIDENTIALZONE -> ((PlayableField) fields[x][y]).markZone(Zone.RESIDENTIAL_ZONE);
@@ -112,7 +117,7 @@ public class Map {
                 case GRASS_1 -> {
                     Point p = new Point(x, y);
 
-                    if(((PlayableField) fields[x][y]).getZone() == null){
+                    if (((PlayableField) fields[x][y]).getZone() == null) {
                         try {
                             ((PlayableField) fields[x][y]).demolishBuilding();
                         } catch (Exception exc) {
@@ -144,6 +149,7 @@ public class Map {
 
     /**
      * Upgrade the selected building
+     *
      * @param x is the x index of the field
      * @param y is the y index of the field
      */
@@ -158,17 +164,19 @@ public class Map {
 
     /**
      * Draw the selected tile on the screen
+     *
      * @param p is the point where the user clicked
      */
     public void click(Point p) {
-        if(!drawnMenuRectangle.contains(p)){
-            if(submenuHovered(p)) {
+        if (!drawnMenuRectangle.contains(p)) {
+            if (submenuHovered(p)) {
                 selectedTile = null;
             } else {
                 Point click = pointToXY(p);
                 if (selectedBuildingType != null && p.y < game.height() - 40) {
                     if (selectedBuildingType != Tile.GRASS_1) {
-                        if(canBuildThere(click.x, click.y, selectedBuildingType)) build(click.x, click.y, selectedBuildingType);
+                        if (canBuildThere(click.x, click.y, selectedBuildingType))
+                            build(click.x, click.y, selectedBuildingType);
                     } else {
                         build(click.x, click.y, selectedBuildingType);
                     }
@@ -180,7 +188,7 @@ public class Map {
                     selectedTile = click;
                 }
             }
-        } else if(upgradeBtn.rect.contains(p)){
+        } else if (upgradeBtn.rect.contains(p)) {
             Point click = pointToXY(p);
             upgrade(click.x, click.y);
         }
@@ -189,11 +197,12 @@ public class Map {
     /**
      * Paint the hover effect on the screen after the user
      * clicked on a building construction button
+     *
      * @param gr is the graphics context of the main Panel object
      */
     private void paintHover(Graphics2D gr) {
         Point p = MouseInfo.getPointerInfo().getLocation();
-        if(!submenuHovered(p) && selectedBuildingType != null){
+        if (!submenuHovered(p) && selectedBuildingType != null) {
             long currentTime = System.currentTimeMillis();
             double randomDouble = (double) (currentTime % 1000) / 1000; // limit the value between 0 and 1
             double currentSeconds = (double) currentTime / 1000;
@@ -209,7 +218,7 @@ public class Map {
             int y = (p.y - offsetY) / (64 + zoom);
 
             //paint green effect if the player CAN build there
-            if(canBuildThere(y-1, x, selectedBuildingType)) {
+            if (canBuildThere(y - 1, x, selectedBuildingType)) {
                 redVal = 0;
                 greenVal = 255;
             } else { //paint red effect if the player can NOT build there
@@ -218,7 +227,7 @@ public class Map {
             }
 
             //make the effect pulsate once every 2 seconds
-            if(currentSeconds % 2 == 0) {
+            if (currentSeconds % 2 == 0) {
                 alpha = (int) Math.ceil(randomDouble * 255);
             } else {
                 alpha = 255 - (int) Math.ceil(randomDouble * 255);
@@ -229,7 +238,7 @@ public class Map {
 
             Image img = tileToImg(selectedBuildingType);
 
-            if(selectedBuildingType == Tile.STADIUM) {
+            if (selectedBuildingType == Tile.STADIUM) {
                 gr.drawImage(img, x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY - 64, 128 + zoom, 128 + zoom, null);
                 gr.fillRect(x * (64 + zoom) + offsetX, y * (64 + zoom) + offsetY - 64, 128 + zoom, 128 + zoom);
             } else {
@@ -241,12 +250,13 @@ public class Map {
 
     /**
      * Paint the context menu of a tile on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     public void drawSelectedTile(Graphics2D gr) {
-        if(selectedTile != null) {
+        if (selectedTile != null) {
             Field field = fields[selectedTile.x][selectedTile.y];
-            if(field instanceof PlayableField && ((PlayableField) field).getBuilding() != null) {
+            if (field instanceof PlayableField && ((PlayableField) field).getBuilding() != null) {
 
                 int cameraOffsetX = game.getCameraOffsetX();
                 int cameraOffsetY = game.getCameraOffsetY();
@@ -267,11 +277,11 @@ public class Map {
 
                 String stats = ((PlayableField) field).getBuilding().getStatistics();
                 String[] statsArray = stats.split("\n");
-                for(int i = 1; i <= statsArray.length; i++) {
+                for (int i = 1; i <= statsArray.length; i++) {
                     gr.drawString(statsArray[i - 1], x, y + 30 * i);
                 }
 
-                if(((PlayableField) field).getZone() != null && ((PlayableField) field).getUpgradeLevel() != UpgradeLevel.METROPOLIS){
+                if (((PlayableField) field).getZone() != null && ((PlayableField) field).getUpgradeLevel() != UpgradeLevel.METROPOLIS) {
                     setUpgradeButtonAttributes(x, y + 140, 80, 40);
                     upgradeBtn.draw(gr, game.getMousePosition());
                 }
@@ -285,12 +295,13 @@ public class Map {
 
     /**
      * Sets the attributes of the upgrade button
-     * @param x is the x coordinate of the button
-     * @param y is the y coordinate of the button
-     * @param width is the width of the button
+     *
+     * @param x      is the x coordinate of the button
+     * @param y      is the y coordinate of the button
+     * @param width  is the width of the button
      * @param height is the height of the button
      */
-    private void setUpgradeButtonAttributes(int x, int y, int width, int height){
+    private void setUpgradeButtonAttributes(int x, int y, int width, int height) {
         upgradeBtn.setX(x);
         upgradeBtn.setY(y);
         upgradeBtn.setWidth(width);
@@ -299,12 +310,13 @@ public class Map {
 
     /**
      * Sets the attributes of the rectangle that is used to draw the logical part of the context menu
-     * @param x is the x coordinate of the rectangle
-     * @param y is the y coordinate of the rectangle
-     * @param width is the width of the rectangle
+     *
+     * @param x      is the x coordinate of the rectangle
+     * @param y      is the y coordinate of the rectangle
+     * @param width  is the width of the rectangle
      * @param height is the height of the rectangle
      */
-    private void setRectangleAttributes(int x, int y, int width, int height){
+    private void setRectangleAttributes(int x, int y, int width, int height) {
         drawnMenuRectangle.x = x;
         drawnMenuRectangle.y = y;
         drawnMenuRectangle.width = width;
@@ -314,6 +326,7 @@ public class Map {
     /**
      * Set the selected building type after the user
      * clicked on a building construction button
+     *
      * @param selectedBuildingType is the new selected building type
      */
     public void setSelectedBuildingType(Tile selectedBuildingType) {
@@ -322,29 +335,31 @@ public class Map {
 
     /**
      * Given a point on the screen, return the corresponding field on the map
+     *
      * @param p is the current cursor position
      * @return a point
      */
     public Point pointToXY(Point p) {
-        if(submenuHovered(p) || p == null) return null;
-       
+        if (submenuHovered(p) || p == null) return null;
+
         int offsetX = game.getCameraOffsetX();
         int offsetY = game.getCameraOffsetY();
         int zoom = game.getZoom();
         int x = (p.x - offsetX) / (64 + zoom);
         int y = (p.y - offsetY) / (64 + zoom);
 
-        return new Point(y,x);
+        return new Point(y, x);
     }
 
     /**
      * Check if the mouse is hovering over a submenu
+     *
      * @param p is the current cursor position
      * @return true if the mouse is hovering over a submenu
      */
     private boolean submenuHovered(Point p) {
-        for(Rectangle area : game.getMenuAreas()) {
-            if(area.contains(p)) {
+        for (Rectangle area : game.getMenuAreas()) {
+            if (area.contains(p)) {
                 return true;
             }
         }
@@ -353,7 +368,7 @@ public class Map {
 
     private Image tileToImg(Tile tile) {
         Image img = null;
-        switch(tile) {
+        switch (tile) {
             case ROCKS -> img = rocks;
             case GRASS_1 -> img = grass_1;
             case GRASS_2 -> img = grass_2;

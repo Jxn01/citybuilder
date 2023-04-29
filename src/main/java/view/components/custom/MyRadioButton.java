@@ -7,20 +7,21 @@ import java.awt.*;
  */
 public class MyRadioButton {
     private final Rectangle rect;
-    private boolean selected;
     public String name;
     public String time;
     public String funds;
-    
+    private boolean selected;
+
     /**
      * Constructor of one radio button on the SavedGame submenu
-     * @param x is the button's x coordinate on the screen
-     * @param y is the button's y coordinate on the screen
-     * @param width is the width of the button
+     *
+     * @param x      is the button's x coordinate on the screen
+     * @param y      is the button's y coordinate on the screen
+     * @param width  is the width of the button
      * @param height is the height of the button
-     * @param n is the saved game's name, held by the button
-     * @param t is the saved game's time, held by the button
-     * @param f is the saved game's funds, held by the button
+     * @param n      is the saved game's name, held by the button
+     * @param t      is the saved game's time, held by the button
+     * @param f      is the saved game's funds, held by the button
      */
     public MyRadioButton(int x, int y, int width, int height, String n, String t, String f) {
         rect = new Rectangle(x, y, width, height);
@@ -32,6 +33,7 @@ public class MyRadioButton {
 
     /**
      * Getter for selected
+     *
      * @return selected
      */
     public boolean getSelected() {
@@ -40,14 +42,16 @@ public class MyRadioButton {
 
     /**
      * Setter for selected
+     *
      * @param selected is the new value for selected
      */
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-    
+
     /**
      * Checks if the button is currently hovered
+     *
      * @param p is the cursor position
      * @return a boolean value
      */
@@ -59,14 +63,15 @@ public class MyRadioButton {
 
     /**
      * draw the radiobutton on the screen
-     * @param gr is the graphics context of the game panel
+     *
+     * @param gr        is the graphics context of the game panel
      * @param cursorPos is the current cursor position
      */
     public void draw(Graphics2D gr, Point cursorPos) {
         //fill the button with color 
-        if(selected) {
+        if (selected) {
             gr.setColor(Color.green);
-        } else if(isHovered(cursorPos)) {
+        } else if (isHovered(cursorPos)) {
             gr.setColor(Color.pink);
         } else {
             gr.setColor(Color.white);
@@ -84,17 +89,19 @@ public class MyRadioButton {
 
     /**
      * Getter for the button's width
+     *
      * @param width is the new width of the button
      */
-    public void setWidth(int width){
+    public void setWidth(int width) {
         rect.width = width;
     }
 
     /**
      * Setter for the button's x coordinate
+     *
      * @param x is the new x coordinate of the button
      */
-    public void setX(int x){
+    public void setX(int x) {
         rect.x = x;
     }
 
@@ -102,6 +109,7 @@ public class MyRadioButton {
      * This function allows the buttongroup to adjust
      * how high the button is when the user
      * deletes another radiobutton from the buttongroup
+     *
      * @param y is the new y coordinate on the screen
      */
     public void setY(int y) {

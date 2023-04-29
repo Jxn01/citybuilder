@@ -16,9 +16,10 @@ public class Stadium extends RangedBuilding {
 
     /**
      * Constructor of the stadium
-     * @param topLeftCoords is the top left coordinates of the stadium
-     * @param topRightCoords is the top right coordinates of the stadium
-     * @param bottomLeftCoords is the bottom left coordinates of the stadium
+     *
+     * @param topLeftCoords     is the top left coordinates of the stadium
+     * @param topRightCoords    is the top right coordinates of the stadium
+     * @param bottomLeftCoords  is the bottom left coordinates of the stadium
      * @param bottomRightCoords is the bottom right coordinates of the stadium
      */
     public Stadium(Coordinate topLeftCoords, Coordinate topRightCoords, Coordinate bottomLeftCoords, Coordinate bottomRightCoords) {
@@ -38,6 +39,7 @@ public class Stadium extends RangedBuilding {
 
     /**
      * Get the top right coordinates of the stadium
+     *
      * @return the top right coordinates of the stadium
      */
     public Coordinate getTopRightCoords() {
@@ -46,6 +48,7 @@ public class Stadium extends RangedBuilding {
 
     /**
      * Set the top right coordinates of the stadium
+     *
      * @param topRightCoords is the top right coordinates of the stadium
      */
     public void setTopRightCoords(Coordinate topRightCoords) {
@@ -54,6 +57,7 @@ public class Stadium extends RangedBuilding {
 
     /**
      * Get the bottom left coordinates of the stadium
+     *
      * @return the bottom left coordinates of the stadium
      */
     public Coordinate getBottomLeftCoords() {
@@ -62,6 +66,7 @@ public class Stadium extends RangedBuilding {
 
     /**
      * Set the bottom left coordinates of the stadium
+     *
      * @param bottomLeftCoords is the bottom left coordinates of the stadium
      */
     public void setBottomLeftCoords(Coordinate bottomLeftCoords) {
@@ -70,6 +75,7 @@ public class Stadium extends RangedBuilding {
 
     /**
      * Get the bottom right coordinates of the stadium
+     *
      * @return the bottom right coordinates of the stadium
      */
     public Coordinate getBottomRightCoords() {
@@ -78,6 +84,7 @@ public class Stadium extends RangedBuilding {
 
     /**
      * Set the bottom right coordinates of the stadium
+     *
      * @param bottomRightCoords is the bottom right coordinates of the stadium
      */
     public void setBottomRightCoords(Coordinate bottomRightCoords) {

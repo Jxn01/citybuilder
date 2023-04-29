@@ -17,10 +17,11 @@ public class TopBar extends GameMenu {
     private final Color topBarColor;
     MyButton hamburgerBtn;
     HamburgerMenu hamburgerMenu;
-    
+
     /**
      * Constructor of the top bar
-     * @param game is the main game object 
+     *
+     * @param game is the main game object
      */
     public TopBar(Game game) {
         super(game);
@@ -30,9 +31,10 @@ public class TopBar extends GameMenu {
         topBarArea = new Rectangle(0, 0, 1536, 40);
         topBarColor = Color.white;
     }
-    
+
     /**
      * Draw the bottom top on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     @Override
@@ -45,15 +47,16 @@ public class TopBar extends GameMenu {
         gr.setColor(Color.black);
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 25));
         gr.drawString("Költségvetés: " + GameManager.getGameData().getBudget() + "$", 40, 30);
-        gr.drawString("Elégedettség: " + gd.getAverageSatisfaction() +"%", 400, 30);
+        gr.drawString("Elégedettség: " + gd.getAverageSatisfaction() + "%", 400, 30);
         gr.drawString("Populáció: " + gd.getPopulation(), 700, 30);
         gr.drawString("Dátum: " + gd.getInGameCurrentDate(), 1000, 30);
         gr.drawString("Éves adók: " + gd.getYearlyTaxes() + "$", 1300, 30);
         gr.drawString("Város: " + gd.getCityName(), 1600, 30);
     }
-    
+
     /**
      * Draw the top bar's background area on the screen
+     *
      * @param gr is the graphics context of the main Panel object
      */
     private void paintTopBarArea(Graphics2D gr) {
@@ -64,24 +67,26 @@ public class TopBar extends GameMenu {
         int height = topBarArea.height;
         gr.fillRect(x, y, width, height);
     }
-    
+
     /**
      * Upon a click event, roll the click event further into a submenu
+     *
      * @param p is the current cursor location
      */
     @Override
     public void click(Point p) {
         hamburgerMenu.click(p);
-        if(hamburgerBtn.isHovered(p)) {
+        if (hamburgerBtn.isHovered(p)) {
             Logger.log("Hamburger menu opened");
             boolean negated = !hamburgerMenu.getIsOpen();
             hamburgerMenu.setIsOpen(negated);
         }
     }
-        
+
     /**
      * Get the top bar's and all it's submenu areas as rectangles
      * This is important for click event exceptions
+     *
      * @return an arraylist of rectangles
      */
     @Override
@@ -91,9 +96,9 @@ public class TopBar extends GameMenu {
         areas.addAll(hamburgerMenu.getMenuAreas());
         return areas;
     }
-    
+
     public void setWidth(int width) {
         topBarArea.width = width;
     }
-    
+
 }

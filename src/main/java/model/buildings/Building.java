@@ -27,9 +27,10 @@ public abstract class Building implements Flammable {
 
     /**
      * Constructor of the building
-     * @param coords is the coordinates of the building
+     *
+     * @param coords          is the coordinates of the building
      * @param firePossibility is the fire possibility of the building
-     * @param onFire is the building on fire
+     * @param onFire          is the building on fire
      */
     public Building(Coordinate coords, double firePossibility, boolean onFire) {
         this.coords = coords;
@@ -47,12 +48,14 @@ public abstract class Building implements Flammable {
 
     /**
      * Get the statistics of the building
+     *
      * @return the statistics of the building
      */
     public abstract String getStatistics();
 
     /**
      * Get the coordinates of the building
+     *
      * @return the coordinates of the building
      */
     public Coordinate getCoords() {
@@ -61,6 +64,7 @@ public abstract class Building implements Flammable {
 
     /**
      * Set the coordinates of the building
+     *
      * @param coords is the coordinates of the building
      */
     public void setCoords(Coordinate coords) {
@@ -69,6 +73,7 @@ public abstract class Building implements Flammable {
 
     /**
      * Get the fire possibility of the building
+     *
      * @return the fire possibility of the building
      */
     public double getFirePossibility() {
@@ -77,6 +82,7 @@ public abstract class Building implements Flammable {
 
     /**
      * Set the fire possibility of the building
+     *
      * @param firePossibility is the fire possibility of the building
      */
     public void setFirePossibility(double firePossibility) {
@@ -86,6 +92,7 @@ public abstract class Building implements Flammable {
 
     /**
      * Get the fire status of the building
+     *
      * @return the fire status of the building
      */
     public boolean isOnFire() {
@@ -94,6 +101,7 @@ public abstract class Building implements Flammable {
 
     /**
      * Get the address of the building
+     *
      * @return the address of the building
      */
     public String getAddress() {
@@ -102,6 +110,7 @@ public abstract class Building implements Flammable {
 
     /**
      * Set the address of the building
+     *
      * @param address is the address of the building
      */
     public void setAddress(String address) {
@@ -111,19 +120,21 @@ public abstract class Building implements Flammable {
 
     /**
      * Gets the x coordinate of the building
+     *
      * @return the x coordinate of the building
      */
     @JsonIgnore
-    public int getX(){
+    public int getX() {
         return coords.getX();
     }
 
     /**
      * Gets the y coordinate of the building
+     *
      * @return the y coordinate of the building
      */
     @JsonIgnore
-    public int getY(){
+    public int getY() {
         return coords.getY();
     }
 

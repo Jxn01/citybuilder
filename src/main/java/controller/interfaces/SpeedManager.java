@@ -8,14 +8,17 @@ public interface SpeedManager {
      * Set the simulation speed to pause.
      */
     void timeStop();
+
     /**
      * Set the simulation speed to normal.
      */
     void timeNormal();
+
     /**
      * Set the simulation speed to fast.
      */
     void timeFast();
+
     /**
      * Set the simulation speed to faster.
      */
