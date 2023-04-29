@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.base.Objects;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import model.field.BorderField;
@@ -430,7 +431,7 @@ public class GameData {
      * Getter for the budget
      * @return the budget
      */
-    public Integer getBudget() {
+    public int getBudget() {
         return budget;
     }
 
@@ -460,20 +461,53 @@ public class GameData {
 
     @Override
     public String toString() {
-        return "GameData{" +
-                "id='" + id + '\'' +
-                ", saveFile=" + saveFile +
-                ", cityName='" + cityName + '\'' +
-                ", population=" + getPopulation() +
-                ", averageSatisfaction=" + averageSatisfaction +
-                ", playTime='" + playTime + '\'' +
+        StringBuilder result = new StringBuilder("GameData{" +
+                "starterMapSize=" + starterMapSize +
+                ", starterPeople=" + starterPeople +
+                ", starterBudget=" + starterBudget +
+                ", starterTaxes=" + starterTaxes +
+                ", id='" + id + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", currentDate='" + currentDate + '\'' +
                 ", inGameStartDate='" + inGameStartDate + '\'' +
                 ", inGameCurrentDate='" + inGameCurrentDate + '\'' +
-                ", currentDate='" + currentDate + '\'' +
-                ", yearlyTaxes=" + yearlyTaxes +
+                ", playTime='" + playTime + '\'' +
+                ", budget=" + budget +
+                ", cityName='" + cityName + '\'' +
                 ", gameOver=" + gameOver +
-                ", fields=" + Arrays.toString(fields) +
-                ", people=" + people +
-                '}';
+                ", saveFile=" + saveFile +
+                ", yearlyTaxes=" + yearlyTaxes +
+                ", averageSatisfaction=" + averageSatisfaction);
+
+        for (int i = 0; i < starterMapSize; i++) {
+            for (int j = 0; j < starterMapSize; j++) {
+                result.append(", fields[").append(i).append("][").append(j).append("]=").append(fields[i][j].toString());
+            }
+        }
+        result.append(", graph=").append(graph).append(", people=").append(people).append('}');
+        return result.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GameData gameData)) return false;
+        boolean fieldsEqual = false;
+        for (int i = 0; i < starterMapSize; i++) {
+            for (int j = 0; j < starterMapSize; j++) {
+                if (fields[i][j].equals(gameData.fields[i][j])) {
+                    fieldsEqual = true;
+                } else {
+                    fieldsEqual = false;
+                    break;
+                }
+            }
+        }
+        return starterMapSize == gameData.starterMapSize && starterPeople == gameData.starterPeople && starterBudget == gameData.starterBudget && starterTaxes == gameData.starterTaxes && getBudget() == gameData.getBudget() && isGameOver() == gameData.isGameOver() && getYearlyTaxes() == gameData.getYearlyTaxes() && getAverageSatisfaction() == gameData.getAverageSatisfaction() && Objects.equal(getId(), gameData.getId()) && Objects.equal(getStartDate(), gameData.getStartDate()) && Objects.equal(getCurrentDate(), gameData.getCurrentDate()) && Objects.equal(getInGameStartDate(), gameData.getInGameStartDate()) && Objects.equal(getInGameCurrentDate(), gameData.getInGameCurrentDate()) && Objects.equal(getPlayTime(), gameData.getPlayTime()) && Objects.equal(getCityName(), gameData.getCityName()) && Objects.equal(getSaveFile(), gameData.getSaveFile()) && Objects.equal(getGraph(), gameData.getGraph()) && Objects.equal(getPeople(), gameData.getPeople()) && fieldsEqual;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(starterMapSize, starterPeople, starterBudget, starterTaxes, getId(), getStartDate(), getCurrentDate(), getInGameStartDate(), getInGameCurrentDate(), getPlayTime(), getBudget(), getCityName(), isGameOver(), getSaveFile(), getYearlyTaxes(), getAverageSatisfaction(), getFields(), getGraph(), getPeople());
     }
 }

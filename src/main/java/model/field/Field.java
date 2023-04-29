@@ -5,6 +5,7 @@ import model.Coordinate;
 import view.enums.Tile;
 
 import java.awt.*;
+import java.util.Objects;
 import java.util.Random;
 
 import static util.ResourceLoader.loadImage;
@@ -78,5 +79,29 @@ public abstract class Field {
      */
     public void setTile(Tile tile) {
         this.tile = tile;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Field field)) return false;
+
+        if (getCoord() != null ? !getCoord().equals(field.getCoord()) : field.getCoord() != null) return false;
+        return getTile() == field.getTile();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getCoord() != null ? getCoord().hashCode() : 0;
+        result = 31 * result + (getTile() != null ? getTile().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Field{" +
+                "coord=" + coord +
+                ", tile=" + tile +
+                '}';
     }
 }

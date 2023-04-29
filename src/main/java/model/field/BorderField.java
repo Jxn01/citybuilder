@@ -24,4 +24,9 @@ public class BorderField extends Field {
         super(coord);
         this.tile = Tile.ROCKS;
     }
+
+    @Override
+    public String toString() {
+        return "BorderField{}";
+    }
 }

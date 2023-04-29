@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -270,6 +271,22 @@ public class Person {
         return workplace;
     }
 
+    /**
+     * Getter for the founder
+     * @return true if the person is a founder
+     */
+    public boolean isFounder() {
+        return founder;
+    }
+
+    /**
+     * Setter for the founder
+     * @param founder true if the person is a founder
+     */
+    public void setFounder(boolean founder) {
+        this.founder = founder;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -280,5 +297,17 @@ public class Person {
                 ", workplace=" + workplace +
                 ", founder=" + founder +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person person)) return false;
+        return getAge() == person.getAge() && founder == person.founder && Objects.equals(getName(), person.getName()) && Objects.equals(getEffects(), person.getEffects()) && Objects.equals(getHome(), person.getHome()) && Objects.equals(getWorkplace(), person.getWorkplace());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAge(), getName(), getEffects(), getHome(), getWorkplace(), founder);
     }
 }

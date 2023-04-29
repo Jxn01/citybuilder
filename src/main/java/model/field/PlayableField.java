@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.google.common.base.Objects;
 import controller.GameManager;
 import model.Coordinate;
 import model.buildings.*;
@@ -615,5 +616,31 @@ public class PlayableField extends Field {
      */
     public void setUpgradeLevel(UpgradeLevel upgradeLevel) {
         this.upgradeLevel = upgradeLevel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PlayableField that)) return false;
+        if (!super.equals(o)) return false;
+        return getMaxCapacity() == that.getMaxCapacity() && getMoveInFactor() == that.getMoveInFactor() && getZone() == that.getZone() && getUpgradeLevel() == that.getUpgradeLevel() && Objects.equal(getBuilding(), that.getBuilding());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(super.hashCode(), getMaxCapacity(), getMoveInFactor(), getZone(), getUpgradeLevel(), getBuilding());
+    }
+
+    @Override
+    public String toString() {
+        return "PlayableField{" +
+                "maxCapacity=" + maxCapacity +
+                ", moveInFactor=" + moveInFactor +
+                ", zone=" + zone +
+                ", upgradeLevel=" + upgradeLevel +
+                ", building=" + building +
+                ", coord=" + coord +
+                ", tile=" + tile +
+                '}';
     }
 }

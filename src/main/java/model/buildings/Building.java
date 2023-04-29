@@ -12,6 +12,8 @@ import util.Logger;
 
 import com.github.javafaker.Faker;
 
+import java.util.Objects;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PlayerBuilding.class, name = "playerbuilt"),
@@ -109,5 +111,17 @@ public abstract class Building implements Flammable {
     public void setAddress(String address) {
         Logger.log("Setting address to " + address + " at " + coords.toString());
         this.address = address;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Building building)) return false;
+        return Double.compare(building.getFirePossibility(), getFirePossibility()) == 0 && isOnFire() == building.isOnFire() && Objects.equals(getAddress(), building.getAddress()) && Objects.equals(getCoords(), building.getCoords());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAddress(), getCoords(), getFirePossibility(), isOnFire());
     }
 }

@@ -12,6 +12,7 @@ import util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
@@ -118,6 +119,19 @@ public abstract class GeneratedBuilding extends Building {
      */
     public SaturationRate getSaturationRate() {
         return saturationRate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GeneratedBuilding that)) return false;
+        if (!super.equals(o)) return false;
+        return getPublicSafety() == that.getPublicSafety() && maxCapacity == that.maxCapacity && Objects.equals(getPeople(), that.getPeople()) && getSaturationRate() == that.getSaturationRate();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getPeople(), getSaturationRate(), getPublicSafety(), maxCapacity);
     }
 }
 
