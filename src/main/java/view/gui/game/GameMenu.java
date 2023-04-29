@@ -2,9 +2,7 @@ package view.gui.game;
 
 import view.gui.Game;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**

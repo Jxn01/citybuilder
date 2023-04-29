@@ -1,14 +1,10 @@
 package view.gui.game;
 
 import util.Logger;
-import view.gui.Game;
 import view.components.custom.MyButton;
+import view.gui.Game;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**

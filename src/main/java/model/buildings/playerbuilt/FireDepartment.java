@@ -3,11 +3,9 @@ package model.buildings.playerbuilt;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import controller.GameManager;
 import model.Coordinate;
 import util.Logger;
-import util.ResourceLoader;
-
-import java.io.IOException;
 
 /**
  * This class represents a fire department.
@@ -22,15 +20,10 @@ public class FireDepartment extends RangedBuilding {
      * @param coords is the coordinates of the fire department
      */
     public FireDepartment(Coordinate coords) {
-        super(coords, 0.0, false, 0, 0, 0);
+        super(coords, 0.0, false, GameManager.getFireStationBuildCost(), GameManager.getFireStationMaintenanceCost(), GameManager.getFireStationRange());
 
-        firePossibility = 0.0;
-        buildCost = 10000;
-        maintenanceCost = 2500;
-        range = 10; //TODO: Change this
-
-        this.maxFireTrucks = 10;
-        this.availableFireTrucks = 10;
+        this.maxFireTrucks = GameManager.getMaxFiretrucks();
+        this.availableFireTrucks = GameManager.getMaxFiretrucks();
 
         Logger.log("Fire department created at " + coords.toString());
     }

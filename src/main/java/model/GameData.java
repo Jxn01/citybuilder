@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import controller.GameManager;
 import model.field.BorderField;
 import model.field.Field;
 import model.field.PlayableField;
@@ -19,17 +20,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static util.Date.*;
+import static util.Date.getDate;
+import static util.Date.getLongDate;
 
 /**
  * This class contains all the data that is needed to save the game.
  */
 public class GameData {
-    private final int starterMapSize = 51;
-    private final int starterPeople = 50;
-    private final int starterBudget = 100000;
-    private final int starterTaxes = 1000;
     private String id;
     private String startDate;
     private String currentDate;
@@ -91,12 +90,12 @@ public class GameData {
      *
      * @param cityName the name of the city
      */
-    public GameData(String cityName) {
+    public GameData(String cityName, int starterBudget, int starterTaxes, int starterPeople, int starterMapSize) {
         this.id = ("game_data_" + getLongDate(System.currentTimeMillis())).replaceAll("[\\s-:]", "_");
         this.startDate = getLongDate(System.currentTimeMillis());
         this.currentDate = getLongDate(System.currentTimeMillis());
-        this.inGameStartDate = getDate(System.currentTimeMillis());
-        this.inGameCurrentDate = getDate(System.currentTimeMillis());
+        this.inGameStartDate = getDate(0);
+        this.inGameCurrentDate = getDate(0);
         this.playTime = "00:00:01";
         budget = starterBudget;
         this.cityName = cityName;
@@ -133,16 +132,6 @@ public class GameData {
      */
     public String getStartDate() {
         return startDate;
-    }
-
-    /**
-     * Setter for the start date
-     *
-     * @param startDate the start date
-     */
-    public void setStartDate(String startDate) {
-        Logger.log("Game data " + this.id + " start date set to: " + startDate);
-        this.startDate = startDate;
     }
 
     /**
@@ -344,21 +333,12 @@ public class GameData {
      * @return the playable fields
      */
     public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
-        ArrayList<PlayableField> result = new ArrayList<>();
-
-        for (int i = 0; i < starterMapSize; i++) {
-            for (int j = 0; j < starterMapSize; j++) {
-
-                if (fields[i][j] instanceof PlayableField) {
-                    if (((PlayableField) fields[i][j]).getBuilding() != null) {
-                        result.add((PlayableField) fields[i][j]);
-                    }
-                }
-
-            }
-        }
-
-        return result;
+        return  ((ArrayList<PlayableField>)Arrays.stream(fields)
+                .flatMap(Arrays::stream)
+                .filter(f -> f instanceof PlayableField)
+                .map(f -> (PlayableField) f)
+                .filter(f -> f.getBuilding() != null)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -461,12 +441,8 @@ public class GameData {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("GameData{" +
-                "starterMapSize=" + starterMapSize +
-                ", starterPeople=" + starterPeople +
-                ", starterBudget=" + starterBudget +
-                ", starterTaxes=" + starterTaxes +
-                ", id='" + id + '\'' +
+        return "GameData{" +
+                "id='" + id + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", currentDate='" + currentDate + '\'' +
                 ", inGameStartDate='" + inGameStartDate + '\'' +
@@ -477,15 +453,11 @@ public class GameData {
                 ", gameOver=" + gameOver +
                 ", saveFile=" + saveFile +
                 ", yearlyTaxes=" + yearlyTaxes +
-                ", averageSatisfaction=" + averageSatisfaction);
-
-        for (int i = 0; i < starterMapSize; i++) {
-            for (int j = 0; j < starterMapSize; j++) {
-                result.append(", fields[").append(i).append("][").append(j).append("]=").append(fields[i][j].toString());
-            }
-        }
-        result.append(", graph=").append(graph).append(", people=").append(people).append('}');
-        return result.toString();
+                ", averageSatisfaction=" + averageSatisfaction +
+                ", fields=" + Arrays.toString(fields) +
+                ", graph=" + graph +
+                ", people=" + people +
+                '}';
     }
 
     @Override
@@ -493,8 +465,8 @@ public class GameData {
         if (this == o) return true;
         if (!(o instanceof GameData gameData)) return false;
         boolean fieldsEqual = false;
-        for (int i = 0; i < starterMapSize; i++) {
-            for (int j = 0; j < starterMapSize; j++) {
+        for (int i = 0; i < GameManager.getStarterMapSize(); i++) {
+            for (int j = 0; j < GameManager.getStarterMapSize(); j++) {
                 if (fields[i][j].equals(gameData.fields[i][j])) {
                     fieldsEqual = true;
                 } else {
@@ -503,11 +475,11 @@ public class GameData {
                 }
             }
         }
-        return starterMapSize == gameData.starterMapSize && starterPeople == gameData.starterPeople && starterBudget == gameData.starterBudget && starterTaxes == gameData.starterTaxes && getBudget() == gameData.getBudget() && isGameOver() == gameData.isGameOver() && getYearlyTaxes() == gameData.getYearlyTaxes() && getAverageSatisfaction() == gameData.getAverageSatisfaction() && Objects.equal(getId(), gameData.getId()) && Objects.equal(getStartDate(), gameData.getStartDate()) && Objects.equal(getCurrentDate(), gameData.getCurrentDate()) && Objects.equal(getInGameStartDate(), gameData.getInGameStartDate()) && Objects.equal(getInGameCurrentDate(), gameData.getInGameCurrentDate()) && Objects.equal(getPlayTime(), gameData.getPlayTime()) && Objects.equal(getCityName(), gameData.getCityName()) && Objects.equal(getSaveFile(), gameData.getSaveFile()) && Objects.equal(getGraph(), gameData.getGraph()) && Objects.equal(getPeople(), gameData.getPeople()) && fieldsEqual;
+        return getBudget() == gameData.getBudget() && isGameOver() == gameData.isGameOver() && getYearlyTaxes() == gameData.getYearlyTaxes() && getAverageSatisfaction() == gameData.getAverageSatisfaction() && Objects.equal(getId(), gameData.getId()) && Objects.equal(getStartDate(), gameData.getStartDate()) && Objects.equal(getCurrentDate(), gameData.getCurrentDate()) && Objects.equal(getInGameStartDate(), gameData.getInGameStartDate()) && Objects.equal(getInGameCurrentDate(), gameData.getInGameCurrentDate()) && Objects.equal(getPlayTime(), gameData.getPlayTime()) && Objects.equal(getCityName(), gameData.getCityName()) && Objects.equal(getSaveFile(), gameData.getSaveFile()) && Objects.equal(getGraph(), gameData.getGraph()) && Objects.equal(getPeople(), gameData.getPeople()) && fieldsEqual;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(starterMapSize, starterPeople, starterBudget, starterTaxes, getId(), getStartDate(), getCurrentDate(), getInGameStartDate(), getInGameCurrentDate(), getPlayTime(), getBudget(), getCityName(), isGameOver(), getSaveFile(), getYearlyTaxes(), getAverageSatisfaction(), getFields(), getGraph(), getPeople());
+        return Objects.hashCode(getId(), getStartDate(), getCurrentDate(), getInGameStartDate(), getInGameCurrentDate(), getPlayTime(), getBudget(), getCityName(), isGameOver(), getSaveFile(), getYearlyTaxes(), getAverageSatisfaction(), getFields(), getGraph(), getPeople());
     }
 }

@@ -1,12 +1,13 @@
 package view.gui.mainmenu;
 
-import java.awt.*;
-import java.io.IOException;
-import static java.lang.Thread.sleep;
-
 import util.ResourceLoader;
 import view.components.Panel;
 import view.enums.MenuState;
+
+import java.awt.*;
+import java.io.IOException;
+
+import static java.lang.Thread.sleep;
 
 /**
  * This class implements the intro animation

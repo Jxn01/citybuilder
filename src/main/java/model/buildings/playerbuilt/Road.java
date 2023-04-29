@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import controller.GameManager;
 import model.Coordinate;
 import util.Logger;
-import util.ResourceLoader;
-
-import java.io.IOException;
 
 @JsonTypeName("road")
 public class Road extends PlayerBuilding {
@@ -19,10 +17,7 @@ public class Road extends PlayerBuilding {
      * @param coords is the coordinates of the road
      */
     public Road(Coordinate coords) {
-        super(coords, 0.0, false, 0, 0);
-
-        buildCost = 500;
-        maintenanceCost = 125;
+        super(coords, 0.0, false, GameManager.getRoadBuildCost(), GameManager.getRoadMaintenanceCost());
 
         Logger.log("Road created at " + coords.toString());
     }

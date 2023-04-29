@@ -1,10 +1,5 @@
 package view.gui.mainmenu;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
@@ -12,6 +7,11 @@ import view.components.custom.MyButton;
 import view.components.custom.MyRadioButton;
 import view.components.custom.MyRadioButtonGroup;
 import view.enums.MenuState;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * The gui representation of the LoadGame submenu

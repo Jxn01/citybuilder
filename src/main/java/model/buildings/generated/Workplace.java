@@ -30,7 +30,7 @@ public abstract class Workplace extends GeneratedBuilding {
      * @param publicSafety is the public safety of the workplace
      */
     @JsonCreator
-    public Workplace(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety, @JsonProperty("maxCapacity") int maxCapacity) {
-        super(coords, firePossibility, isOnFire, people, saturationRate, publicSafety, maxCapacity);
+    public Workplace(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
+        super(coords, firePossibility, isOnFire, people, saturationRate, publicSafety);
     }
 }

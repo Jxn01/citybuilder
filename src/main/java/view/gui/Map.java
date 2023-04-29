@@ -1,24 +1,19 @@
 package view.gui;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.io.IOException;
-
 import controller.GameManager;
+import model.enums.UpgradeLevel;
 import model.enums.Zone;
+import model.field.Field;
+import model.field.PlayableField;
 import util.Logger;
 import util.ResourceLoader;
 import view.components.custom.MyButton;
 import view.enums.Tile;
-import model.field.*;
 
-import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import static model.field.PlayableField.canBuildThere;
 
@@ -31,13 +26,26 @@ public class Map {
     private Tile selectedBuildingType;
     private Point selectedTile;
     private Field[][] fields;
-    
+    private Rectangle drawnMenuRectangle = new Rectangle(0, 0, 0, 0);
+    private MyButton upgradeBtn = new MyButton(0, 0, 0, 0, "upgrade");
+
     /**
      * Constructor of the Map class
      * @param game is the main Game object
      */
     public Map(Game game) {
         this.game = game;
+
+        game.getPanel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) { // right click
+                    selectedBuildingType = null;
+                }
+            }
+        });
+
+        game.getMenuAreas().add(drawnMenuRectangle);
         try {
             rocks = ResourceLoader.loadImage("PATHROCKS.png");
             grass_1 = ResourceLoader.loadImage("GRASS_1.png");
@@ -135,27 +143,46 @@ public class Map {
     }
 
     /**
+     * Upgrade the selected building
+     * @param x is the x index of the field
+     * @param y is the y index of the field
+     */
+    public void upgrade(int x, int y) {
+        try {
+            ((PlayableField) fields[x][y]).upgrade();
+            selectedTile = null;
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+    }
+
+    /**
      * Draw the selected tile on the screen
      * @param p is the point where the user clicked
      */
     public void click(Point p) {
-        if(submenuHovered(p)) {
-            selectedTile = null;
-        } else {
-            Point click = pointToXY(p);
-            if (selectedBuildingType != null && p.y < game.height() - 40) {
-                if (selectedBuildingType != Tile.GRASS_1) {
-                    if(canBuildThere(click.x, click.y, selectedBuildingType)) build(click.x, click.y, selectedBuildingType);
-                } else {
-                    build(click.x, click.y, selectedBuildingType);
-                }
-            } else if (selectedTile == null) {
-                selectedTile = click;
-            } else if (selectedTile.equals(click)) {
+        if(!drawnMenuRectangle.contains(p)){
+            if(submenuHovered(p)) {
                 selectedTile = null;
             } else {
-                selectedTile = click;
+                Point click = pointToXY(p);
+                if (selectedBuildingType != null && p.y < game.height() - 40) {
+                    if (selectedBuildingType != Tile.GRASS_1) {
+                        if(canBuildThere(click.x, click.y, selectedBuildingType)) build(click.x, click.y, selectedBuildingType);
+                    } else {
+                        build(click.x, click.y, selectedBuildingType);
+                    }
+                } else if (selectedTile == null) {
+                    selectedTile = click;
+                } else if (selectedTile.equals(click)) {
+                    selectedTile = null;
+                } else {
+                    selectedTile = click;
+                }
             }
+        } else if(upgradeBtn.rect.contains(p)){
+            Point click = pointToXY(p);
+            upgrade(click.x, click.y);
         }
     }
 
@@ -220,10 +247,14 @@ public class Map {
         if(selectedTile != null) {
             Field field = fields[selectedTile.x][selectedTile.y];
             if(field instanceof PlayableField && ((PlayableField) field).getBuilding() != null) {
-                gr.setColor(Color.CYAN);
-                gr.setStroke(new BasicStroke(5));
+
                 int cameraOffsetX = game.getCameraOffsetX();
                 int cameraOffsetY = game.getCameraOffsetY();
+
+                setRectangleAttributes(selectedTile.y * 64 + cameraOffsetX - 64 * 2, selectedTile.x * 64 + cameraOffsetY - 64 * 3, 64 * 5, 64 * 3);
+
+                gr.setColor(Color.CYAN);
+                gr.setStroke(new BasicStroke(5));
                 gr.drawRect(selectedTile.y * 64 + cameraOffsetX, selectedTile.x * 64 + cameraOffsetY, 64, 64);
 
                 gr.setColor(Color.WHITE);
@@ -240,12 +271,44 @@ public class Map {
                     gr.drawString(statsArray[i - 1], x, y + 30 * i);
                 }
 
-                MyButton upgradeBtn = new MyButton(x, y + 140, 80, 40, "upgrade");
-                MyButton delBtn = new MyButton(x + 100, y + 140, 80, 40, "delTile");
-                upgradeBtn.draw(gr, game.getMousePosition());
-                delBtn.draw(gr, game.getMousePosition());
+                if(((PlayableField) field).getZone() != null && ((PlayableField) field).getUpgradeLevel() != UpgradeLevel.METROPOLIS){
+                    setUpgradeButtonAttributes(x, y + 140, 80, 40);
+                    upgradeBtn.draw(gr, game.getMousePosition());
+                }
+            } else {
+                setRectangleAttributes(0, 0, 0, 0);
             }
+        } else {
+            setRectangleAttributes(0, 0, 0, 0);
         }
+    }
+
+    /**
+     * Sets the attributes of the upgrade button
+     * @param x is the x coordinate of the button
+     * @param y is the y coordinate of the button
+     * @param width is the width of the button
+     * @param height is the height of the button
+     */
+    private void setUpgradeButtonAttributes(int x, int y, int width, int height){
+        upgradeBtn.setX(x);
+        upgradeBtn.setY(y);
+        upgradeBtn.setWidth(width);
+        upgradeBtn.setHeight(height);
+    }
+
+    /**
+     * Sets the attributes of the rectangle that is used to draw the logical part of the context menu
+     * @param x is the x coordinate of the rectangle
+     * @param y is the y coordinate of the rectangle
+     * @param width is the width of the rectangle
+     * @param height is the height of the rectangle
+     */
+    private void setRectangleAttributes(int x, int y, int width, int height){
+        drawnMenuRectangle.x = x;
+        drawnMenuRectangle.y = y;
+        drawnMenuRectangle.width = width;
+        drawnMenuRectangle.height = height;
     }
 
     /**
@@ -288,7 +351,6 @@ public class Map {
         return false;
     }
 
-
     private Image tileToImg(Tile tile) {
         Image img = null;
         switch(tile) {
@@ -322,5 +384,3 @@ public class Map {
         return img;
     }
 }
-
-

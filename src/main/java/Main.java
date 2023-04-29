@@ -1,7 +1,4 @@
-import util.Logger;
 import view.components.GameGUI;
-
-import java.io.File;
 
 public class Main {
 

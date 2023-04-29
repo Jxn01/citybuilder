@@ -1,16 +1,12 @@
 package model.buildings;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
+import com.github.javafaker.Faker;
 import model.Coordinate;
 import model.buildings.generated.GeneratedBuilding;
 import model.buildings.interfaces.Flammable;
 import model.buildings.playerbuilt.PlayerBuilding;
 import util.Logger;
-
-import com.github.javafaker.Faker;
 
 import java.util.Objects;
 
@@ -111,6 +107,24 @@ public abstract class Building implements Flammable {
     public void setAddress(String address) {
         Logger.log("Setting address to " + address + " at " + coords.toString());
         this.address = address;
+    }
+
+    /**
+     * Gets the x coordinate of the building
+     * @return the x coordinate of the building
+     */
+    @JsonIgnore
+    public int getX(){
+        return coords.getX();
+    }
+
+    /**
+     * Gets the y coordinate of the building
+     * @return the y coordinate of the building
+     */
+    @JsonIgnore
+    public int getY(){
+        return coords.getY();
     }
 
     @Override

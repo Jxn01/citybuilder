@@ -1,18 +1,17 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.javafaker.Faker;
-import util.Logger;
-
 import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
 import model.enums.Effect;
+import util.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * This class represents a person in the game

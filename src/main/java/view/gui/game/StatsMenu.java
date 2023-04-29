@@ -1,15 +1,18 @@
 package view.gui.game;
 
+import controller.GameManager;
+import model.GameData;
+import model.Person;
+import model.buildings.playerbuilt.*;
+import model.field.PlayableField;
 import util.Logger;
-import view.gui.Game;
 import view.components.custom.MyButton;
+import view.gui.Game;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class implements the statistics menu of the game gui
@@ -29,7 +32,7 @@ public class StatsMenu extends GameMenu {
 
         this.game = game;
         xBtn = new MyButton(1228, 50, 40, 40, "x");
-        statMenuArea = new Rectangle(268, 50, 1000, 690);
+        statMenuArea = new Rectangle(268, 50, 1000, 850);
         statsMenuColor = Color.white;
     }
     
@@ -41,37 +44,70 @@ public class StatsMenu extends GameMenu {
     public void draw(Graphics2D gr) {
         if(getIsOpen()) {
             paintStatsMenuArea(gr);
+            GameData gd = GameManager.getGameData();
 
             xBtn.draw(gr, game.getMousePosition());
+
+            List<PlayableField> l = Arrays.stream(gd.getFields())
+                    .flatMap(Arrays::stream)
+                    .filter(f -> f instanceof PlayableField)
+                    .map(f -> (PlayableField) f).toList();
+
+            int tax = gd.getYearlyTaxes();
+            int retired = (int) gd.getPeople().stream().filter(Person::isRetired).count();
+            int working = (int) gd.getPeople().stream().filter(p -> !p.isRetired()).count();
+            int homeless = (int) gd.getPeople().stream().filter(p -> p.getHome() == null).count();
+            int unemployed = (int) gd.getPeople().stream().filter(p -> p.getWorkplace() == null).count();
+            int employed = (int) gd.getPeople().stream().filter(p -> p.getWorkplace() != null).count();
+            int total = gd.getPeople().size();
+            int founders = (int) gd.getPeople().stream().filter(Person::isFounder).count();
+            int nonFounders = total - founders;
+
+            int stadiums = (int) l.stream().filter(f -> f.getBuilding() instanceof Stadium).count();
+            int stadiumMaintenance = GameManager.getStadiumMaintenanceCost();
+            int fireDepartments = (int) l.stream().filter(f -> f.getBuilding() instanceof FireDepartment).count();
+            int fireDepartmentMaintenance = GameManager.getFireStationMaintenanceCost();
+            int policeStations = (int) l.stream().filter(f -> f.getBuilding() instanceof PoliceStation).count();
+            int policeStationMaintenance = GameManager.getPoliceMaintenanceCost();
+            int babyForests = (int) l.stream().filter(f -> f.getBuilding() instanceof Forest).map(Forest.class::cast).filter(f -> f.getGrowStage() < f.getGrowTime()).count();
+            int forestMaintenance = GameManager.getForestMaintenanceCost();
+            int grownForests = (int) l.stream().filter(f -> f.getBuilding() instanceof Forest).map(Forest.class::cast).filter(f -> f.getGrowStage() >= f.getGrowTime()).count();
+            int roads = (int) l.stream().filter(f -> f.getBuilding() instanceof Road).count();
+            int roadMaintenance = GameManager.getRoadMaintenanceCost();
 
             gr.setColor(Color.black);
             gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
             gr.drawString("Statisztikák", 700, 80);
 
             gr.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-            gr.drawString("Bevételek", 278, 120);
-            gr.drawString("- Bevétel1: ababababababababababababab", 278, 160);
-            gr.drawString("- Bevétel2: ababababababababababababab", 278, 200);
-            gr.drawString("- Bevétel3: ababababababababababababab", 278, 240);
-            gr.drawString("- Bevétel4: ababababababababababababab", 800, 160);
-            gr.drawString("- Bevétel5: ababababababababababababab", 800, 200);
-            gr.drawString("- Bevétel6: ababababababababababababab", 800, 240);
+            gr.drawString("Általános játék statisztikák", 278, 120);
+            gr.drawString("- A játék kezdete: " + gd.getStartDate(), 278, 160);
+            gr.drawString("- A Város alapításának dátuma: " + gd.getInGameStartDate(), 278, 200);
+            gr.drawString("- Eddig a Város igazgatásával eltöltött időd: " + gd.getPlayTime(), 278, 240);
+            gr.drawString("- Város név: " + gd.getCityName(), 790, 160);
+            gr.drawString("- A jelenlegi dátum: " + gd.getInGameCurrentDate(), 790, 200);
 
-            gr.drawString("Kiadások", 278, 320);
-            gr.drawString("- Kiadás1: ababababababababababababab", 278, 360);
-            gr.drawString("- Kiadás2: ababababababababababababab", 278, 400);
-            gr.drawString("- Kiadás3: ababababababababababababab", 278, 440);
-            gr.drawString("- Kiadás4: ababababababababababababab", 800, 360);
-            gr.drawString("- Kiadás5: ababababababababababababab", 800, 400);
-            gr.drawString("- Kiadás6: ababababababababababababab", 800, 440);
+            gr.drawString("A Város statisztikái:", 278, 320);
+            gr.drawString("- Teljes populáció: " + total + " fő", 278, 360);
+            gr.drawString("- Nyugdíjasok száma: " + retired + " fő", 278, 400);
+            gr.drawString("- Munkaképes életkorúak száma: " + working + " fő", 278, 440);
+            gr.drawString("- Foglalkoztatottak száma: " + employed + " fő", 278, 480);
+            gr.drawString("- Hajléktalanok száma: " + homeless + " fő", 790, 360);
+            gr.drawString("- Munkanélküliek száma: " + unemployed + " fő", 790, 400);
+            gr.drawString("- Alapítók száma: " + founders + " fő", 790, 440);
+            gr.drawString("- Bevándoroltak száma: " + nonFounders + " fő", 790, 480);
 
-            gr.drawString("Építési adatok", 278, 520);
-            gr.drawString("- Építési adat1: ababababababababababababab", 278, 560);
-            gr.drawString("- Építési adat2: ababababababababababababab", 278, 600);
-            gr.drawString("- Építési adat3: ababababababababababababab", 278, 640);
-            gr.drawString("- Építési adat4: ababababababababababababab", 800, 560);
-            gr.drawString("- Építési adat5: ababababababababababababab", 800, 600);
-            gr.drawString("- Építési adat6: ababababababababababababab", 800, 640);
+            gr.drawString("Éves bevételek és kiadások:", 278, 560);
+            gr.drawString("- Éves adó: " + employed + " fő * +" + tax + "$", 278, 600);
+            gr.drawString("- Éves nyugdíj: " + retired + " fő * -" + tax + "$", 790, 600);
+
+            gr.drawString("Épület adatok:", 278, 680);
+            gr.drawString("- Stadionok száma: " + stadiums + " (karbantartás: " + stadiums + " * -" + stadiumMaintenance + "$)", 278, 720);
+            gr.drawString("- Tűzoltóságok száma: " + fireDepartments + " (karbantartás: " + fireDepartments + " * -" + fireDepartmentMaintenance + "$)", 278, 760);
+            gr.drawString("- Rendőrségek száma: " + policeStations + " (karbantartás: " + policeStations + " * -" + policeStationMaintenance + "$)", 790, 720);
+            gr.drawString("- Csemete erdők száma: " + babyForests + " (karbantartás: " + babyForests + " * -" + forestMaintenance + "$)", 790, 760);
+            gr.drawString("- Utak száma: " + roads + " (karbantartás: " + roads + " * -" + roadMaintenance + "$)", 278, 800);
+            gr.drawString("- Kifejlett erdők száma: " + grownForests + " (karbantartás: nincs)", 790, 800);
         }
     }
     

@@ -3,14 +3,11 @@ package view.gui.game;
 import controller.GameManager;
 import model.GameData;
 import util.Logger;
-import view.gui.Game;
-import view.enums.MenuState;
 import view.components.custom.MyButton;
+import view.enums.MenuState;
+import view.gui.Game;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**

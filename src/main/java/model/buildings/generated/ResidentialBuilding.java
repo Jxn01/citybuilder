@@ -20,20 +20,19 @@ public class ResidentialBuilding extends GeneratedBuilding {
      * @param coords is the coordinates of the residential building
      */
     public ResidentialBuilding(Coordinate coords) {
-        super(coords, 0.0, false, null, null, 0, 0);
+        super(coords, 0.0, false, null, null, 0);
 
         firePossibility = 0.1;
         people = new ArrayList<>();
         saturationRate = SaturationRate.EMPTY;
         publicSafety = 100;
-        maxCapacity = 20;
 
         Logger.log("Residential building created at " + coords.toString());
     }
 
     @JsonCreator
-    public ResidentialBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety, @JsonProperty("maxCapacity") int maxCapacity) {
-        super(coords, firePossibility, isOnFire, people, saturationRate, publicSafety, maxCapacity);
+    public ResidentialBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
+        super(coords, firePossibility, isOnFire, people, saturationRate, publicSafety);
     }
 
     public void addPerson(Person person) throws RuntimeException {

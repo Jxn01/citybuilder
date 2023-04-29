@@ -10,7 +10,7 @@ public class PersistanceTest {
     @Test
     public void saveAndLoadTest(){
         GameManager gm = new GameManager();
-        GameData gd1 = new GameData("testcity");
+        GameData gd1 = new GameData("testcity", GameManager.getStarterBudget(), GameManager.getStarterTaxes(), GameManager.getStarterPeople(), GameManager.getStarterMapSize());
         gd1.calculateAverageSatisfaction();
         gm.setGameData(gd1);
         Assertions.assertDoesNotThrow(() -> gm.saveGame(GameManager.getGameData()), "saveGame() should not throw an exception");

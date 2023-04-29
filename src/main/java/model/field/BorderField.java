@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.Coordinate;
 import view.enums.Tile;
 
-import static util.ResourceLoader.*;
-import java.io.IOException;
-
 /**
  * This class represents a border field on the map
  */

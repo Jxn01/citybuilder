@@ -1,7 +1,5 @@
 package view.components.custom;
 
-import view.components.custom.MyRadioButton;
-
 import java.awt.*;
 import java.util.ArrayList;
 

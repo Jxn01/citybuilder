@@ -6,11 +6,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import model.Coordinate;
 import model.buildings.Building;
-import model.field.BorderField;
-import model.field.PlayableField;
 import util.Logger;
-
-import java.awt.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({

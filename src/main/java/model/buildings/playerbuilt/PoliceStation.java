@@ -3,11 +3,9 @@ package model.buildings.playerbuilt;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import controller.GameManager;
 import model.Coordinate;
 import util.Logger;
-import util.ResourceLoader;
-
-import java.io.IOException;
 
 public class PoliceStation extends RangedBuilding {
 
@@ -17,13 +15,7 @@ public class PoliceStation extends RangedBuilding {
      * @param coords is the coordinates of the police station
      */
     public PoliceStation(Coordinate coords) {
-        super(coords, 0.0, false, 0, 0, 0);
-
-        firePossibility = 0.1;
-        buildCost = 5000;
-        maintenanceCost = 1250;
-        range = 10; //TODO: Change this
-
+        super(coords, GameManager.getFirePossibility(), false, GameManager.getPoliceBuildCost(), GameManager.getPoliceMaintenanceCost(), GameManager.getPoliceRange());
         Logger.log("Police station created at " + coords.toString());
     }
 

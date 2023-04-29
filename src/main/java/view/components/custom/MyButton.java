@@ -80,4 +80,20 @@ public class MyButton {
     public void setY(int y) {
         rect.y = y;
     }
+
+    /**
+     * Set the width of the button
+     * @param width is the width
+     */
+    public void setWidth(int width) {
+        rect.width = width;
+    }
+
+    /**
+     * Set the height of the button
+     * @param height is the height
+     */
+    public void setHeight(int height) {
+        rect.height = height;
+    }
 }

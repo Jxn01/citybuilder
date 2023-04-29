@@ -1,14 +1,14 @@
 package view.gui.mainmenu;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
 import view.components.custom.MyButton;
 import view.enums.MenuState;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * This class implements the GUI of the tutorial submenu

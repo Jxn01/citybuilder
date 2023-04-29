@@ -3,11 +3,9 @@ package model.buildings.playerbuilt;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import controller.GameManager;
 import model.Coordinate;
 import util.Logger;
-import util.ResourceLoader;
-
-import java.io.IOException;
 
 /**
  * This class represents a forest.
@@ -22,14 +20,9 @@ public class Forest extends RangedBuilding {
      * @param coords is the coordinates of the forest
      */
     public Forest(Coordinate coords) {
-        super(coords, 0.0, false, 0, 0, 0);
+        super(coords, GameManager.getFirePossibility(), false, GameManager.getForestBuildCost(), GameManager.getForestMaintenanceCost(), GameManager.getForestRange());
 
-        firePossibility = 0.1;
-        buildCost = 1000;
-        maintenanceCost = 250;
-        range = 10; //TODO: Change this
-
-        this.growTime = 10;
+        this.growTime = GameManager.getForestGrowthTime();
         this.growStage = 0;
 
         Logger.log("Forest created at " + coords.toString());

@@ -1,12 +1,11 @@
 package model.buildings.playerbuilt;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import controller.GameManager;
 import model.Coordinate;
 import util.Logger;
-import util.ResourceLoader;
-
-import java.io.IOException;
 
 
 public class Stadium extends RangedBuilding {
@@ -23,16 +22,11 @@ public class Stadium extends RangedBuilding {
      * @param bottomRightCoords is the bottom right coordinates of the stadium
      */
     public Stadium(Coordinate topLeftCoords, Coordinate topRightCoords, Coordinate bottomLeftCoords, Coordinate bottomRightCoords) {
-        super(topLeftCoords, 0.0, false, 0, 0, 0);
+        super(topLeftCoords, GameManager.getFirePossibility(), false, GameManager.getStadiumBuildCost(), GameManager.getStadiumMaintenanceCost(), GameManager.getStadiumRange());
 
         this.topRightCoords = topRightCoords;
         this.bottomLeftCoords = bottomLeftCoords;
         this.bottomRightCoords = bottomRightCoords;
-
-        buildCost = 20000;
-        maintenanceCost = 5000;
-        range = 10; //TODO: Change this
-
 
         Logger.log("Stadium created at " + coords.toString());
     }

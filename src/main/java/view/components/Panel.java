@@ -4,17 +4,14 @@ import controller.GameManager;
 import view.enums.MenuState;
 import view.gui.Game;
 import view.gui.NewGame;
-import view.gui.mainmenu.*;
+import view.gui.mainmenu.Intro;
+import view.gui.mainmenu.LoadGame;
+import view.gui.mainmenu.MainMenu;
+import view.gui.mainmenu.Tutorial;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 /**
  * The 'canvas' of the game, where all the submenus are drawn
@@ -64,13 +61,15 @@ public class Panel extends JPanel implements ActionListener {
         //CLICK EVENT
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent me) {
-                switch(state) {
-                    case MAINMENU -> mainMenu.click(me.getPoint());
-                    case TUTORIAL -> tutorial.click(me.getPoint());
-                    case NEWGAME -> newGame.click(me.getPoint());
-                    case LOADGAME -> loadGame.click(me.getPoint());
-                    case GAME -> game.click(me.getPoint());
+            public void mouseClicked (MouseEvent me) {
+                if (me.getButton() == MouseEvent.BUTTON1) {
+                    switch(state) {
+                        case MAINMENU -> mainMenu.click(me.getPoint());
+                        case TUTORIAL -> tutorial.click(me.getPoint());
+                        case NEWGAME -> newGame.click(me.getPoint());
+                        case LOADGAME -> loadGame.click(me.getPoint());
+                        case GAME -> game.click(me.getPoint());
+                    }
                 }
             }
         });

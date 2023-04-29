@@ -1,14 +1,13 @@
 package model.field;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import model.Coordinate;
 import view.enums.Tile;
 
-import java.awt.*;
-import java.util.Objects;
 import java.util.Random;
-
-import static util.ResourceLoader.loadImage;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({

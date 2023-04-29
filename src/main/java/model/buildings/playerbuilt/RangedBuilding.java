@@ -5,12 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import model.Coordinate;
-import model.buildings.generated.GeneratedBuilding;
 import model.buildings.interfaces.FunctionalBuilding;
-import model.field.BorderField;
-import model.field.PlayableField;
-
-import java.awt.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({

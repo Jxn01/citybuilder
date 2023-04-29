@@ -2,15 +2,13 @@ package view.gui;
 
 import view.components.Panel;
 
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
+
 import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
-import javax.swing.KeyStroke;
 
 
 /**

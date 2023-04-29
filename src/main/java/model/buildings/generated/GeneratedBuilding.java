@@ -1,9 +1,10 @@
 package model.buildings.generated;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import controller.GameManager;
 import model.Coordinate;
 import model.Person;
 import model.buildings.Building;
@@ -41,12 +42,12 @@ public abstract class GeneratedBuilding extends Building {
      * @param maxCapacity is the maximum capacity of the building
      */
     @JsonCreator
-    public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety, @JsonProperty("maxCapacity") int maxCapacity) {
+    public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
         super(coords, firePossibility, isOnFire);
         this.people = people;
         this.saturationRate = saturationRate;
         this.publicSafety = publicSafety;
-        this.maxCapacity = maxCapacity;
+        this.maxCapacity = GameManager.getLevelOneMaxCapacity();
     }
 
     /**

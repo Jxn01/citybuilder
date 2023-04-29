@@ -6,20 +6,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Objects;
 import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import controller.GameManager;
 import model.Coordinate;
-import model.buildings.*;
-import model.buildings.generated.*;
+import model.buildings.Building;
+import model.buildings.generated.GeneratedBuilding;
+import model.buildings.generated.IndustrialWorkplace;
+import model.buildings.generated.ResidentialBuilding;
+import model.buildings.generated.ServiceWorkplace;
 import model.buildings.playerbuilt.*;
 import model.enums.UpgradeLevel;
 import model.enums.Zone;
 import util.Logger;
 import view.enums.Tile;
-
-import java.util.Arrays;
-import java.util.Set;
 
 /**
  * This class represents a field on the map
@@ -27,7 +26,6 @@ import java.util.Set;
 
 @JsonTypeName("playable")
 public class PlayableField extends Field {
-    private int maxCapacity;
     private int moveInFactor;
     private Zone zone;
     private UpgradeLevel upgradeLevel;
@@ -42,9 +40,8 @@ public class PlayableField extends Field {
     }
 
     @JsonCreator
-    public PlayableField(@JsonProperty("coord") Coordinate coord, @JsonProperty("tile") Tile tile, @JsonProperty("maxCapacity") int maxCapacity, @JsonProperty("moveInFactor") int moveInFactor, @JsonProperty("zone") Zone zone, @JsonProperty("upgradeLevel") UpgradeLevel upgradeLevel, @JsonProperty("building") Building building) {
+    public PlayableField(@JsonProperty("coord") Coordinate coord, @JsonProperty("tile") Tile tile, @JsonProperty("moveInFactor") int moveInFactor, @JsonProperty("zone") Zone zone, @JsonProperty("upgradeLevel") UpgradeLevel upgradeLevel, @JsonProperty("building") Building building) {
         super(coord, tile);
-        this.maxCapacity = maxCapacity;
         this.moveInFactor = moveInFactor;
         this.zone = zone;
         this.upgradeLevel = upgradeLevel;
@@ -68,12 +65,21 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to ResidentialBuilding!");
 
                     building = new ResidentialBuilding(coord);
-                    ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
+
 
                     switch(upgradeLevel) {
-                        case TOWN -> tile = Tile.HOUSE_1;
-                        case CITY -> tile = Tile.HOUSE_2;
-                        case METROPOLIS -> tile = Tile.HOUSE_3;
+                        case TOWN -> {
+                            tile = Tile.HOUSE_1;
+                            ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelOneMaxCapacity());
+                        }
+                        case CITY -> {
+                            tile = Tile.HOUSE_2;
+                            ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelTwoMaxCapacity());
+                        }
+                        case METROPOLIS -> {
+                            tile = Tile.HOUSE_3;
+                            ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelThreeMaxCapacity());
+                        }
                     }
                 }
 
@@ -81,12 +87,20 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to IndustrialWorkplace!");
 
                     building = new IndustrialWorkplace(coord);
-                    ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
 
                     switch(upgradeLevel) {
-                        case TOWN -> tile = Tile.FACTORY_1;
-                        case CITY -> tile = Tile.FACTORY_2;
-                        case METROPOLIS -> tile = Tile.FACTORY_3;
+                        case TOWN -> {
+                            tile = Tile.FACTORY_1;
+                            ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelOneMaxCapacity());
+                        }
+                        case CITY -> {
+                            tile = Tile.FACTORY_2;
+                            ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelTwoMaxCapacity());
+                        }
+                        case METROPOLIS -> {
+                            tile = Tile.FACTORY_3;
+                            ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelThreeMaxCapacity());
+                        }
                     }
                 }
 
@@ -94,12 +108,20 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to ServiceWorkplace!");
 
                     building = new ServiceWorkplace(coord);
-                    ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
 
                     switch(upgradeLevel) {
-                        case TOWN -> tile = Tile.SERVICE_1;
-                        case CITY -> tile = Tile.SERVICE_2;
-                        case METROPOLIS -> tile = Tile.SERVICE_3;
+                        case TOWN -> {
+                            tile = Tile.SERVICE_1;
+                            ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelOneMaxCapacity());
+                        }
+                        case CITY -> {
+                            tile = Tile.SERVICE_2;
+                            ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelTwoMaxCapacity());
+                        }
+                        case METROPOLIS -> {
+                            tile = Tile.SERVICE_3;
+                            ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelThreeMaxCapacity());
+                        }
                     }
                 }
 
@@ -116,8 +138,8 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to PoliceStation!");
 
                     building = new PoliceStation(coord);
-                    GameManager.getGameData().subtractFromBudget(((PoliceStation)building).getBuildCost());
-                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                    GameManager.subtractFromBudget(((PoliceStation)building).getBuildCost());
+                    Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
                 }
@@ -127,7 +149,7 @@ public class PlayableField extends Field {
 
                     building = new FireDepartment(coord);
                     GameManager.getGameData().subtractFromBudget(((FireDepartment)building).getBuildCost());
-                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                    Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
                 }
@@ -135,7 +157,7 @@ public class PlayableField extends Field {
                 case STADIUM -> {
                     Logger.log("Building of field at " + coord + " set to Stadium!");
 
-                    Field[][] fields = GameManager.getGameData().getFields();
+                    Field[][] fields = GameManager.getFields();
                     int x = coord.getX();
                     int y = coord.getY();
 
@@ -151,7 +173,7 @@ public class PlayableField extends Field {
                         buildStadium(x+1, y, Tile.STADIUM_BOTTOMLEFT, st);
                         buildStadium(x+1, y+1, Tile.STADIUM_BOTTOMRIGHT, st);
 
-                        Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                        Logger.log("Current budget: " + GameManager.getBudget());
                     } else {
                         Logger.log("Can't build stadium at " + coord + "!");
                         throw new RuntimeException("Can't build stadium at " + coord + "!");
@@ -163,7 +185,7 @@ public class PlayableField extends Field {
 
                     building = new Forest(coord);
                     GameManager.getGameData().subtractFromBudget(((Forest)building).getBuildCost());
-                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                    Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
                 }
@@ -173,7 +195,7 @@ public class PlayableField extends Field {
 
                     building = new Road(coord);
                     GameManager.getGameData().subtractFromBudget(((Road)building).getBuildCost());
-                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                    Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
                 }
@@ -194,7 +216,7 @@ public class PlayableField extends Field {
      * @param tile is the tile of the stadium
      */
     private static void buildStadium(int x, int y, Tile tile, Stadium stadium) {
-        Field[][] fs = GameManager.getGameData().getFields();
+        Field[][] fs = GameManager.getFields();
         if(isFieldEmpty(x, y)) {
             ((PlayableField)fs[x][y]).setBuilding(stadium);
             (fs[x][y]).setTile(tile);
@@ -208,7 +230,7 @@ public class PlayableField extends Field {
      */
     private void addToGraph(Coordinate coord){
         MutableGraph<Coordinate> graph = GameManager.getGraph();
-        Field[][] fields = GameManager.getGameData().getFields();
+        Field[][] fields = GameManager.getFields();
         int x = coord.getX();
         int y = coord.getY();
 
@@ -281,13 +303,20 @@ public class PlayableField extends Field {
 
             this.zone = newZone;
             upgradeLevel = UpgradeLevel.TOWN;
-            maxCapacity = 20;
-            GameManager.getGameData().subtractFromBudget(100); // exact amount is todo
 
             switch(zone) {
-                case RESIDENTIAL_ZONE -> tile = Tile.RESIDENTIALZONE;
-                case INDUSTRIAL_ZONE -> tile = Tile.FACTORYZONE;
-                case SERVICE_ZONE -> tile = Tile.SERVICEZONE;
+                case RESIDENTIAL_ZONE -> {
+                    tile = Tile.RESIDENTIALZONE;
+                    GameManager.subtractFromBudget(GameManager.getMarkResidentialCost());
+                }
+                case INDUSTRIAL_ZONE -> {
+                    tile = Tile.FACTORYZONE;
+                    GameManager.subtractFromBudget(GameManager.getMarkIndustrialCost());
+                }
+                case SERVICE_ZONE -> {
+                    tile = Tile.SERVICEZONE;
+                    GameManager.subtractFromBudget(GameManager.getMarkServiceCost());
+                }
             }
         }
     }
@@ -308,9 +337,9 @@ public class PlayableField extends Field {
             throw new RuntimeException("Can't demolish public buildings! (There is a zone on the field!)");
 
         } else if(building instanceof Stadium) {
-            int x = building.getCoords().getX();
-            int y = building.getCoords().getY();
-            Field[][] fs = GameManager.getGameData().getFields();
+            int x = building.getX();
+            int y = building.getY();
+            Field[][] fs = GameManager.getFields();
             // 1.: starting tile is top left corner
             // 2.: starting tile is bottom left corner
             // 3.: starting tile is top right corner
@@ -323,7 +352,7 @@ public class PlayableField extends Field {
                 PlayableField.demolishStadiumAt(x+1, y);
                 PlayableField.demolishStadiumAt(x+1, y+1);
 
-                Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                Logger.log("Current budget: " + GameManager.getBudget());
             } else if(isStadiumValid(x, y, x, y+1, x-1, y, x-1, y+1)) {
                 Logger.log("Stadium at " + coord + " demolished!");
 
@@ -332,7 +361,7 @@ public class PlayableField extends Field {
                 PlayableField.demolishStadiumAt(x-1, y);
                 PlayableField.demolishStadiumAt(x-1, y+1);
 
-                Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                Logger.log("Current budget: " + GameManager.getBudget());
             } else if(isStadiumValid(x, y, x, y-1, x+1, y, x+1, y-1)) {
                 Logger.log("Stadium at " + coord + " demolished!");
 
@@ -341,7 +370,7 @@ public class PlayableField extends Field {
                 PlayableField.demolishStadiumAt(x+1, y);
                 PlayableField.demolishStadiumAt(x+1, y-1);
 
-                Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                Logger.log("Current budget: " + GameManager.getBudget());
             } else if(isStadiumValid(x, y, x, y-1, x-1, y, x-1, y-1)) {
                 Logger.log("Stadium at " + coord + " demolished!");
 
@@ -350,7 +379,7 @@ public class PlayableField extends Field {
                 PlayableField.demolishStadiumAt(x-1, y);
                 PlayableField.demolishStadiumAt(x-1, y-1);
 
-                Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                Logger.log("Current budget: " + GameManager.getBudget());
             } else {
                 Logger.log("Stadium at " + coord + " can't be demolished!");
                 throw new RuntimeException("Stadium can't be demolished!");
@@ -374,8 +403,8 @@ public class PlayableField extends Field {
                 if(dPartGraphsAfter <= dPartGraphsBefore) {
                     Logger.log("Road at " + coord + " demolished!");
 
-                    GameManager.getGameData().addToBudget(((PlayerBuilding)building).getBuildCost());
-                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+                    GameManager.addToBudget(((PlayerBuilding)building).getBuildCost());
+                    Logger.log("Current budget: " + GameManager.getBudget());
 
                     graph.removeNode(coord);
                     building = null;
@@ -389,8 +418,8 @@ public class PlayableField extends Field {
         } else {
             Logger.log("Building of field at " + coord + " demolished!");
 
-            GameManager.getGameData().addToBudget(((PlayerBuilding)building).getBuildCost());
-            Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+            GameManager.addToBudget(((PlayerBuilding)building).getBuildCost());
+            Logger.log("Current budget: " + GameManager.getBudget());
 
             building = null;
 
@@ -409,7 +438,7 @@ public class PlayableField extends Field {
         Field[][] fs = GameManager.getGameData().getFields();
         if(isFieldValid(x, y) && ((PlayableField)fs[x][y]).getBuilding() instanceof Stadium) {
             Building building = ((PlayableField)fs[x][y]).getBuilding();
-            GameManager.getGameData().addToBudget(((Stadium)building).getBuildCost());
+            GameManager.addToBudget(((Stadium)building).getBuildCost());
 
             ((PlayableField)fs[x][y]).setBuilding(null);
             (fs[x][y]).resetTile();
@@ -523,7 +552,7 @@ public class PlayableField extends Field {
             Logger.log("Field's zone at " + coord + " deleted!");
             Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
-            GameManager.getGameData().addToBudget(100); //exact amount is TODO
+            GameManager.addToBudget(100); //exact amount is TODO
             zone = null;
 
             resetTile();
@@ -549,15 +578,13 @@ public class PlayableField extends Field {
             switch (upgradeLevel) {
                 case TOWN -> {
                     Logger.log("Field at " + coord + " upgraded to city level!");
-                    Logger.log("Field at " + coord + " has a new max capacity of " + maxCapacity + "!");
                     Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
                     upgradeLevel = UpgradeLevel.CITY;
-                    maxCapacity = 40; //TODO
-                    GameManager.getGameData().addToBudget(100); //exact amount is TODO
+                    GameManager.subtractFromBudget(GameManager.getLevelTwoUpgradeCost());
 
                     if(building != null) {
-                        ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
+                        ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelTwoMaxCapacity());
                         switch(zone) {
                             case RESIDENTIAL_ZONE -> tile = Tile.HOUSE_2;
                             case INDUSTRIAL_ZONE -> tile = Tile.FACTORY_2;
@@ -568,15 +595,13 @@ public class PlayableField extends Field {
 
                 case CITY -> {
                     Logger.log("Field at " + coord + " upgraded to metropolis level!");
-                    Logger.log("Field at " + coord + " has a new max capacity of " + maxCapacity + "!");
                     Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
                     upgradeLevel = UpgradeLevel.METROPOLIS;
-                    maxCapacity = 100; //TODO
-                    GameManager.getGameData().addToBudget(500); //exact amount is TODO
+                    GameManager.subtractFromBudget(GameManager.getLevelThreeUpgradeCost());
 
                     if(building != null){
-                        ((GeneratedBuilding) building).setMaxCapacity(maxCapacity);
+                        ((GeneratedBuilding) building).setMaxCapacity(GameManager.getLevelThreeMaxCapacity());
                         switch(zone) {
                             case RESIDENTIAL_ZONE -> tile = Tile.HOUSE_3;
                             case INDUSTRIAL_ZONE -> tile = Tile.FACTORY_3;
@@ -614,23 +639,6 @@ public class PlayableField extends Field {
             Logger.log("Current capacity of field at " + coord + " is " + ((GeneratedBuilding) building).getPeople().size() + "!");
             return ((GeneratedBuilding) building).getPeople().size();
         }
-    }
-
-    /**
-     * Get the max capacity of the field
-     * @return the max capacity of the field
-     */
-    public int getMaxCapacity() {
-        return maxCapacity;
-    }
-
-    /**
-     * Set the max capacity of the field
-     * @param maxCapacity is the max capacity of the field
-     */
-    public void setMaxCapacity(int maxCapacity) {
-        Logger.log("Max capacity of field at " + coord + " set to " + maxCapacity);
-        this.maxCapacity = maxCapacity;
     }
 
     /**
@@ -718,18 +726,17 @@ public class PlayableField extends Field {
         if (this == o) return true;
         if (!(o instanceof PlayableField that)) return false;
         if (!super.equals(o)) return false;
-        return getMaxCapacity() == that.getMaxCapacity() && getMoveInFactor() == that.getMoveInFactor() && getZone() == that.getZone() && getUpgradeLevel() == that.getUpgradeLevel() && Objects.equal(getBuilding(), that.getBuilding());
+        return getMoveInFactor() == that.getMoveInFactor() && getZone() == that.getZone() && getUpgradeLevel() == that.getUpgradeLevel() && Objects.equal(getBuilding(), that.getBuilding());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(super.hashCode(), getMaxCapacity(), getMoveInFactor(), getZone(), getUpgradeLevel(), getBuilding());
+        return Objects.hashCode(super.hashCode(), getMoveInFactor(), getZone(), getUpgradeLevel(), getBuilding());
     }
 
     @Override
     public String toString() {
         return "PlayableField{" +
-                "maxCapacity=" + maxCapacity +
                 ", moveInFactor=" + moveInFactor +
                 ", zone=" + zone +
                 ", upgradeLevel=" + upgradeLevel +

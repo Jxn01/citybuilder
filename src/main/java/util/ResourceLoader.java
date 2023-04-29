@@ -1,13 +1,10 @@
 package util;
 
-import javax.annotation.RegEx;
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 
 /**
  * This class is used to load resources from the resources folder.

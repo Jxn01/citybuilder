@@ -1,13 +1,11 @@
 package view.gui.game;
 
 import util.Logger;
-import view.gui.Game;
 import view.components.custom.MyButton;
 import view.enums.Tile;
+import view.gui.Game;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
