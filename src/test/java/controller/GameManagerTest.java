@@ -1,13 +1,10 @@
 package controller;
 
 import model.Coordinate;
-import model.GameData;
-import org.checkerframework.checker.units.qual.C;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.Logger;
-import controller.GameManager;
 
 import java.util.ArrayList;
 import java.util.List;

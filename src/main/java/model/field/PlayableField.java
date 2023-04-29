@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Objects;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.Graphs;
+import com.google.common.graph.MutableGraph;
 import controller.GameManager;
 import model.Coordinate;
 import model.buildings.*;
@@ -14,6 +17,9 @@ import model.enums.UpgradeLevel;
 import model.enums.Zone;
 import util.Logger;
 import view.enums.Tile;
+
+import java.util.Arrays;
+import java.util.Set;
 
 /**
  * This class represents a field on the map
@@ -102,7 +108,7 @@ public class PlayableField extends Field {
                     throw new RuntimeException("Building type not specified! (Zone is null)");
                 }
             }
-            GameManager.getGraph().addNode(this.coord);
+            addToGraph(coord);
 
         } else if(zone == null) { //playerbuilt
             switch (buildingType) {
@@ -113,7 +119,7 @@ public class PlayableField extends Field {
                     GameManager.getGameData().subtractFromBudget(((PoliceStation)building).getBuildCost());
                     Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
-                    GameManager.getGraph().addNode(this.coord);
+                    addToGraph(coord);
                 }
 
                 case FIRESTATION -> {
@@ -123,7 +129,7 @@ public class PlayableField extends Field {
                     GameManager.getGameData().subtractFromBudget(((FireDepartment)building).getBuildCost());
                     Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
-                    GameManager.getGraph().addNode(this.coord);
+                    addToGraph(coord);
                 }
 
                 case STADIUM -> {
@@ -137,6 +143,8 @@ public class PlayableField extends Field {
                         Logger.log("Building of field at " + coord + " set to Stadium!");
 
                         Stadium st = new Stadium(coord, new Coordinate(x, y+1), new Coordinate(x+1, y), new Coordinate(x+1, y+1));
+
+                        addToGraph(coord);
 
                         buildStadium(x, y, Tile.STADIUM_TOPLEFT, st);
                         buildStadium(x, y+1, Tile.STADIUM_TOPRIGHT, st);
@@ -157,7 +165,7 @@ public class PlayableField extends Field {
                     GameManager.getGameData().subtractFromBudget(((Forest)building).getBuildCost());
                     Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
-                    GameManager.getGraph().addNode(this.coord);
+                    addToGraph(coord);
                 }
 
                 case ROAD -> {
@@ -167,7 +175,7 @@ public class PlayableField extends Field {
                     GameManager.getGameData().subtractFromBudget(((Road)building).getBuildCost());
                     Logger.log("Current budget: " + GameManager.getGameData().getBudget());
 
-                    GameManager.getGraph().addNode(this.coord);
+                    addToGraph(coord);
                 }
 
                 default -> {
@@ -191,7 +199,63 @@ public class PlayableField extends Field {
             ((PlayableField)fs[x][y]).setBuilding(stadium);
             (fs[x][y]).setTile(tile);
             GameManager.getGameData().subtractFromBudget(stadium.getBuildCost());
-            GameManager.getGraph().addNode(new Coordinate(x, y));
+        }
+    }
+
+    /**
+     * Adds the coordinate (the field) to the graph and adds an edge to a road.
+     * @param coord is the coordinate of the field
+     */
+    private void addToGraph(Coordinate coord){
+        MutableGraph<Coordinate> graph = GameManager.getGraph();
+        Field[][] fields = GameManager.getGameData().getFields();
+        int x = coord.getX();
+        int y = coord.getY();
+
+        if(((PlayableField)fields[x][y]).getBuilding() instanceof Road){
+            graph.addNode(coord);
+            if(isFieldValid(x, y-1) && ((PlayableField)fields[x][y-1]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x, y-1));
+            }
+            if(isFieldValid(x, y+1) && ((PlayableField)fields[x][y+1]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x, y+1));
+            }
+            if(isFieldValid(x-1, y) && ((PlayableField)fields[x-1][y]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x-1, y));
+            }
+            if(isFieldValid(x+1, y) && ((PlayableField)fields[x+1][y]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x+1, y));
+            }
+        } else if(((PlayableField)fields[x][y]).getBuilding() instanceof Stadium) {
+
+            if(isFieldValid(x-1, y) && ((PlayableField)fields[x-1][y]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x-1, y));
+            } else if(isFieldValid(x-1, y+1) && ((PlayableField)fields[x-1][y+1]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x-1, y+1));
+            } else if(isFieldValid(x, y-1) && ((PlayableField)fields[x][y-1]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x, y-1));
+            } else if(isFieldValid(x, y+2) && ((PlayableField)fields[x][y+2]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x, y+2));
+            } else if(isFieldValid(x+1, y-1) && ((PlayableField)fields[x+1][y-1]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x+1, y-1));
+            } else if(isFieldValid(x+1, y+2) && ((PlayableField)fields[x+1][y+2]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x+1, y+2));
+            } else if(isFieldValid(x+2, y) && ((PlayableField)fields[x+2][y]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x+2, y));
+            } else if(isFieldValid(x+2, y+1) && ((PlayableField)fields[x+2][y+1]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x+2, y+1));
+            }
+
+        } else { // if the field is not a road, we only make an edge to one road (to prevent making circles with buildings)
+            if(isFieldValid(x, y-1) && ((PlayableField)fields[x][y-1]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x, y-1));
+            } else if(isFieldValid(x, y+1) && ((PlayableField)fields[x][y+1]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x, y+1));
+            } else if(isFieldValid(x-1, y) && ((PlayableField)fields[x-1][y]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x-1, y));
+            } else if(isFieldValid(x+1, y) && ((PlayableField)fields[x+1][y]).getBuilding() instanceof Road){
+                graph.putEdge(coord, new Coordinate(x+1, y));
+            }
         }
     }
 
@@ -292,6 +356,36 @@ public class PlayableField extends Field {
                 throw new RuntimeException("Stadium can't be demolished!");
             }
 
+        } else if(building instanceof Road) {
+            MutableGraph<Coordinate> graph = GameManager.getGraph();
+            var edges = graph.edges();
+
+            if(graph.nodes().size() == 1) {
+                graph.removeNode(coord);
+            } else {
+                MutableGraph<Coordinate> testGraph = GraphBuilder.undirected().allowsSelfLoops(false).build();
+                for(var edge : edges) {
+                    testGraph.putEdge(edge.nodeU(), edge.nodeV());
+                }
+
+                int dPartGraphsBefore = GameManager.countDisconnectedGraphs(testGraph);
+                testGraph.removeNode(coord);
+                int dPartGraphsAfter = GameManager.countDisconnectedGraphs(testGraph);
+                if(dPartGraphsAfter <= dPartGraphsBefore) {
+                    Logger.log("Road at " + coord + " demolished!");
+
+                    GameManager.getGameData().addToBudget(((PlayerBuilding)building).getBuildCost());
+                    Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+
+                    graph.removeNode(coord);
+                    building = null;
+                    resetTile();
+
+                } else {
+                    Logger.log("Road at " + coord + " can't be demolished, it would make the graph disconnected!");
+                    throw new RuntimeException("Road can't be demolished, it would make the graph disconnected!");
+                }
+            }
         } else {
             Logger.log("Building of field at " + coord + " demolished!");
 
@@ -303,6 +397,7 @@ public class PlayableField extends Field {
             resetTile();
             GameManager.getGraph().removeNode(this.coord);
         }
+        Logger.log("State of the graph: " + GameManager.getGraph());
     }
 
     /**

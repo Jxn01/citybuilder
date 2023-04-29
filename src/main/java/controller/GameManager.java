@@ -2,6 +2,7 @@ package controller;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.graph.Graph;
+import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import controller.catastrophies.Catastrophe;
 import controller.catastrophies.Covid;
@@ -18,8 +19,6 @@ import util.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -71,6 +70,36 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void nextDay() {
         Logger.log("A day passes...");
+    }
+
+    /**
+     * This method counts the disconnected part-graphs of the main graph.
+     * Useful for checking if the demolition of a road would disconnect the graph.
+     * @param graph The graph to check.
+     * @return The number of disconnected part-graphs.
+     */
+    public static int countDisconnectedGraphs(MutableGraph<Coordinate> graph) {
+        int count = 0;
+
+        Set<Coordinate> visited = new HashSet<>();
+        for (Coordinate node : graph.nodes()) {
+            if (!visited.contains(node)) {
+                count++;
+                visited.add(node);
+                Queue<Coordinate> queue = new LinkedList<>();
+                queue.add(node);
+                while (!queue.isEmpty()) {
+                    Coordinate current = queue.poll();
+                    for (Coordinate neighbor : graph.adjacentNodes(current)) {
+                        if (!visited.contains(neighbor)) {
+                            visited.add(neighbor);
+                            queue.add(neighbor);
+                        }
+                    }
+                }
+            }
+        }
+        return count;
     }
 
     /**

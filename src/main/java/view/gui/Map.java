@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import controller.GameManager;
 import model.enums.Zone;
+import util.Logger;
 import util.ResourceLoader;
 import view.components.custom.MyButton;
 import view.enums.Tile;
@@ -102,14 +103,18 @@ public class Map {
 
                 case GRASS_1 -> {
                     Point p = new Point(x, y);
-                    try {
-                        ((PlayableField) fields[x][y]).demolishBuilding();
-                    } catch (Exception exc) {
-                        exc.printStackTrace();
+
+                    if(((PlayableField) fields[x][y]).getZone() == null){
+                        try {
+                            ((PlayableField) fields[x][y]).demolishBuilding();
+                        } catch (Exception exc) {
+                            exc.printStackTrace();
+                        }
+                    } else {
                         try {
                             ((PlayableField) fields[x][y]).deleteZone();
-                        } catch (Exception exc2) {
-                            exc2.printStackTrace();
+                        } catch (Exception exc) {
+                            exc.printStackTrace();
                         }
                     }
                 }
@@ -123,6 +128,9 @@ public class Map {
                 }
             }
             selectedBuildingType = null;
+            Logger.log("Part graphs: " + GameManager.countDisconnectedGraphs(GameManager.getGraph()));
+            Logger.log("Graph node count: " + GameManager.getGraph().nodes().size());
+            Logger.log("Graph edge count: " + GameManager.getGraph().edges().size());
         }
     }
 
