@@ -11,7 +11,6 @@ import controller.interfaces.SpeedManager;
 import model.Coordinate;
 import model.GameData;
 import model.Person;
-import org.javatuples.Pair;
 import util.GraphDeserializer;
 import util.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -99,6 +98,7 @@ public class GameManager implements SaveManager, SpeedManager {
 
     /**
      * This method calculates the distance between two coordinates.
+     *
      * @param a The first coordinate.
      * @param b The second coordinate.
      * @return The distance between the two coordinates.
@@ -111,59 +111,9 @@ public class GameManager implements SaveManager, SpeedManager {
 
     /**
      * This method calculates the shortest path between two coordinates.
+     *
      * @param start The start coordinate.
-     * @param end The end coordinate.
-     * @return The shortest path between the two coordinates.
-     */
-    public static List<Coordinate> findShortestPath(Coordinate start, Coordinate end) {
-        Map<Coordinate, Integer> distances = new HashMap<>();
-        PriorityQueue<Coordinate> queue = new PriorityQueue<>(Comparator.comparingInt(distances::get));
-        Map<Coordinate, Coordinate> previous = new HashMap<>();
-        MutableGraph<Coordinate> graph = getGraph();
-        for (Coordinate vertex : graph.nodes()) {
-            if (vertex.equals(start)) {
-                distances.put(vertex, 0);
-                queue.offer(vertex);
-            } else {
-                distances.put(vertex, Integer.MAX_VALUE);
-            }
-            previous.put(vertex, null);
-        }
-        while (!queue.isEmpty()) {
-            Coordinate current = queue.poll();
-            if (current.equals(end)) {
-                break;
-            }
-            int currentDistance = distances.get(current);
-            if (currentDistance == Integer.MAX_VALUE) {
-                break;
-            }
-            Set<Coordinate> neighbors = graph.adjacentNodes(current);
-            for (Coordinate neighbor : neighbors) {
-                int newDistance = currentDistance + calculateDistance(current, neighbor);
-                if (newDistance < distances.get(neighbor)) {
-                    distances.put(neighbor, newDistance);
-                    previous.put(neighbor, current);
-                    queue.offer(neighbor);
-                }
-            }
-        }
-        if (previous.get(end) == null) {
-            return null; // No path exists between start and end
-        }
-        List<Coordinate> path = new ArrayList<>();
-        Coordinate current = end;
-        while (current != null) {
-            path.add(0, current);
-            current = previous.get(current);
-        }
-        return path;
-    }
-
-    /**
-     * This method calculates the shortest path between two coordinates.
-     * @param start The start coordinate.
-     * @param end The end coordinate.
+     * @param end   The end coordinate.
      * @return The shortest path between the two coordinates.
      */
     public static List<Coordinate> findShortestPath(Coordinate start, Coordinate end) {
@@ -250,17 +200,13 @@ public class GameManager implements SaveManager, SpeedManager {
         Logger.log("Reading save files...");
         saveFiles = new ArrayList<>();
         File directory = new File(saveDirectory);
-        if(directory.exists()) {
-            for(File file : directory.listFiles()) {
-                if(file.getName().endsWith(".json")) {
+        if (directory.exists()) {
+            for (File file : directory.listFiles()) {
+                if (file.getName().endsWith(".json")) {
                     saveFiles.add(file);
                 }
             }
         }
-        return saveFiles;
-    }
-
-    public ArrayList<File> getSaveFiles() {
         return saveFiles;
     }
 
@@ -296,14 +242,14 @@ public class GameManager implements SaveManager, SpeedManager {
             Logger.log("Game has not been saved yet, creating new save file...");
             File file = new File(saveDirectory + File.separator + gameData.getId() + ".json");
             try {
-                if(file.createNewFile()) {
+                if (file.createNewFile()) {
                     Logger.log("Save file created.");
                 } else {
                     Logger.log("Save file already exists.");
                 }
                 gameData.setSaveFile(file);
                 Logger.log("Save file created.");
-            } catch(Exception exc) {
+            } catch (Exception exc) {
                 Logger.log("Save file could not be created.");
                 exc.printStackTrace();
             }
@@ -328,10 +274,6 @@ public class GameManager implements SaveManager, SpeedManager {
         return 0.0;
     }
 
-    public Pair<String, Integer> getExpenses() {
-        return new Pair<>("", 0);
-    }
-
     public double getHospitalChance() {
         return hospitalChance;
     }
@@ -350,10 +292,6 @@ public class GameManager implements SaveManager, SpeedManager {
         Logger.log("Simulation speed set to " + simulationSpeed);
     }
 
-    /**
-     * Getter for the save files
-     * @return the save files
-     */
     public List<File> getSaveFiles() {
         return saveFiles;
     }

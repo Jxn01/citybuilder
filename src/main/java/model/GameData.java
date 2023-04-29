@@ -46,7 +46,6 @@ public class GameData {
     @JsonSerialize(using = GraphSerializer.class)
     private MutableGraph<Coordinate> graph;
     private List<Person> people;
-
     private File saveFile;
 
     /**
@@ -103,7 +102,7 @@ public class GameData {
         for (int i = 0; i < STARTER_MAP_SIZE; i++) {
             for (int j = 0; j < STARTER_MAP_SIZE; j++) { // 2 thick border, 49x49 playable area
 
-                if (i == 0 || i == 1 || i == starterMapSize-2 || i == starterMapSize-1 || j == 0 || j == 1 || j == starterMapSize-2 || j == starterMapSize-1) {
+                if (i == 0 || i == 1 || i == STARTER_MAP_SIZE - 2 || i == STARTER_MAP_SIZE - 1 || j == 0 || j == 1 || j == STARTER_MAP_SIZE - 2 || j == STARTER_MAP_SIZE - 1) {
                     this.fields[i][j] = new BorderField(new Coordinate(i, j));
                 } else {
                     this.fields[i][j] = new PlayableField(new Coordinate(i, j));
@@ -114,7 +113,7 @@ public class GameData {
         this.people = new ArrayList<>();
 
         for (int i = 0; i < STARTER_NUMBER_OF_PEOPLE; i++) {
-            this.people.add(new Person(true ));
+            this.people.add(new Person(true));
         }
 
         Logger.log("New game data created: " + this.id);
@@ -141,7 +140,9 @@ public class GameData {
         return budget;
     }
 
-    public void setBudget(int budget) { this.budget = budget; }
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
 
     public void subtractFromBudget(int amount) {
         this.budget -= amount;
@@ -220,11 +221,6 @@ public class GameData {
         return averageSatisfaction;
     }
 
-    /**
-     * Getter for the population
-     *
-     * @return the population size
-     */
     @JsonIgnore
     public int getPopulation() {
         return people.size();
@@ -242,16 +238,12 @@ public class GameData {
     public Field[][] getFields() {
         return fields;
     }
+
     public void setFields(Field[][] fields) {
         Logger.log("Game data " + this.id + " fields set.");
         this.fields = fields;
     }
 
-    /**
-     * Getter for the playable fields
-     *
-     * @return the playable fields
-     */
     public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
         ArrayList<PlayableField> result = new ArrayList<>();
 
@@ -270,10 +262,6 @@ public class GameData {
         return result;
     }
 
-    public ArrayList<Person> getPeople() {
-        return people;
-    }
-
     public void setPeople(ArrayList<Person> people) {
         this.people = people;
         Logger.log("Game data " + this.id + " people set.");
@@ -287,13 +275,12 @@ public class GameData {
         this.graph = graph;
     }
 
-    /**
-     * Getter for the people
-     *
-     * @return the people
-     */
     public List<Person> getPeople() {
         return people;
+    }
+
+    public File getSaveFile() {
+        return saveFile;
     }
 
     public void setSaveFile(File saveFile) {
