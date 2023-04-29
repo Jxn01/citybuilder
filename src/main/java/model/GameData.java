@@ -25,29 +25,29 @@ import static util.Date.*;
  * This class contains all the data that is needed to save the game.
  */
 public class GameData {
-    private final int starterMapSize = 51;
-    private final int starterPeople = 50;
-    private final int starterBudget = 100000;
-    private final int starterTaxes = 1000;
+    private final int STARTER_MAP_SIZE = 51;
+    private final int STARTER_NUMBER_OF_PEOPLE = 50;
+    private final int STARTER_BUDGET = 100000;
+    private final int STARTER_TAXES = 1000;
     private String id;
+    private String cityName;
+    private int budget;
     private String startDate;
     private String currentDate;
     private String inGameStartDate;
     private String inGameCurrentDate;
     private String playTime;
-    private int budget;
-    private String cityName;
-    private boolean gameOver;
-    private File saveFile;
     private int yearlyTaxes;
     private int averageSatisfaction;
+    private boolean gameOver;
 
     private Field[][] fields;
-
     @JsonDeserialize(using = GraphDeserializer.class)
     @JsonSerialize(using = GraphSerializer.class)
     private MutableGraph<Coordinate> graph;
     private List<Person> people;
+
+    private File saveFile;
 
     /**
      * Constructor for GameData
@@ -85,11 +85,6 @@ public class GameData {
         Logger.log(String.valueOf(this));
     }
 
-    /**
-     * Constructor for GameData
-     *
-     * @param cityName the name of the city
-     */
     public GameData(String cityName) {
         this.id = ("game_data_" + getLongDate(System.currentTimeMillis())).replaceAll("[\\s-:]", "_");
         this.startDate = getLongDate(System.currentTimeMillis());
@@ -97,16 +92,16 @@ public class GameData {
         this.inGameStartDate = getDate(System.currentTimeMillis());
         this.inGameCurrentDate = getDate(System.currentTimeMillis());
         this.playTime = "00:00:01";
-        budget = starterBudget;
+        budget = STARTER_BUDGET;
         this.cityName = cityName;
         this.gameOver = false;
         this.saveFile = null;
-        this.yearlyTaxes = starterTaxes;
+        this.yearlyTaxes = STARTER_TAXES;
         this.fields = new Field[51][51];
         this.graph = GraphBuilder.undirected().allowsSelfLoops(false).build();
 
-        for (int i = 0; i < starterMapSize; i++) {
-            for (int j = 0; j < starterMapSize; j++) { // 2 thick border, 49x49 playable area
+        for (int i = 0; i < STARTER_MAP_SIZE; i++) {
+            for (int j = 0; j < STARTER_MAP_SIZE; j++) { // 2 thick border, 49x49 playable area
 
                 if (i == 0 || i == 1 || i == starterMapSize-2 || i == starterMapSize-1 || j == 0 || j == 1 || j == starterMapSize-2 || j == starterMapSize-1) {
                     this.fields[i][j] = new BorderField(new Coordinate(i, j));
@@ -118,112 +113,99 @@ public class GameData {
 
         this.people = new ArrayList<>();
 
-        for (int i = 0; i < starterPeople; i++) {
+        for (int i = 0; i < STARTER_NUMBER_OF_PEOPLE; i++) {
             this.people.add(new Person(true ));
         }
 
         Logger.log("New game data created: " + this.id);
     }
 
-    /**
-     * Getter for the start date
-     *
-     * @return the start date
-     */
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+        Logger.log("Game data " + this.id + " city name set to: " + cityName);
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+
+    public void setBudget(int budget) { this.budget = budget; }
+
+    public void subtractFromBudget(int amount) {
+        this.budget -= amount;
+    }
+
+    public void addToBudget(int amount) {
+        this.budget += amount;
+    }
+
     public String getStartDate() {
         return startDate;
     }
 
-    /**
-     * Setter for the start date
-     *
-     * @param startDate the start date
-     */
     public void setStartDate(String startDate) {
         Logger.log("Game data " + this.id + " start date set to: " + startDate);
         this.startDate = startDate;
     }
 
-    /**
-     * Getter for the current date
-     *
-     * @return the current date
-     */
     public String getCurrentDate() {
         return currentDate;
     }
 
-    /**
-     * Setter for the current date
-     *
-     * @param currentDate the current date
-     */
     public void setCurrentDate(String currentDate) {
-        Logger.log("Game data " + this.id + " current date set to: " + currentDate);
         this.currentDate = currentDate;
+        Logger.log("Game data " + this.id + " current date set to: " + currentDate);
     }
 
-    /**
-     * Getter for the in game start date
-     *
-     * @return the in game start date
-     */
     public String getInGameStartDate() {
         return inGameStartDate;
     }
 
-    /**
-     * Setter for the in game start date
-     *
-     * @param inGameStartDate the in game start date
-     */
     public void setInGameStartDate(String inGameStartDate) {
         Logger.log("Game data " + this.id + " in game start date set to: " + inGameStartDate);
         this.inGameStartDate = inGameStartDate;
     }
 
-    /**
-     * Getter for the in game current date
-     *
-     * @return the in game current date
-     */
     public String getInGameCurrentDate() {
         return inGameCurrentDate;
     }
 
-    /**
-     * Setter for the in game current date
-     *
-     * @param inGameCurrentDate the in game current date
-     */
     public void setInGameCurrentDate(String inGameCurrentDate) {
-        Logger.log("Game data " + this.id + " in game current date set to: " + inGameCurrentDate);
         this.inGameCurrentDate = inGameCurrentDate;
+        Logger.log("Game data " + this.id + " in game current date set to: " + inGameCurrentDate);
     }
 
-    /**
-     * Getter for the play time
-     *
-     * @return the play time
-     */
     public String getPlayTime() {
         return playTime;
     }
 
-    /**
-     * Setter for the play time
-     *
-     * @param playTime the play time
-     */
     public void setPlayTime(String playTime) {
         Logger.log("Game data " + this.id + " play time set to: " + playTime);
         this.playTime = playTime;
     }
 
-    /**
-     * Calculates the average satisfaction of the people
-     */
-    public void calculateAverageSatisfaction() {
+    public int getYearlyTaxes() {
+        return yearlyTaxes;
+    }
+
+    public void setYearlyTaxes(int yearlyTaxes) {
+        Logger.log("Game data " + this.id + " yearly taxes set to: " + yearlyTaxes);
+        this.yearlyTaxes = yearlyTaxes;
+    }
+
+    private void calculateAverageSatisfaction() {
         int satisfaction = 0;
         for (Person person : people) {
             satisfaction += person.calculateSatisfaction();
@@ -233,12 +215,8 @@ public class GameData {
         Logger.log("Game data " + this.id + " average satisfaction calculated: " + satisfaction);
     }
 
-    /**
-     * Getter for the average satisfaction
-     *
-     * @return the average satisfaction
-     */
     public int getAverageSatisfaction() {
+        calculateAverageSatisfaction();
         return averageSatisfaction;
     }
 
@@ -252,89 +230,21 @@ public class GameData {
         return people.size();
     }
 
-    /**
-     * Getter for the city name
-     *
-     * @return the city name
-     */
-    public String getCityName() {
-        return cityName;
-    }
-
-    /**
-     * Setter for the city name
-     *
-     * @param cityName the city name
-     */
-    public void setCityName(String cityName) {
-        Logger.log("Game data " + this.id + " city name set to: " + cityName);
-        this.cityName = cityName;
-    }
-
-    /**
-     * Getter for the game over
-     *
-     * @return if the game is over
-     */
     public boolean isGameOver() {
         return gameOver;
     }
 
-    /**
-     * Setter for the game over
-     *
-     * @param gameOver if the game is over
-     */
     public void setGameOver(boolean gameOver) {
         Logger.log("Game data " + this.id + " game over set to: " + gameOver);
         this.gameOver = gameOver;
     }
 
-    /**
-     * Getter for the save file
-     *
-     * @return the save file
-     */
-    public File getSaveFile() {
-        return saveFile;
-    }
-
-    /**
-     * Setter for the save file
-     *
-     * @param saveFile the save file
-     */
-    public void setSaveFile(File saveFile) {
-        Logger.log("Game data " + this.id + " save file set to: " + saveFile.getAbsolutePath());
-        this.saveFile = saveFile;
-    }
-
-    /**
-     * Getter for the yearly taxes
-     *
-     * @return the yearly taxes
-     */
-    public int getYearlyTaxes() {
-        return yearlyTaxes;
-    }
-
-    /**
-     * Setter for the yearly taxes
-     *
-     * @param yearlyTaxes the yearly taxes
-     */
-    public void setYearlyTaxes(int yearlyTaxes) {
-        Logger.log("Game data " + this.id + " yearly taxes set to: " + yearlyTaxes);
-        this.yearlyTaxes = yearlyTaxes;
-    }
-
-    /**
-     * Getter for the fields
-     *
-     * @return the fields
-     */
     public Field[][] getFields() {
         return fields;
+    }
+    public void setFields(Field[][] fields) {
+        Logger.log("Game data " + this.id + " fields set.");
+        this.fields = fields;
     }
 
     /**
@@ -345,8 +255,8 @@ public class GameData {
     public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
         ArrayList<PlayableField> result = new ArrayList<>();
 
-        for (int i = 0; i < starterMapSize; i++) {
-            for (int j = 0; j < starterMapSize; j++) {
+        for (int i = 0; i < STARTER_MAP_SIZE; i++) {
+            for (int j = 0; j < STARTER_MAP_SIZE; j++) {
 
                 if (fields[i][j] instanceof PlayableField) {
                     if (((PlayableField) fields[i][j]).getBuilding() != null) {
@@ -360,31 +270,19 @@ public class GameData {
         return result;
     }
 
-    /**
-     * Setter for the fields
-     *
-     * @param fields the fields
-     */
-    public void setFields(Field[][] fields) {
-        Logger.log("Game data " + this.id + " fields set.");
-        this.fields = fields;
+    public ArrayList<Person> getPeople() {
+        return people;
     }
 
-    /**
-     * Getter for the graph
-     *
-     * @return the graph
-     */
+    public void setPeople(ArrayList<Person> people) {
+        this.people = people;
+        Logger.log("Game data " + this.id + " people set.");
+    }
 
     public MutableGraph<Coordinate> getGraph() {
         return graph;
     }
 
-    /**
-     * Setter for the graph
-     *
-     * @param graph the graph
-     */
     public void setGraph(MutableGraph<Coordinate> graph) {
         this.graph = graph;
     }
@@ -398,64 +296,9 @@ public class GameData {
         return people;
     }
 
-    /**
-     * Setter for the people
-     *
-     * @param people the people
-     */
-    public void setPeople(ArrayList<Person> people) {
-        Logger.log("Game data " + this.id + " people set.");
-        this.people = people;
-    }
-
-    /**
-     * Getter for the id
-     *
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Setter for the id
-     *
-     * @param id the id
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Getter for the budget
-     * @return the budget
-     */
-    public Integer getBudget() {
-        return budget;
-    }
-
-    /**
-     * Setter for the budget
-     * @param budget the budget
-     */
-    public void setBudget(int budget) {
-        this.budget = budget;
-    }
-
-    /**
-     * Substracts the given amount from the budget
-     * @param amount the amount to substract
-     */
-    public void subtractFromBudget(int amount) {
-        this.budget -= amount;
-    }
-
-    /**
-     * Adds the given amount to the budget
-     * @param amount the amount to add
-     */
-    public void addToBudget(int amount) {
-        this.budget += amount;
+    public void setSaveFile(File saveFile) {
+        Logger.log("Game data " + this.id + " save file set to: " + saveFile.getAbsolutePath());
+        this.saveFile = saveFile;
     }
 
     @Override

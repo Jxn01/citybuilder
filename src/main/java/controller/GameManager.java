@@ -1,7 +1,6 @@
 package controller;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.google.common.graph.Graph;
 import com.google.common.graph.MutableGraph;
 import controller.catastrophies.Catastrophe;
 import controller.catastrophies.Covid;
@@ -21,13 +20,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * This class represents the game manager.
  */
 public class GameManager implements SaveManager, SpeedManager {
     private static GameData gameData;
-    private final ArrayList<Catastrophe> catastrophes;
     private double catastropheChance;
     private double hospitalChance;
     private SimulationSpeed simulationSpeed;
@@ -37,18 +38,16 @@ public class GameManager implements SaveManager, SpeedManager {
     private List<File> saveFiles;
     private final String saveDirectory = System.getProperty("user.home") + File.separator + ".citybuilder" + File.separator + "saves";
 
-    /**
-     * Constructor of the game manager.
-     */
+
     public GameManager() {
         catastropheChance = 0.1;
         hospitalChance = 0.1;
+        simulationSpeed = SimulationSpeed.PAUSED;
         catastrophes = new ArrayList<>();
         catastrophes.add(FinancialCrisis.getInstance());
         catastrophes.add(Covid.getInstance());
         catastrophes.add(Firestorm.getInstance());
 
-        setSimulationSpeed(SimulationSpeed.PAUSED);
         Logger.log("Game manager created.");
 
         File directory = new File(saveDirectory);
@@ -57,48 +56,45 @@ public class GameManager implements SaveManager, SpeedManager {
         }
     }
 
-    /**
-     * This method initializes the game.
-     */
     public void initGame(String cityName) {
         setGameData(new GameData(cityName));
-        gameData.calculateAverageSatisfaction();
         Logger.log("Game initialized.");
+        simulate();
     }
 
-    /**
-     * Getter for the game data.
-     *
-     * @return the game data
-     */
     public static GameData getGameData() {
         return gameData;
     }
 
-    /**
-     * Setter for the game data.
-     *
-     * @param gameData the new game data
-     */
     public void setGameData(GameData gameData) {
         GameManager.gameData = gameData;
         Logger.log("Game data set to " + gameData.getId());
     }
 
-    /**
-     * Getter for the graph.
-     *
-     * @return the graph
-     */
     public static MutableGraph<Coordinate> getGraph() {
         return gameData.getGraph();
     }
 
-    /**
-     * This method simulates.
-     */
-    public void nextDay() {
+    private void simulate() {
         Logger.log("A day passes...");
+
+        Timer timer = new Timer();
+        int delay = 1000; // delay for 1 second
+        int period = 1000; // repeat every 1 second
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int count = 0;
+
+            public void run() {
+                System.out.println("Timer: " + ++count);
+
+                Logger.log("A day is passed: " + count + ".day");
+
+                if (count == 100) {
+                    timer.cancel();
+                }
+            }
+        }, delay, period);
     }
 
     /**
@@ -165,8 +161,56 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     /**
-     * This method does the financials.
+     * This method calculates the shortest path between two coordinates.
+     * @param start The start coordinate.
+     * @param end The end coordinate.
+     * @return The shortest path between the two coordinates.
      */
+    public static List<Coordinate> findShortestPath(Coordinate start, Coordinate end) {
+        Map<Coordinate, Integer> distances = new HashMap<>();
+        PriorityQueue<Coordinate> queue = new PriorityQueue<>(Comparator.comparingInt(distances::get));
+        Map<Coordinate, Coordinate> previous = new HashMap<>();
+        MutableGraph<Coordinate> graph = getGraph();
+        for (Coordinate vertex : graph.nodes()) {
+            if (vertex.equals(start)) {
+                distances.put(vertex, 0);
+                queue.offer(vertex);
+            } else {
+                distances.put(vertex, Integer.MAX_VALUE);
+            }
+            previous.put(vertex, null);
+        }
+        while (!queue.isEmpty()) {
+            Coordinate current = queue.poll();
+            if (current.equals(end)) {
+                break;
+            }
+            int currentDistance = distances.get(current);
+            if (currentDistance == Integer.MAX_VALUE) {
+                break;
+            }
+            Set<Coordinate> neighbors = graph.adjacentNodes(current);
+            for (Coordinate neighbor : neighbors) {
+                int newDistance = currentDistance + calculateDistance(current, neighbor);
+                if (newDistance < distances.get(neighbor)) {
+                    distances.put(neighbor, newDistance);
+                    previous.put(neighbor, current);
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        if (previous.get(end) == null) {
+            return null; // No path exists between start and end
+        }
+        List<Coordinate> path = new ArrayList<>();
+        Coordinate current = end;
+        while (current != null) {
+            path.add(0, current);
+            current = previous.get(current);
+        }
+        return path;
+    }
+
     public void doFinancials() {
         for (Person p : gameData.getPeople()) {
             if (p.isRetired()) {
@@ -177,44 +221,25 @@ public class GameManager implements SaveManager, SpeedManager {
         }
     }
 
-    /**
-     * Getter for the catastrophe chance.
-     *
-     * @return the catastrophe chance
-     */
     public double getCatastropheChance() {
         return catastropheChance;
     }
 
-    /**
-     * Setter for the catastrophe chance.
-     *
-     * @param catastropheChance the new catastrophe chance
-     */
     public void setCatastropheChance(double catastropheChance) {
         this.catastropheChance = catastropheChance;
         Logger.log("Catastrophe chance set to " + catastropheChance);
     }
 
-    /**
-     * Evokes a financial crisis.
-     */
     public void evokeFinancialCrisis() {
         Logger.log("Financial crisis evoked.");
         catastrophes.get(0).effect(gameData);
     }
 
-    /**
-     * Evokes a covid pandemic.
-     */
     public void evokeCovid() {
         Logger.log("Covid evoked.");
         catastrophes.get(1).effect(gameData);
     }
 
-    /**
-     * Evokes a firestorm.
-     */
     public void evokeFirestorm() {
         Logger.log("Firestorm evoked.");
         catastrophes.get(2).effect(gameData);
@@ -235,11 +260,6 @@ public class GameManager implements SaveManager, SpeedManager {
         return saveFiles;
     }
 
-    /**
-     * Getter for the save files
-     *
-     * @return the save files
-     */
     public ArrayList<File> getSaveFiles() {
         return saveFiles;
     }
@@ -299,62 +319,32 @@ public class GameManager implements SaveManager, SpeedManager {
         }
     }
 
-    /**
-     * This method sets the taxes.
-     */
     public void setTaxes(int taxes) {
         gameData.setYearlyTaxes(taxes);
         Logger.log("Taxes set to " + taxes);
     }
 
-    /**
-     * Getter for workplace distribution. (Service/Industry)
-     */
     public double getWorkplaceDistribution() {
         return 0.0;
     }
 
-    /**
-     * Getter for the expenses.
-     */
     public Pair<String, Integer> getExpenses() {
         return new Pair<>("", 0);
     }
 
-
-    /**
-     * Getter for the hospital chance.
-     *
-     * @return the hospital chance
-     */
     public double getHospitalChance() {
         return hospitalChance;
     }
 
-    /**
-     * Setter for the hospital chance.
-     *
-     * @param hospitalChance the new hospital chance
-     */
     public void setHospitalChance(double hospitalChance) {
         this.hospitalChance = hospitalChance;
         Logger.log("Hospital chance set to " + hospitalChance);
     }
 
-    /**
-     * Getter for the simulation speed.
-     *
-     * @return the simulation speed
-     */
     public SimulationSpeed getSimulationSpeed() {
         return simulationSpeed;
     }
 
-    /**
-     * Setter for the simulation speed.
-     *
-     * @param simulationSpeed the new simulation speed
-     */
     public void setSimulationSpeed(SimulationSpeed simulationSpeed) {
         this.simulationSpeed = simulationSpeed;
         Logger.log("Simulation speed set to " + simulationSpeed);

@@ -131,25 +131,25 @@ public class Map {
      * @param p is the point where the user clicked
      */
     public void click(Point p) {
-        if(submenuHovered(p)) {
+        if (submenuHovered(p)) {
+            selectedTile = null;
+            return;
+        }
+
+        Point click = pointToXY(p);
+        if (selectedBuildingType != null && p.y < game.height() - 40) {
+            if (selectedBuildingType != Tile.GRASS_1 && canBuildThere(click.x, click.y, selectedBuildingType)) {
+                build(click.x, click.y, selectedBuildingType);
+            } else {
+                build(click.x, click.y, selectedBuildingType);
+            }
+        } else if (selectedTile != null && selectedTile.equals(click)) {
             selectedTile = null;
         } else {
-            Point click = pointToXY(p);
-            if (selectedBuildingType != null && p.y < game.height() - 40) {
-                if (selectedBuildingType != Tile.GRASS_1) {
-                    if(canBuildThere(click.x, click.y, selectedBuildingType)) build(click.x, click.y, selectedBuildingType);
-                } else {
-                    build(click.x, click.y, selectedBuildingType);
-                }
-            } else if (selectedTile == null) {
-                selectedTile = click;
-            } else if (selectedTile.equals(click)) {
-                selectedTile = null;
-            } else {
-                selectedTile = click;
-            }
+            selectedTile = click;
         }
     }
+
 
     /**
      * Paint the hover effect on the screen after the user

@@ -29,7 +29,12 @@ public class FinancialCrisis extends Catastrophe {
 
     @Override
     public void effect(GameData gameData) {
-        gameData.setBudget(gameData.getBudget() / 2);
+        if(gameData.getBudget() < 0){
+            gameData.setBudget(gameData.getBudget() + (gameData.getBudget() / 2));
+        }else{
+            gameData.setBudget(gameData.getBudget() / 2);
+        }
+
         Logger.log("Financial crisis happening!");
     }
 }
