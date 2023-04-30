@@ -292,7 +292,6 @@ public class PlayableField extends Field {
                 case STADIUM -> {
                     Logger.log("Building of field at " + coord + " set to Stadium!");
 
-                    Field[][] fields = GameManager.getFields();
                     int x = coord.getX();
                     int y = coord.getY();
 
@@ -420,8 +419,8 @@ public class PlayableField extends Field {
             throw new NullPointerException("Field has a zone already!");
 
         } else {
-            Logger.log("Field's zone at " + coord + " marked to " + zone + "!");
-            Logger.log("Current budget: " + GameManager.getGameData().getBudget());
+            Logger.log("Field's zone at " + coord + " marked to " + newZone + "!");
+            Logger.log("Current budget: " + GameManager.getBudget());
 
             this.zone = newZone;
             upgradeLevel = UpgradeLevel.TOWN;
@@ -462,7 +461,6 @@ public class PlayableField extends Field {
         } else if (building instanceof Stadium) {
             int x = building.getX();
             int y = building.getY();
-            Field[][] fs = GameManager.getFields();
             // 1.: starting tile is top left corner
             // 2.: starting tile is bottom left corner
             // 3.: starting tile is top right corner

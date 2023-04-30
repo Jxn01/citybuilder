@@ -86,22 +86,22 @@ public class TimeMenu extends GameMenu {
         if (pauseBtn.isHovered(p)) {
 
             Logger.log("Pause button clicked");
-            gm.setSimulationSpeed(SimulationSpeed.PAUSED);
+            gm.timeStop();
 
         } else if (speed1Btn.isHovered(p)) {
 
             Logger.log("1x speed button clicked");
-            gm.setSimulationSpeed(SimulationSpeed.NORMAL);
+            gm.timeNormal();
 
         } else if (speed2Btn.isHovered(p)) {
 
             Logger.log("2x speed button clicked");
-            gm.setSimulationSpeed(SimulationSpeed.FAST);
+            gm.timeFast();
 
         } else if (speed3Btn.isHovered(p)) {
 
             Logger.log("3x speed button clicked");
-            gm.setSimulationSpeed(SimulationSpeed.FASTER);
+            gm.timeFaster();
 
         }
     }

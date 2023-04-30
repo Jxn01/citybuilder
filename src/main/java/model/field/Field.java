@@ -9,15 +9,14 @@ import view.enums.Tile;
 
 import java.util.Random;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+/**
+ * This class represents a field on the map
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = BorderField.class, name = "border"),
         @JsonSubTypes.Type(value = PlayableField.class, name = "playable")
 })
-
-/**
- * This class represents a field on the map
- */
 public abstract class Field {
     protected final Coordinate coord;
     protected Tile tile;

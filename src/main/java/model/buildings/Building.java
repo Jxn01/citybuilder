@@ -10,15 +10,14 @@ import util.Logger;
 
 import java.util.Objects;
 
+/**
+ * This class represents a building.
+ */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PlayerBuilding.class, name = "playerbuilt"),
         @JsonSubTypes.Type(value = GeneratedBuilding.class, name = "generated")
 })
-
-/**
- * This class represents a building.
- */
 public abstract class Building implements Flammable {
     protected String address = Faker.instance().address().streetAddressNumber();
     protected Coordinate coords;

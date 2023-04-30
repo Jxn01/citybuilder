@@ -22,12 +22,12 @@ import static model.field.PlayableField.canBuildThere;
  */
 public class Map {
     private final Game game;
+    private final Rectangle drawnMenuRectangle = new Rectangle(0, 0, 0, 0);
+    private final MyButton upgradeBtn = new MyButton(0, 0, 0, 0, "upgrade");
     private Image rocks, grass_1, grass_2, grass_3, house_1, house_2, house_3, service_1, service_2, service_3, factory_1, factory_2, factory_3, serviceZone, factoryZone, residentialZone, road, fireStation, stadium, forest, police, construction, stadium_topleft, stadium_topright, stadium_bottomleft, stadium_bottomright;
     private Tile selectedBuildingType;
     private Point selectedTile;
     private Field[][] fields;
-    private final Rectangle drawnMenuRectangle = new Rectangle(0, 0, 0, 0);
-    private final MyButton upgradeBtn = new MyButton(0, 0, 0, 0, "upgrade");
 
     /**
      * Constructor of the Map class

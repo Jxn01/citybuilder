@@ -11,7 +11,8 @@ public abstract class Catastrophe {
     /**
      * Generates a random int number between 0 and max (parameter) inclusive
      *
-     * @param max
+     * @param min is the minimum number
+     * @param max is the maximum number
      * @return a random int number
      */
     protected int randomNumberGenerator(int min, int max) {

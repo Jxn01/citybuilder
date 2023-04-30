@@ -579,7 +579,7 @@ public class GameManager implements SaveManager, SpeedManager {
         saveFiles = new ArrayList<>();
         File directory = new File(saveDirectory);
         if (directory.exists()) {
-            for (File file : directory.listFiles()) {
+            for (File file : Objects.requireNonNull(directory.listFiles())) {
                 if (file.getName().endsWith(".json")) {
                     saveFiles.add(file);
                 }

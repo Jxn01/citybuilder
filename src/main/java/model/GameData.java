@@ -29,8 +29,8 @@ import static util.Date.getLongDate;
  * This class contains all the data that is needed to save the game.
  */
 public class GameData {
-    private String id;
     private final String startDate;
+    private String id;
     private String currentDate;
     private String inGameStartDate;
     private String inGameCurrentDate;
@@ -426,9 +426,9 @@ public class GameData {
     }
 
     /**
-     * Substracts the given amount from the budget
+     * Subtracts the given amount from the budget
      *
-     * @param amount the amount to substract
+     * @param amount the amount to subtract
      */
     public void subtractFromBudget(int amount) {
         this.budget -= amount;
