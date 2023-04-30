@@ -82,7 +82,7 @@ public class StatsMenu extends GameMenu {
             gr.drawString("Statisztikák", 700, 80);
 
             gr.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-            gr.drawString("Általános játék statisztikák", 278, 120);
+            gr.drawString("Altalános játék statisztikák", 278, 120);
             gr.drawString("- A játék kezdete: " + gd.getStartDate(), 278, 160);
             gr.drawString("- A Város alapításának dátuma: " + gd.getInGameStartDate(), 278, 200);
             gr.drawString("- Eddig a Város igazgatásával eltöltött időd: " + gd.getPlayTime(), 278, 240);

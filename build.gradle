@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'jacoco'
 }
 
 application {
@@ -8,15 +9,17 @@ application {
 }
 
 group 'codemonkeys.hu'
-version 'ALPHA-SNAPHOT'
+version '1.0-SNAPSHOT'
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
     implementation 'com.github.javafaker:javafaker:1.0.2'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
+    implementation 'org.javatuples:javatuples:1.2'
     implementation 'com.google.guava:guava:31.1-jre'
     testImplementation 'org.mockito:mockito-core:5.2.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
@@ -25,17 +28,28 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+
+    dependsOn test // tests are required to run before generating the report
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
 }
 
 sourceSets {
     main {
         resources.srcDirs = ['src/main/resources']
     }
-}
-
-build {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
 }
 
 java {
