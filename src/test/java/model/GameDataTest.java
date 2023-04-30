@@ -45,6 +45,6 @@ class GameDataTest {
 
     @Test
     void testHashCode() {
-        assertDoesNotThrow(() -> this.gameData.hashCode()>0);
+        assertDoesNotThrow(() -> this.gameData.hashCode());
     }
 }
