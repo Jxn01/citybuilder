@@ -153,7 +153,7 @@ public class Person {
      */
     public void addEffect(Effect effect) {
         effects.add(effect);
-        Logger.log("Effect " + effect + " added to " + name);
+        //Logger.log("Effect " + effect + " added to " + name);
     }
 
     /**
@@ -163,7 +163,7 @@ public class Person {
      */
     public void removeEffect(Effect effect) {
         effects.remove(effect);
-        Logger.log("Effect " + effect + " removed from " + name);
+        //Logger.log("Effect " + effect + " removed from " + name);
     }
 
     /**
@@ -273,7 +273,6 @@ public class Person {
         } else {
             Logger.log("New home of " + name + " is null");
         }
-
     }
 
     /**
@@ -293,9 +292,13 @@ public class Person {
     public void setWorkplace(Workplace workplace) {
         this.workplace = workplace;
         if (workplace != null) {
-            Logger.log("New home of " + name + " is" + workplace);
+            Logger.log("New workplace of " + name + " is" + workplace);
+            if(calculateDistanceToWork() > 10){
+                addEffect(Effect.WORK_DISTANCE);
+            }
+
         } else {
-            Logger.log("New home of " + name + " is null");
+            Logger.log("New workplace of " + name + " is null");
         }
     }
 

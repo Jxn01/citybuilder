@@ -106,17 +106,31 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
                         .map(c -> fields[c.getX()][c.getY()])
                         .map(c -> (PlayableField) c)
                         .map(PlayableField::getBuilding)
-                        .noneMatch(b -> b instanceof Forest))
+                        .filter(b -> b instanceof Forest)
+                        .map(b -> (Forest) b)
+                        .noneMatch(Forest::isGrown))
                 .map(GeneratedBuilding::getPeople)
                 .collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
 
         peopleInBuildingsWithinRange.forEach(p -> p.addEffect(Effect.INDUSTRIAL_NEARBY));
     }
 
+    /**
+     * Calculates the distance between two coordinates
+     * @param c1 the first coordinate
+     * @param c2 the second coordinate
+     * @return the distance between the two coordinates
+     */
     private int calculateDistance(Coordinate c1, Coordinate c2) {
         return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
     }
 
+    /**
+     * Calculates the path between two coordinates
+     * @param c1 the first coordinate
+     * @param c2 the second coordinate
+     * @return the path between the two coordinates
+     */
     private List<Coordinate> pathBetween(Coordinate c1, Coordinate c2) {
         int x1 = c1.getX();
         int y1 = c1.getY();

@@ -103,6 +103,10 @@ public class Forest extends RangedBuilding {
         this.growStage = growStage;
     }
 
+    public boolean isGrown(){
+        return growStage >= growTime;
+    }
+
     @Override
     public void setOnFire() {
         Logger.log("Forest is on fire at " + coords.toString());

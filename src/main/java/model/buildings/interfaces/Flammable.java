@@ -9,7 +9,6 @@ public interface Flammable {
      * Set the building on fire.
      */
     void setOnFire();
-
     /**
      * Extinguish the building.
      */
