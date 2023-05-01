@@ -28,11 +28,11 @@ public class CatastropheMenu extends GameMenu {
         super(game);
 
         this.game = game;
-        econBtn = new MyButton(268 + 30, 120, 250, 300, "econ");
-        virusBtn = new MyButton(268 + 375, 120, 250, 300, "virus");
-        fireBtn = new MyButton(988, 120, 250, 300, "fire");
-        xBtn = new MyButton(1228, 50, 40, 40, "x");
-        menuArea = new Rectangle(268, 50, 1000, 400);
+        econBtn = new MyButton(268 + 30+192, 120, 250, 300, "econ");
+        virusBtn = new MyButton(268 + 375+192, 120, 250, 300, "virus");
+        fireBtn = new MyButton(988+192, 120, 250, 300, "fire");
+        xBtn = new MyButton(1228+192, 50, 40, 40, "x");
+        menuArea = new Rectangle(268+192, 50, 1000, 400);
         menuColor = Color.white;
     }
 
@@ -53,7 +53,7 @@ public class CatastropheMenu extends GameMenu {
 
             gr.setColor(Color.black);
             gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-            gr.drawString("Katasztrófák", 700, 80);
+            gr.drawString("Katasztrófák", 700+192, 80);
 
             //gr.drawString("Építési adatok", 278, 520);
         }
