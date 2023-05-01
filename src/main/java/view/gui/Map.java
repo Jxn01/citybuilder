@@ -169,7 +169,7 @@ public class Map {
      */
     public void click(Point p) {
         if (!drawnMenuRectangle.contains(p)) {
-            if (submenuHovered(p)) {
+            if (submenuHovered(p) || p.y > game.height() - 40) {
                 selectedTile = null;
             } else {
                 Point click = pointToXY(p);

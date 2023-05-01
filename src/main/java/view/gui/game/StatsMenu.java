@@ -71,14 +71,37 @@ public class StatsMenu extends GameMenu {
 
             int stadiums = (int) l.stream().filter(f -> f.getBuilding() instanceof Stadium).count();
             int stadiumMaintenance = GameManager.getStadiumMaintenanceCost();
-            int fireDepartments = (int) l.stream().filter(f -> f.getBuilding() instanceof FireDepartment).count();
+
+            int fireDepartments = (int) l.stream()
+                    .filter(f -> f.getBuilding() instanceof FireDepartment)
+                    .count();
             int fireDepartmentMaintenance = GameManager.getFireStationMaintenanceCost();
-            int policeStations = (int) l.stream().filter(f -> f.getBuilding() instanceof PoliceStation).count();
+
+            int policeStations = (int) l.stream()
+                    .filter(f -> f.getBuilding() instanceof PoliceStation)
+                    .count();
             int policeStationMaintenance = GameManager.getPoliceMaintenanceCost();
-            int babyForests = (int) l.stream().filter(f -> f.getBuilding() instanceof Forest).map(Forest.class::cast).filter(f -> f.getGrowStage() < f.getGrowTime()).count();
+
+            int babyForests = (int) l.stream()
+                    .map(PlayableField::getBuilding)
+                    .filter(building -> building instanceof Forest)
+                    .map(Forest.class::cast)
+                    .filter(f -> f.getGrowTime() >= f.getGrowStage())
+                    .count();
+
+
             int forestMaintenance = GameManager.getForestMaintenanceCost();
-            int grownForests = (int) l.stream().filter(f -> f.getBuilding() instanceof Forest).map(Forest.class::cast).filter(f -> f.getGrowStage() >= f.getGrowTime()).count();
-            int roads = (int) l.stream().filter(f -> f.getBuilding() instanceof Road).count();
+
+            int grownForests = (int) l.stream()
+                    .map(PlayableField::getBuilding)
+                    .filter(building -> building instanceof Forest)
+                    .map(Forest.class::cast)
+                    .filter(f -> f.getGrowTime() <= f.getGrowStage())
+                    .count();
+
+            int roads = (int) l.stream()
+                    .filter(f -> f.getBuilding() instanceof Road)
+                    .count();
             int roadMaintenance = GameManager.getRoadMaintenanceCost();
 
             gr.setColor(Color.black);
