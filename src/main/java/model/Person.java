@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.javafaker.Faker;
+import controller.GameManager;
 import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
 import model.enums.Effect;
 import util.Logger;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -111,8 +113,17 @@ public class Person {
      * @return the distance to work of the person
      */
     public int calculateDistanceToWork() {
-        int distance = 0;
-        //todo: calculate distance based on graph
+        if(Objects.isNull(home) || Objects.isNull(workplace)) {
+            return 0;
+        }
+
+        List<Coordinate> path = GameManager.findShortestPath(home.getCoords(), workplace.getCoords());
+
+        if(Objects.isNull(path)) {
+            return 0;
+        }
+
+        int distance = path.size();
 
         Logger.log("Distance to work of " + name + " is " + distance);
         return distance;
