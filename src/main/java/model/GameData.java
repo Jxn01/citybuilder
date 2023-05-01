@@ -218,7 +218,7 @@ public class GameData {
         }
         satisfaction /= people.size();
         this.averageSatisfaction = satisfaction;
-        Logger.log("Game data " + this.id + " average satisfaction calculated: " + satisfaction);
+        //Logger.log("Game data " + this.id + " average satisfaction calculated: " + satisfaction); spammy
     }
 
     public int getAverageSatisfaction() {
