@@ -142,7 +142,7 @@ public class Person {
             satisfaction += effect.getValue();
         }
 
-        Logger.log("Satisfaction of " + name + " is " + satisfaction);
+        //Logger.log("Satisfaction of " + name + " is " + satisfaction); spammy
         return satisfaction;
     }
 
