@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.*;
+
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.graph.MutableGraph;
 import controller.catastrophies.Catastrophe;
@@ -16,9 +18,6 @@ import util.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -74,20 +73,29 @@ public class GameManager implements SaveManager, SpeedManager {
         return gameData.getGraph();
     }
 
-    private void simulate() {
-        Logger.log("A day passes...");
+    public void doFinancials() {
+        for (Person p : gameData.getPeople()) {
+            if (p.isRetired()) {
+                gameData.subtractFromBudget(100);
+            } else {
+                gameData.addToBudget(100);
+            }
+        }
+    }
 
+    private void simulate() {
         Timer timer = new Timer();
         int delay = 1000; // delay for 1 second
         int period = 1000; // repeat every 1 second
 
         timer.scheduleAtFixedRate(new TimerTask() {
             int count = 0;
-
             public void run() {
-                System.out.println("Timer: " + ++count);
-
+                Logger.log("Timer: " + ++count);
                 Logger.log("A day is passed: " + count + ".day");
+
+
+
 
                 if (count == 100) {
                     timer.cancel();
@@ -159,16 +167,6 @@ public class GameManager implements SaveManager, SpeedManager {
             current = previous.get(current);
         }
         return path;
-    }
-
-    public void doFinancials() {
-        for (Person p : gameData.getPeople()) {
-            if (p.isRetired()) {
-                gameData.subtractFromBudget(100);
-            } else {
-                gameData.addToBudget(100);
-            }
-        }
     }
 
     public double getCatastropheChance() {
@@ -297,7 +295,7 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     @Override
-    public void timeStop() {
+    public void timeStop  () {
         simulationSpeed = SimulationSpeed.PAUSED;
         Logger.log("Time stopped");
     }
