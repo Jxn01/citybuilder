@@ -92,7 +92,7 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     public void initGame(String cityName) {
-        setGameData(new GameData(cityName));
+        setGameData(new GameData(cityName, STARTER_BUDGET, STARTER_TAXES, STARTER_PEOPLE, STARTER_MAP_SIZE));
         Logger.log("Game initialized.");
         simulate();
     }
@@ -418,8 +418,8 @@ public class GameManager implements SaveManager, SpeedManager {
 
     private void simulate() {
         Timer timer = new Timer();
-        int delay = 500; // delay for 1 second
-        int period = 500; // repeat every 1 second
+        int delay = 1000; // delay for 1 second
+        int period = 1000; // repeat every 1 second
 
         timer.scheduleAtFixedRate(new TimerTask() {
             int count = 0;
