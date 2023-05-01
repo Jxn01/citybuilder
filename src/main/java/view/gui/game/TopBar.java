@@ -46,7 +46,7 @@ public class TopBar extends GameMenu {
         hamburgerBtn.draw(gr, game.getMousePosition());
         gr.setColor(Color.black);
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 25));
-        gr.drawString("Költségvetés: " + GameManager.getGameData().getBudget() + "$", 40, 30);
+        gr.drawString("Költségvetés: " + gd.getBudget() + "$", 40, 30);
         gr.drawString("Elégedettség: " + gd.getAverageSatisfaction() + "%", 400, 30);
         gr.drawString("Populáció: " + gd.getPopulation(), 700, 30);
         gr.drawString("Dátum: " + gd.getInGameCurrentDate(), 1000, 30);

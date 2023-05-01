@@ -29,6 +29,11 @@ public class Stadium extends RangedBuilding {
         this.bottomLeftCoords = bottomLeftCoords;
         this.bottomRightCoords = bottomRightCoords;
 
+        buildCost = 5000; // It will cost 5000 * 4 = 20000, because it contains 4 fields
+        maintenanceCost = 5000;
+        range = 10; //TODO: Change this
+
+
         Logger.log("Stadium created at " + coords.toString());
     }
 

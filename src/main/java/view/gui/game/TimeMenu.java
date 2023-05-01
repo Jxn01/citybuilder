@@ -91,17 +91,17 @@ public class TimeMenu extends GameMenu {
         } else if (speed1Btn.isHovered(p)) {
 
             Logger.log("1x speed button clicked");
-            gm.timeNormal();
+            gm.setTimeNormal();
 
         } else if (speed2Btn.isHovered(p)) {
 
             Logger.log("2x speed button clicked");
-            gm.timeFast();
+            gm.setTimeFast();
 
         } else if (speed3Btn.isHovered(p)) {
 
             Logger.log("3x speed button clicked");
-            gm.timeFaster();
+            gm.setTimeFaster();
 
         }
     }
