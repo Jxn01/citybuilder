@@ -73,11 +73,14 @@ public class GameManager implements SaveManager, SpeedManager {
     private final List<Catastrophe> catastrophes;
     private final String saveDirectory = System.getProperty("user.home") + File.separator + ".citybuilder" + File.separator + "saves";
     private List<File> saveFiles;
+    private Timer timer;
+    private int delay = 1000;
+    private int period = 1000;
 
     public GameManager() {
         catastropheChance = 0.1;
         hospitalChance = 0.1;
-        simulationSpeed = SimulationSpeed.PAUSED;
+        simulationSpeed = SimulationSpeed.NORMAL;
         catastrophes = new ArrayList<>();
         catastrophes.add(FinancialCrisis.getInstance());
         catastrophes.add(Covid.getInstance());
@@ -94,7 +97,7 @@ public class GameManager implements SaveManager, SpeedManager {
     public void initGame(String cityName) {
         setGameData(new GameData(cityName, STARTER_BUDGET, STARTER_TAXES, STARTER_PEOPLE, STARTER_MAP_SIZE));
         Logger.log("Game initialized.");
-        simulate();
+        startSimulation();
     }
 
     public static GameData getGameData() {
@@ -409,38 +412,101 @@ public class GameManager implements SaveManager, SpeedManager {
     public void doFinancials() {
         for (Person p : gameData.getPeople()) {
             if (p.isRetired()) {
-                gameData.subtractFromBudget(100);
+                gameData.subtractFromBudget(1000);
             } else {
-                gameData.addToBudget(100);
+                gameData.addToBudget(gameData.getYearlyTaxes());
             }
         }
     }
 
-    private void simulate() {
-        Timer timer = new Timer();
-        int delay = 1000; // delay for 1 second
-        int period = 1000; // repeat every 1 second
+    public int getDelay() {
+        return delay;
+    }
 
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
+    }
+
+
+    public void startSimulation() {
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-            int count = 0;
 
             public void run() {
-                Logger.log("Timer: " + ++count);
-                Logger.log("A day is passed: " + count + ".day");
-
-                // check if a year has passed
-                if (count % 365 == 0) {
-                    //doFinancials(); // do taxes for the year
-                    Logger.log("A year passed");
+                if (gameData.isGameOver()) {
+                    stopSimulation();
                 }
 
-                if (gameData.isGameOver() || getSimulationSpeed() == SimulationSpeed.PAUSED) {
-                    timer.cancel();
+                gameData.increaseDays();
+
+                Logger.log("A day is passed: " + gameData.getDays() + ".day");
+
+                // check if a year has passed
+                if (gameData.getDays() % 365 == 0) {
+                    doFinancials();
+                    Logger.log("A year passed");
                 }
             }
         }, delay, period);
     }
+    public void stopSimulation() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+            Logger.log("Timer stopped");
+        }
+    }
 
+    public SimulationSpeed getSimulationSpeed() {
+        return simulationSpeed;
+    }
+
+    public void setSimulationSpeed(SimulationSpeed simulationSpeed) { this.simulationSpeed = simulationSpeed; }
+
+    @Override
+    public void setTimePaused() {
+        simulationSpeed = SimulationSpeed.PAUSED;
+        stopSimulation();
+        Logger.log("SimulationSpeed is PAUSED");
+    }
+
+    @Override
+    public void setTimeNormal() {
+        simulationSpeed = SimulationSpeed.NORMAL;
+        stopSimulation();
+        setDelay(1000);
+        setPeriod(1000);
+        startSimulation();
+        Logger.log("SimulationSpeed is NORMAL");
+    }
+
+    @Override
+    public void setTimeFast() {
+        simulationSpeed = SimulationSpeed.FAST;
+        stopSimulation();
+        setDelay(500);
+        setPeriod(500);
+        startSimulation();
+        Logger.log("SimulationSpeed is FAST");
+    }
+
+    @Override
+    public void setTimeFaster() {
+        simulationSpeed = SimulationSpeed.FASTER;
+        stopSimulation();
+        setDelay(50);
+        setPeriod(50);
+        startSimulation();
+        Logger.log("SimulationSpeed is FASTER");
+    }
 
     /**
      * This method calculates the distance between two coordinates.
@@ -676,38 +742,5 @@ public class GameManager implements SaveManager, SpeedManager {
     public void setHospitalChance(double hospitalChance) {
         this.hospitalChance = hospitalChance;
         Logger.log("Hospital chance set to " + hospitalChance);
-    }
-
-    public SimulationSpeed getSimulationSpeed() {
-        return simulationSpeed;
-    }
-
-    public void setSimulationSpeed(SimulationSpeed simulationSpeed) {
-        this.simulationSpeed = simulationSpeed;
-        Logger.log("Simulation speed set to " + simulationSpeed);
-    }
-
-    @Override
-    public void timeStop() {
-        simulationSpeed = SimulationSpeed.PAUSED;
-        Logger.log("Time stopped");
-    }
-
-    @Override
-    public void setTimeNormal() {
-        simulationSpeed = SimulationSpeed.NORMAL;
-        Logger.log("Time flows normally");
-    }
-
-    @Override
-    public void setTimeFast() {
-        simulationSpeed = SimulationSpeed.FAST;
-        Logger.log("Time flows fast");
-    }
-
-    @Override
-    public void setTimeFaster() {
-        simulationSpeed = SimulationSpeed.FASTER;
-        Logger.log("Time flows faster");
     }
 }
