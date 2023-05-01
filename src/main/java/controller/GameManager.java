@@ -13,6 +13,7 @@ import model.Coordinate;
 import model.GameData;
 import model.Person;
 import model.field.Field;
+import model.field.PlayableField;
 import util.GraphDeserializer;
 import util.Logger;
 
@@ -416,6 +417,10 @@ public class GameManager implements SaveManager, SpeedManager {
             } else {
                 gameData.addToBudget(gameData.getYearlyTaxes());
             }
+        }
+
+        for(PlayableField field: gameData.getPlayableFieldsWithBuildings()) {
+            gameData.subtractFromBudget(1000); //TODO chane this to actual maintance cost
         }
     }
 
