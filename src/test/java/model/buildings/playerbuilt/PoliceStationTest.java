@@ -1,14 +1,11 @@
 package model.buildings.playerbuilt;
 
 import model.Coordinate;
-import model.buildings.generated.IndustrialWorkplace;
-import model.enums.SaturationRate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PoliceStationTest {
 
@@ -18,42 +15,42 @@ class PoliceStationTest {
 
     @BeforeEach
     void setUp() {
-        this.coords = new Coordinate(1,32);
+        this.coords = new Coordinate(1, 32);
         this.policeStation = new PoliceStation(coords);
     }
 
     @Test
-    void getStatistics() {
+    void getStatisticsTest() {
         final int RANGE = 50;
         this.policeStation = new PoliceStation(this.coords, 0.2, false, 10, 21, 10);
         this.policeStation.setRange(RANGE);
-        final String  actual = this.policeStation.getStatistics();
-        final String  expected = "Range: " + RANGE;
+        final String actual = this.policeStation.getStatistics();
+        final String expected = "Range: " + RANGE;
         assertTrue(actual.contains(expected));
     }
 
     @Test
-    void setOnFire() {
+    void setOnFireTest() {
         assertDoesNotThrow(() -> this.policeStation.setOnFire());
     }
 
     @Test
-    void extinguish() {
+    void extinguishTest() {
         assertDoesNotThrow(() -> this.policeStation.extinguish());
     }
 
     @Test
-    void enableEffect() {
+    void enableEffectTest() {
         assertDoesNotThrow(() -> this.policeStation.enableEffect());
     }
 
     @Test
-    void disableEffect() {
+    void disableEffectTest() {
         assertDoesNotThrow(() -> this.policeStation.disableEffect());
     }
 
     @Test
-    void effect() {
+    void effectTest() {
         assertDoesNotThrow(() -> this.policeStation.effect());
     }
 }

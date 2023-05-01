@@ -18,12 +18,12 @@ class ServiceWorkplaceTest {
 
     @BeforeEach
     void setUp() {
-        this.coords = new Coordinate(1,32);
+        this.coords = new Coordinate(1, 32);
         this.serviceWorkplace = new ServiceWorkplace(this.coords);
     }
 
     @Test
-    void addPerson() {
+    void addPersonTest() {
         final Person person = new Person(false);
 
         this.serviceWorkplace.addPerson(person);
@@ -33,14 +33,14 @@ class ServiceWorkplaceTest {
     }
 
     @Test
-    void throw_when_addPerson() {
+    void addPersonThrowExceptionTest() {
         final String MESSAGE = "Maximum capacity reached! Can't add new person!";
         final Person person = new Person(false);
         this.serviceWorkplace.setMaxCapacity(0);
 
 
         assertEquals(this.serviceWorkplace.getPeople().size(), 0);
-        final RuntimeException expected = assertThrows( RuntimeException.class, () -> this.serviceWorkplace.addPerson(person),
+        final RuntimeException expected = assertThrows(RuntimeException.class, () -> this.serviceWorkplace.addPerson(person),
                 MESSAGE
         );
 
@@ -48,7 +48,7 @@ class ServiceWorkplaceTest {
     }
 
     @Test
-    void removePerson() {
+    void removePersonTest() {
         final Person person = new Person(false);
 
         this.serviceWorkplace.removePerson(person);
@@ -57,31 +57,31 @@ class ServiceWorkplaceTest {
     }
 
     @Test
-    void getPublicSafety() {
-        final int PUBLIC_SAFERY = 50;
-        this.serviceWorkplace = new ServiceWorkplace(this.coords, 0.2, false, new ArrayList<>(), SaturationRate.FULL, PUBLIC_SAFERY);
+    void getPublicSafetyTest() {
+        final int PUBLICSAFETY = 50;
+        this.serviceWorkplace = new ServiceWorkplace(this.coords, 0.2, false, new ArrayList<>(), SaturationRate.FULL, PUBLICSAFETY);
 
         final int actual = this.serviceWorkplace.getPublicSafety();
-        assertEquals(PUBLIC_SAFERY, actual);
+        assertEquals(PUBLICSAFETY, actual);
     }
 
     @Test
-    void getStatistics() {
-        final int PUBLIC_SAFERY = 50;
-        this.serviceWorkplace.setPublicSafety(PUBLIC_SAFERY);
-        final String  actual = this.serviceWorkplace.getStatistics();
-        final String  expected = "Public safety: " + PUBLIC_SAFERY;
+    void getStatisticsTest() {
+        final int PUBLICSAFETY = 50;
+        this.serviceWorkplace.setPublicSafety(PUBLICSAFETY);
+        final String actual = this.serviceWorkplace.getStatistics();
+        final String expected = "Public safety: " + PUBLICSAFETY;
         assertTrue(actual.contains(expected));
     }
 
     @Test
-    void setOnFire() {
+    void setOnFireTest() {
         this.serviceWorkplace.setOnFire();
         assertTrue(this.serviceWorkplace.isOnFire());
     }
 
     @Test
-    void extinguish() {
+    void extinguishTest() {
         this.serviceWorkplace.extinguish();
         assertFalse(this.serviceWorkplace.isOnFire());
     }

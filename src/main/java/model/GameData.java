@@ -97,16 +97,16 @@ public class GameData {
         this.inGameStartDate = getDate(0);
         this.inGameCurrentDate = getDate(0);
         this.playTime = "00:00:01";
-        budget = starterBudget;
+        this.budget = starterBudget;
         this.cityName = cityName;
         this.gameOver = false;
         this.saveFile = null;
         this.yearlyTaxes = starterTaxes;
-        this.fields = new Field[51][51];
+        this.fields = new Field[starterMapSize][starterMapSize];
         this.graph = GraphBuilder.undirected().allowsSelfLoops(false).build();
 
         for (int i = 0; i < starterMapSize; i++) {
-            for (int j = 0; j < starterMapSize; j++) { // 2 thick border, 49x49 playable area
+            for (int j = 0; j < starterMapSize; j++) { // 2 thick border
 
                 if (i == 0 || i == 1 || i == starterMapSize - 2 || i == starterMapSize - 1 || j == 0 || j == 1 || j == starterMapSize - 2 || j == starterMapSize - 1) {
                     this.fields[i][j] = new BorderField(new Coordinate(i, j));

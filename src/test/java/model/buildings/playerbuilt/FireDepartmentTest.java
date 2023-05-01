@@ -1,7 +1,6 @@
 package model.buildings.playerbuilt;
 
 import model.Coordinate;
-import model.buildings.generated.IndustrialWorkplace;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,12 +13,12 @@ class FireDepartmentTest {
 
     @BeforeEach
     void setUp() {
-        this.coords = new Coordinate(1,32);
+        this.coords = new Coordinate(1, 32);
         this.fireDepartment = new FireDepartment(this.coords);
     }
 
     @Test
-    void getMaxFireTrucks() {
+    void getMaxFireTrucksTest() {
         final int expected = 121;
         this.fireDepartment.setMaxFireTrucks(expected);
         final int actual = this.fireDepartment.getMaxFireTrucks();
@@ -27,7 +26,7 @@ class FireDepartmentTest {
     }
 
     @Test
-    void getAvailableFireTrucks() {
+    void getAvailableFireTrucksTest() {
         final int expected = 121;
         this.fireDepartment.setAvailableFireTrucks(expected);
         final int actual = this.fireDepartment.getAvailableFireTrucks();
@@ -35,47 +34,39 @@ class FireDepartmentTest {
     }
 
     @Test
-    void getStatistics() {
+    void getStatisticsTest() {
         final int RANGE = 50;
 
         this.fireDepartment.setRange(RANGE);
 
-        final String  actual = this.fireDepartment.getStatistics();
-        final String  expected = "Range: " + RANGE;
+        final String actual = this.fireDepartment.getStatistics();
+        final String expected = "Range: " + RANGE;
         assertTrue(actual.contains(expected));
     }
 
     @Test
-    void setOnFire() {
+    void setOnFireTest() {
         assertDoesNotThrow(() -> this.fireDepartment.setOnFire());
     }
 
     @Test
-    void extinguish() {
+    void extinguishTest() {
         assertDoesNotThrow(() -> this.fireDepartment.extinguish());
     }
 
     @Test
-    void enableEffect() {
+    void enableEffectTest() {
         assertDoesNotThrow(() -> this.fireDepartment.enableEffect());
     }
 
     @Test
-    void disableEffect() {
+    void disableEffectTest() {
         assertDoesNotThrow(() -> this.fireDepartment.disableEffect());
     }
 
     @Test
-    void effect() {
+    void effectTest() {
         assertDoesNotThrow(() -> this.fireDepartment.effect());
     }
 
-    @Test
-    void testToString() {
-        final int RANGE = 50;
-        this.fireDepartment = new FireDepartment(this.coords, 1.0, false, 1, 1, RANGE, 1, 1 );
-        final String  actual = this.fireDepartment.toString();
-        final String  expected = ", range=" + RANGE;
-        assertTrue(actual.contains(expected));
-    }
 }

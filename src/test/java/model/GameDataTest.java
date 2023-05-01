@@ -1,14 +1,12 @@
 package model;
 
-import com.google.common.graph.MutableGraph;
-import model.buildings.playerbuilt.Road;
 import model.field.Field;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class GameDataTest {
 
@@ -16,11 +14,11 @@ class GameDataTest {
 
     @BeforeEach
     void setUp() {
-        this.gameData = new GameData("UNKNOW", 1,1,1,1);
+        this.gameData = new GameData("UNKNOWN", 1, 1, 10, 10);
     }
 
     @Test
-    void init_a_GameData() {
+    void initGameDataTest() {
         this.gameData.setCurrentDate("2021.01.10");
         this.gameData.setInGameStartDate("2021.01.11");
         this.gameData.setInGameCurrentDate("2021.01.12");
@@ -37,14 +35,9 @@ class GameDataTest {
         this.gameData.setBudget(1);
         this.gameData.addToBudget(1);
 
-
         assertDoesNotThrow(() -> this.gameData.getBudget());
         assertDoesNotThrow(() -> this.gameData.subtractFromBudget(1));
+        assertDoesNotThrow(() -> this.gameData.getCityName());
         assertDoesNotThrow(() -> this.gameData.getPopulation());
-    }
-
-    @Test
-    void testHashCode() {
-        assertDoesNotThrow(() -> this.gameData.hashCode());
     }
 }

@@ -8,30 +8,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StadiumTest {
 
+    Stadium stadium;
     private Coordinate topLeftCoords;
     private Coordinate topRightCoords;
     private Coordinate bottomLeftCoords;
     private Coordinate bottomRightCoords;
 
-
-    Stadium stadium;
-
-
     @BeforeEach
     void setUp() {
-        this.topLeftCoords = new Coordinate(1,32);
-        this.topRightCoords = new Coordinate(1,32);
-        this.bottomLeftCoords = new Coordinate(1,32);
-        this.bottomRightCoords = new Coordinate(1,32);
+        this.topLeftCoords = new Coordinate(1, 32);
+        this.topRightCoords = new Coordinate(1, 32);
+        this.bottomLeftCoords = new Coordinate(1, 32);
+        this.bottomRightCoords = new Coordinate(1, 32);
         this.stadium = new Stadium(topLeftCoords, topRightCoords, bottomLeftCoords, bottomRightCoords);
     }
 
 
     @Test
-    void changeCoords() {
-        this.stadium.setTopRightCoords(new Coordinate(2,32));
-        this.stadium.setBottomRightCoords(new Coordinate(2,32));
-        this.stadium.setBottomLeftCoords(new Coordinate(2,32));
+    void changeCoordsTest() {
+        this.stadium.setTopRightCoords(new Coordinate(2, 32));
+        this.stadium.setBottomRightCoords(new Coordinate(2, 32));
+        this.stadium.setBottomLeftCoords(new Coordinate(2, 32));
 
         assertEquals(this.stadium.getTopRightCoords().getX(), 2);
         assertEquals(this.stadium.getBottomRightCoords().getX(), 2);
@@ -39,37 +36,37 @@ class StadiumTest {
     }
 
     @Test
-    void getStatistics() {
+    void getStatisticsTest() {
         final int RANGE = 50;
         this.stadium = new Stadium(this.topRightCoords, 0.2, false, 10, 21, 10);
         this.stadium.setRange(RANGE);
-        final String  actual = this.stadium.getStatistics();
-        final String  expected = "Range: " + RANGE;
+        final String actual = this.stadium.getStatistics();
+        final String expected = "Range: " + RANGE;
         assertTrue(actual.contains(expected));
     }
 
     @Test
-    void setOnFire() {
+    void setOnFireTest() {
         assertDoesNotThrow(() -> this.stadium.setOnFire());
     }
 
     @Test
-    void extinguish() {
+    void extinguishTest() {
         assertDoesNotThrow(() -> this.stadium.extinguish());
     }
 
     @Test
-    void enableEffect() {
+    void enableEffectTest() {
         assertDoesNotThrow(() -> this.stadium.enableEffect());
     }
 
     @Test
-    void disableEffect() {
+    void disableEffectTest() {
         assertDoesNotThrow(() -> this.stadium.disableEffect());
     }
 
     @Test
-    void effect() {
+    void effectTest() {
         assertDoesNotThrow(() -> this.stadium.effect());
     }
 

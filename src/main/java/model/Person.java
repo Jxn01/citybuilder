@@ -9,9 +9,9 @@ import model.buildings.generated.Workplace;
 import model.enums.Effect;
 import util.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * This class represents a person in the game
@@ -20,7 +20,7 @@ public class Person {
     boolean founder;
     private int age;
     private String name;
-    private List<Effect> effects;
+    private Set<Effect> effects;
     private ResidentialBuilding home;
     private Workplace workplace;
 
@@ -31,13 +31,13 @@ public class Person {
         //random between 18 and 65
         this.age = (int) (Math.random() * 47 + 18);
         this.name = Faker.instance().name().fullName();
-        this.effects = new ArrayList<>();
+        this.effects = new TreeSet<>();
 
         Logger.log("Person created: " + name + " (" + age + ")");
     }
 
     @JsonCreator
-    public Person(@JsonProperty("age") int age, @JsonProperty("name") String name, @JsonProperty("effects") ArrayList<Effect> effects, @JsonProperty("home") ResidentialBuilding home, @JsonProperty("workplace") Workplace workplace, @JsonProperty("founder") boolean founder) {
+    public Person(@JsonProperty("age") int age, @JsonProperty("name") String name, @JsonProperty("effects") TreeSet<Effect> effects, @JsonProperty("home") ResidentialBuilding home, @JsonProperty("workplace") Workplace workplace, @JsonProperty("founder") boolean founder) {
         this.age = age;
         this.name = name;
         this.effects = effects;
@@ -89,9 +89,9 @@ public class Person {
             moveAwayChance = 0.0;
         } else {
             int satisfaction = calculateSatisfaction();
-            if (satisfaction < 20) {
+            if (satisfaction <= 20) {
                 moveAwayChance = 1.0;
-            } else if (satisfaction < 40) {
+            } else if (satisfaction <= 40) {
                 moveAwayChance = 0.5;
             } else if (satisfaction < 60) {
                 moveAwayChance = 0.2;
@@ -125,7 +125,7 @@ public class Person {
      */
     public int calculateSatisfaction() {
         //calculate satisfaction based on effects
-        int satisfaction = 60;
+        int satisfaction = 50;
 
         for (Effect effect : effects) {
             satisfaction += effect.getValue();
@@ -227,7 +227,7 @@ public class Person {
      *
      * @return the effects of the person
      */
-    public List<Effect> getEffects() {
+    public Set<Effect> getEffects() {
         return effects;
     }
 
@@ -236,7 +236,7 @@ public class Person {
      *
      * @param effects the effects of the person
      */
-    public void setEffects(ArrayList<Effect> effects) {
+    public void setEffects(Set<Effect> effects) {
         Logger.log("New effects of " + name + " are " + effects.toString());
         this.effects = effects;
     }
