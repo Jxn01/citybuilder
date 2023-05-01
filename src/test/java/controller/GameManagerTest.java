@@ -35,17 +35,6 @@ public class GameManagerTest {
     }
 
     /**
-     * Test for nexDay method
-     */
-    @Test
-    public void testNextDay() {
-        gm.nextDay();
-        Assertions.assertEquals(0, 0, "nextDay");
-    }
-
-    //private static int calculateDistance - private method
-
-    /**
      * Test for calculateDistance method - UNFINISHED
      */
     @Test
