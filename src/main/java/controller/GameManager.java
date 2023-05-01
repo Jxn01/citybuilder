@@ -85,24 +85,28 @@ public class GameManager implements SaveManager, SpeedManager {
 
     private void simulate() {
         Timer timer = new Timer();
-        int delay = 1000; // delay for 1 second
-        int period = 1000; // repeat every 1 second
+        int delay = 500; // delay for 1 second
+        int period = 500; // repeat every 1 second
 
         timer.scheduleAtFixedRate(new TimerTask() {
             int count = 0;
+
             public void run() {
                 Logger.log("Timer: " + ++count);
                 Logger.log("A day is passed: " + count + ".day");
 
+                if (count % 365 == 0) { // check if a year has passed
+                    //doFinancials(); // do taxes for the year
+                    Logger.log("A year passed");
+                }
 
-
-
-                if (count == 100) {
+                if (count == 1000) {
                     timer.cancel();
                 }
             }
         }, delay, period);
     }
+
 
     /**
      * This method calculates the distance between two coordinates.
