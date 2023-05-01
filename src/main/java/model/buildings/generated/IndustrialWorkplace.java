@@ -3,14 +3,26 @@ package model.buildings.generated;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import controller.GameManager;
 import model.Coordinate;
 import model.Person;
+import model.buildings.interfaces.FunctionalBuilding;
+import model.buildings.playerbuilt.Forest;
+import model.enums.Effect;
 import model.enums.SaturationRate;
+import model.field.Field;
+import model.field.PlayableField;
 import util.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-public class IndustrialWorkplace extends Workplace {
+public class IndustrialWorkplace extends Workplace implements FunctionalBuilding {
+
+    private final int EFFECT_RANGE = 5;
 
     /**
      * Constructor of the industrial workplace
@@ -77,5 +89,50 @@ public class IndustrialWorkplace extends Workplace {
         person.setWorkplace(null);
 
         updateSaturationRate();
+    }
+
+    @Override
+    public void effect() {
+        Field[][] fields = GameManager.getFields();
+        ArrayList<Person> peopleInBuildingsWithinRange = Arrays.stream(fields)
+                .flatMap(Arrays::stream)
+                .filter(f -> f instanceof PlayableField)
+                .map(f -> (PlayableField) f)
+                .filter(f -> f.getBuilding() instanceof GeneratedBuilding)
+                .map(f -> (GeneratedBuilding) f.getBuilding())
+                .filter(f -> calculateDistance(f.getCoords(), coords) <= EFFECT_RANGE)
+                .filter(f -> pathBetween(coords, f.getCoords())
+                        .stream()
+                        .map(c -> fields[c.getX()][c.getY()])
+                        .map(c -> (PlayableField) c)
+                        .map(PlayableField::getBuilding)
+                        .noneMatch(b -> b instanceof Forest))
+                .map(GeneratedBuilding::getPeople)
+                .collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
+
+        peopleInBuildingsWithinRange.forEach(p -> p.addEffect(Effect.INDUSTRIAL_NEARBY));
+    }
+
+    private int calculateDistance(Coordinate c1, Coordinate c2) {
+        return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
+    }
+
+    private List<Coordinate> pathBetween(Coordinate c1, Coordinate c2) {
+        int x1 = c1.getX();
+        int y1 = c1.getY();
+        int x2 = c2.getX();
+        int y2 = c2.getY();
+
+        List<Coordinate> xPath = new ArrayList<>(IntStream.range(x1, x2)
+                .mapToObj(x -> new Coordinate(x, y1))
+                .toList());
+
+        List<Coordinate> yPath = IntStream.range(y1, y2)
+                .mapToObj(y -> new Coordinate(x2, y))
+                .toList();
+
+        xPath.addAll(yPath);
+
+        return xPath;
     }
 }

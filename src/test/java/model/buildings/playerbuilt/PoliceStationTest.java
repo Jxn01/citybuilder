@@ -40,16 +40,6 @@ class PoliceStationTest {
     }
 
     @Test
-    void enableEffectTest() {
-        assertDoesNotThrow(() -> this.policeStation.enableEffect());
-    }
-
-    @Test
-    void disableEffectTest() {
-        assertDoesNotThrow(() -> this.policeStation.disableEffect());
-    }
-
-    @Test
     void effectTest() {
         assertDoesNotThrow(() -> this.policeStation.effect());
     }

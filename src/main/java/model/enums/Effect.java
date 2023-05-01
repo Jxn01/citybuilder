@@ -10,7 +10,8 @@ public enum Effect {
     STADIUM(10),
     BAD_BUDGET(-10),
     BAD_WORKPLACE_DIST(-10),
-    WORK_DISTANCE(-10);
+    WORK_DISTANCE(-10),
+    INDUSTRIAL_NEARBY(-10);
 
     private final int value;
 

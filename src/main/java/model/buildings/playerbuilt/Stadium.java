@@ -5,7 +5,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.GameManager;
 import model.Coordinate;
+import model.Person;
+import model.buildings.generated.GeneratedBuilding;
+import model.enums.Effect;
+import model.field.Field;
+import model.field.PlayableField;
 import util.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class Stadium extends RangedBuilding {
@@ -28,11 +37,6 @@ public class Stadium extends RangedBuilding {
         this.topRightCoords = topRightCoords;
         this.bottomLeftCoords = bottomLeftCoords;
         this.bottomRightCoords = bottomRightCoords;
-
-        buildCost = 5000; // It will cost 5000 * 4 = 20000, because it contains 4 fields
-        maintenanceCost = 5000;
-        range = 10; //TODO: Change this
-
 
         Logger.log("Stadium created at " + coords.toString());
     }
@@ -119,17 +123,23 @@ public class Stadium extends RangedBuilding {
     }
 
     @Override
-    public void enableEffect() {
-
-    }
-
-    @Override
-    public void disableEffect() {
-
-    }
-
-    @Override
     public void effect() {
+        Field[][] fields = GameManager.getFields();
+        ArrayList<Person> peopleInBuildingsWithinRange = Arrays.stream(fields)
+                .flatMap(Arrays::stream)
+                .filter(f -> f instanceof PlayableField)
+                .map(f -> (PlayableField) f)
+                .filter(f -> f.getBuilding() instanceof GeneratedBuilding)
+                .map(f -> (GeneratedBuilding) f.getBuilding())
+                .filter(f -> calculateDistance(f.getCoords(), coords) <= range)
+                .map(GeneratedBuilding::getPeople)
+                .collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
 
+        peopleInBuildingsWithinRange.forEach(p -> p.addEffect(Effect.STADIUM));
     }
+
+    private int calculateDistance(Coordinate c1, Coordinate c2) {
+        return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
+    }
+
 }

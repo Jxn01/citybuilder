@@ -56,16 +56,6 @@ class StadiumTest {
     }
 
     @Test
-    void enableEffectTest() {
-        assertDoesNotThrow(() -> this.stadium.enableEffect());
-    }
-
-    @Test
-    void disableEffectTest() {
-        assertDoesNotThrow(() -> this.stadium.disableEffect());
-    }
-
-    @Test
     void effectTest() {
         assertDoesNotThrow(() -> this.stadium.effect());
     }

@@ -83,16 +83,6 @@ class ForestTest {
     }
 
     @Test
-    void enableEffectTest() {
-        assertDoesNotThrow(() -> this.forest.enableEffect());
-    }
-
-    @Test
-    void disableEffectTest() {
-        assertDoesNotThrow(() -> this.forest.disableEffect());
-    }
-
-    @Test
     void effectTest() {
         assertDoesNotThrow(() -> this.forest.effect());
     }

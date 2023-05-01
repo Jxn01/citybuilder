@@ -39,7 +39,7 @@ public class Road extends PlayerBuilding {
     // TODO: Road can't be on fire
     @Override
     public void setOnFire() {
-        Logger.log("Road is on fire at " + coords.toString());
+        //Road can't be on fire
     }
 
     @Override

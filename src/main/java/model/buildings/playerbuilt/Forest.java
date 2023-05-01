@@ -5,7 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.GameManager;
 import model.Coordinate;
+import model.Person;
+import model.buildings.generated.GeneratedBuilding;
+import model.enums.Effect;
+import model.field.Field;
+import model.field.PlayableField;
 import util.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class represents a forest.
@@ -108,18 +116,23 @@ public class Forest extends RangedBuilding {
     }
 
     @Override
-    public void enableEffect() {
-
-    }
-
-    @Override
-    public void disableEffect() {
-
-    }
-
-    @Override
     public void effect() {
+        Field[][] fields = GameManager.getFields();
+        ArrayList<Person> peopleInBuildingsWithinRange = Arrays.stream(fields)
+                .flatMap(Arrays::stream)
+                .filter(f -> f instanceof PlayableField)
+                .map(f -> (PlayableField) f)
+                .filter(f -> f.getBuilding() instanceof GeneratedBuilding)
+                .map(f -> (GeneratedBuilding) f.getBuilding())
+                .filter(f -> calculateDistance(f.getCoords(), coords) <= range)
+                .map(GeneratedBuilding::getPeople)
+                .collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
 
+        peopleInBuildingsWithinRange.forEach(p -> p.addEffect(Effect.FOREST));
+    }
+
+    private int calculateDistance(Coordinate c1, Coordinate c2) {
+        return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
     }
 
     @Override

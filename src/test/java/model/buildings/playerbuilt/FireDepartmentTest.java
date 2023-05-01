@@ -54,15 +54,6 @@ class FireDepartmentTest {
         assertDoesNotThrow(() -> this.fireDepartment.extinguish());
     }
 
-    @Test
-    void enableEffectTest() {
-        assertDoesNotThrow(() -> this.fireDepartment.enableEffect());
-    }
-
-    @Test
-    void disableEffectTest() {
-        assertDoesNotThrow(() -> this.fireDepartment.disableEffect());
-    }
 
     @Test
     void effectTest() {

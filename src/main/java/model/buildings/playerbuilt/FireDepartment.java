@@ -5,7 +5,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.GameManager;
 import model.Coordinate;
+import model.Person;
+import model.buildings.Building;
+import model.buildings.generated.GeneratedBuilding;
+import model.enums.Effect;
+import model.field.Field;
+import model.field.PlayableField;
 import util.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * This class represents a fire department.
@@ -95,18 +105,22 @@ public class FireDepartment extends RangedBuilding {
     }
 
     @Override
-    public void enableEffect() {
-
-    }
-
-    @Override
-    public void disableEffect() {
-
-    }
-
-    @Override
     public void effect() {
+        Field[][] fields = GameManager.getFields();
+        ArrayList<Building> buildingsWithinRange = Arrays.stream(fields)
+                .flatMap(Arrays::stream)
+                .filter(f -> f instanceof PlayableField)
+                .map(f -> (PlayableField) f)
+                .map(PlayableField::getBuilding)
+                .filter(Objects::nonNull)
+                .filter(f -> calculateDistance(f.getCoords(), coords) <= range)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 
+        buildingsWithinRange.forEach(b -> b.setFirePossibility(0.0));
+    }
+
+    private int calculateDistance(Coordinate c1, Coordinate c2) {
+        return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
     }
 
     @Override
