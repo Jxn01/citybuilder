@@ -168,31 +168,25 @@ public class Map {
      * @param p is the point where the user clicked
      */
     public void click(Point p) {
-        if (!drawnMenuRectangle.contains(p)) {
-            if (submenuHovered(p)) {
-                selectedTile = null;
+        if (submenuHovered(p)) {
+            selectedTile = null;
+            return;
+        }
+
+        Point click = pointToXY(p);
+        if (selectedBuildingType != null && p.y < game.height() - 40) {
+            if (selectedBuildingType != Tile.GRASS_1 && canBuildThere(click.x, click.y, selectedBuildingType)) {
+                build(click.x, click.y, selectedBuildingType);
             } else {
-                Point click = pointToXY(p);
-                if (selectedBuildingType != null && p.y < game.height() - 40) {
-                    if (selectedBuildingType != Tile.GRASS_1) {
-                        if (canBuildThere(click.x, click.y, selectedBuildingType))
-                            build(click.x, click.y, selectedBuildingType);
-                    } else {
-                        build(click.x, click.y, selectedBuildingType);
-                    }
-                } else if (selectedTile == null) {
-                    selectedTile = click;
-                } else if (selectedTile.equals(click)) {
-                    selectedTile = null;
-                } else {
-                    selectedTile = click;
-                }
+                build(click.x, click.y, selectedBuildingType);
             }
-        } else if (upgradeBtn.rect.contains(p)) {
-            Point click = pointToXY(p);
-            upgrade(click.x, click.y);
+        } else if (selectedTile != null && selectedTile.equals(click)) {
+            selectedTile = null;
+        } else {
+            selectedTile = click;
         }
     }
+
 
     /**
      * Paint the hover effect on the screen after the user

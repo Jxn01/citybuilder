@@ -12,15 +12,15 @@ public interface SpeedManager {
     /**
      * Set the simulation speed to normal.
      */
-    void timeNormal();
+    void setTimeNormal();
 
     /**
      * Set the simulation speed to fast.
      */
-    void timeFast();
+    void setTimeFast();
 
     /**
      * Set the simulation speed to faster.
      */
-    void timeFaster();
+    void setTimeFaster();
 }

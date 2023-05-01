@@ -113,13 +113,13 @@ public class Person {
      * @return the distance to work of the person
      */
     public int calculateDistanceToWork() {
-        if(Objects.isNull(home) || Objects.isNull(workplace)) {
+        if (Objects.isNull(home) || Objects.isNull(workplace)) {
             return 0;
         }
 
         List<Coordinate> path = GameManager.findShortestPath(home.getCoords(), workplace.getCoords());
 
-        if(Objects.isNull(path)) {
+        if (Objects.isNull(path)) {
             return 0;
         }
 
