@@ -103,6 +103,7 @@ public class Forest extends RangedBuilding {
         this.growStage = growStage;
     }
 
+    @JsonIgnore
     public boolean isGrown(){
         return growStage >= growTime;
     }

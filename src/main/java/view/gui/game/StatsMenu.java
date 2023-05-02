@@ -69,8 +69,8 @@ public class StatsMenu extends GameMenu {
             int founders = (int) gd.getPeople().stream().filter(Person::isFounder).count();
             int nonFounders = total - founders;
 
-            int stadiums = (int) l.stream().filter(f -> f.getBuilding() instanceof Stadium).count();
-            int stadiumMaintenance = GameManager.getStadiumMaintenanceCost();
+            int stadiums = ((int) l.stream().filter(f -> f.getBuilding() instanceof Stadium).count())/4;
+            int stadiumMaintenance = GameManager.getStadiumMaintenanceCost() * 4;
 
             int fireDepartments = (int) l.stream()
                     .filter(f -> f.getBuilding() instanceof FireDepartment)
