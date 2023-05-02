@@ -40,7 +40,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final int STADIUM_BUILD_COST = 100000;
     private static final int POLICE_BUILD_COST = 10000;
     private static final int ROAD_BUILD_COST = 1000;
-    private static final int FIRE_STATION_BUILD_COST = 10000;
+    private static final int FIRE_STATION_BUILD_COST = 1000;
     private static final int FOREST_BUILD_COST = 1000;
     private static final int STADIUM_MAINTENANCE_COST = 10000;
     private static final int POLICE_MAINTENANCE_COST = 1000;
