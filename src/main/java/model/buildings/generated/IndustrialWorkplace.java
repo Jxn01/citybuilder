@@ -91,6 +91,9 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
         updateSaturationRate();
     }
 
+    /**
+     * The effect of the industrial workplace
+     */
     @Override
     public void effect() {
         Field[][] fields = GameManager.getFields();

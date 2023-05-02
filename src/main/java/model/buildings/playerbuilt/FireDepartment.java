@@ -104,6 +104,9 @@ public class FireDepartment extends RangedBuilding {
         //cant be on fire
     }
 
+    /**
+     * The effect of the Fire Station.
+     */
     @Override
     public void effect() {
         Field[][] fields = GameManager.getFields();
@@ -119,6 +122,12 @@ public class FireDepartment extends RangedBuilding {
         buildingsWithinRange.forEach(b -> b.setFirePossibility(0.0));
     }
 
+    /**
+     * Calculates the distance between two coordinates.
+     * @param c1 the first coordinate
+     * @param c2 the second coordinate
+     * @return the distance between the two coordinates
+     */
     private int calculateDistance(Coordinate c1, Coordinate c2) {
         return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
     }

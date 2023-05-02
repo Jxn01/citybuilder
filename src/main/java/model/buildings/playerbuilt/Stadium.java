@@ -122,6 +122,9 @@ public class Stadium extends RangedBuilding {
         Logger.log("Stadium is extinguished at " + coords.toString());
     }
 
+    /**
+     * Effect of the stadium
+     */
     @Override
     public void effect() {
         Field[][] fields = GameManager.getFields();
@@ -138,6 +141,13 @@ public class Stadium extends RangedBuilding {
         peopleInBuildingsWithinRange.forEach(p -> p.addEffect(Effect.STADIUM));
     }
 
+    /**
+     * Calculate the distance between two coordinates
+     *
+     * @param c1 is the first coordinate
+     * @param c2 is the second coordinate
+     * @return the distance between the two coordinates
+     */
     private int calculateDistance(Coordinate c1, Coordinate c2) {
         return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
     }

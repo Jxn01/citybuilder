@@ -460,9 +460,7 @@ public class GameManager implements SaveManager, SpeedManager {
      *
      * @param start The start coordinate.
      * @param end   The end coordinate.
-     * @param end   The end coordinate.
      * @return The shortest path between the two coordinates.
-     * @return The shortest path between the two coordinates or null if there is no path.
      */
     public static List<Coordinate> findShortestPath(Coordinate start, Coordinate end) {
         Map<Coordinate, Integer> distances = new HashMap<>();

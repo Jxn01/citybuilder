@@ -103,6 +103,10 @@ public class Forest extends RangedBuilding {
         this.growStage = growStage;
     }
 
+    /**
+     * Check if the forest is grown
+     * @return true if the forest is grown
+     */
     @JsonIgnore
     public boolean isGrown(){
         return growStage >= growTime;
@@ -120,6 +124,9 @@ public class Forest extends RangedBuilding {
         onFire = false;
     }
 
+    /**
+     * Apply the effect of the forest
+     */
     @Override
     public void effect() {
         Field[][] fields = GameManager.getFields();
@@ -136,6 +143,13 @@ public class Forest extends RangedBuilding {
         peopleInBuildingsWithinRange.forEach(p -> p.addEffect(Effect.FOREST));
     }
 
+    /**
+     * Calculate the distance between two coordinates
+     *
+     * @param c1 is the first coordinate
+     * @param c2 is the second coordinate
+     * @return the distance between the two coordinates
+     */
     private int calculateDistance(Coordinate c1, Coordinate c2) {
         return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
     }
