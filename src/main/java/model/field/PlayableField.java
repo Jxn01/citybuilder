@@ -529,10 +529,10 @@ public class PlayableField extends Field {
                 if (dPartGraphsAfter <= dPartGraphsBefore) {
                     int x = building.getX();
                     int y = building.getY();
-                    if(isFieldValid(x, y+1) && ((PlayableField)GameManager.getFields()[x][y+1]).getBuilding() != null && !(((PlayableField)GameManager.getFields()[x][y+1]).getBuilding() instanceof Road) ||
-                            isFieldValid(x, y-1) && ((PlayableField)GameManager.getFields()[x][y-1]).getBuilding() != null && !(((PlayableField)GameManager.getFields()[x][y-1]).getBuilding() instanceof Road) ||
-                            isFieldValid(x+1, y) && ((PlayableField)GameManager.getFields()[x+1][y]).getBuilding() != null && !(((PlayableField)GameManager.getFields()[x+1][y]).getBuilding() instanceof Road) ||
-                            isFieldValid(x-1, y) && ((PlayableField)GameManager.getFields()[x-1][y]).getBuilding() != null && !(((PlayableField)GameManager.getFields()[x-1][y]).getBuilding() instanceof Road)) {
+                    if (isFieldValid(x, y + 1) && ((PlayableField) GameManager.getFields()[x][y + 1]).getBuilding() != null && !(((PlayableField) GameManager.getFields()[x][y + 1]).getBuilding() instanceof Road) ||
+                            isFieldValid(x, y - 1) && ((PlayableField) GameManager.getFields()[x][y - 1]).getBuilding() != null && !(((PlayableField) GameManager.getFields()[x][y - 1]).getBuilding() instanceof Road) ||
+                            isFieldValid(x + 1, y) && ((PlayableField) GameManager.getFields()[x + 1][y]).getBuilding() != null && !(((PlayableField) GameManager.getFields()[x + 1][y]).getBuilding() instanceof Road) ||
+                            isFieldValid(x - 1, y) && ((PlayableField) GameManager.getFields()[x - 1][y]).getBuilding() != null && !(((PlayableField) GameManager.getFields()[x - 1][y]).getBuilding() instanceof Road)) {
 
                         Logger.log("Road at " + coord + " can't be demolished, it would make a building unconnected!");
                         throw new RuntimeException("Road can't be demolished, it would make a building unconnected!");
@@ -547,7 +547,7 @@ public class PlayableField extends Field {
                         building = null;
                         resetTile();
                     }
-                    
+
                 } else {
                     Logger.log("Road at " + coord + " can't be demolished, it would make the graph disconnected!");
                     throw new RuntimeException("Road can't be demolished, it would make the graph disconnected!");

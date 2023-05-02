@@ -7,7 +7,7 @@ public interface SpeedManager {
     /**
      * Set the simulation speed to pause.
      */
-    void timeStop();
+    void setTimePaused();
 
     /**
      * Set the simulation speed to normal.

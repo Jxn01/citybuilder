@@ -84,25 +84,24 @@ public class TimeMenu extends GameMenu {
         GameManager gm = game.getPanel().getGameManager();
 
         if (pauseBtn.isHovered(p)) {
-
             Logger.log("Pause button clicked");
-            gm.timeStop();
-
-        } else if (speed1Btn.isHovered(p)) {
-
+            gm.setTimePaused();
+            return;
+        }
+        if (speed1Btn.isHovered(p)) {
             Logger.log("1x speed button clicked");
             gm.setTimeNormal();
-
-        } else if (speed2Btn.isHovered(p)) {
-
+            return;
+        }
+        if (speed2Btn.isHovered(p)) {
             Logger.log("2x speed button clicked");
             gm.setTimeFast();
-
-        } else if (speed3Btn.isHovered(p)) {
-
+            return;
+        }
+        if (speed3Btn.isHovered(p)) {
             Logger.log("3x speed button clicked");
             gm.setTimeFaster();
-
+            return;
         }
     }
 

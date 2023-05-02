@@ -36,11 +36,11 @@ public class GameData {
     private String currentDate;
     private String inGameStartDate;
     private String inGameCurrentDate;
+    private int days = 0;
     private String playTime;
     private int yearlyTaxes;
     private int averageSatisfaction;
     private boolean gameOver;
-
     private Field[][] fields;
     @JsonDeserialize(using = GraphDeserializer.class)
     @JsonSerialize(using = GraphSerializer.class)
@@ -200,6 +200,18 @@ public class GameData {
     public void setPlayTime(String playTime) {
         Logger.log("Game data " + this.id + " play time set to: " + playTime);
         this.playTime = playTime;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
+
+    public void increaseDays() {
+        days++;
     }
 
     public int getYearlyTaxes() {
