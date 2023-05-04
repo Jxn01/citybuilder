@@ -27,7 +27,6 @@ public abstract class GeneratedBuilding extends Building {
     protected List<Person> people;
     protected SaturationRate saturationRate;
     protected int publicSafety;
-
     protected int maxCapacity;
 
     /**
@@ -82,6 +81,24 @@ public abstract class GeneratedBuilding extends Building {
     }
 
     /**
+     * Removes dead or moved away people from the buildings arraylist
+     */
+    public void removePeople(){
+        people.removeIf(p -> {
+            return p.getName().equals("Deceased") || p.getName().equals("Moved away");
+        });
+    }
+
+    /**
+     * Get the max capacity of the building
+     *
+     * @return the max capacity of the building
+     */
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    /**
      * Setter for the max capacity of the building
      *
      * @param maxCapacity is the maximum capacity of the building
@@ -126,6 +143,16 @@ public abstract class GeneratedBuilding extends Building {
      */
     public SaturationRate getSaturationRate() {
         return saturationRate;
+    }
+
+    @Override
+    public int getMaintenanceCost() {
+        return 0;
+    }
+
+    @Override
+    public int getBuildCost() {
+        return 0;
     }
 
     @Override

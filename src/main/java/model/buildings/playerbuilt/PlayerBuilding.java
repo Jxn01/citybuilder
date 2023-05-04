@@ -36,15 +36,6 @@ public abstract class PlayerBuilding extends Building {
     }
 
     /**
-     * Get the build cost of the player building
-     *
-     * @return the build cost of the player building
-     */
-    public int getBuildCost() {
-        return buildCost;
-    }
-
-    /**
      * Set the build cost of the player building
      *
      * @param buildCost is the new build cost of the player building
@@ -59,8 +50,19 @@ public abstract class PlayerBuilding extends Building {
      *
      * @return the maintenance cost of the player building
      */
+    @Override
     public int getMaintenanceCost() {
         return maintenanceCost;
+    }
+
+    /**
+     * Get the build cost of the player building
+     *
+     * @return the build cost of the player building
+     */
+    @Override
+    public int getBuildCost() {
+        return buildCost;
     }
 
     /**

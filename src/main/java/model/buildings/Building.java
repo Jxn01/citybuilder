@@ -152,4 +152,8 @@ public abstract class Building implements Flammable {
     public int hashCode() {
         return Objects.hash(getAddress(), getCoords(), getFirePossibility(), isOnFire());
     }
+
+    public abstract int getMaintenanceCost();
+
+    public abstract int getBuildCost();
 }

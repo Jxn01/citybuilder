@@ -190,7 +190,7 @@ public class GameData {
 
     public void setInGameCurrentDate(String inGameCurrentDate) {
         this.inGameCurrentDate = inGameCurrentDate;
-        Logger.log("Game data " + this.id + " in game current date set to: " + inGameCurrentDate);
+        //Logger.log("Game data " + this.id + " in game current date set to: " + inGameCurrentDate); spammy
     }
 
     public String getPlayTime() {

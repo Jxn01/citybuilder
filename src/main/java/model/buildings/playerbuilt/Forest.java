@@ -129,18 +129,20 @@ public class Forest extends RangedBuilding {
      */
     @Override
     public void effect() {
-        Field[][] fields = GameManager.getFields();
-        ArrayList<Person> peopleInBuildingsWithinRange = Arrays.stream(fields)
-                .flatMap(Arrays::stream)
-                .filter(f -> f instanceof PlayableField)
-                .map(f -> (PlayableField) f)
-                .filter(f -> f.getBuilding() instanceof GeneratedBuilding)
-                .map(f -> (GeneratedBuilding) f.getBuilding())
-                .filter(f -> calculateDistance(f.getCoords(), coords) <= range)
-                .map(GeneratedBuilding::getPeople)
-                .collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
+        if(isGrown()) {
+            Field[][] fields = GameManager.getFields();
+            ArrayList<Person> peopleInBuildingsWithinRange = Arrays.stream(fields)
+                    .flatMap(Arrays::stream)
+                    .filter(f -> f instanceof PlayableField)
+                    .map(f -> (PlayableField) f)
+                    .filter(f -> f.getBuilding() instanceof GeneratedBuilding)
+                    .map(f -> (GeneratedBuilding) f.getBuilding())
+                    .filter(f -> calculateDistance(f.getCoords(), coords) <= range)
+                    .map(GeneratedBuilding::getPeople)
+                    .collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
 
-        peopleInBuildingsWithinRange.forEach(p -> p.addEffect(Effect.FOREST));
+            peopleInBuildingsWithinRange.forEach(p -> p.addEffect(Effect.FOREST));
+        }
     }
 
     /**

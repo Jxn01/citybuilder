@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Objects;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import controller.GameManager;
 import model.Coordinate;
 import model.buildings.Building;
@@ -19,7 +20,7 @@ import model.buildings.playerbuilt.Forest;
 import model.buildings.playerbuilt.PlayerBuilding;
 import model.buildings.playerbuilt.PoliceStation;
 import model.buildings.playerbuilt.Road;
-import model.buildings.playerbuilt.Stadium;
+import model.buildings.playerbuilt.*;
 import model.enums.UpgradeLevel;
 import model.enums.Zone;
 import util.Logger;
@@ -193,7 +194,8 @@ public class PlayableField extends Field {
      * @param buildingType is the type of the building
      * @throws RuntimeException if there is already a building on the field, or if the building type is not specified
      */
-    public void buildBuilding(Tile buildingType) throws RuntimeException {
+    @CanIgnoreReturnValue
+    public Building buildBuilding(Tile buildingType) throws RuntimeException {
         if (building != null) {
 
             Logger.log("Field at " + coord + " has a building on it, can't build!");
@@ -205,7 +207,6 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to ResidentialBuilding!");
 
                     building = new ResidentialBuilding(coord);
-
 
                     switch (upgradeLevel) {
                         case TOWN -> {
@@ -346,6 +347,7 @@ public class PlayableField extends Field {
             }
             if (buildingType != Tile.STADIUM) tile = buildingType;
         }
+        return building;
     }
 
     /**

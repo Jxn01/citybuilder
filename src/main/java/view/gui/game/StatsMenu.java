@@ -7,7 +7,7 @@ import model.buildings.playerbuilt.FireDepartment;
 import model.buildings.playerbuilt.Forest;
 import model.buildings.playerbuilt.PoliceStation;
 import model.buildings.playerbuilt.Road;
-import model.buildings.playerbuilt.Stadium;
+import model.buildings.playerbuilt.*;
 import model.field.PlayableField;
 import util.Logger;
 import view.components.custom.MyButton;
@@ -103,6 +103,7 @@ public class StatsMenu extends GameMenu {
                     .filter(f -> f.getBuilding() instanceof Road)
                     .count();
             int roadMaintenance = GameManager.getRoadMaintenanceCost();
+            int pension = GameManager.getPension();
 
             gr.setColor(Color.black);
             gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
@@ -128,7 +129,7 @@ public class StatsMenu extends GameMenu {
 
             gr.drawString("Éves bevételek és kiadások:", 278+192, 560);
             gr.drawString("- Éves adó: " + employed + " fő * +" + tax + "$", 278+192, 600);
-            gr.drawString("- Éves nyugdíj: " + retired + " fő * -" + tax + "$", 790+192, 600);
+            gr.drawString("- Éves nyugdíj: " + retired + " fő * -" + pension + "$", 790+192, 600);
 
             gr.drawString("Épület adatok:", 278+192, 680);
             gr.drawString("- Stadionok száma: " + stadiums + " (karbantartás: " + stadiums + " * -" + stadiumMaintenance + "$)", 278+192, 720);

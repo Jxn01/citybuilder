@@ -1,7 +1,9 @@
 package controller.catastrophies;
 
+import controller.GameManager;
 import model.GameData;
 import model.Person;
+import model.buildings.generated.ServiceWorkplace;
 import util.Logger;
 
 import java.util.List;
@@ -34,8 +36,13 @@ public class Covid extends Catastrophe {
     public void effect(GameData gameData) {
         Logger.log("Actual population: " + gameData.getPopulation());
 
+        double hospitalModifier = gameData.getPlayableFieldsWithBuildings()
+                .stream()
+                .filter(f -> f.getBuilding() instanceof ServiceWorkplace)
+                .count() * GameManager.getHospitalChance();
+
         List<Person> people = gameData.getPeople();
-        int deaths_count = people.size() / 10;
+        int deaths_count = (int) (people.size() / (hospitalModifier + 10));
 
         while (deaths_count > 0) {
             int randomIndex = randomNumberGenerator(0, people.size() - 1);

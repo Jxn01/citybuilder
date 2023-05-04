@@ -33,7 +33,7 @@ public class Panel extends JPanel implements ActionListener {
     private final Game game;
     private final GameManager gm;
     private Timer timer;
-    private MenuState state;
+    private static MenuState state;
     private int width;
     private int height;
 
@@ -169,4 +169,10 @@ public class Panel extends JPanel implements ActionListener {
     public GameManager getGameManager() {
         return gm;
     }
+
+    public static MenuState getState() {
+        return state;
+    }
+
+
 }

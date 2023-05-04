@@ -115,8 +115,6 @@ public class Map {
                 case FACTORYZONE -> ((PlayableField) fields[x][y]).markZone(Zone.INDUSTRIAL_ZONE);
 
                 case GRASS_1 -> {
-                    Point p = new Point(x, y);
-
                     if (((PlayableField) fields[x][y]).getZone() == null) {
                         try {
                             ((PlayableField) fields[x][y]).demolishBuilding();
@@ -155,7 +153,7 @@ public class Map {
      */
     public void upgrade(int x, int y) {
         try {
-            ((PlayableField) fields[x][y]).upgrade();
+            ((PlayableField) fields[y][x]).upgrade();
             selectedTile = null;
         } catch (Exception exc) {
             exc.printStackTrace();
@@ -188,9 +186,8 @@ public class Map {
                     selectedTile = click;
                 }
             }
-        } else if (upgradeBtn.rect.contains(p)) {
-            Point click = pointToXY(p);
-            upgrade(click.x, click.y);
+        } else if (upgradeBtn.rect.contains(p)) {;
+            upgrade(selectedTile.y, selectedTile.x);
         }
     }
 

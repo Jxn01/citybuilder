@@ -3,6 +3,7 @@ package model.buildings.generated;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import controller.GameManager;
 import model.Coordinate;
 import model.Person;
 import model.enums.SaturationRate;
@@ -21,9 +22,8 @@ public class ResidentialBuilding extends GeneratedBuilding {
      * @param coords is the coordinates of the residential building
      */
     public ResidentialBuilding(Coordinate coords) {
-        super(coords, 0.0, false, null, null, 0);
+        super(coords, GameManager.getFirePossibility(), false, null, null, 0);
 
-        firePossibility = 0.1;
         people = new ArrayList<>();
         saturationRate = SaturationRate.EMPTY;
         publicSafety = 100;
