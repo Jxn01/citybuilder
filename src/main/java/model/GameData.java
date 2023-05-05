@@ -332,7 +332,7 @@ public class GameData {
                 }
             }
         }
-        return getBudget() == gameData.getBudget() && isGameOver() == gameData.isGameOver() && getYearlyTaxes() == gameData.getYearlyTaxes() && getAverageSatisfaction() == gameData.getAverageSatisfaction() && Objects.equal(getId(), gameData.getId()) && Objects.equal(getStartDate(), gameData.getStartDate()) && Objects.equal(getCurrentDate(), gameData.getCurrentDate()) && Objects.equal(getInGameStartDate(), gameData.getInGameStartDate()) && Objects.equal(getInGameCurrentDate(), gameData.getInGameCurrentDate()) && Objects.equal(getPlayTime(), gameData.getPlayTime()) && Objects.equal(getCityName(), gameData.getCityName()) && Objects.equal(getSaveFile(), gameData.getSaveFile()) && Objects.equal(getGraph(), gameData.getGraph()) && Objects.equal(getPeople(), gameData.getPeople()) && fieldsEqual;
+        return getBudget() == gameData.getBudget() && isGameOver() == gameData.isGameOver() && getYearlyTaxes() == gameData.getYearlyTaxes() && getAverageSatisfaction() == gameData.getAverageSatisfaction() && Objects.equal(getId(), gameData.getId()) && Objects.equal(getStartDate(), gameData.getStartDate()) && Objects.equal(getCurrentDate(), gameData.getCurrentDate()) && Objects.equal(getInGameStartDate(), gameData.getInGameStartDate()) && Objects.equal(getPlayTime(), gameData.getPlayTime()) && Objects.equal(getCityName(), gameData.getCityName()) && Objects.equal(getSaveFile(), gameData.getSaveFile()) && Objects.equal(getGraph(), gameData.getGraph()) && Objects.equal(getPeople(), gameData.getPeople()) && fieldsEqual;
     }
 
     @Override

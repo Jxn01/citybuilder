@@ -21,4 +21,5 @@ public class PersistanceTest {
         GameData gd2 = GameManager.getGameData();
         Assertions.assertEquals(gd1, gd2, "The loaded game should be the same as the saved game");
     }
+
 }
