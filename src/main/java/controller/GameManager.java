@@ -3,7 +3,6 @@ package controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.graph.MutableGraph;
-import com.sun.source.tree.Tree;
 import controller.catastrophies.Catastrophe;
 import controller.catastrophies.Covid;
 import controller.catastrophies.FinancialCrisis;
@@ -14,30 +13,24 @@ import model.Coordinate;
 import model.GameData;
 import model.Person;
 import model.buildings.Building;
-import model.buildings.generated.GeneratedBuilding;
-import model.buildings.generated.IndustrialWorkplace;
-import model.buildings.generated.ResidentialBuilding;
-import model.buildings.generated.ServiceWorkplace;
+import model.buildings.generated.*;
 import model.buildings.interfaces.Flammable;
 import model.buildings.interfaces.FunctionalBuilding;
 import model.buildings.playerbuilt.Forest;
-import model.buildings.playerbuilt.RangedBuilding;
 import model.enums.Effect;
-import model.enums.UpgradeLevel;
 import model.enums.Zone;
 import model.field.Field;
 import model.field.PlayableField;
 import util.Date;
 import util.GraphDeserializer;
 import util.Logger;
-import view.components.GameGUI;
 import view.components.Panel;
 import view.enums.MenuState;
 
 import javax.swing.*;
 import java.io.File;
-import java.util.*;
 import java.util.Timer;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -510,13 +503,11 @@ public class GameManager implements SaveManager, SpeedManager {
         }, delay, period);
     }
 
-    private void isGameOver(){
-        if(gameData.getPopulation() <= MIN_POPULATION || gameData.getAverageSatisfaction() <= MIN_SATISFACTION){
+    private void isGameOver() {
+        if (gameData.getPopulation() <= MIN_POPULATION || gameData.getAverageSatisfaction() <= MIN_SATISFACTION) {
             gameData.setGameOver(true);
             timer.cancel();
-            JOptionPane.showMessageDialog(null, "Game Over! You lost all your citizens!");
-            MenuState ms = Panel.getState();
-            ms = MenuState.MAINMENU;
+            JOptionPane.showMessageDialog(null, "Game Over! You lost!");
         }
     }
 
@@ -528,7 +519,7 @@ public class GameManager implements SaveManager, SpeedManager {
         }
     }
 
-    private void workplaceDistrEffect() {
+    private double getWorkplaceDistr() { // industrial / service
         double serviceWs = (double) gameData.getPlayableFieldsWithBuildings()
                 .stream()
                 .filter(f -> f.getBuilding() instanceof ServiceWorkplace)
@@ -539,20 +530,20 @@ public class GameManager implements SaveManager, SpeedManager {
                 .filter(f -> f.getBuilding() instanceof IndustrialWorkplace)
                 .count();
 
-        if (serviceWs >= industrialWs && serviceWs != 0) {
-            if (industrialWs / serviceWs > MAX_DISTRIBUTION) {
-                gameData.getPeople().forEach(p -> p.addEffect(Effect.BAD_WORKPLACE_DIST));
-            } else {
-                gameData.getPeople().forEach(p -> p.removeEffect(Effect.BAD_WORKPLACE_DIST));
-            }
-        } else if (serviceWs < industrialWs) {
-            if (serviceWs / industrialWs > MAX_DISTRIBUTION) {
-                gameData.getPeople().forEach(p -> p.addEffect(Effect.BAD_WORKPLACE_DIST));
-            } else {
-                gameData.getPeople().forEach(p -> p.removeEffect(Effect.BAD_WORKPLACE_DIST));
-            }
-        } else {
+        if (serviceWs == 0 && industrialWs == 0) {
+            return 0.5;
+        }
+
+        return serviceWs / (serviceWs + industrialWs);
+    }
+
+    private void workplaceDistrEffect() {
+        double workplaceDistr = getWorkplaceDistr();
+
+        if (workplaceDistr > 0.3 && workplaceDistr < 0.7) {
             gameData.getPeople().forEach(p -> p.removeEffect(Effect.BAD_WORKPLACE_DIST));
+        } else {
+            gameData.getPeople().forEach(p -> p.addEffect(Effect.BAD_WORKPLACE_DIST));
         }
     }
 
@@ -561,7 +552,98 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     private void employUnemployed() {
+        Stack<Person> unemployed = gameData.getPeople()
+                .stream()
+                .filter(p -> p.getWorkplace() == null && p.getHome() != null)
+                .collect(Collectors.toCollection(Stack::new));
 
+        List<Workplace> serviceWorkplaces = gameData.getPlayableFieldsWithBuildings()
+                .stream()
+                .filter(f -> f.getBuilding() instanceof ServiceWorkplace)
+                .map(f -> (ServiceWorkplace) f.getBuilding())
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+
+        List<Workplace> industrialWorkplaces = gameData.getPlayableFieldsWithBuildings()
+                .stream()
+                .filter(f -> f.getBuilding() instanceof IndustrialWorkplace)
+                .map(f -> (IndustrialWorkplace) f.getBuilding())
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+
+        List<PlayableField> serviceZonesWithNoBuildings = Arrays.stream(gameData.getFields())
+                .flatMap(Arrays::stream)
+                .filter(f -> f instanceof PlayableField)
+                .map(f -> (PlayableField) f)
+                .filter(f -> f.getZone() == Zone.SERVICE_ZONE && f.getBuilding() == null)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+
+        List<PlayableField> industrialZonesWithNoBuildings = Arrays.stream(gameData.getFields())
+                .flatMap(Arrays::stream)
+                .filter(f -> f instanceof PlayableField)
+                .map(f -> (PlayableField) f)
+                .filter(f -> f.getZone() == Zone.INDUSTRIAL_ZONE && f.getBuilding() == null)
+                .collect(Collectors.toCollection(Stack::new));
+
+        while (unemployed.size() != 0) {
+            Person p = unemployed.pop();
+            removeWorkplaceThatIsFull(serviceWorkplaces);
+            removeWorkplaceThatIsFull(industrialWorkplaces);
+            if (serviceWorkplaces.size() == 0 && industrialWorkplaces.size() == 0) {
+                if (serviceZonesWithNoBuildings.size() == 0 && industrialZonesWithNoBuildings.size() == 0) {
+                    break;
+                } else if (serviceZonesWithNoBuildings.size() == 0) {
+                    industrialWorkplaces.add(buildWorkplaceBasedOnDistance(industrialZonesWithNoBuildings, unemployed));
+                } else if (industrialZonesWithNoBuildings.size() == 0) {
+                    serviceWorkplaces.add(buildWorkplaceBasedOnDistance(serviceZonesWithNoBuildings, unemployed));
+                } else {
+                    if (getWorkplaceDistr() <= 0.5) { //industrial
+                        industrialWorkplaces.add(buildWorkplaceBasedOnDistance(industrialZonesWithNoBuildings, unemployed));
+                    } else {
+                        serviceWorkplaces.add(buildWorkplaceBasedOnDistance(serviceZonesWithNoBuildings, unemployed));
+                    }
+                }
+            } else {
+                if (serviceWorkplaces.size() == 0) {
+                    chooseWorkplaceBasedOnDistance(industrialWorkplaces, p);
+                } else if (industrialWorkplaces.size() == 0) {
+                    chooseWorkplaceBasedOnDistance(serviceWorkplaces, p);
+                } else {
+                    if (getWorkplaceDistr() <= 0.5) { //industrial
+                        chooseWorkplaceBasedOnDistance(industrialWorkplaces, p);
+                    } else {
+                        chooseWorkplaceBasedOnDistance(serviceWorkplaces, p);
+                    }
+                }
+            }
+        }
+    }
+
+    private void removeWorkplaceThatIsFull(List<Workplace> ws) {
+        ws.stream().filter(w -> w.getPeople().size() >= w.getMaxCapacity()).forEach(ws::remove);
+    }
+
+    private Workplace buildWorkplaceBasedOnDistance(List<PlayableField> zones, Stack<Person> people){
+        final Workplace[] res = {null};
+        // sort by the average of the peoples distance to the workplace
+        zones.stream().min((z1, z2) -> {
+            int d1 = people.stream().mapToInt(p -> findShortestPath(z1.getCoord(), p.getHome().getCoords()).size()).sum();
+            int d2 = people.stream().mapToInt(p -> findShortestPath(z2.getCoord(), p.getHome().getCoords()).size()).sum();
+            return d1 - d2;
+        }).ifPresent(z -> {
+            if (getWorkplaceDistr() <= 0.5) { //industrial
+                res[0] = (IndustrialWorkplace) z.buildBuilding(null);
+            } else {
+                res[0] = (ServiceWorkplace) z.buildBuilding(null);
+            }
+        });
+        return res[0];
+    }
+
+    private void chooseWorkplaceBasedOnDistance(List<Workplace> ws, Person p) {
+        ws.stream().min((w1, w2) -> {
+            int d1 = findShortestPath(w1.getCoords(), p.getHome().getCoords()).size();
+            int d2 = findShortestPath(w2.getCoords(), p.getHome().getCoords()).size();
+            return d1 - d2;
+        }).filter(w -> w.getPeople().size() < w.getMaxCapacity()).ifPresent(w -> w.addPerson(p));
     }
 
     private void houseHomeless() {
@@ -583,18 +665,18 @@ public class GameManager implements SaveManager, SpeedManager {
                 .filter(f -> f.getZone() == Zone.RESIDENTIAL_ZONE && f.getBuilding() == null)
                 .collect(Collectors.toCollection(Stack::new));
 
-        while(homeless.size() != 0) {
-            if(residentialBuildings.size() == 0){
-                if(residentialZonesWithNoBuildings.size() != 0){
+        while (homeless.size() != 0) {
+            if (residentialBuildings.size() == 0) {
+                if (residentialZonesWithNoBuildings.size() != 0) {
                     PlayableField pf = residentialZonesWithNoBuildings.pop();
                     ResidentialBuilding newRb = (ResidentialBuilding) pf.buildBuilding(null);
                     residentialBuildings.add(newRb);
                 } else {
                     break;
                 }
-            }else{
+            } else {
                 ResidentialBuilding rb = residentialBuildings.pop();
-                while(rb.getPeople().size() < rb.getMaxCapacity() && homeless.size() != 0){
+                while (rb.getPeople().size() < rb.getMaxCapacity() && homeless.size() != 0) {
                     Person p = homeless.pop();
                     rb.addPerson(p);
                 }
@@ -639,7 +721,7 @@ public class GameManager implements SaveManager, SpeedManager {
                 .forEach(FunctionalBuilding::effect);
     }
 
-    private void removePeopleFromBuildings(){
+    private void removePeopleFromBuildings() {
         gameData.getPlayableFieldsWithBuildings()
                 .stream()
                 .filter(f -> f.getBuilding() instanceof GeneratedBuilding)
@@ -650,7 +732,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private void peopleMoveAway() {
         int people = gameData.getPeople().size();
         gameData.getPeople().forEach(p -> {
-            if(p.calculateMoveAwayChance() >= Math.random()){
+            if (p.calculateMoveAwayChance() >= Math.random()) {
                 p.moveAway();
             }
         });
@@ -662,7 +744,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private void peopleDie() {
         int people = gameData.getPeople().size();
         gameData.getPeople().forEach(p -> {
-            if(p.calculateDeceaseChance() >= Math.random()){
+            if (p.calculateDeceaseChance() >= Math.random()) {
                 p.decease();
             }
         });
