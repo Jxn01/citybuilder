@@ -91,7 +91,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private int period = 1000;
 
     public GameManager() {
-        simulationSpeed = SimulationSpeed.PAUSED;
+        simulationSpeed = SimulationSpeed.NORMAL;
         catastrophes = new ArrayList<>();
         catastrophes.add(FinancialCrisis.getInstance());
         catastrophes.add(Covid.getInstance());
