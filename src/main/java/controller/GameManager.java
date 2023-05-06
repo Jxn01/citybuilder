@@ -678,6 +678,26 @@ public class GameManager implements SaveManager, SpeedManager {
         }
     }
 
+    private ResidentialBuilding buildResidentialBasedOnFactors(Stack<PlayableField> zones) {
+        final PlayableField[] toRemove = {null};
+        final ResidentialBuilding[] res = {null};
+        for (PlayableField zone : zones) {
+            zone.calculateMoveInFactor();
+        }
+
+        zones.stream().max((z1, z2) -> {
+            int d1 = z1.getMoveInFactor();
+            int d2 = z2.getMoveInFactor();
+            return d1 - d2;
+        }).ifPresent(z -> {
+            res[0] = (ResidentialBuilding) z.buildBuilding(null);
+            toRemove[0] = z;
+        });
+
+        zones.remove(toRemove[0]);
+        return res[0];
+    }
+
     private void buildingOnFire() {
         gameData.getPlayableFieldsWithBuildings()
                 .stream()
