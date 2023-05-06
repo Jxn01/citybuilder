@@ -614,23 +614,29 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     private void removeWorkplaceThatIsFull(List<Workplace> ws) {
-        ws.stream().filter(w -> w.getPeople().size() >= w.getMaxCapacity()).forEach(ws::remove);
+        ArrayList<Workplace> toRemove = new ArrayList<>();
+        ws.stream().filter(w -> Objects.nonNull(w) && w.getPeople().size() >= w.getMaxCapacity()).forEach(toRemove::add);
+        ws.removeAll(toRemove);
     }
 
-    private Workplace buildWorkplaceBasedOnDistance(List<PlayableField> zones, Stack<Person> people){
+    private Workplace buildWorkplaceBasedOnDistance(List<PlayableField> zones, Stack<Person> people) {
+        final PlayableField[] toRemove = {null};
         final Workplace[] res = {null};
         // sort by the average of the peoples distance to the workplace
-        zones.stream().min((z1, z2) -> {
-            int d1 = people.stream().mapToInt(p -> findShortestPath(z1.getCoord(), p.getHome().getCoords()).size()).sum();
-            int d2 = people.stream().mapToInt(p -> findShortestPath(z2.getCoord(), p.getHome().getCoords()).size()).sum();
-            return d1 - d2;
-        }).ifPresent(z -> {
-            if (getWorkplaceDistr() <= 0.5) { //industrial
-                res[0] = (IndustrialWorkplace) z.buildBuilding(null);
-            } else {
-                res[0] = (ServiceWorkplace) z.buildBuilding(null);
-            }
-        });
+        zones.stream()
+                .filter(z -> people
+                        .stream()
+                        .anyMatch(p -> isPathBetween(z.getCoord(), p.getHome().getCoords())))
+                .min((z1, z2) -> {
+                    int d1 = people.stream().mapToInt(p -> findShortestPathLength(z1.getCoord(), p.getHome().getCoords())).sum();
+                    int d2 = people.stream().mapToInt(p -> findShortestPathLength(z2.getCoord(), p.getHome().getCoords())).sum();
+                    return d1 - d2;
+                })
+                .ifPresent(z -> {
+                    res[0] = (Workplace) z.buildBuilding(null);
+                    toRemove[0] = z;
+                });
+        zones.remove(toRemove[0]);
         return res[0];
     }
 
