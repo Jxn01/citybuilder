@@ -52,6 +52,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final int POLICE_RANGE = 10;
     private static final int FIRE_STATION_RANGE = 10;
     private static final int FOREST_RANGE = 10;
+    private static final int INDUSTRIAL_RANGE = 10;
     private static final int FOREST_GROWTH_TIME = 10;
     private static final int MARK_RESIDENTIAL_COST = 1000;
     private static final int MARK_SERVICE_COST = 1000;
@@ -256,6 +257,10 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public static int getForestRange() {
         return FOREST_RANGE;
+    }
+
+    public static int getIndustrialRange() {
+        return INDUSTRIAL_RANGE;
     }
 
     /**
@@ -881,6 +886,14 @@ public class GameManager implements SaveManager, SpeedManager {
             current = previous.get(current);
         }
         return path;
+    }
+
+    public static int findShortestPathLength(Coordinate c1, Coordinate c2){
+        List<Coordinate> path = findShortestPath(c1, c2);
+        if(path == null){
+            return Integer.MAX_VALUE;
+        }
+        return path.size();
     }
 
     /**
