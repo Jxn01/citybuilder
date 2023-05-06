@@ -103,7 +103,12 @@ public class PlayableField extends Field {
     public static boolean canBuildThere(int x, int y, Tile building) {
         switch (building) {
             case ROAD -> {
-                return isFieldEmpty(x, y);
+                int partGraphsCount = GameManager.countDisconnectedGraphs(GameManager.getGraph());
+                if(partGraphsCount == 0) {
+                    return isFieldEmpty(x, y);
+                } else {
+                    return isFieldEmpty(x, y) && isNextToRoad(x, y);
+                }
             }
             case STADIUM -> {
                 return isFieldEmpty(x, y) && isFieldEmpty(x, y + 1) && isFieldEmpty(x + 1, y) && isFieldEmpty(x + 1, y + 1) && isStadiumNextToRoad(x, y);

@@ -1,9 +1,6 @@
 package model.buildings.generated;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 import controller.GameManager;
 import model.Coordinate;
 import model.Person;
@@ -40,7 +37,7 @@ public abstract class GeneratedBuilding extends Building {
      * @param publicSafety    is the public safety of the building
      */
     @JsonCreator
-    public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
+    public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
         super(coords, firePossibility, isOnFire);
         this.people = people;
         this.saturationRate = saturationRate;
@@ -132,8 +129,18 @@ public abstract class GeneratedBuilding extends Building {
      *
      * @return the people in the building
      */
+    @JsonIgnore
     public List<Person> getPeople() {
         return people;
+    }
+
+    /**
+     * Set the people in the building
+     *
+     * @param people is the people in the building
+     */
+    public void setPeople(List<Person> people) {
+        this.people = people;
     }
 
     /**
@@ -146,11 +153,13 @@ public abstract class GeneratedBuilding extends Building {
     }
 
     @Override
+    @JsonIgnore
     public int getMaintenanceCost() {
         return 0;
     }
 
     @Override
+    @JsonIgnore
     public int getBuildCost() {
         return 0;
     }

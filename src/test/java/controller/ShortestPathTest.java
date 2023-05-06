@@ -57,7 +57,7 @@ public class ShortestPathTest {
 
         // Test when there is no path between A and C
         List<Coordinate> actualPath = GameManager.findShortestPath(A, C);
-        assertNull(actualPath);
+        assertEquals(actualPath.size(), 0);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class ShortestPathTest {
 
         // Test when the start and end coordinates are the same
         List<Coordinate> actualPath = GameManager.findShortestPath(A, A);
-        assertNull(actualPath);
+        assertEquals(actualPath.size(), 0);
     }
 }
 

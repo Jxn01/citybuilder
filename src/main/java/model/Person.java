@@ -35,7 +35,7 @@ public class Person {
         this.name = Faker.instance().name().fullName();
         this.effects = new TreeSet<>();
 
-        Logger.log("Person created: " + name + " (" + age + ")");
+        //Logger.log("Person created: " + name + " (" + age + ")"); spammy + laggy
     }
 
     @JsonCreator
@@ -117,13 +117,7 @@ public class Person {
             return 0;
         }
 
-        List<Coordinate> path = GameManager.findShortestPath(home.getCoords(), workplace.getCoords());
-
-        if (Objects.isNull(path)) {
-            return 0;
-        }
-
-        int distance = path.size();
+        int distance = GameManager.findShortestPathLength(home.getCoords(), workplace.getCoords());
 
         Logger.log("Distance to work of " + name + " is " + distance);
         return distance;
@@ -152,7 +146,10 @@ public class Person {
      * @param effect the effect to add
      */
     public void addEffect(Effect effect) {
-        effects.add(effect);
+        if(effects != null) {
+            effects.add(effect);
+        }
+
         //Logger.log("Effect " + effect + " added to " + name);
     }
 

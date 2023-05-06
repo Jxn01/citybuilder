@@ -89,7 +89,7 @@ public abstract class Building implements Flammable {
      * @param firePossibility is the fire possibility of the building
      */
     public void setFirePossibility(double firePossibility) {
-        Logger.log("Fire possibility set to " + firePossibility + " at " + coords.toString());
+        //Logger.log("Fire possibility set to " + firePossibility + " at " + coords.toString()); spammy
         this.firePossibility = firePossibility;
     }
 
