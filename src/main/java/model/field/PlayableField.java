@@ -10,6 +10,7 @@ import com.google.common.graph.MutableGraph;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import controller.GameManager;
 import model.Coordinate;
+import model.GameData;
 import model.buildings.Building;
 import model.buildings.generated.GeneratedBuilding;
 import model.buildings.generated.IndustrialWorkplace;
@@ -25,6 +26,8 @@ import model.enums.UpgradeLevel;
 import model.enums.Zone;
 import util.Logger;
 import view.enums.Tile;
+
+import java.util.Arrays;
 
 /**
  * This class represents a field on the map
@@ -67,7 +70,7 @@ public class PlayableField extends Field {
         if (isFieldEmpty(x, y)) {
             ((PlayableField) fs[x][y]).setBuilding(stadium);
             (fs[x][y]).setTile(tile);
-            GameManager.getGameData().subtractFromBudget(stadium.getBuildCost());
+            GameManager.getGameData().subtractFromBudget(GameManager.getStadiumBuildCost());
         }
     }
 
@@ -703,9 +706,62 @@ public class PlayableField extends Field {
      */
     @JsonIgnore
     public int calculateMoveInFactor() {
-        int moveInFactor = 0;
-        Logger.log("Move in factor of field at " + coord + " is " + moveInFactor);
+        int moveInFactor = 1;
+        int policeRange = GameManager.getPoliceRange();
+        int stadiumRange = GameManager.getStadiumRange();
+        int forestRange = GameManager.getForestRange();
+        int industrialRange = GameManager.getIndustrialRange();
+
+        boolean hasPolice = Arrays.stream(GameManager.getFields())
+                .flatMap(Arrays::stream)
+                .filter(field -> field instanceof PlayableField)
+                .map(field -> (PlayableField) field)
+                .filter(field -> field.getBuilding() instanceof PoliceStation)
+                .anyMatch(field -> calculateDistance(field.getCoord(), this.getCoord()) <= policeRange);
+
+        boolean hasStadium = Arrays.stream(GameManager.getFields())
+                .flatMap(Arrays::stream)
+                .filter(field -> field instanceof PlayableField)
+                .map(field -> (PlayableField) field)
+                .filter(field -> field.getBuilding() instanceof Stadium)
+                .anyMatch(field -> calculateDistance(field.getCoord(), this.getCoord()) <= stadiumRange);
+
+        boolean hasForest = Arrays.stream(GameManager.getFields())
+                .flatMap(Arrays::stream)
+                .filter(field -> field instanceof PlayableField)
+                .map(field -> (PlayableField) field)
+                .filter(field -> field.getBuilding() instanceof Forest)
+                .map(field -> (Forest) field.getBuilding())
+                .filter(Forest::isGrown)
+                .anyMatch(forest -> calculateDistance(forest.getCoords(), this.getCoord()) <= forestRange);
+
+        boolean hasIndustrial = Arrays.stream(GameManager.getFields())
+                .flatMap(Arrays::stream)
+                .filter(field -> field instanceof PlayableField)
+                .map(field -> (PlayableField) field)
+                .filter(field -> field.getBuilding() instanceof IndustrialWorkplace)
+                .anyMatch(field -> calculateDistance(field.getCoord(), this.getCoord()) <= industrialRange);
+
+        if(hasPolice) moveInFactor++;
+        if(hasStadium) moveInFactor++;
+        if(hasForest) moveInFactor++;
+        if(hasIndustrial) moveInFactor--;
+
+        if(upgradeLevel != null){
+            switch(upgradeLevel) {
+                case TOWN -> moveInFactor++;
+                case CITY -> moveInFactor += 2;
+                case METROPOLIS -> moveInFactor += 3;
+            }
+        }
+
+        setMoveInFactor(moveInFactor);
         return moveInFactor;
+    }
+
+    @JsonIgnore
+    private int calculateDistance(Coordinate c1, Coordinate c2) {
+        return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
     }
 
     /**

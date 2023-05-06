@@ -22,8 +22,6 @@ import java.util.stream.IntStream;
 
 public class IndustrialWorkplace extends Workplace implements FunctionalBuilding {
 
-    private final int EFFECT_RANGE = 5;
-
     /**
      * Constructor of the industrial workplace
      *
@@ -103,7 +101,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
                 .map(f -> (PlayableField) f)
                 .filter(f -> f.getBuilding() instanceof GeneratedBuilding)
                 .map(f -> (GeneratedBuilding) f.getBuilding())
-                .filter(f -> calculateDistance(f.getCoords(), coords) <= EFFECT_RANGE)
+                .filter(f -> calculateDistance(f.getCoords(), coords) <= GameManager.getIndustrialRange())
                 .filter(f -> pathBetween(coords, f.getCoords())
                         .stream()
                         .map(c -> fields[c.getX()][c.getY()])
