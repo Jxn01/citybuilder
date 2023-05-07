@@ -46,28 +46,29 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final int ROAD_MAINTENANCE_COST = 100;
     private static final int FIRE_STATION_MAINTENANCE_COST = 1000;
     private static final int FOREST_MAINTENANCE_COST = 100;
-    private static final int STADIUM_RANGE = 3;
-    private static final int POLICE_RANGE = 3;
-    private static final int FIRE_STATION_RANGE = 3;
-    private static final int FOREST_RANGE = 3;
-    private static final int INDUSTRIAL_RANGE = 3;
-    private static final int FOREST_GROWTH_TIME = 2;
+    private static final int STADIUM_RANGE = 10;
+    private static final int POLICE_RANGE = 10;
+    private static final int FIRE_STATION_RANGE = 10;
+    private static final int FOREST_RANGE = 10;
+    private static final int INDUSTRIAL_RANGE = 10;
+    private static final int FOREST_GROWTH_TIME = 10;
     private static final int MARK_RESIDENTIAL_COST = 1000;
     private static final int MARK_SERVICE_COST = 1000;
     private static final int MARK_INDUSTRIAL_COST = 1000;
-    private static final int LEVEL_ONE_MAX_CAPACITY = 5;
-    private static final int LEVEL_TWO_MAX_CAPACITY = 20;
-    private static final int LEVEL_THREE_MAX_CAPACITY = 50;
+    private static final int LEVEL_ONE_MAX_CAPACITY = 100;
+    private static final int LEVEL_TWO_MAX_CAPACITY = 200;
+    private static final int LEVEL_THREE_MAX_CAPACITY = 300;
     private static final int LEVEL_TWO_UPGRADE_COST = 10000;
-    private static final int LEVEL_THREE_UPGRADE_COST = 50000;
+    private static final int LEVEL_THREE_UPGRADE_COST = 100000;
     private static final double REFUND_PERCENT = 0.5;
     private static final int STARTER_MAP_SIZE = 51;
-    private static final int STARTER_PEOPLE = 500;
-    private static final int STARTER_BUDGET = 1000000000;
+    private static final int STARTER_PEOPLE = 50;
+    private static final int STARTER_BUDGET = 100000;
     private static final int STARTER_TAXES = 1000;
     private static final double FIRE_POSSIBILITY = 0.001;
     private static final int MAX_FIRETRUCKS = 2;
     private static final int PENSION = 1000;
+    private static final double MAX_DISTRIBUTION = 0.7;
     private static GameData gameData;
     private static final double CATASTROPHE_CHANCE = 0.0001;
     private static final double HOSPITAL_CHANCE = 0.1;
@@ -110,6 +111,7 @@ public class GameManager implements SaveManager, SpeedManager {
         GameManager.gameData = gameData;
         Logger.log("Game data set to " + gameData.getId());
     }
+
 
     /**
      * Getter for the hospital chance.
@@ -253,6 +255,10 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public static int getForestRange() {
         return FOREST_RANGE;
+    }
+
+    public static int getIndustrialRange() {
+        return INDUSTRIAL_RANGE;
     }
 
     /**
@@ -614,36 +620,24 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     private void removeWorkplaceThatIsFull(List<Workplace> ws) {
-        ArrayList<Workplace> toRemove = new ArrayList<>();
-        ws.stream().filter(w -> Objects.nonNull(w) && w.getPeople().size() >= w.getMaxCapacity()).forEach(toRemove::add);
-        ws.removeAll(toRemove);
+        ws.stream().filter(w -> w.getPeople().size() >= w.getMaxCapacity()).forEach(ws::remove);
     }
 
     private Workplace buildWorkplaceBasedOnDistance(List<PlayableField> zones, Stack<Person> people) {
-        final PlayableField[] toRemove = {null};
         final Workplace[] res = {null};
         // sort by the average of the peoples distance to the workplace
-        zones.stream()
-                .filter(z -> people
-                        .stream()
-                        .anyMatch(p -> isPathBetween(z.getCoord(), p.getHome().getCoords())))
-                .min((z1, z2) -> {
-                    int d1 = people.stream().mapToInt(p -> findShortestPathLength(z1.getCoord(), p.getHome().getCoords())).sum();
-                    int d2 = people.stream().mapToInt(p -> findShortestPathLength(z2.getCoord(), p.getHome().getCoords())).sum();
-                    return d1 - d2;
-                })
-                .ifPresent(z -> {
-                    res[0] = (Workplace) z.buildBuilding(null);
-                    toRemove[0] = z;
-                });
-        zones.remove(toRemove[0]);
+        zones.stream().min((z1, z2) -> {
+            int d1 = people.stream().mapToInt(p -> findShortestPath(z1.getCoord(), p.getHome().getCoords()).size()).sum();
+            int d2 = people.stream().mapToInt(p -> findShortestPath(z2.getCoord(), p.getHome().getCoords()).size()).sum();
+            return d1 - d2;
+        }).ifPresent(z -> res[0] = (Workplace) z.buildBuilding(null));
         return res[0];
     }
 
     private void chooseWorkplaceBasedOnDistance(List<Workplace> ws, Person p) {
         ws.stream().min((w1, w2) -> {
-            int d1 = findShortestPathLength(w1.getCoords(), p.getHome().getCoords());
-            int d2 = findShortestPathLength(w2.getCoords(), p.getHome().getCoords());
+            int d1 = findShortestPath(w1.getCoords(), p.getHome().getCoords()).size();
+            int d2 = findShortestPath(w2.getCoords(), p.getHome().getCoords()).size();
             return d1 - d2;
         }).filter(w -> w.getPeople().size() < w.getMaxCapacity()).ifPresent(w -> w.addPerson(p));
     }
@@ -670,7 +664,9 @@ public class GameManager implements SaveManager, SpeedManager {
         while (homeless.size() != 0) {
             if (residentialBuildings.size() == 0) {
                 if (residentialZonesWithNoBuildings.size() != 0) {
-                    residentialBuildings.add(buildResidentialBasedOnFactors(residentialZonesWithNoBuildings));
+                    PlayableField pf = residentialZonesWithNoBuildings.pop();
+                    ResidentialBuilding newRb = (ResidentialBuilding) pf.buildBuilding(null);
+                    residentialBuildings.add(newRb);
                 } else {
                     break;
                 }
@@ -682,26 +678,6 @@ public class GameManager implements SaveManager, SpeedManager {
                 }
             }
         }
-    }
-
-    private ResidentialBuilding buildResidentialBasedOnFactors(Stack<PlayableField> zones) {
-        final PlayableField[] toRemove = {null};
-        final ResidentialBuilding[] res = {null};
-        for (PlayableField zone : zones) {
-            zone.calculateMoveInFactor();
-        }
-
-        zones.stream().max((z1, z2) -> {
-            int d1 = z1.getMoveInFactor();
-            int d2 = z2.getMoveInFactor();
-            return d1 - d2;
-        }).ifPresent(z -> {
-            res[0] = (ResidentialBuilding) z.buildBuilding(null);
-            toRemove[0] = z;
-        });
-
-        zones.remove(toRemove[0]);
-        return res[0];
     }
 
     private void buildingOnFire() {
@@ -904,16 +880,7 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     public static int findShortestPathLength(Coordinate c1, Coordinate c2) {
-        List<Coordinate> path = findShortestPath(c1, c2);
-        if (path.isEmpty()) {
-            return Integer.MAX_VALUE;
-        } else {
-            return path.size();
-        }
-    }
-
-    public static boolean isPathBetween(Coordinate c1, Coordinate c2) {
-        return !findShortestPath(c1, c2).isEmpty();
+        return findShortestPath(c1, c2).size();
     }
 
     /**
@@ -959,10 +926,6 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public static int getMaxFiretrucks() {
         return MAX_FIRETRUCKS;
-    }
-
-    public static int getIndustrialRange() {
-        return INDUSTRIAL_RANGE;
     }
 
     public void evokeFinancialCrisis() {
@@ -1020,14 +983,11 @@ public class GameManager implements SaveManager, SpeedManager {
         objectMapper.registerModule(module);
         try {
             setGameData(objectMapper.readValue(file, GameData.class));
-            gameData.getPlayableFieldsWithBuildings()
-                    .stream()
-                    .map(PlayableField::getBuilding)
-                    .filter(b -> b instanceof GeneratedBuilding)
-                    .map(b -> (GeneratedBuilding) b)
-                    .forEach(b -> b.setPeople(new ArrayList<>()));
-            gameData.getPeople().stream().filter(p -> p.getHome() != null).forEach(p -> p.getHome().addPerson(p));
-            gameData.getPeople().stream().filter(p -> p.getWorkplace() != null).forEach(p -> p.getWorkplace().addPerson(p));
+            List<ResidentialBuilding> rbs = gameData.getPlayableFieldsWithBuildings().stream().filter(f -> f.getBuilding() instanceof ResidentialBuilding).map(f -> (ResidentialBuilding) f.getBuilding()).toList();
+            List<Workplace> wps = gameData.getPlayableFieldsWithBuildings().stream().filter(f -> f.getBuilding() instanceof Workplace).map(f -> (Workplace) f.getBuilding()).toList();
+            rbs.forEach(rb -> rb.getPeople().forEach(p -> p.setHome(rb)));
+            wps.forEach(wp -> wp.getPeople().forEach(p -> p.setWorkplace(wp)));
+
             Logger.log("Save file loaded.");
         } catch (Exception exc) {
             Logger.log("Save file could not be loaded.");
@@ -1063,5 +1023,6 @@ public class GameManager implements SaveManager, SpeedManager {
             exc.printStackTrace();
         }
     }
+
 }
 

@@ -37,7 +37,7 @@ public abstract class GeneratedBuilding extends Building {
      * @param publicSafety    is the public safety of the building
      */
     @JsonCreator
-    public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
+    public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
         super(coords, firePossibility, isOnFire);
         this.people = people;
         this.saturationRate = saturationRate;
@@ -81,9 +81,7 @@ public abstract class GeneratedBuilding extends Building {
      * Removes dead or moved away people from the buildings arraylist
      */
     public void removePeople(){
-        people.removeIf(p -> {
-            return p.getName().equals("Deceased") || p.getName().equals("Moved away");
-        });
+        people.removeIf(p -> p.getName().equals("Deceased") || p.getName().equals("Moved away"));
     }
 
     /**
@@ -129,7 +127,6 @@ public abstract class GeneratedBuilding extends Building {
      *
      * @return the people in the building
      */
-    @JsonIgnore
     public List<Person> getPeople() {
         return people;
     }

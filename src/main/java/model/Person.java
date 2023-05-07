@@ -39,12 +39,12 @@ public class Person {
     }
 
     @JsonCreator
-    public Person(@JsonProperty("age") int age, @JsonProperty("name") String name, @JsonProperty("effects") TreeSet<Effect> effects, @JsonProperty("home") ResidentialBuilding home, @JsonProperty("workplace") Workplace workplace, @JsonProperty("founder") boolean founder) {
+    public Person(@JsonProperty("age") int age, @JsonProperty("name") String name, @JsonProperty("effects") TreeSet<Effect> effects, @JsonProperty("founder") boolean founder) {
         this.age = age;
         this.name = name;
         this.effects = effects;
-        this.home = home;
-        this.workplace = workplace;
+        this.home = null;
+        this.workplace = null;
         this.founder = founder;
     }
 
@@ -254,6 +254,7 @@ public class Person {
      *
      * @return the home of the person
      */
+    @JsonIgnore
     public ResidentialBuilding getHome() {
         return home;
     }
@@ -277,6 +278,7 @@ public class Person {
      *
      * @return the workplace of the person
      */
+    @JsonIgnore
     public Workplace getWorkplace() {
         return workplace;
     }
