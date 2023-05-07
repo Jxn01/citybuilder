@@ -24,8 +24,6 @@ import model.field.PlayableField;
 import util.Date;
 import util.GraphDeserializer;
 import util.Logger;
-import view.components.Panel;
-import view.enums.MenuState;
 
 import javax.swing.*;
 import java.io.File;
@@ -467,7 +465,6 @@ public class GameManager implements SaveManager, SpeedManager {
         this.period = period;
     }
 
-
     public void startSimulation() {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -626,20 +623,14 @@ public class GameManager implements SaveManager, SpeedManager {
         ws.stream().filter(w -> w.getPeople().size() >= w.getMaxCapacity()).forEach(ws::remove);
     }
 
-    private Workplace buildWorkplaceBasedOnDistance(List<PlayableField> zones, Stack<Person> people){
+    private Workplace buildWorkplaceBasedOnDistance(List<PlayableField> zones, Stack<Person> people) {
         final Workplace[] res = {null};
         // sort by the average of the peoples distance to the workplace
         zones.stream().min((z1, z2) -> {
             int d1 = people.stream().mapToInt(p -> findShortestPath(z1.getCoord(), p.getHome().getCoords()).size()).sum();
             int d2 = people.stream().mapToInt(p -> findShortestPath(z2.getCoord(), p.getHome().getCoords()).size()).sum();
             return d1 - d2;
-        }).ifPresent(z -> {
-            if (getWorkplaceDistr() <= 0.5) { //industrial
-                res[0] = (IndustrialWorkplace) z.buildBuilding(null);
-            } else {
-                res[0] = (ServiceWorkplace) z.buildBuilding(null);
-            }
-        });
+        }).ifPresent(z -> res[0] = (Workplace) z.buildBuilding(null));
         return res[0];
     }
 
@@ -877,7 +868,7 @@ public class GameManager implements SaveManager, SpeedManager {
             }
         }
         if (previous.get(end) == null) {
-            return null; // No path exists between start and end
+            return new ArrayList<>(); // No path exists between start and end
         }
         List<Coordinate> path = new ArrayList<>();
         Coordinate current = end;
@@ -888,12 +879,8 @@ public class GameManager implements SaveManager, SpeedManager {
         return path;
     }
 
-    public static int findShortestPathLength(Coordinate c1, Coordinate c2){
-        List<Coordinate> path = findShortestPath(c1, c2);
-        if(path == null){
-            return Integer.MAX_VALUE;
-        }
-        return path.size();
+    public static int findShortestPathLength(Coordinate c1, Coordinate c2) {
+        return findShortestPath(c1, c2).size();
     }
 
     /**
@@ -996,6 +983,11 @@ public class GameManager implements SaveManager, SpeedManager {
         objectMapper.registerModule(module);
         try {
             setGameData(objectMapper.readValue(file, GameData.class));
+            List<ResidentialBuilding> rbs = gameData.getPlayableFieldsWithBuildings().stream().filter(f -> f.getBuilding() instanceof ResidentialBuilding).map(f -> (ResidentialBuilding) f.getBuilding()).toList();
+            List<Workplace> wps = gameData.getPlayableFieldsWithBuildings().stream().filter(f -> f.getBuilding() instanceof Workplace).map(f -> (Workplace) f.getBuilding()).toList();
+            rbs.forEach(rb -> rb.getPeople().forEach(p -> p.setHome(rb)));
+            wps.forEach(wp -> wp.getPeople().forEach(p -> p.setWorkplace(wp)));
+
             Logger.log("Save file loaded.");
         } catch (Exception exc) {
             Logger.log("Save file could not be loaded.");

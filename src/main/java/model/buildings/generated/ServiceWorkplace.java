@@ -55,8 +55,12 @@ public class ServiceWorkplace extends Workplace {
         onFire = false;
     }
 
+
     @Override
     public void addPerson(Person person) throws RuntimeException {
+        if(people == null) {
+            people = new ArrayList<>();
+        }
         if (people.size() == maxCapacity) {
             Logger.log("Can't add person " + person.getName() + " to service workplace at " + coords.toString() + " because maximum capacity reached!");
             throw new RuntimeException("Maximum capacity reached! Can't add new person!");
