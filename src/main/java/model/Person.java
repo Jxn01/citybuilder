@@ -10,7 +10,6 @@ import model.buildings.generated.Workplace;
 import model.enums.Effect;
 import util.Logger;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -146,7 +145,7 @@ public class Person {
      * @param effect the effect to add
      */
     public void addEffect(Effect effect) {
-        if(effects != null) {
+        if (effects != null) {
             effects.add(effect);
         }
 
@@ -292,7 +291,7 @@ public class Person {
         this.workplace = workplace;
         if (workplace != null) {
             Logger.log("New workplace of " + name + " is" + workplace);
-            if(calculateDistanceToWork() > 10){
+            if (calculateDistanceToWork() > 10) {
                 addEffect(Effect.WORK_DISTANCE);
             }
 

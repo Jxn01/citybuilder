@@ -1,10 +1,8 @@
 package controller;
 
-import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import model.Coordinate;
 import model.GameData;
-import model.buildings.generated.IndustrialWorkplace;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ShortestPathTest {
 
@@ -27,10 +24,10 @@ public class ShortestPathTest {
         // Create a simple graph with 5 coordinates
         MutableGraph<Coordinate> graph = GameManager.getGraph();
         Coordinate A = new Coordinate(0, 0);
-        Coordinate B = new Coordinate( 1, 0);
-        Coordinate C = new Coordinate( 1, 1);
-        Coordinate D = new Coordinate( 2, 0);
-        Coordinate E = new Coordinate( 2, 1);
+        Coordinate B = new Coordinate(1, 0);
+        Coordinate C = new Coordinate(1, 1);
+        Coordinate D = new Coordinate(2, 0);
+        Coordinate E = new Coordinate(2, 1);
         graph.putEdge(A, B);
         graph.putEdge(A, C);
         graph.putEdge(B, D);
@@ -48,10 +45,10 @@ public class ShortestPathTest {
     public void findShortestPathNoPathTest() {
         // Create a graph with no path between start and end coordinates
         MutableGraph<Coordinate> graph = GameManager.getGraph();
-        Coordinate A = new Coordinate( 0, 0);
-        Coordinate B = new Coordinate( 1, 0);
-        Coordinate C = new Coordinate( 1, 1);
-        Coordinate D = new Coordinate( 1, 2);
+        Coordinate A = new Coordinate(0, 0);
+        Coordinate B = new Coordinate(1, 0);
+        Coordinate C = new Coordinate(1, 1);
+        Coordinate D = new Coordinate(1, 2);
         graph.putEdge(A, B);
         graph.putEdge(B, D);
 

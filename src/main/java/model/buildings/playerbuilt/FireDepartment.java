@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.GameManager;
 import model.Coordinate;
-import model.Person;
 import model.buildings.Building;
-import model.buildings.generated.GeneratedBuilding;
-import model.enums.Effect;
 import model.field.Field;
 import model.field.PlayableField;
 import util.Logger;
@@ -124,6 +121,7 @@ public class FireDepartment extends RangedBuilding {
 
     /**
      * Calculates the distance between two coordinates.
+     *
      * @param c1 the first coordinate
      * @param c2 the second coordinate
      * @return the distance between the two coordinates

@@ -41,61 +41,6 @@ class IndustrialWorkplaceTest {
     }
 
     @Test
-    void updateSaturationRateSetSaturationRateToLowTest() {
-        final SaturationRate expected = SaturationRate.LOW;
-        final int MAXCAP = 80;
-        this.industrialWorkplace.setMaxCapacity(MAXCAP);
-        this.industrialWorkplace.addPerson(new Person());
-
-        this.industrialWorkplace.updateSaturationRate();
-
-        final SaturationRate actual = this.industrialWorkplace.getSaturationRate();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void updateSaturationRateSetSaturationRateToMEDIUMTest() {
-        final SaturationRate expected = SaturationRate.MEDIUM;
-        final int MAXCAP = 8;
-        this.industrialWorkplace.setMaxCapacity(MAXCAP);
-        this.industrialWorkplace.addPerson(new Person());
-        this.industrialWorkplace.addPerson(new Person());
-
-        this.industrialWorkplace.updateSaturationRate();
-
-        final SaturationRate actual = this.industrialWorkplace.getSaturationRate();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void updateSaturationRateSetSaturationRateToHIGHTest() {
-        final SaturationRate expected = SaturationRate.HIGH;
-        final int MAXCAP = 5;
-        this.industrialWorkplace.setMaxCapacity(MAXCAP);
-        this.industrialWorkplace.addPerson(new Person());
-        this.industrialWorkplace.addPerson(new Person());
-
-        this.industrialWorkplace.updateSaturationRate();
-
-        final SaturationRate actual = this.industrialWorkplace.getSaturationRate();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void updateSaturationRateSetSaturationRateToFULLTest() {
-        final SaturationRate expected = SaturationRate.FULL;
-        final int MAXCAP = 2;
-        this.industrialWorkplace.setMaxCapacity(MAXCAP);
-        this.industrialWorkplace.addPerson(new Person());
-        this.industrialWorkplace.addPerson(new Person());
-
-        this.industrialWorkplace.updateSaturationRate();
-
-        final SaturationRate actual = this.industrialWorkplace.getSaturationRate();
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void setOnFireTest() {
         this.industrialWorkplace.setOnFire();
         assertTrue(this.industrialWorkplace.isOnFire());
@@ -114,7 +59,6 @@ class IndustrialWorkplaceTest {
         this.industrialWorkplace.addPerson(person);
 
         assertTrue(this.industrialWorkplace.getPeople().contains(person));
-        assertEquals(SaturationRate.LOW, this.industrialWorkplace.getSaturationRate());
     }
 
     @Test

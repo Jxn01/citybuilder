@@ -5,7 +5,6 @@ import controller.GameManager;
 import model.Coordinate;
 import model.Person;
 import model.buildings.Building;
-import model.enums.SaturationRate;
 import util.Logger;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import java.util.Objects;
 })
 public abstract class GeneratedBuilding extends Building {
     protected List<Person> people;
-    protected SaturationRate saturationRate;
     protected int publicSafety;
     protected int maxCapacity;
 
@@ -33,16 +31,14 @@ public abstract class GeneratedBuilding extends Building {
      * @param firePossibility is the fire possibility of the building
      * @param isOnFire        is the building on fire
      * @param people          is the people in the building
-     * @param saturationRate  is the saturation rate of the building
      * @param publicSafety    is the public safety of the building
      */
     @JsonCreator
-    public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
+    public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("publicSafety") int publicSafety) {
         super(coords, firePossibility, isOnFire);
         this.people = people;
-        this.saturationRate = saturationRate;
-        this.publicSafety = publicSafety;
         this.maxCapacity = GameManager.getLevelOneMaxCapacity();
+        this.publicSafety = publicSafety;
     }
 
     /**
@@ -60,27 +56,9 @@ public abstract class GeneratedBuilding extends Building {
     public abstract void removePerson(Person person);
 
     /**
-     * Updates the saturation rate of the building
-     */
-    public void updateSaturationRate() {
-        if (people.size() == 0) {
-            saturationRate = SaturationRate.EMPTY;
-        } else if (people.size() < maxCapacity / 4) {
-            saturationRate = SaturationRate.LOW;
-        } else if (people.size() < maxCapacity / 2) {
-            saturationRate = SaturationRate.MEDIUM;
-        } else if (people.size() < maxCapacity * 3 / 4) {
-            saturationRate = SaturationRate.HIGH;
-        } else {
-            saturationRate = SaturationRate.FULL;
-        }
-        Logger.log("Saturation rate of building at" + coords.toString() + " is now " + saturationRate);
-    }
-
-    /**
      * Removes dead or moved away people from the buildings arraylist
      */
-    public void removePeople(){
+    public void removePeople() {
         people.removeIf(p -> p.getName().equals("Deceased") || p.getName().equals("Moved away"));
     }
 
@@ -140,15 +118,6 @@ public abstract class GeneratedBuilding extends Building {
         this.people = people;
     }
 
-    /**
-     * Get the saturation rate of the building
-     *
-     * @return the saturation rate of the building
-     */
-    public SaturationRate getSaturationRate() {
-        return saturationRate;
-    }
-
     @Override
     @JsonIgnore
     public int getMaintenanceCost() {
@@ -166,12 +135,12 @@ public abstract class GeneratedBuilding extends Building {
         if (this == o) return true;
         if (!(o instanceof GeneratedBuilding that)) return false;
         if (!super.equals(o)) return false;
-        return getPublicSafety() == that.getPublicSafety() && maxCapacity == that.maxCapacity && Objects.equals(getPeople(), that.getPeople()) && getSaturationRate() == that.getSaturationRate();
+        return getPublicSafety() == that.getPublicSafety() && maxCapacity == that.maxCapacity && Objects.equals(getPeople(), that.getPeople());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getPeople(), getSaturationRate(), getPublicSafety(), maxCapacity);
+        return Objects.hash(super.hashCode(), getPeople(), getPublicSafety(), maxCapacity);
     }
 }
 

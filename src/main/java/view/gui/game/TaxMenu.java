@@ -29,10 +29,10 @@ public class TaxMenu extends GameMenu {
         super(game);
 
         this.game = game;
-        xBtn = new MyButton(1228+192, 50, 40, 40, "x");
-        modifyBtn = new MyButton(960+192, 130, 120, 40, "modify");
-        input = new MyInputField(630+192, 125, 325, 50);
-        taxMenuArea = new Rectangle(268+192, 50, 1000, 150);
+        xBtn = new MyButton(1228 + 192, 50, 40, 40, "x");
+        modifyBtn = new MyButton(960 + 192, 130, 120, 40, "modify");
+        input = new MyInputField(630 + 192, 125, 325, 50);
+        taxMenuArea = new Rectangle(268 + 192, 50, 1000, 150);
         taxMenuColor = Color.white;
     }
 
@@ -50,10 +50,10 @@ public class TaxMenu extends GameMenu {
 
             gr.setColor(Color.black);
             gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-            gr.drawString("Adó", 750+192, 80);
+            gr.drawString("Adó", 750 + 192, 80);
 
             gr.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-            gr.drawString("Éves adó módosítása ($/fő/év): ", 340+192, 160);
+            gr.drawString("Éves adó módosítása ($/fő/év): ", 340 + 192, 160);
 
             input.draw(gr, game.getMousePosition());
             modifyBtn.draw(gr, game.getMousePosition());

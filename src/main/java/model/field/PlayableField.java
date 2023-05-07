@@ -10,17 +10,11 @@ import com.google.common.graph.MutableGraph;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import controller.GameManager;
 import model.Coordinate;
-import model.GameData;
 import model.buildings.Building;
 import model.buildings.generated.GeneratedBuilding;
 import model.buildings.generated.IndustrialWorkplace;
 import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.ServiceWorkplace;
-import model.buildings.playerbuilt.FireDepartment;
-import model.buildings.playerbuilt.Forest;
-import model.buildings.playerbuilt.PlayerBuilding;
-import model.buildings.playerbuilt.PoliceStation;
-import model.buildings.playerbuilt.Road;
 import model.buildings.playerbuilt.*;
 import model.enums.UpgradeLevel;
 import model.enums.Zone;
@@ -84,7 +78,7 @@ public class PlayableField extends Field {
         Field[][] fs = GameManager.getGameData().getFields();
         if (isFieldValid(x, y) && ((PlayableField) fs[x][y]).getBuilding() instanceof Stadium) {
             Building building = ((PlayableField) fs[x][y]).getBuilding();
-            GameManager.addToBudget(((Stadium) building).getBuildCost());
+            GameManager.addToBudget(building.getBuildCost());
 
             ((PlayableField) fs[x][y]).setBuilding(null);
             (fs[x][y]).resetTile();
@@ -104,7 +98,7 @@ public class PlayableField extends Field {
         switch (building) {
             case ROAD -> {
                 int partGraphsCount = GameManager.countDisconnectedGraphs(GameManager.getGraph());
-                if(partGraphsCount == 0) {
+                if (partGraphsCount == 0) {
                     return isFieldEmpty(x, y);
                 } else {
                     return isFieldEmpty(x, y) && isNextToRoad(x, y);
@@ -287,7 +281,7 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to PoliceStation!");
 
                     building = new PoliceStation(coord);
-                    GameManager.subtractFromBudget(((PoliceStation) building).getBuildCost());
+                    GameManager.subtractFromBudget(building.getBuildCost());
                     Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
@@ -297,7 +291,7 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to FireDepartment!");
 
                     building = new FireDepartment(coord);
-                    GameManager.getGameData().subtractFromBudget(((FireDepartment) building).getBuildCost());
+                    GameManager.getGameData().subtractFromBudget(building.getBuildCost());
                     Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
@@ -332,7 +326,7 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to Forest!");
 
                     building = new Forest(coord);
-                    GameManager.getGameData().subtractFromBudget(((Forest) building).getBuildCost());
+                    GameManager.getGameData().subtractFromBudget(building.getBuildCost());
                     Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
@@ -342,7 +336,7 @@ public class PlayableField extends Field {
                     Logger.log("Building of field at " + coord + " set to Road!");
 
                     building = new Road(coord);
-                    GameManager.getGameData().subtractFromBudget(((Road) building).getBuildCost());
+                    GameManager.getGameData().subtractFromBudget(building.getBuildCost());
                     Logger.log("Current budget: " + GameManager.getBudget());
 
                     addToGraph(coord);
@@ -550,7 +544,7 @@ public class PlayableField extends Field {
                     } else {
                         Logger.log("Road at " + coord + " demolished!");
 
-                        GameManager.addToBudget(((PlayerBuilding) building).getBuildCost());
+                        GameManager.addToBudget(building.getBuildCost());
                         Logger.log("Current budget: " + GameManager.getBudget());
 
                         graph.removeNode(coord);
@@ -566,7 +560,7 @@ public class PlayableField extends Field {
         } else {
             Logger.log("Building of field at " + coord + " demolished!");
 
-            GameManager.addToBudget(((PlayerBuilding) building).getBuildCost());
+            GameManager.addToBudget(building.getBuildCost());
             Logger.log("Current budget: " + GameManager.getBudget());
 
             building = null;
@@ -747,13 +741,13 @@ public class PlayableField extends Field {
                 .filter(field -> field.getBuilding() instanceof IndustrialWorkplace)
                 .anyMatch(field -> calculateDistance(field.getCoord(), this.getCoord()) <= industrialRange);
 
-        if(hasPolice) moveInFactor++;
-        if(hasStadium) moveInFactor++;
-        if(hasForest) moveInFactor++;
-        if(hasIndustrial) moveInFactor--;
+        if (hasPolice) moveInFactor++;
+        if (hasStadium) moveInFactor++;
+        if (hasForest) moveInFactor++;
+        if (hasIndustrial) moveInFactor--;
 
-        if(upgradeLevel != null){
-            switch(upgradeLevel) {
+        if (upgradeLevel != null) {
+            switch (upgradeLevel) {
                 case TOWN -> moveInFactor++;
                 case CITY -> moveInFactor += 2;
                 case METROPOLIS -> moveInFactor += 3;

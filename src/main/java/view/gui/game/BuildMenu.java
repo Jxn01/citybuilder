@@ -29,15 +29,15 @@ public class BuildMenu extends GameMenu {
      */
     public BuildMenu(Game game) {
         super(game);
-        deleteBtn = new MyButton(620+96, 753, 40, 40, "x");
-        fireFighterBtn = new MyButton(700+96, 753, 40, 40, "fireFighter");
-        roadBtn = new MyButton(740+96, 753, 40, 40, "road");
-        stadiumBtn = new MyButton(780+96, 753, 40, 40, "stadium");
-        serviceZoneBtn = new MyButton(820+96, 753, 40, 40, "serviceZone");
-        forestBtn = new MyButton(860+96, 753, 40, 40, "forest");
-        factoryZoneBtn = new MyButton(900+96, 753, 40, 40, "factoryZone");
-        livingZoneBtn = new MyButton(940+96, 753, 40, 40, "livingZone");
-        policeStationBtn = new MyButton(980+96, 753, 40, 40, "police");
+        deleteBtn = new MyButton(620 + 96, 753, 40, 40, "x");
+        fireFighterBtn = new MyButton(700 + 96, 753, 40, 40, "fireFighter");
+        roadBtn = new MyButton(740 + 96, 753, 40, 40, "road");
+        stadiumBtn = new MyButton(780 + 96, 753, 40, 40, "stadium");
+        serviceZoneBtn = new MyButton(820 + 96, 753, 40, 40, "serviceZone");
+        forestBtn = new MyButton(860 + 96, 753, 40, 40, "forest");
+        factoryZoneBtn = new MyButton(900 + 96, 753, 40, 40, "factoryZone");
+        livingZoneBtn = new MyButton(940 + 96, 753, 40, 40, "livingZone");
+        policeStationBtn = new MyButton(980 + 96, 753, 40, 40, "police");
     }
 
     /**

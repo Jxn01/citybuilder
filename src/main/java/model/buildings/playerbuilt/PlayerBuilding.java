@@ -36,16 +36,6 @@ public abstract class PlayerBuilding extends Building {
     }
 
     /**
-     * Set the build cost of the player building
-     *
-     * @param buildCost is the new build cost of the player building
-     */
-    public void setBuildCost(int buildCost) {
-        Logger.log("Build cost of building at" + coords.toString() + " set to " + buildCost);
-        this.buildCost = buildCost;
-    }
-
-    /**
      * Get the maintenance cost of the player building
      *
      * @return the maintenance cost of the player building
@@ -53,6 +43,16 @@ public abstract class PlayerBuilding extends Building {
     @Override
     public int getMaintenanceCost() {
         return maintenanceCost;
+    }
+
+    /**
+     * Set the maintenance cost of the player building
+     *
+     * @param maintenanceCost is the new maintenance cost of the player building
+     */
+    public void setMaintenanceCost(int maintenanceCost) {
+        Logger.log("Maintenance cost of building at" + coords.toString() + " set to " + maintenanceCost);
+        this.maintenanceCost = maintenanceCost;
     }
 
     /**
@@ -66,12 +66,12 @@ public abstract class PlayerBuilding extends Building {
     }
 
     /**
-     * Set the maintenance cost of the player building
+     * Set the build cost of the player building
      *
-     * @param maintenanceCost is the new maintenance cost of the player building
+     * @param buildCost is the new build cost of the player building
      */
-    public void setMaintenanceCost(int maintenanceCost) {
-        Logger.log("Maintenance cost of building at" + coords.toString() + " set to " + maintenanceCost);
-        this.maintenanceCost = maintenanceCost;
+    public void setBuildCost(int buildCost) {
+        Logger.log("Build cost of building at" + coords.toString() + " set to " + buildCost);
+        this.buildCost = buildCost;
     }
 }

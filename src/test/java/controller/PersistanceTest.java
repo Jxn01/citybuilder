@@ -3,7 +3,6 @@ package controller;
 import model.GameData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import util.Date;
 import util.Logger;
 
 public class PersistanceTest {

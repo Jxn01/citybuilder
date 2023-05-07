@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import model.Coordinate;
 import model.Person;
-import model.enums.SaturationRate;
 
 import java.util.ArrayList;
 
@@ -26,11 +25,10 @@ public abstract class Workplace extends GeneratedBuilding {
      * @param firePossibility is the fire possibility of the workplace
      * @param isOnFire        is the workplace on fire
      * @param people          is the people in the workplace
-     * @param saturationRate  is the saturation rate of the workplace
      * @param publicSafety    is the public safety of the workplace
      */
     @JsonCreator
-    public Workplace(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
-        super(coords, firePossibility, isOnFire, people, saturationRate, publicSafety);
+    public Workplace(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("publicSafety") int publicSafety) {
+        super(coords, firePossibility, isOnFire, people, publicSafety);
     }
 }

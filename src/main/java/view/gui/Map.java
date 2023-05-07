@@ -186,7 +186,7 @@ public class Map {
                     selectedTile = click;
                 }
             }
-        } else if (upgradeBtn.rect.contains(p)) {;
+        } else if (upgradeBtn.rect.contains(p)) {
             upgrade(selectedTile.y, selectedTile.x);
         }
     }

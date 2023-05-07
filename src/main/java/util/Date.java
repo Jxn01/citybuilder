@@ -86,4 +86,20 @@ public class Date {
         return result;
     }
 
+    /**
+     * This method returns the date as a calendar.
+     *
+     * @param longDate is the date as a string
+     * @return the date as a calendar
+     */
+    public static Calendar toCalendar(String longDate) {
+        String[] dateParts = longDate.split(" ")[0].split("-");
+        int year = Integer.parseInt(dateParts[0]);
+        int month = Integer.parseInt(dateParts[1]);
+        int day = Integer.parseInt(dateParts[2]);
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month - 1, day);
+        return cal;
+    }
+
 }

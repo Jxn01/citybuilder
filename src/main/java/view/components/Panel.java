@@ -11,19 +11,14 @@ import view.gui.mainmenu.Tutorial;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 /**
  * The 'canvas' of the game, where all the submenus are drawn
  */
 public class Panel extends JPanel implements ActionListener {
 
+    private static MenuState state;
     private final GameGUI gameGUI;
     private final Intro intro;
     private final MainMenu mainMenu;
@@ -33,7 +28,6 @@ public class Panel extends JPanel implements ActionListener {
     private final Game game;
     private final GameManager gm;
     private Timer timer;
-    private static MenuState state;
     private int width;
     private int height;
 
@@ -96,6 +90,19 @@ public class Panel extends JPanel implements ActionListener {
         addMouseWheelListener(game::mouseWheelRotated);
     }
 
+    public static MenuState getState() {
+        return state;
+    }
+
+    /**
+     * Setter for the menu state
+     *
+     * @param s is the new menu state
+     */
+    public void setState(MenuState s) {
+        state = s;
+    }
+
     /**
      * The panel draws the menu based on the current menu state
      *
@@ -125,15 +132,6 @@ public class Panel extends JPanel implements ActionListener {
         if (ev.getSource() == timer) {
             repaint();
         }
-    }
-
-    /**
-     * Setter for the menu state
-     *
-     * @param s is the new menu state
-     */
-    public void setState(MenuState s) {
-        this.state = s;
     }
 
     /**
@@ -168,10 +166,6 @@ public class Panel extends JPanel implements ActionListener {
      */
     public GameManager getGameManager() {
         return gm;
-    }
-
-    public static MenuState getState() {
-        return state;
     }
 
 

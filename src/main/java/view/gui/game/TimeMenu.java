@@ -101,7 +101,6 @@ public class TimeMenu extends GameMenu {
         if (speed3Btn.isHovered(p)) {
             Logger.log("3x speed button clicked");
             gm.setTimeFaster();
-            return;
         }
     }
 

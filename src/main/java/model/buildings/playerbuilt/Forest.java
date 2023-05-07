@@ -105,10 +105,11 @@ public class Forest extends RangedBuilding {
 
     /**
      * Check if the forest is grown
+     *
      * @return true if the forest is grown
      */
     @JsonIgnore
-    public boolean isGrown(){
+    public boolean isGrown() {
         return growStage >= growTime;
     }
 
@@ -129,7 +130,7 @@ public class Forest extends RangedBuilding {
      */
     @Override
     public void effect() {
-        if(isGrown()) {
+        if (isGrown()) {
             Field[][] fields = GameManager.getFields();
             ArrayList<Person> peopleInBuildingsWithinRange = Arrays.stream(fields)
                     .flatMap(Arrays::stream)

@@ -29,7 +29,6 @@ class ServiceWorkplaceTest {
         this.serviceWorkplace.addPerson(person);
 
         assertTrue(this.serviceWorkplace.getPeople().contains(person));
-        assertEquals(SaturationRate.LOW, this.serviceWorkplace.getSaturationRate());
     }
 
     @Test

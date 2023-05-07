@@ -30,7 +30,6 @@ class ResidentialBuildingTest {
         this.residentialBuilding.addPerson(person);
 
         assertTrue(this.residentialBuilding.getPeople().contains(person));
-        assertEquals(SaturationRate.LOW, this.residentialBuilding.getSaturationRate());
     }
 
     @Test

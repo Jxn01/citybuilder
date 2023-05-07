@@ -22,10 +22,9 @@ public class ResidentialBuilding extends GeneratedBuilding {
      * @param coords is the coordinates of the residential building
      */
     public ResidentialBuilding(Coordinate coords) {
-        super(coords, GameManager.getFirePossibility(), false, null, null, 0);
+        super(coords, GameManager.getFirePossibility(), false, null, 0);
 
         people = new ArrayList<>();
-        saturationRate = SaturationRate.EMPTY;
         publicSafety = 100;
 
         Logger.log("Residential building created at " + coords.toString());
@@ -33,11 +32,11 @@ public class ResidentialBuilding extends GeneratedBuilding {
 
     @JsonCreator
     public ResidentialBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
-        super(coords, firePossibility, isOnFire, people, saturationRate, publicSafety);
+        super(coords, firePossibility, isOnFire, people, publicSafety);
     }
 
     public void addPerson(Person person) throws RuntimeException {
-        if(people == null) {
+        if (people == null) {
             people = new ArrayList<>();
         }
         if (people.size() == maxCapacity) {
@@ -48,8 +47,6 @@ public class ResidentialBuilding extends GeneratedBuilding {
 
             people.add(person);
             person.setHome(this);
-
-            updateSaturationRate();
         }
     }
 
@@ -58,8 +55,6 @@ public class ResidentialBuilding extends GeneratedBuilding {
 
         people.remove(person);
         person.setHome(null);
-
-        updateSaturationRate();
     }
 
     @JsonIgnore
@@ -69,7 +64,6 @@ public class ResidentialBuilding extends GeneratedBuilding {
         statistics += "Maximum capacity: " + maxCapacity + "\n";
         statistics += "Number of people living here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
-        statistics += "Saturation rate: " + saturationRate + "\n";
         return statistics;
     }
 

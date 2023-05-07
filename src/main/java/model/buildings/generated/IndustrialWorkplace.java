@@ -17,7 +17,6 @@ import util.Logger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class IndustrialWorkplace extends Workplace implements FunctionalBuilding {
@@ -28,10 +27,9 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
      * @param coords is the coordinates of the industrial workplace
      */
     public IndustrialWorkplace(Coordinate coords) {
-        super(coords, 0.0, false, null, null, 0);
+        super(coords, 0.0, false, null, 0);
 
         people = new ArrayList<>();
-        saturationRate = SaturationRate.EMPTY;
         publicSafety = 100;
 
         Logger.log("Industrial workplace created at " + coords.toString());
@@ -39,7 +37,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
 
     @JsonCreator
     public IndustrialWorkplace(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
-        super(coords, firePossibility, isOnFire, people, saturationRate, publicSafety);
+        super(coords, firePossibility, isOnFire, people, publicSafety);
     }
 
     @JsonIgnore
@@ -48,7 +46,6 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
         String statistics = "Industrial workplace statistics:\n";
         statistics += "Number of people working here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
-        statistics += "Saturation rate: " + saturationRate + "\n";
         return statistics;
     }
 
@@ -66,7 +63,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
 
     @Override
     public void addPerson(Person person) throws RuntimeException {
-        if(people == null) {
+        if (people == null) {
             people = new ArrayList<>();
         }
         if (people.size() == maxCapacity) {
@@ -77,8 +74,6 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
 
             people.add(person);
             person.setWorkplace(this);
-
-            updateSaturationRate();
         }
     }
 
@@ -88,8 +83,6 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
 
         people.remove(person);
         person.setWorkplace(null);
-
-        updateSaturationRate();
     }
 
     /**
@@ -121,6 +114,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
 
     /**
      * Calculates the distance between two coordinates
+     *
      * @param c1 the first coordinate
      * @param c2 the second coordinate
      * @return the distance between the two coordinates
@@ -131,6 +125,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
 
     /**
      * Calculates the path between two coordinates
+     *
      * @param c1 the first coordinate
      * @param c2 the second coordinate
      * @return the path between the two coordinates

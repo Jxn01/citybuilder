@@ -18,10 +18,9 @@ public class ServiceWorkplace extends Workplace {
      * @param coords is the coordinates of the service workplace
      */
     public ServiceWorkplace(Coordinate coords) {
-        super(coords, 0.0, false, null, null, 0);
+        super(coords, 0.0, false, null, 0);
 
         people = new ArrayList<>();
-        saturationRate = SaturationRate.EMPTY;
         publicSafety = 100;
 
         Logger.log("Service workplace created at " + coords.toString());
@@ -29,7 +28,7 @@ public class ServiceWorkplace extends Workplace {
 
     @JsonCreator
     public ServiceWorkplace(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
-        super(coords, firePossibility, isOnFire, people, saturationRate, publicSafety);
+        super(coords, firePossibility, isOnFire, people, publicSafety);
     }
 
     @JsonIgnore
@@ -39,7 +38,6 @@ public class ServiceWorkplace extends Workplace {
         statistics += "Maximum capacity: " + maxCapacity + "\n";
         statistics += "Number of people working here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
-        statistics += "Saturation rate: " + saturationRate + "\n";
         return statistics;
     }
 
@@ -58,7 +56,7 @@ public class ServiceWorkplace extends Workplace {
 
     @Override
     public void addPerson(Person person) throws RuntimeException {
-        if(people == null) {
+        if (people == null) {
             people = new ArrayList<>();
         }
         if (people.size() == maxCapacity) {
@@ -70,7 +68,6 @@ public class ServiceWorkplace extends Workplace {
             people.add(person);
 
             person.setWorkplace(this);
-            updateSaturationRate();
         }
     }
 
@@ -80,7 +77,5 @@ public class ServiceWorkplace extends Workplace {
 
         people.remove(person);
         person.setWorkplace(null);
-
-        updateSaturationRate();
     }
 }

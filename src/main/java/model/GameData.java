@@ -223,18 +223,12 @@ public class GameData {
         this.yearlyTaxes = yearlyTaxes;
     }
 
-    private void calculateAverageSatisfaction() {
-        int satisfaction = 0;
-        for (Person person : people) {
-            satisfaction += person.calculateSatisfaction();
-        }
-        satisfaction /= people.size();
-        this.averageSatisfaction = satisfaction;
+    public void calculateAverageSatisfaction() {
+        this.averageSatisfaction = people.parallelStream().mapToInt(Person::calculateSatisfaction).sum() / people.size();
         //Logger.log("Game data " + this.id + " average satisfaction calculated: " + satisfaction); spammy
     }
 
     public int getAverageSatisfaction() {
-        calculateAverageSatisfaction();
         return averageSatisfaction;
     }
 
@@ -261,11 +255,6 @@ public class GameData {
         this.fields = fields;
     }
 
-    public void setPeople(ArrayList<Person> people) {
-        this.people = people;
-        Logger.log("Game data " + this.id + " people set.");
-    }
-
     public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
         return ((ArrayList<PlayableField>) Arrays.stream(fields)
                 .flatMap(Arrays::stream)
@@ -285,6 +274,11 @@ public class GameData {
 
     public List<Person> getPeople() {
         return people;
+    }
+
+    public void setPeople(ArrayList<Person> people) {
+        this.people = people;
+        Logger.log("Game data " + this.id + " people set.");
     }
 
     public File getSaveFile() {
