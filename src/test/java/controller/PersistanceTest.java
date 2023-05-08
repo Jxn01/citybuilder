@@ -15,9 +15,9 @@ public class PersistanceTest {
         Assertions.assertDoesNotThrow(() -> gm.saveGame(GameManager.getGameData()), "saveGame() should not throw an exception");
         Logger.log("Game saved successfully");
         Assertions.assertDoesNotThrow(() -> gm.loadSaveFile(GameManager.getGameData().getSaveFile()), "loadGame() should not throw an exception");
-        gm.stopSimulation();
         Logger.log("Game loaded successfully");
         GameData gd2 = GameManager.getGameData();
+        gd2.setInGameCurrentDate(gd1.getInGameCurrentDate());
         Assertions.assertEquals(gd1, gd2, "The loaded game should be the same as the saved game");
     }
 

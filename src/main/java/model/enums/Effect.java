@@ -11,7 +11,10 @@ public enum Effect {
     BAD_BUDGET(-10),
     BAD_WORKPLACE_DIST(-10),
     WORK_DISTANCE(-10),
-    INDUSTRIAL_NEARBY(-10);
+    INDUSTRIAL_NEARBY(-10),
+    HOMELESS(-10),
+    UNEMPLOYED(-10),
+    ON_FIRE(-10);
 
     private final int value;
 

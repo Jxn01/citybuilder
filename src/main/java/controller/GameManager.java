@@ -664,9 +664,7 @@ public class GameManager implements SaveManager, SpeedManager {
                 removeWhoDeceasedOrMovedAway();
                 houseHomeless();
                 employUnemployed();
-                buildingEffects();
-                workplaceDistrEffect();
-                negativeBudgetEffect();
+                effects();
                 gameData.calculateAverageSatisfaction();
                 isGameOver();
                 buildingOnFire();
@@ -697,6 +695,34 @@ public class GameManager implements SaveManager, SpeedManager {
         }, delay, period);
     }
 
+    private void effects(){
+        buildingEffects();
+        workplaceDistrEffect();
+        negativeBudgetEffect();
+        unemployedEffect();
+        homelessEffect();
+    }
+
+    private void unemployedEffect(){
+        gameData.getPeople().forEach(p -> {
+            if(p.getWorkplace() == null){
+                p.addEffect(Effect.UNEMPLOYED);
+            } else {
+                p.removeEffect(Effect.UNEMPLOYED);
+            }
+        });
+    }
+
+    private void homelessEffect(){
+        gameData.getPeople().forEach(p -> {
+            if(p.getHome() == null){
+                p.addEffect(Effect.HOMELESS);
+            } else {
+                p.removeEffect(Effect.HOMELESS);
+            }
+        });
+    }
+
     /**
      * This method checks if the game is over.
      */
@@ -716,6 +742,12 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     private void burnBuildings(){
+        gameData.getPeople().forEach(p -> p.removeEffect(Effect.ON_FIRE));
+        gameData.getPlayableFieldsWithBuildings()
+                .stream()
+                .filter(f -> f.getBuilding() instanceof GeneratedBuilding && f.getBuilding().isOnFire())
+                .flatMap(f -> ((GeneratedBuilding) f.getBuilding()).getPeople().stream())
+                .forEach(p -> p.addEffect(Effect.ON_FIRE));
         gameData.getPlayableFieldsWithBuildings()
                 .stream()
                 .filter(f -> f.getBuilding() != null && f.getBuilding().isOnFire())
@@ -787,7 +819,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private void employUnemployed() {
         Stack<Person> unemployed = gameData.getPeople()
                 .stream()
-                .filter(p -> p.getWorkplace() == null && p.getHome() != null)
+                .filter(p -> p.getWorkplace() == null && p.getHome() != null && !p.isRetired())
                 .collect(Collectors.toCollection(Stack::new));
 
         List<Workplace> allWorkplaces = gameData.getPlayableFieldsWithBuildings()
