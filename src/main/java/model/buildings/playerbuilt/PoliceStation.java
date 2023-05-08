@@ -39,19 +39,8 @@ public class PoliceStation extends RangedBuilding {
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
+        statistics += "HP: " + hp + "/" + GameManager.getBuildingMaxHP() + "\n";
         return statistics;
-    }
-
-    @Override
-    public void setOnFire() {
-        Logger.log("Police station is on fire at " + coords.toString());
-        onFire = true;
-    }
-
-    @Override
-    public void extinguish() {
-        Logger.log("Police station is extinguished at " + coords.toString());
-        onFire = false;
     }
 
     /**

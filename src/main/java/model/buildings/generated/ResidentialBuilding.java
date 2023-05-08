@@ -64,6 +64,7 @@ public class ResidentialBuilding extends GeneratedBuilding {
         statistics += "Maximum capacity: " + maxCapacity + "\n";
         statistics += "Number of people living here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
+        statistics += "HP: " + hp + "/" + GameManager.getBuildingMaxHP() + "\n";
         return statistics;
     }
 

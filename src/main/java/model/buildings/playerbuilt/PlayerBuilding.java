@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import controller.GameManager;
 import model.Coordinate;
 import model.buildings.Building;
+import model.field.PlayableField;
 import util.Logger;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
@@ -73,5 +75,11 @@ public abstract class PlayerBuilding extends Building {
     public void setBuildCost(int buildCost) {
         Logger.log("Build cost of building at" + coords.toString() + " set to " + buildCost);
         this.buildCost = buildCost;
+    }
+
+    @Override
+    public void burnDown(){
+        Logger.log("Building at " + coords.toString() + " burned down");
+        ((PlayableField)GameManager.getFields()[coords.getX()][coords.getY()]).demolishBuilding(true);
     }
 }

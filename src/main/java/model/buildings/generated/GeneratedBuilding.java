@@ -5,6 +5,7 @@ import controller.GameManager;
 import model.Coordinate;
 import model.Person;
 import model.buildings.Building;
+import model.field.PlayableField;
 import util.Logger;
 
 import java.util.ArrayList;
@@ -54,13 +55,6 @@ public abstract class GeneratedBuilding extends Building {
      * @param person is the person to remove
      */
     public abstract void removePerson(Person person);
-
-    /**
-     * Removes dead or moved away people from the buildings arraylist
-     */
-    public void removePeople() {
-        people.removeIf(p -> p.getName().equals("Deceased") || p.getName().equals("Moved away"));
-    }
 
     /**
      * Get the max capacity of the building
@@ -128,6 +122,12 @@ public abstract class GeneratedBuilding extends Building {
     @JsonIgnore
     public int getBuildCost() {
         return 0;
+    }
+
+    @Override
+    public void burnDown(){
+        Logger.log("Generated building at " + coords.toString() + " burned down");
+        ((PlayableField)GameManager.getFields()[coords.getX()][coords.getY()]).demolishGeneratedBuilding(true);
     }
 
     @Override

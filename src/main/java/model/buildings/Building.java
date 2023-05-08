@@ -2,13 +2,17 @@ package model.buildings;
 
 import com.fasterxml.jackson.annotation.*;
 import com.github.javafaker.Faker;
+import controller.GameManager;
 import model.Coordinate;
 import model.buildings.generated.GeneratedBuilding;
 import model.buildings.interfaces.Flammable;
 import model.buildings.playerbuilt.PlayerBuilding;
+import model.buildings.playerbuilt.Stadium;
 import util.Logger;
 
 import java.util.Objects;
+import java.util.Random;
+import java.util.random.RandomGenerator;
 
 /**
  * This class represents a building.
@@ -23,6 +27,7 @@ public abstract class Building implements Flammable {
     protected Coordinate coords;
     protected double firePossibility;
     protected boolean onFire;
+    protected int hp = 10;
 
     /**
      * Constructor of the building
@@ -35,14 +40,16 @@ public abstract class Building implements Flammable {
         this.coords = coords;
         this.firePossibility = firePossibility;
         this.onFire = onFire;
+        this.hp = GameManager.getBuildingMaxHP();
     }
 
     @JsonCreator
-    public Building(@JsonProperty("address") String address, @JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("onFire") boolean onFire) {
+    public Building(@JsonProperty("address") String address, @JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("onFire") boolean onFire, @JsonProperty("hp") int hp) {
         this.address = address;
         this.coords = coords;
         this.firePossibility = firePossibility;
         this.onFire = onFire;
+        this.hp = hp;
     }
 
     /**
@@ -118,6 +125,24 @@ public abstract class Building implements Flammable {
     }
 
     /**
+     * Get the hp of the building
+     *
+     * @return the hp of the building
+     */
+    public int getHp() {
+        return hp;
+    }
+
+    /**
+     * Set the hp of the building
+     *
+     * @param hp is the hp of the building
+     */
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    /**
      * Gets the x coordinate of the building
      *
      * @return the x coordinate of the building
@@ -152,4 +177,42 @@ public abstract class Building implements Flammable {
     public abstract int getMaintenanceCost();
 
     public abstract int getBuildCost();
+
+    @Override
+    public void setOnFire() {
+        Logger.log("Building is on fire at " + coords.toString());
+        onFire = true;
+    }
+
+    @Override
+    public void extinguish() {
+        Logger.log("Building is extinguished at " + coords.toString());
+        onFire = false;
+    }
+
+    @Override
+    public void burnTick() {
+        Logger.log("Building is burning at " + coords.toString());
+
+        if(this instanceof Stadium){
+            if(new Random().nextInt(4) == 1) {
+                hp--;
+            }
+        } else {
+            hp--;
+        }
+
+        if(hp <= 0) {
+            onFire = false;
+            hp = 0;
+            burnDown();
+        }
+    }
+//
+    @Override
+    public void repair(){
+        if(hp < GameManager.getBuildingMaxHP()){
+            hp++;
+        }
+    }
 }

@@ -82,18 +82,17 @@ public class FireDepartment extends RangedBuilding {
     @Override
     public String getStatistics() {
         String statistics = "Fire department statistics:\n";
-        statistics += "Max fire trucks: " + maxFireTrucks + "\n";
-        statistics += "Available fire trucks: " + availableFireTrucks + "\n";
+        statistics += "Fire trucks: " + availableFireTrucks + "/" + maxFireTrucks + "\n";
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
+        statistics += "HP: " + hp + "/" + GameManager.getBuildingMaxHP() + "\n";
         return statistics;
     }
 
-    // TODO: FireDepartment can't be on fire
     @Override
     public void setOnFire() {
-        Logger.log("Firestation is on fire at " + coords.toString());
+        //cant be on fire
     }
 
     @Override

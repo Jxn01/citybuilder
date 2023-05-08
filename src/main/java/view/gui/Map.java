@@ -117,7 +117,7 @@ public class Map {
                 case GRASS_1 -> {
                     if (((PlayableField) fields[x][y]).getZone() == null) {
                         try {
-                            ((PlayableField) fields[x][y]).demolishBuilding();
+                            ((PlayableField) fields[x][y]).demolishBuilding(false);
                         } catch (Exception exc) {
                             exc.printStackTrace();
                         }
@@ -282,6 +282,11 @@ public class Map {
                     setUpgradeButtonAttributes(x, y + 140, 80, 40);
                     upgradeBtn.draw(gr, game.getMousePosition());
                 }
+
+                if(((PlayableField) field).getBuilding().isOnFire()){
+                    //TODO button here
+                }
+
             } else {
                 setRectangleAttributes(0, 0, 0, 0);
             }

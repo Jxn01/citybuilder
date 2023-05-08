@@ -3,6 +3,7 @@ package model.buildings.generated;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import controller.GameManager;
 import model.Coordinate;
 import model.Person;
 import model.enums.SaturationRate;
@@ -38,6 +39,7 @@ public class ServiceWorkplace extends Workplace {
         statistics += "Maximum capacity: " + maxCapacity + "\n";
         statistics += "Number of people working here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
+        statistics += "HP: " + hp + "/" + GameManager.getBuildingMaxHP() + "\n";
         return statistics;
     }
 

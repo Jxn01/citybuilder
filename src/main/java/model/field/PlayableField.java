@@ -10,6 +10,7 @@ import com.google.common.graph.MutableGraph;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import controller.GameManager;
 import model.Coordinate;
+import model.Person;
 import model.buildings.Building;
 import model.buildings.generated.GeneratedBuilding;
 import model.buildings.generated.IndustrialWorkplace;
@@ -21,7 +22,9 @@ import model.enums.Zone;
 import util.Logger;
 import view.enums.Tile;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class represents a field on the map
@@ -78,7 +81,6 @@ public class PlayableField extends Field {
         Field[][] fs = GameManager.getGameData().getFields();
         if (isFieldValid(x, y) && ((PlayableField) fs[x][y]).getBuilding() instanceof Stadium) {
             Building building = ((PlayableField) fs[x][y]).getBuilding();
-            GameManager.addToBudget(building.getBuildCost());
 
             ((PlayableField) fs[x][y]).setBuilding(null);
             (fs[x][y]).resetTile();
@@ -456,7 +458,7 @@ public class PlayableField extends Field {
      *
      * @throws RuntimeException if there is no building on the field or if the building is public
      */
-    public void demolishBuilding() throws RuntimeException {
+    public void demolishBuilding(boolean burntDown) throws RuntimeException {
         if (building == null) {
 
             Logger.log("Field at " + coord + " has no building on it, can't demolish!");
@@ -482,6 +484,9 @@ public class PlayableField extends Field {
                 PlayableField.demolishStadiumAt(x + 1, y);
                 PlayableField.demolishStadiumAt(x + 1, y + 1);
 
+                if(!burntDown)
+                    GameManager.addToBudget(building.getBuildCost());
+
                 Logger.log("Current budget: " + GameManager.getBudget());
             } else if (isStadiumValid(x, y, x, y + 1, x - 1, y, x - 1, y + 1)) {
                 Logger.log("Stadium at " + coord + " demolished!");
@@ -490,6 +495,9 @@ public class PlayableField extends Field {
                 PlayableField.demolishStadiumAt(x, y + 1);
                 PlayableField.demolishStadiumAt(x - 1, y);
                 PlayableField.demolishStadiumAt(x - 1, y + 1);
+
+                if(!burntDown)
+                    GameManager.addToBudget(building.getBuildCost());
 
                 Logger.log("Current budget: " + GameManager.getBudget());
             } else if (isStadiumValid(x, y, x, y - 1, x + 1, y, x + 1, y - 1)) {
@@ -500,6 +508,9 @@ public class PlayableField extends Field {
                 PlayableField.demolishStadiumAt(x + 1, y);
                 PlayableField.demolishStadiumAt(x + 1, y - 1);
 
+                if(!burntDown)
+                    GameManager.addToBudget(building.getBuildCost());
+
                 Logger.log("Current budget: " + GameManager.getBudget());
             } else if (isStadiumValid(x, y, x, y - 1, x - 1, y, x - 1, y - 1)) {
                 Logger.log("Stadium at " + coord + " demolished!");
@@ -508,6 +519,9 @@ public class PlayableField extends Field {
                 PlayableField.demolishStadiumAt(x, y - 1);
                 PlayableField.demolishStadiumAt(x - 1, y);
                 PlayableField.demolishStadiumAt(x - 1, y - 1);
+
+                if(!burntDown)
+                    GameManager.addToBudget(building.getBuildCost());
 
                 Logger.log("Current budget: " + GameManager.getBudget());
             } else {
@@ -544,7 +558,8 @@ public class PlayableField extends Field {
                     } else {
                         Logger.log("Road at " + coord + " demolished!");
 
-                        GameManager.addToBudget(building.getBuildCost());
+                        if(!burntDown)
+                            GameManager.addToBudget(building.getBuildCost());
                         Logger.log("Current budget: " + GameManager.getBudget());
 
                         graph.removeNode(coord);
@@ -560,10 +575,41 @@ public class PlayableField extends Field {
         } else {
             Logger.log("Building of field at " + coord + " demolished!");
 
-            GameManager.addToBudget(building.getBuildCost());
+            if(!burntDown)
+                GameManager.addToBudget(building.getBuildCost());
             Logger.log("Current budget: " + GameManager.getBudget());
 
             building = null;
+
+            resetTile();
+            GameManager.getGraph().removeNode(this.coord);
+        }
+        Logger.log("State of the graph: " + GameManager.getGraph());
+    }
+
+    public void demolishGeneratedBuilding(boolean burntDown) {
+        if (building == null) {
+
+            Logger.log("Field at " + coord + " has no building on it, can't demolish!");
+            throw new RuntimeException("There is no building on the field!");
+        } else {
+            Logger.log("Building of field at " + coord + " demolished!");
+
+            List<Person> people = new ArrayList<>(((GeneratedBuilding) this.getBuilding()).getPeople());
+            if(burntDown){
+                people.forEach(Person::decease);
+            } else {
+                if(this.getBuilding() instanceof ResidentialBuilding){
+                    people.forEach(Person::evict);
+                } else {
+                    people.forEach(Person::fire);
+                }
+            }
+
+            Logger.log("Current budget: " + GameManager.getBudget());
+
+            building = null;
+            zone = null;
 
             resetTile();
             GameManager.getGraph().removeNode(this.coord);

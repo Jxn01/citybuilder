@@ -46,6 +46,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
         String statistics = "Industrial workplace statistics:\n";
         statistics += "Number of people working here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
+        statistics += "HP: " + hp + "/" + GameManager.getBuildingMaxHP() + "\n";
         return statistics;
     }
 

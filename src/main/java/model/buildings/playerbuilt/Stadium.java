@@ -106,19 +106,8 @@ public class Stadium extends RangedBuilding {
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";
+        statistics += "HP: " + hp + "/" + GameManager.getBuildingMaxHP() + "\n";
         return statistics;
-    }
-
-    @Override
-    public void setOnFire() {
-        onFire = true;
-        Logger.log("Stadium is on fire at " + coords.toString());
-    }
-
-    @Override
-    public void extinguish() {
-        onFire = false;
-        Logger.log("Stadium is extinguished at " + coords.toString());
     }
 
     /**

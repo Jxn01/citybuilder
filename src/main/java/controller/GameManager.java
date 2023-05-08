@@ -73,6 +73,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final double HOSPITAL_CHANCE = 0.1;
     private static final int MIN_POPULATION = 10; // for game over
     private static final int MIN_SATISFACTION = 20; // for game over
+    private static final int BUILDING_MAX_HP = 10;
     private static GameData gameData;
     private final List<Catastrophe> catastrophes;
     private final String saveDirectory = System.getProperty("user.home") + File.separator + ".citybuilder" + File.separator + "saves";
@@ -571,6 +572,15 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     /**
+     * Getter for a buildings maximum health
+     *
+     * @return the maximum health of a building
+     */
+    public static int getBuildingMaxHP(){
+        return BUILDING_MAX_HP;
+    }
+
+    /**
      * This method initializes the game.
      *
      * @param cityName the name of the city
@@ -650,17 +660,17 @@ public class GameManager implements SaveManager, SpeedManager {
                 gameData.setInGameCurrentDate(Date.nextDay(gameData.getInGameCurrentDate()));
 
                 //daily functions:
+                burnBuildings();
+                removeWhoDeceasedOrMovedAway();
+                houseHomeless();
+                employUnemployed();
                 buildingEffects();
                 workplaceDistrEffect();
                 negativeBudgetEffect();
                 gameData.calculateAverageSatisfaction();
+                isGameOver();
                 buildingOnFire();
                 evokeCatastrophe();
-                houseHomeless();
-                employUnemployed();
-                removePeopleFromBuildings();
-                isGameOver();
-
 
                 Logger.log("A day is passed: " + gameData.getDays() + ".day");
 
@@ -668,6 +678,7 @@ public class GameManager implements SaveManager, SpeedManager {
                 if (gameData.getInGameCurrentDate().matches("\\d{4}-\\d{2}-01")) {
                     //weekly functions:
                     newPeople();
+                    repairBuildings();
                 }
 
                 // check if a year has passed
@@ -677,6 +688,7 @@ public class GameManager implements SaveManager, SpeedManager {
                     peopleAge();
                     peopleDie();
                     peopleMoveAway();
+                    removeWhoDeceasedOrMovedAway();
                     doFinancials();
 
                     Logger.log("A year passed");
@@ -694,6 +706,20 @@ public class GameManager implements SaveManager, SpeedManager {
             timer.cancel();
             JOptionPane.showMessageDialog(null, "Game Over! You lost!");
         }
+    }
+
+    private void repairBuildings(){
+        gameData.getPlayableFieldsWithBuildings()
+                .stream()
+                .filter(b -> !b.getBuilding().isOnFire() && b.getBuilding().getHp() != BUILDING_MAX_HP)
+                .forEach(b -> b.getBuilding().repair());
+    }
+
+    private void burnBuildings(){
+        gameData.getPlayableFieldsWithBuildings()
+                .stream()
+                .filter(f -> f.getBuilding() != null && f.getBuilding().isOnFire())
+                .forEach(f -> f.getBuilding().burnTick());
     }
 
     /**
@@ -872,9 +898,7 @@ public class GameManager implements SaveManager, SpeedManager {
                 .stream()
                 .map(f -> (Flammable) f.getBuilding())
                 .forEach(b -> {
-                    if (((Building) b).isOnFire()) {
-                        //todo
-                    } else if (Math.random() <= ((Building) b).getFirePossibility()) {
+                    if (Math.random() <= ((Building) b).getFirePossibility()) {
                         b.setOnFire();
                     }
                 });
@@ -911,14 +935,10 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     /**
-     * This method removes the people which died or moved away, from the buildings.
+     * This method removes the people who are deceased or moved away.
      */
-    private void removePeopleFromBuildings() {
-        gameData.getPlayableFieldsWithBuildings()
-                .stream()
-                .filter(f -> f.getBuilding() instanceof GeneratedBuilding)
-                .map(f -> (GeneratedBuilding) f.getBuilding())
-                .forEach(GeneratedBuilding::removePeople);
+    private void removeWhoDeceasedOrMovedAway(){
+        gameData.getPeople().removeIf(p -> p.getName().equals("Deceased") || p.getName().equals("Moved away"));
     }
 
     /**
@@ -932,7 +952,6 @@ public class GameManager implements SaveManager, SpeedManager {
             }
         });
 
-        gameData.getPeople().removeIf(p -> p.getName().equals("Moved away"));
         Logger.log("People moved away: " + (people - gameData.getPeople().size()));
     }
 
@@ -947,7 +966,6 @@ public class GameManager implements SaveManager, SpeedManager {
             }
         });
 
-        gameData.getPeople().removeIf(p -> p.getName().equals("Deceased"));
         Logger.log("People died: " + (people - gameData.getPeople().size()));
     }
 

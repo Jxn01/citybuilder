@@ -131,6 +131,9 @@ public class Person {
         //calculate satisfaction based on effects
         int satisfaction = 50;
 
+        if(Objects.isNull(effects))
+            return satisfaction;
+
         for (Effect effect : effects) {
             satisfaction += effect.getValue();
         }
@@ -158,8 +161,14 @@ public class Person {
      * @param effect the effect to remove
      */
     public void removeEffect(Effect effect) {
-        effects.remove(effect);
+        if(effects != null)
+            effects.remove(effect);
         //Logger.log("Effect " + effect + " removed from " + name);
+    }
+
+    public void retire(){
+        founder = true;
+        fire();
     }
 
     /**
@@ -179,7 +188,31 @@ public class Person {
         Logger.log(name + " has died");
         this.name = "Deceased";
         this.effects = null;
+        if(home != null)
+            home.removePerson(this);
+        if(workplace != null)
+            workplace.removePerson(this);
         this.home = null;
+        this.workplace = null;
+    }
+
+    /**
+     * This method evicts the person
+     */
+    public void evict(){
+        Logger.log(name + " has been evicted");
+        workplace.removePerson(this);
+        home.removePerson(this);
+        this.home = null;
+        this.workplace = null;
+    }
+
+    /**
+     * This method fires the person
+     */
+    public void fire(){
+        Logger.log(name + " has been fired");
+        workplace.removePerson(this);
         this.workplace = null;
     }
 
@@ -189,6 +222,12 @@ public class Person {
     public void moveAway() {
         Logger.log(name + " has moved away");
         this.name = "Moved away";
+        if(home != null)
+            home.removePerson(this);
+        if(workplace != null)
+            workplace.removePerson(this);
+        this.home = null;
+        this.workplace = null;
     }
 
     /**

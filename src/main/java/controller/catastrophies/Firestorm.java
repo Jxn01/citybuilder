@@ -1,10 +1,14 @@
 package controller.catastrophies;
 
 import model.GameData;
+import model.buildings.playerbuilt.FireDepartment;
+import model.buildings.playerbuilt.Road;
 import model.field.PlayableField;
+import org.checkerframework.common.value.qual.IntRange;
 import util.Logger;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 /**
  * This class represents a firestorm.
@@ -32,21 +36,15 @@ public class Firestorm extends Catastrophe {
 
     @Override
     public void effect(GameData gameData) {
-        ArrayList<PlayableField> fields = gameData.getPlayableFieldsWithBuildings();
+        int number = (int) (Math.log(gameData.getPlayableFieldsWithBuildings().stream()
+                .filter(f -> !(f.getBuilding() instanceof Road) && !(f.getBuilding() instanceof FireDepartment))
+                .count()) * 4);
 
-        if (fields.size() == 0) {
-            throw new RuntimeException("No playable fields found with building on it.");
-        }
-
-        int counter = randomNumberGenerator(1, 5);
-
-        Logger.log("Number of buildings on fire: " + counter);
-
-        while (counter > 0) {
-            int randomIndex = randomNumberGenerator(0, fields.size() - 1);
-            fields.get(randomIndex).getBuilding().setOnFire();
-            counter--;
-        }
+        ArrayList<PlayableField> playableFields = gameData.getPlayableFieldsWithBuildings();
+        IntStream.range(0, number).forEach(i -> {
+            int randomIndex = randomNumberGenerator(0, playableFields.size() - 1);
+            playableFields.get(randomIndex).getBuilding().setOnFire();
+        });
 
         Logger.log("Firestorm happening!");
     }
