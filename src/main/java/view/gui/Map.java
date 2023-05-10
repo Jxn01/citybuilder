@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static model.field.PlayableField.canBuildThere;
 
@@ -25,6 +26,7 @@ public class Map {
     private final Rectangle drawnMenuRectangle = new Rectangle(0, 0, 0, 0);
     private final MyButton upgradeBtn = new MyButton(0, 0, 0, 0, "upgrade");
     private Image rocks, grass_1, grass_2, grass_3, house_1, house_2, house_3, service_1, service_2, service_3, factory_1, factory_2, factory_3, serviceZone, factoryZone, residentialZone, road, fireStation, stadium, forest, police, construction, stadium_topleft, stadium_topright, stadium_bottomleft, stadium_bottomright;
+    private Image fire;
     private Tile selectedBuildingType;
     private Point selectedTile;
     private Field[][] fields;
@@ -74,6 +76,7 @@ public class Map {
             forest = ResourceLoader.loadImage("FOREST_1.png");
             police = ResourceLoader.loadImage("POLICE_1.png");
             construction = ResourceLoader.loadImage("CONSTRUCTION.png");
+            fire = ResourceLoader.loadImage("fire_effect.png");
         } catch (IOException exc) {
             exc.printStackTrace();
         }
@@ -94,11 +97,28 @@ public class Map {
             for (int col = 0; col < 51; ++col) {
                 Image img = tileToImg(fields[row][col].getTile());
                 gr.drawImage(img, col * (64 + zoom) + cameraOffsetX, row * (64 + zoom) + cameraOffsetY, 64 + zoom, 64 + zoom, null);
+                
+                //fire effect on buildings
+                try {
+                    img = fire;
+                    Boolean isPlayable = fields[row][col] instanceof PlayableField;
+                    Boolean isOnFire = false;
+                    
+                    if(isPlayable){
+                        isOnFire = ((PlayableField)fields[row][col]).getBuilding() != null &&
+                                ((PlayableField)fields[row][col]).getBuilding().isOnFire();
+                    }
+                    if(isOnFire){
+                        gr.drawImage(img, col * (64 + zoom) + cameraOffsetX, row * (64 + zoom) + cameraOffsetY, 64 + zoom, 64 + zoom, null);
+                    }
+                } catch(Exception e) {}
+
             }
         }
         paintHover(gr);
-        drawSelectedTile(gr);
+        drawSelectedTile(gr);  
     }
+    
 
     /**
      * Build the selected building type onto a tile
