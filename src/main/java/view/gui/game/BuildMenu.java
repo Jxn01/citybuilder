@@ -81,7 +81,7 @@ public class BuildMenu extends GameMenu {
 
         } else if (fireFighterBtn.isHovered(p)) {
 
-            Logger.log("Firefighter button clicked");
+            Logger.log("Firefighter button clicked");  
             game.setSelectedBuildingType(Tile.FIRESTATION);
 
         } else if (roadBtn.isHovered(p)) {

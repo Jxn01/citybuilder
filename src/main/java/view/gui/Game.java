@@ -5,6 +5,7 @@ import view.enums.MenuState;
 import view.enums.Tile;
 import view.gui.game.BottomBar;
 import view.gui.game.TopBar;
+import view.gui.game.EventLog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +23,7 @@ public class Game {
     private final Map map;
     private final TopBar topBar;
     private final BottomBar bottomBar;
+    private final EventLog eventLog;
 
     /**
      * Constructor of the game class
@@ -33,6 +35,7 @@ public class Game {
         this.panel = panel;
         topBar = new TopBar(this);
         bottomBar = new BottomBar(this);
+        eventLog = new EventLog(this);
         cameraMovementHandler = new CameraMovementHandler(panel);
         map = new Map(this);
 
@@ -59,6 +62,8 @@ public class Game {
         topBar.draw(gr);
         //paint the bottom bar
         bottomBar.draw(gr);
+        //paint the event log area
+        eventLog.draw(gr);
     }
 
     /**
@@ -161,6 +166,7 @@ public class Game {
         ArrayList<Rectangle> areas = new ArrayList<>();
         areas.addAll(topBar.getMenuAreas());
         areas.addAll(bottomBar.getMenuAreas());
+        areas.addAll(eventLog.getMenuAreas());
         return areas;
     }
 
@@ -196,5 +202,9 @@ public class Game {
      */
     public Panel getPanel() {
         return panel;
+    }
+    
+    public void log(String s){
+        eventLog.log(s);
     }
 }
