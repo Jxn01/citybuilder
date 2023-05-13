@@ -25,6 +25,7 @@ public class Map {
     private final Game game;
     private final Rectangle drawnMenuRectangle = new Rectangle(0, 0, 0, 0);
     private final MyButton upgradeBtn = new MyButton(0, 0, 0, 0, "upgrade");
+    private final MyButton extinguishBtn = new MyButton(0, 0, 0, 0, "extinguish");
     private Image rocks, grass_1, grass_2, grass_3, house_1, house_2, house_3, service_1, service_2, service_3, factory_1, factory_2, factory_3, serviceZone, factoryZone, residentialZone, road, fireStation, stadium, forest, police, construction, stadium_topleft, stadium_topright, stadium_bottomleft, stadium_bottomright;
     private Image fire;
     private Tile selectedBuildingType;
@@ -181,6 +182,20 @@ public class Map {
             exc.printStackTrace();
         }
     }
+    
+    /**
+     * Extinguish the selected building
+     * @param x is the x index of the field, which contains the building
+     * @param y is the y index of the field, which contains the building
+     */
+    public void extinguish(int x, int y) {
+        try {
+            ((PlayableField) fields[y][x]).getBuilding().extinguish();
+            selectedTile = null;
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+    }
 
     /**
      * Draw the selected tile on the screen
@@ -210,7 +225,10 @@ public class Map {
             }
         } else if (upgradeBtn.rect.contains(p)) {
             upgrade(selectedTile.y, selectedTile.x);
+        } else if (extinguishBtn.rect.contains(p)) {
+            extinguish(selectedTile.y, selectedTile.x);
         }
+        
     }
 
     /**
@@ -301,12 +319,13 @@ public class Map {
                 }
 
                 if (((PlayableField) field).getZone() != null && ((PlayableField) field).getUpgradeLevel() != UpgradeLevel.METROPOLIS) {
-                    setUpgradeButtonAttributes(x, y + 200, 80, 40);
+                    setButtonAttributes(upgradeBtn,x, y + 200, 80, 40);
                     upgradeBtn.draw(gr, game.getMousePosition());
                 }
 
                 if(((PlayableField) field).getBuilding().isOnFire()){
-                    //TODO button here
+                    setButtonAttributes(extinguishBtn,x + 100, y + 200, 80, 40);
+                    extinguishBtn.draw(gr, game.getMousePosition());
                 }
 
             } else {
@@ -318,18 +337,18 @@ public class Map {
     }
 
     /**
-     * Sets the attributes of the upgrade button
+     * Sets the attributes of any button
      *
      * @param x      is the x coordinate of the button
      * @param y      is the y coordinate of the button
      * @param width  is the width of the button
      * @param height is the height of the button
      */
-    private void setUpgradeButtonAttributes(int x, int y, int width, int height) {
-        upgradeBtn.setX(x);
-        upgradeBtn.setY(y);
-        upgradeBtn.setWidth(width);
-        upgradeBtn.setHeight(height);
+    private void setButtonAttributes(MyButton btn, int x, int y, int width, int height) {
+        btn.setX(x);
+        btn.setY(y);
+        btn.setWidth(width);
+        btn.setHeight(height);
     }
 
     /**
