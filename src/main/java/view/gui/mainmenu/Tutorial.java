@@ -17,7 +17,7 @@ public class Tutorial {
 
     private final view.components.Panel panel;
     private final int MINIMG = 0;
-    private final int MAXIMG = 2;
+    private final int MAXIMG = 11;
     private final ArrayList<TutorialData> allData;
     private final ArrayList<String> allText;
     private int currentImg;
@@ -38,9 +38,18 @@ public class Tutorial {
         allData = new ArrayList<>();
 
         //add all TEXTS
-        allText.add("első lépés dummy text");
-        allText.add("második lépés dummy text");
-        allText.add("harmadik lépés dummy text");
+        allText.add("1. A jobb alsó sarokban található az idő menü.");
+        allText.add("2. Középen alul található az építési menü.");
+        allText.add("3. A játék statisztikái itt találjatók (bal alsó sarok).");
+        allText.add("4. Adót kivetni az adó gombbal lehet (bal alsó sarok).");
+        allText.add("5. Katasztrófát előidézni pedig ezzel a gombbal lehet...");
+        allText.add("6. A játék menüje a hamburgermenüben található (jobb felső sarok).");
+        allText.add("7. A város statisztikái a felső sávban láthatók.");
+        allText.add("8. Építés: kiválasztjuk az épületet, majd kattintunk a játéktéren.");
+        allText.add("9. Törölni hasonlóan tudunk az 'X' gomb kiválasztásával.");
+        allText.add("10. Az épület statisztikái és a fejleszési lehetőség kattintás után elérhető.");
+        allText.add("11. Tűz eloltása: az épületre kattintás után az 'Elolt' gombbal lehetséges.");
+        allText.add("Sok sikert, Polgármester!");
 
         try {
             background = ResourceLoader.loadImage("tutbg.png");
