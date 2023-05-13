@@ -38,17 +38,17 @@ public class Tutorial {
         allData = new ArrayList<>();
 
         //add all TEXTS
-        allText.add("1. A jobb alsó sarokban található az idő menü.");
-        allText.add("2. Középen alul található az építési menü.");
-        allText.add("3. A játék statisztikái itt találjatók (bal alsó sarok).");
-        allText.add("4. Adót kivetni az adó gombbal lehet (bal alsó sarok).");
-        allText.add("5. Katasztrófát előidézni pedig ezzel a gombbal lehet...");
-        allText.add("6. A játék menüje a hamburgermenüben található (jobb felső sarok).");
-        allText.add("7. A város statisztikái a felső sávban láthatók.");
-        allText.add("8. Építés: kiválasztjuk az épületet, majd kattintunk a játéktéren.");
-        allText.add("9. Törölni hasonlóan tudunk az 'X' gomb kiválasztásával.");
-        allText.add("10. Az épület statisztikái és a fejleszési lehetőség kattintás után elérhető.");
-        allText.add("11. Tűz eloltása: az épületre kattintás után az 'Elolt' gombbal lehetséges.");
+        allText.add("A jobb alsó sarokban található az idő menü.");
+        allText.add("Középen alul található az építési menü.");
+        allText.add("A játék statisztikái itt találjatók (bal alsó sarok).");
+        allText.add("Adót kivetni az adó gombbal lehet (bal alsó sarok).");
+        allText.add("Katasztrófát előidézni pedig ezzel a gombbal lehet...");
+        allText.add("A játék menüje a hamburgermenüben található (jobb felső sarok).");
+        allText.add("A város statisztikái a felső sávban láthatók.");
+        allText.add("Építés: kiválasztjuk az épületet, majd kattintunk a játéktéren.");
+        allText.add("Törölni hasonlóan tudunk az 'X' gomb kiválasztásával.");
+        allText.add("Az épület statisztikái és a fejleszési lehetőség kattintás után elérhető.");
+        allText.add("Tűz eloltása: az épületre kattintás után az 'Elolt' gombbal lehetséges.");
         allText.add("Sok sikert, Polgármester!");
 
         try {
@@ -102,7 +102,7 @@ public class Tutorial {
 
         //write the current image text on the screen
         gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        gr.drawString((currentImg + 1) + ". Lépés: " + allData.get(currentImg).imgText, 150, 75);
+        gr.drawString((currentImg + 1) + ". lépés: " + allData.get(currentImg).imgText, 150, 75);
     }
 
     /**
