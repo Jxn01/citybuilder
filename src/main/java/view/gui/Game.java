@@ -207,4 +207,8 @@ public class Game {
     public void log(String s){
         eventLog.log(s);
     }
+    
+    public void showCatastrophyIcon(String name) {
+        topBar.showCatastrophyIcon(name);
+    }
 }

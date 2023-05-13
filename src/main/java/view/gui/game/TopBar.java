@@ -7,7 +7,9 @@ import view.components.custom.MyButton;
 import view.gui.Game;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import util.ResourceLoader;
 
 /**
  * This class implements the top bar of the game gui
@@ -17,7 +19,19 @@ public class TopBar extends GameMenu {
     private final Color topBarColor;
     MyButton hamburgerBtn;
     HamburgerMenu hamburgerMenu;
+    private Image fireStorm,covid,financialCrisis;
+    private catastrophyTimer econTimer,fireTimer,covidTimer;
 
+    public class catastrophyTimer {
+        public long startTime;
+        public long elapsedTime;
+        
+        public catastrophyTimer() {
+            startTime = 0;
+            elapsedTime = 0;
+        }
+    }
+    
     /**
      * Constructor of the top bar
      *
@@ -30,6 +44,18 @@ public class TopBar extends GameMenu {
         hamburgerBtn = new MyButton(0, 0, 40, 40, "hamburgerMenu");
         topBarArea = new Rectangle(0, 0, 1536, 40);
         topBarColor = Color.white;
+        
+        econTimer = new catastrophyTimer();
+        fireTimer = new catastrophyTimer();
+        covidTimer = new catastrophyTimer();
+        
+        try {
+            fireStorm = ResourceLoader.loadImage("firestorm.png");
+            covid = ResourceLoader.loadImage("covid.png");
+            financialCrisis = ResourceLoader.loadImage("financial_crisis.png");
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
     }
 
     /**
@@ -52,6 +78,8 @@ public class TopBar extends GameMenu {
         gr.drawString("Dátum: " + gd.getInGameCurrentDate(), 1000, 30);
         gr.drawString("Éves adók: " + gd.getYearlyTaxes() + "$", 1300, 30);
         gr.drawString("Város: " + gd.getCityName(), 1600, 30);
+        
+        drawCatastrophyIcons(gr);
     }
 
     /**
@@ -99,6 +127,37 @@ public class TopBar extends GameMenu {
 
     public void setWidth(int width) {
         topBarArea.width = width;
+    }
+    
+    /**
+     * In case of a catastrophy happening, draw the catastropy icon in
+     * the top right corner
+     * @param gr is the graphics context of the main Panel object
+     */
+    public void drawCatastrophyIcons(Graphics2D gr) {
+        //fireStorm,covid,financialCrisis
+        fireTimer.elapsedTime = System.currentTimeMillis() - fireTimer.startTime;
+        covidTimer.elapsedTime = System.currentTimeMillis() - covidTimer.startTime;
+        econTimer.elapsedTime = System.currentTimeMillis() - econTimer.startTime;
+        
+        if(fireTimer.elapsedTime < 10000) {
+            gr.drawImage(fireStorm,game.width()-40,40,40,40, null);
+        }
+        if(covidTimer.elapsedTime < 10000) {
+            gr.drawImage(covid,game.width()-80,40,40,40, null);
+        }
+        if(econTimer.elapsedTime < 10000) {
+            gr.drawImage(financialCrisis,game.width()-120,40,40,40, null);
+        }
+        
+    }
+    
+    public void showCatastrophyIcon(String name) {
+        switch(name) {
+            case "fire" -> fireTimer.startTime = System.currentTimeMillis();
+            case "econ" -> econTimer.startTime = System.currentTimeMillis();
+            case "covid" -> covidTimer.startTime = System.currentTimeMillis();
+        }
     }
 
 }

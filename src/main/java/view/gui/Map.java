@@ -76,7 +76,9 @@ public class Map {
             forest = ResourceLoader.loadImage("FOREST_1.png");
             police = ResourceLoader.loadImage("POLICE_1.png");
             construction = ResourceLoader.loadImage("CONSTRUCTION.png");
+            
             fire = ResourceLoader.loadImage("fire_effect.png");
+            
         } catch (IOException exc) {
             exc.printStackTrace();
         }
@@ -116,7 +118,7 @@ public class Map {
             }
         }
         paintHover(gr);
-        drawSelectedTile(gr);  
+        drawSelectedTile(gr);
     }
     
 
