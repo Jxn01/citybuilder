@@ -287,12 +287,12 @@ public class Map {
                 gr.drawRect(selectedTile.y * 64 + cameraOffsetX, selectedTile.x * 64 + cameraOffsetY, 64, 64);
 
                 gr.setColor(Color.WHITE);
-                gr.fillRect(selectedTile.y * 64 + cameraOffsetX - 64 * 2, selectedTile.x * 64 + cameraOffsetY - 64 * 3, 64 * 5, 64 * 3);
+                gr.fillRect(selectedTile.y * 64 + cameraOffsetX - 64 * 2, selectedTile.x * 64 + cameraOffsetY - 64 * 4, 64 * 5, 64 * 4);
                 gr.setFont(new Font("TimesRoman", Font.PLAIN, 18));
 
                 gr.setColor(Color.BLACK);
                 int x = selectedTile.y * 64 + cameraOffsetX - 64 * 2 + 10;
-                int y = selectedTile.x * 64 + cameraOffsetY - 64 * 3;
+                int y = selectedTile.x * 64 + cameraOffsetY - 64 * 4;
 
                 String stats = ((PlayableField) field).getBuilding().getStatistics();
                 String[] statsArray = stats.split("\n");
@@ -301,7 +301,7 @@ public class Map {
                 }
 
                 if (((PlayableField) field).getZone() != null && ((PlayableField) field).getUpgradeLevel() != UpgradeLevel.METROPOLIS) {
-                    setUpgradeButtonAttributes(x, y + 140, 80, 40);
+                    setUpgradeButtonAttributes(x, y + 200, 80, 40);
                     upgradeBtn.draw(gr, game.getMousePosition());
                 }
 
