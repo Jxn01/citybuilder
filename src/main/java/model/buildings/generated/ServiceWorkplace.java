@@ -35,7 +35,7 @@ public class ServiceWorkplace extends Workplace {
     @JsonIgnore
     @Override
     public String getStatistics() {
-        String statistics = "Industrial workplace statistics:\n";
+        String statistics = "Service workplace statistics:\n";
         statistics += "Maximum capacity: " + maxCapacity + "\n";
         statistics += "Number of people working here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
