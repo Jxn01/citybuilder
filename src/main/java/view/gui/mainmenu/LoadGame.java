@@ -25,6 +25,7 @@ public class LoadGame {
     private final MyRadioButtonGroup btnGrp;
     private final List<File> saveFiles;
     private Image background;
+    private final int MAXGAMES = 8;
 
     /**
      * Constructor of the LoadGame class
@@ -47,8 +48,14 @@ public class LoadGame {
         btnGrp = new MyRadioButtonGroup();
         if (saveFiles != null && !saveFiles.isEmpty()) {
             int i = 1;
+            int currentGamesShown = 0;
             for (File sf : saveFiles) {
+                
+                if(currentGamesShown >= MAXGAMES){
+                    break;
+                }
                 btnGrp.add(new MyRadioButton(10, 80 + i++ * 60, 1516, 50, sf.getName(), "", ""));
+                currentGamesShown++;
             }
         }
     }
