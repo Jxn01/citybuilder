@@ -25,9 +25,9 @@ automatikusan építkeznek), a játékos által külön megépítendő kiszolgá
 A játékos célja, hogy virágzó várost fejlesszen, ahol a polgárok boldogok és a
 költségvetés kiegyensúlyozott.
 A kezdeti városépítésére a játékos kap egy kezdőtőkét, azonban a további fejlesztésekhez a helyi
-adóbevételekre kell támaszkodnia. A játékot valós idejűként kell elkészíteni, de a valósághoz képest
-természetesen az idő jóval gyorsabban fog telni. A játék jelezze ki az időt (év, hónap, nap), és legyen
-lehetőség a játékot 3 különböző sebességben játszani, valamint a szüneteltetni is.
+adóbevételekre kell támaszkodnia. A játék valós idejű, de a valósághoz képest
+természetesen az idő jóval gyorsabban fog telni. A játék kijelzi az időt (év, hónap, nap), és
+lehetőség van a játékot 3 különböző sebességben játszani, valamint a szüneteltetni is.
 
 
 ### Hasznos linkek
