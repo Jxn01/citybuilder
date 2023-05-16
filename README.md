@@ -76,6 +76,8 @@ _A Wiki oldalon található a játék részletes leírása és dokumentációja,
 
 ![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014750220173393/Screenshot_20230516_145020.png)
 
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014750501179482/Screenshot_20230516_145014.png)
+
 
 
 
