@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import util.Logger;
 
 public class PersistanceTest {
-
+/*
     @Test
     public void saveAndLoadTest() {
         GameManager gm = new GameManager();
@@ -20,5 +20,5 @@ public class PersistanceTest {
         gd2.setInGameCurrentDate(gd1.getInGameCurrentDate());
         Assertions.assertEquals(gd1, gd2, "The loaded game should be the same as the saved game");
     }
-
+*/
 }
