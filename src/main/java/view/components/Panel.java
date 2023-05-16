@@ -51,13 +51,14 @@ public class Panel extends JPanel implements ActionListener {
 
         state = MenuState.INTRO;
 
+        this.game = new Game(this);
+        this.gm = new GameManager(game);
         this.intro = new Intro(this);
         this.mainMenu = new MainMenu(this);
         this.tutorial = new Tutorial(this);
         this.newGame = new NewGame(this);
         this.loadGame = new LoadGame(this);
-        this.game = new Game(this);
-        this.gm = new GameManager(game);
+
 
         //CLICK EVENT
         addMouseListener(new MouseAdapter() {
