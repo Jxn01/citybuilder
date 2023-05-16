@@ -14,7 +14,7 @@
 
 ### A játék, egy egyjátékos, tycoon jellegű, valós idejű város építő szimulátor, ahol lehetőségünk van az idő manipulálására is.Az alapvető koncepció a Sim-City játéksorozaton alapul.
 
-### A játék lényege 
+### A játék lényege
 
 A játékos egy jól körülhatárolt területet kap, amely négyzet alakú mezőkből áll. Ezen a területen
 építheti fel a játékos a saját városát és menedzselheti azt egy széles jogkörökkel bíró
@@ -28,7 +28,6 @@ A kezdeti városépítésére a játékos kap egy kezdőtőkét, azonban a tová
 adóbevételekre kell támaszkodnia. A játék valós idejű, de a valósághoz képest
 természetesen az idő jóval gyorsabban fog telni. A játék kijelzi az időt (év, hónap, nap), és
 lehetőség van a játékot 3 különböző sebességben játszani, valamint a szüneteltetni is.
-
 
 
 ### Hasznos linkek
@@ -64,6 +63,24 @@ _A Wiki oldalon található a játék részletes leírása és dokumentációja,
 
 
 ## Képernyőképek
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014751444897792/Screenshot_20230516_144739.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014810702037062/Screenshot_20230516_144723.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014751147114607/Screenshot_20230516_145001.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014749058342972/Screenshot_20230516_145347.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014749557461024/Screenshot_20230516_145046.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014750220173393/Screenshot_20230516_145020.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014750501179482/Screenshot_20230516_145014.png)
+
+
+
+
 ## Készítők
 
 - [Bora Miklós Bence](https://szofttech.inf.elte.hu/vdn8wh)
