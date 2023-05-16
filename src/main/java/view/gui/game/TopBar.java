@@ -22,7 +22,7 @@ public class TopBar extends GameMenu {
     private Image fireStorm,covid,financialCrisis;
     private catastrophyTimer econTimer,fireTimer,covidTimer;
 
-    public class catastrophyTimer {
+    public static class catastrophyTimer {
         public long startTime;
         public long elapsedTime;
         
@@ -149,7 +149,6 @@ public class TopBar extends GameMenu {
         if(econTimer.elapsedTime < 10000) {
             gr.drawImage(financialCrisis,game.width()-120,40,40,40, null);
         }
-        
     }
     
     public void showCatastrophyIcon(String name) {
@@ -159,5 +158,4 @@ public class TopBar extends GameMenu {
             case "covid" -> covidTimer.startTime = System.currentTimeMillis();
         }
     }
-
 }

@@ -37,7 +37,6 @@ public class Panel extends JPanel implements ActionListener {
      * @param gameGUI is the main window, where the panel is placed on
      */
     public Panel(GameGUI gameGUI) {
-        this.gm = new GameManager();
         setPreferredSize(gameGUI.getContentPane().getSize());
         setSize(gameGUI.getContentPane().getSize());
         setFocusable(true);
@@ -45,19 +44,20 @@ public class Panel extends JPanel implements ActionListener {
 
         Timer responsivityTimer = new Timer(50, (ActionEvent e) -> {
             Dimension panelSize = getSize();
-            width = panelSize.width;
-            height = panelSize.height;
+            this.width = panelSize.width;
+            this.height = panelSize.height;
         });
         responsivityTimer.start();
 
         state = MenuState.INTRO;
 
-        intro = new Intro(this);
-        mainMenu = new MainMenu(this);
-        tutorial = new Tutorial(this);
-        newGame = new NewGame(this);
-        loadGame = new LoadGame(this);
-        game = new Game(this);
+        this.intro = new Intro(this);
+        this.mainMenu = new MainMenu(this);
+        this.tutorial = new Tutorial(this);
+        this.newGame = new NewGame(this);
+        this.loadGame = new LoadGame(this);
+        this.game = new Game(this);
+        this.gm = new GameManager(game);
 
         //CLICK EVENT
         addMouseListener(new MouseAdapter() {

@@ -24,6 +24,7 @@ import model.field.PlayableField;
 import util.Date;
 import util.GraphDeserializer;
 import util.Logger;
+import view.gui.Game;
 
 import javax.swing.*;
 import java.io.File;
@@ -72,7 +73,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final double CATASTROPHE_CHANCE = 0.0001;
     private static final double HOSPITAL_CHANCE = 0.1;
     private static final int MIN_POPULATION = 10; // for game over
-    private static final int MIN_SATISFACTION = 20; // for game over
+    private static final int MIN_SATISFACTION = -10; // for game over
     private static final int BUILDING_MAX_HP = 10;
     private static GameData gameData;
     private final List<Catastrophe> catastrophes;
@@ -82,11 +83,13 @@ public class GameManager implements SaveManager, SpeedManager {
     private Timer timer;
     private int delay = 1000;
     private int period = 1000;
+    private Game UI;
 
     /**
      * Constructor for the game manager.
      */
-    public GameManager() {
+    public GameManager(Game UI) {
+        this.UI = UI;
         simulationSpeed = SimulationSpeed.NORMAL;
         catastrophes = new ArrayList<>();
         catastrophes.add(FinancialCrisis.getInstance());
@@ -943,9 +946,18 @@ public class GameManager implements SaveManager, SpeedManager {
         if (Math.random() <= CATASTROPHE_CHANCE) {
             int random = (int) (Math.random() * 3);
             switch (random) {
-                case 0 -> catastrophes.get(0).effect(gameData);
-                case 1 -> catastrophes.get(1).effect(gameData);
-                case 2 -> catastrophes.get(2).effect(gameData);
+                case 0 -> {
+                    catastrophes.get(0).effect(gameData);
+                    UI.showCatastrophyIcon("econ"); //econ
+                }
+                case 1 -> {
+                    catastrophes.get(1).effect(gameData);
+                    UI.showCatastrophyIcon("covid"); //covid
+                }
+                case 2 -> {
+                    catastrophes.get(2).effect(gameData);
+                    UI.showCatastrophyIcon("fire"); //firestorm
+                }
             }
         }
     }
