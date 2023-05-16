@@ -104,6 +104,22 @@ public class GameManager implements SaveManager, SpeedManager {
         Logger.log("Game manager created.");
     }
 
+    public GameManager() {
+        UI = null;
+        simulationSpeed = SimulationSpeed.NORMAL;
+        catastrophes = new ArrayList<>();
+        catastrophes.add(FinancialCrisis.getInstance());
+        catastrophes.add(Covid.getInstance());
+        catastrophes.add(Firestorm.getInstance());
+
+        File directory = new File(saveDirectory);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        Logger.log("Game manager created.");
+    }
+
     /**
      * Getter for the game data.
      *
@@ -1180,37 +1196,46 @@ public class GameManager implements SaveManager, SpeedManager {
 
     @Override
     public void saveGame(GameData gameData) {
+        boolean UIExists = UI != null;
         if (gameData.getSaveFile() == null) {
             Logger.log("Game has not been saved yet, creating new save file...");
-            UI.log("Game has not been saved yet, creating new save file...");
+            if (UIExists)
+                UI.log("Game has not been saved yet, creating new save file...");
             File file = new File(saveDirectory + File.separator + gameData.getId() + ".json");
             try {
                 if (file.createNewFile()) {
                     Logger.log("Save file created.");
-                    UI.log("Save file created.");
+                    if (UIExists)
+                        UI.log("Save file created.");
                 } else {
                     Logger.log("Save file already exists.");
-                    UI.log("Save file already exists.");
+                    if (UIExists)
+                        UI.log("Save file already exists.");
                 }
                 gameData.setSaveFile(file);
                 Logger.log("Save file created.");
-                UI.log("Save file created.");
+                if (UIExists)
+                    UI.log("Save file created.");
             } catch (Exception exc) {
                 Logger.log("Save file could not be created.");
-                UI.log("Save file could not be created.");
+                if (UIExists)
+                    UI.log("Save file could not be created.");
                 exc.printStackTrace();
             }
         }
         Logger.log("Saving game...");
-        UI.log("Saving game...");
+        if (UIExists)
+            UI.log("Saving game...");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(gameData.getSaveFile(), gameData);
             Logger.log("Game saved.");
-            UI.log("Game saved.");
+            if (UIExists)
+                UI.log("Game saved.");
         } catch (Exception exc) {
             Logger.log("Game could not be saved.");
-            UI.log("Game could not be saved.");
+            if (UIExists)
+                UI.log("Game could not be saved.");
             exc.printStackTrace();
         }
     }
