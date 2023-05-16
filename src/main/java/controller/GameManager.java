@@ -83,7 +83,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private Timer timer;
     private int delay = 1000;
     private int period = 1000;
-    private Game UI;
+    private final Game UI;
 
     /**
      * Constructor for the game manager.
@@ -557,6 +557,15 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     /**
+     * Getter for the UI
+     *
+     * @return the UI
+     */
+    public Game UI() {
+        return UI;
+    }
+
+    /**
      * Getter for the base fire possibility
      *
      * @return the base fire possibility
@@ -579,7 +588,7 @@ public class GameManager implements SaveManager, SpeedManager {
      *
      * @return the maximum health of a building
      */
-    public static int getBuildingMaxHP(){
+    public static int getBuildingMaxHP() {
         return BUILDING_MAX_HP;
     }
 
@@ -693,12 +702,13 @@ public class GameManager implements SaveManager, SpeedManager {
                     doFinancials();
 
                     Logger.log("A year passed");
+                    UI.log("A year passed");
                 }
             }
         }, delay, period);
     }
 
-    private void effects(){
+    private void effects() {
         buildingEffects();
         workplaceDistrEffect();
         negativeBudgetEffect();
@@ -706,9 +716,9 @@ public class GameManager implements SaveManager, SpeedManager {
         homelessEffect();
     }
 
-    private void unemployedEffect(){
+    private void unemployedEffect() {
         gameData.getPeople().forEach(p -> {
-            if(p.getWorkplace() == null){
+            if (p.getWorkplace() == null) {
                 p.addEffect(Effect.UNEMPLOYED);
             } else {
                 p.removeEffect(Effect.UNEMPLOYED);
@@ -716,9 +726,9 @@ public class GameManager implements SaveManager, SpeedManager {
         });
     }
 
-    private void homelessEffect(){
+    private void homelessEffect() {
         gameData.getPeople().forEach(p -> {
-            if(p.getHome() == null){
+            if (p.getHome() == null) {
                 p.addEffect(Effect.HOMELESS);
             } else {
                 p.removeEffect(Effect.HOMELESS);
@@ -737,14 +747,14 @@ public class GameManager implements SaveManager, SpeedManager {
         }
     }
 
-    private void repairBuildings(){
+    private void repairBuildings() {
         gameData.getPlayableFieldsWithBuildings()
                 .stream()
                 .filter(b -> !b.getBuilding().isOnFire() && b.getBuilding().getHp() != BUILDING_MAX_HP)
                 .forEach(b -> b.getBuilding().repair());
     }
 
-    private void burnBuildings(){
+    private void burnBuildings() {
         gameData.getPeople().forEach(p -> p.removeEffect(Effect.ON_FIRE));
         gameData.getPlayableFieldsWithBuildings()
                 .stream()
@@ -808,9 +818,8 @@ public class GameManager implements SaveManager, SpeedManager {
      * This method brings new people to the city.
      */
     private void newPeople() {
-        if (gameData.getAverageSatisfaction() < 0.5) {
-            // no new people for you :D
-        } else { // logarithmically increasing number of new people
+        if (gameData.getAverageSatisfaction() >= 0.5) {
+            // logarithmically increasing number of new people
             int newPeople = (int) (Math.log(gameData.getPopulation()) * 10);
             IntStream.range(0, newPeople).forEach(i -> gameData.getPeople().add(new Person()));
         }
@@ -981,7 +990,7 @@ public class GameManager implements SaveManager, SpeedManager {
     /**
      * This method removes the people who are deceased or moved away.
      */
-    private void removeWhoDeceasedOrMovedAway(){
+    private void removeWhoDeceasedOrMovedAway() {
         gameData.getPeople().removeIf(p -> p.getName().equals("Deceased") || p.getName().equals("Moved away"));
     }
 
@@ -997,6 +1006,7 @@ public class GameManager implements SaveManager, SpeedManager {
         });
 
         Logger.log("People moved away: " + (people - gameData.getPeople().size()));
+        UI.log("People moved away: " + (people - gameData.getPeople().size()));
     }
 
     /**
@@ -1011,6 +1021,7 @@ public class GameManager implements SaveManager, SpeedManager {
         });
 
         Logger.log("People died: " + (people - gameData.getPeople().size()));
+        UI.log("People died: " + (people - gameData.getPeople().size()));
     }
 
     /**
@@ -1099,16 +1110,19 @@ public class GameManager implements SaveManager, SpeedManager {
 
     public void evokeFinancialCrisis() {
         Logger.log("Financial crisis evoked.");
+        UI.log("Financial crisis evoked.");
         catastrophes.get(0).effect(gameData);
     }
 
     public void evokeCovid() {
         Logger.log("Covid evoked.");
+        UI.log("Covid evoked.");
         catastrophes.get(1).effect(gameData);
     }
 
     public void evokeFirestorm() {
         Logger.log("Firestorm evoked.");
+        UI.log("Firestorm evoked.");
         catastrophes.get(2).effect(gameData);
     }
 
@@ -1168,27 +1182,35 @@ public class GameManager implements SaveManager, SpeedManager {
     public void saveGame(GameData gameData) {
         if (gameData.getSaveFile() == null) {
             Logger.log("Game has not been saved yet, creating new save file...");
+            UI.log("Game has not been saved yet, creating new save file...");
             File file = new File(saveDirectory + File.separator + gameData.getId() + ".json");
             try {
                 if (file.createNewFile()) {
                     Logger.log("Save file created.");
+                    UI.log("Save file created.");
                 } else {
                     Logger.log("Save file already exists.");
+                    UI.log("Save file already exists.");
                 }
                 gameData.setSaveFile(file);
                 Logger.log("Save file created.");
+                UI.log("Save file created.");
             } catch (Exception exc) {
                 Logger.log("Save file could not be created.");
+                UI.log("Save file could not be created.");
                 exc.printStackTrace();
             }
         }
         Logger.log("Saving game...");
+        UI.log("Saving game...");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(gameData.getSaveFile(), gameData);
             Logger.log("Game saved.");
+            UI.log("Game saved.");
         } catch (Exception exc) {
             Logger.log("Game could not be saved.");
+            UI.log("Game could not be saved.");
             exc.printStackTrace();
         }
     }
