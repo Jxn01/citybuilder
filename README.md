@@ -63,6 +63,22 @@ _A Wiki oldalon található a játék részletes leírása és dokumentációja,
 
 
 ## Képernyőképek
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014751444897792/Screenshot_20230516_144739.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014810702037062/Screenshot_20230516_144723.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014751147114607/Screenshot_20230516_145001.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014749058342972/Screenshot_20230516_145347.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014749557461024/Screenshot_20230516_145046.png)
+
+![App Screenshot](https://cdn.discordapp.com/attachments/1099401496703012875/1108014750220173393/Screenshot_20230516_145020.png)
+
+
+
+
 ## Készítők
 
 - [Bora Miklós Bence](https://szofttech.inf.elte.hu/vdn8wh)
