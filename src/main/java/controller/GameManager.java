@@ -54,7 +54,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final int FIRE_STATION_RANGE = 3;
     private static final int FOREST_RANGE = 3;
     private static final int INDUSTRIAL_RANGE = 3;
-    private static final int FOREST_GROWTH_TIME = 2;
+    private static final int FOREST_GROWTH_TIME = 10;
     private static final int MARK_RESIDENTIAL_COST = 1000;
     private static final int MARK_SERVICE_COST = 1000;
     private static final int MARK_INDUSTRIAL_COST = 1000;
@@ -66,17 +66,17 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final double REFUND_PERCENT = 0.5;
     private static final int STARTER_MAP_SIZE = 51;
     private static final int STARTER_PEOPLE = 50;
-    private static final int STARTER_BUDGET = 10000000;
+    private static final int STARTER_BUDGET = 100000;
     private static final int STARTER_TAXES = 1000;
-    private static final double FIRE_POSSIBILITY = 0.001;
+    private static final double FIRE_POSSIBILITY = 0.0001;
     private static final int MAX_FIRETRUCKS = 2;
     private static final double CATASTROPHE_CHANCE = 0.0001;
     private static final double HOSPITAL_CHANCE = 0.1;
     private static final int MIN_POPULATION = 10; // for game over
-    private static final int MIN_SATISFACTION = -10; // for game over
+    private static final int MIN_SATISFACTION = 25; // for game over
     private static final int BUILDING_MAX_HP = 10;
     private static final double STARTER_FOREST_PERCENTAGE = 0.1;
-    private static final double FIRE_SPREAD_CHANCE = 0.1;
+    private static final double FIRE_SPREAD_CHANCE = 0.05;
     private static GameData gameData;
     private final List<Catastrophe> catastrophes;
     private final String saveDirectory = System.getProperty("user.home") + File.separator + ".citybuilder" + File.separator + "saves";
