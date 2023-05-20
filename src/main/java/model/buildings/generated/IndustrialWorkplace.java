@@ -57,12 +57,6 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
     }
 
     @Override
-    public void extinguish() {
-        Logger.log("Industrial workplace at " + coords.toString() + " is extinguished!");
-        onFire = false;
-    }
-
-    @Override
     public void addPerson(Person person) throws RuntimeException {
         if (people == null) {
             people = new ArrayList<>();

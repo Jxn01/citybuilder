@@ -6,6 +6,7 @@ import controller.GameManager;
 import model.Coordinate;
 import model.buildings.generated.GeneratedBuilding;
 import model.buildings.interfaces.Flammable;
+import model.buildings.playerbuilt.FireDepartment;
 import model.buildings.playerbuilt.PlayerBuilding;
 import model.buildings.playerbuilt.Stadium;
 import model.field.PlayableField;
@@ -132,8 +133,20 @@ public abstract class Building implements Flammable {
 
     @Override
     public void extinguish() {
-        Logger.log("Building is extinguished at " + coords.toString());
-        onFire = false;
+        ArrayList<FireDepartment> fireDepartmentsInRange = new ArrayList<>();
+        GameManager.getGameData().getPlayableFieldsWithBuildings()
+                .stream()
+                .map(PlayableField::getBuilding)
+                .filter(b -> b instanceof FireDepartment)
+                .filter(b -> b.getDistance(this.getCoords()) <= 10)
+                .map(b -> (FireDepartment) b)
+                .forEach(fireDepartmentsInRange::add);
+
+        if(!fireDepartmentsInRange.isEmpty()) {
+            Logger.log("Building is extinguished at " + coords.toString());
+            onFire = false;
+        }
+        Logger.log("Building is not extinguished at " + coords.toString());
     }
 
     @Override

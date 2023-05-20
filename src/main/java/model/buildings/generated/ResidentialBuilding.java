@@ -73,10 +73,4 @@ public class ResidentialBuilding extends GeneratedBuilding {
         Logger.log("Residential building set on fire at " + coords.toString());
         onFire = true;
     }
-
-    @Override
-    public void extinguish() {
-        Logger.log("Residential building extinguished at " + coords.toString());
-        onFire = false;
-    }
 }

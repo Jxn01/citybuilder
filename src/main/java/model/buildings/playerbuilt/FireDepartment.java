@@ -82,7 +82,6 @@ public class FireDepartment extends RangedBuilding {
     @Override
     public String getStatistics() {
         String statistics = "Fire department statistics:\n";
-        statistics += "Fire trucks: " + availableFireTrucks + "/" + maxFireTrucks + "\n";
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";

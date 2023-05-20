@@ -50,13 +50,6 @@ public class ServiceWorkplace extends Workplace {
     }
 
     @Override
-    public void extinguish() {
-        Logger.log("Service workplace at " + coords.toString() + " is extinguished!");
-        onFire = false;
-    }
-
-
-    @Override
     public void addPerson(Person person) throws RuntimeException {
         if (people == null) {
             people = new ArrayList<>();

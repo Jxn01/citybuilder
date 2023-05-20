@@ -120,12 +120,6 @@ public class Forest extends RangedBuilding {
         onFire = true;
     }
 
-    @Override
-    public void extinguish() {
-        Logger.log("Forest is extinguished at " + coords.toString());
-        onFire = false;
-    }
-
     /**
      * Apply the effect of the forest
      */
