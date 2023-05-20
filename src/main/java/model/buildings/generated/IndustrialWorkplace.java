@@ -27,7 +27,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
      * @param coords is the coordinates of the industrial workplace
      */
     public IndustrialWorkplace(Coordinate coords) {
-        super(coords, 0.0, false, null, 0);
+        super(coords, GameManager.getFirePossibility()*1.25, false, null, 0);
 
         people = new ArrayList<>();
         publicSafety = 100;
