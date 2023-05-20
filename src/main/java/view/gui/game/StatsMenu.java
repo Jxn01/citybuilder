@@ -82,9 +82,8 @@ public class StatsMenu extends GameMenu {
                     .map(PlayableField::getBuilding)
                     .filter(building -> building instanceof Forest)
                     .map(Forest.class::cast)
-                    .filter(f -> f.getGrowTime() >= f.getGrowStage())
+                    .filter(f -> f.getGrowTime() > f.getGrowStage())
                     .count();
-
 
             int forestMaintenance = GameManager.getForestMaintenanceCost();
 
@@ -92,14 +91,24 @@ public class StatsMenu extends GameMenu {
                     .map(PlayableField::getBuilding)
                     .filter(building -> building instanceof Forest)
                     .map(Forest.class::cast)
-                    .filter(f -> f.getGrowTime() <= f.getGrowStage())
+                    .filter(f -> f.getGrowTime() == f.getGrowStage())
                     .count();
 
             int roads = (int) l.stream()
                     .filter(f -> f.getBuilding() instanceof Road)
                     .count();
             int roadMaintenance = GameManager.getRoadMaintenanceCost();
-            int pension = GameManager.getPension();
+            int averagePension = (int) gd.getPeople()
+                    .stream()
+                    .filter(Person::isRetired)
+                    .mapToInt(p -> (int) p.getPayedTaxes()
+                                .stream()
+                                .mapToInt(Integer::intValue)
+                                .average()
+                                .orElse(0) / 2
+                    )
+                    .average()
+                    .orElse(0);
 
             gr.setColor(Color.black);
             gr.setFont(new Font("TimesRoman", Font.PLAIN, 30));
@@ -109,7 +118,6 @@ public class StatsMenu extends GameMenu {
             gr.drawString("Általános játék statisztikák", 278 + 192, 120);
             gr.drawString("- A játék kezdete: " + gd.getStartDate(), 278 + 192, 160);
             gr.drawString("- A Város alapításának dátuma: " + gd.getInGameStartDate(), 278 + 192, 200);
-            gr.drawString("- Eddig a Város igazgatásával eltöltött időd: " + gd.getPlayTime(), 278 + 192, 240);
             gr.drawString("- Város név: " + gd.getCityName(), 790 + 192, 160);
             gr.drawString("- A jelenlegi dátum: " + gd.getInGameCurrentDate(), 790 + 192, 200);
 
@@ -125,7 +133,7 @@ public class StatsMenu extends GameMenu {
 
             gr.drawString("Éves bevételek és kiadások:", 278 + 192, 560);
             gr.drawString("- Éves adó: " + employed + " fő * +" + tax + "$", 278 + 192, 600);
-            gr.drawString("- Éves nyugdíj: " + retired + " fő * -" + pension + "$", 790 + 192, 600);
+            gr.drawString("- Éves átlagos nyugdíj: " + retired + " fő * -" + averagePension + "$", 790 + 192, 600);
 
             gr.drawString("Épület adatok:", 278 + 192, 680);
             gr.drawString("- Stadionok száma: " + stadiums + " (karbantartás: " + stadiums + " * -" + stadiumMaintenance + "$)", 278 + 192, 720);

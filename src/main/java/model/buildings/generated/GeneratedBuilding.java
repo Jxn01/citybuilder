@@ -34,10 +34,17 @@ public abstract class GeneratedBuilding extends Building {
      * @param people          is the people in the building
      * @param publicSafety    is the public safety of the building
      */
-    @JsonCreator
-    public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("publicSafety") int publicSafety) {
+    public GeneratedBuilding(Coordinate coords, double firePossibility, boolean isOnFire, ArrayList<Person> people, int publicSafety) {
         super(coords, firePossibility, isOnFire);
         this.people = people;
+        this.maxCapacity = GameManager.getLevelOneMaxCapacity();
+        this.publicSafety = publicSafety;
+    }
+
+    @JsonCreator
+    public GeneratedBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("publicSafety") int publicSafety) {
+        super(coords, firePossibility, isOnFire);
+        this.people = new ArrayList<>();
         this.maxCapacity = GameManager.getLevelOneMaxCapacity();
         this.publicSafety = publicSafety;
     }
@@ -99,6 +106,7 @@ public abstract class GeneratedBuilding extends Building {
      *
      * @return the people in the building
      */
+    @JsonIgnore
     public List<Person> getPeople() {
         return people;
     }

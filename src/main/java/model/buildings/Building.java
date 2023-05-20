@@ -54,6 +54,7 @@ public abstract class Building implements Flammable {
         this.hp = hp;
     }
 
+    @JsonIgnore
     public ArrayList<Building> getNeighbours() {
         ArrayList<Building> neighbours = new ArrayList<>();
         GameManager.getGameData().getPlayableFieldsWithBuildings()
@@ -64,6 +65,7 @@ public abstract class Building implements Flammable {
         return neighbours;
     }
 
+    @JsonIgnore
     public int getDistance(Coordinate c) {
         return Math.abs(this.getX() - c.getX()) + Math.abs(this.getY() - c.getY());
     }

@@ -70,7 +70,6 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final int STARTER_TAXES = 1000;
     private static final double FIRE_POSSIBILITY = 0.001;
     private static final int MAX_FIRETRUCKS = 2;
-    private static final int PENSION = 1000;
     private static final double CATASTROPHE_CHANCE = 0.0001;
     private static final double HOSPITAL_CHANCE = 0.1;
     private static final int MIN_POPULATION = 10; // for game over
@@ -264,9 +263,12 @@ public class GameManager implements SaveManager, SpeedManager {
     public void doFinancials() {
         for (Person p : gameData.getPeople()) {
             if (p.isRetired()) {
-                gameData.subtractFromBudget(PENSION);
+                gameData.subtractFromBudget((int) (p.getPayedTaxes().stream().mapToInt(Integer::intValue).average().orElse(0) / 2));
             } else {
                 gameData.addToBudget(gameData.getYearlyTaxes());
+                if(p.getAge() >= 45 && p.getAge() <= 65) {
+                    p.addToPayedTaxes(gameData.getYearlyTaxes());
+                }
             }
         }
 
@@ -316,6 +318,7 @@ public class GameManager implements SaveManager, SpeedManager {
                     //yearly functions:
                     growForests();
                     peopleAge();
+                    peopleRetire();
                     peopleDie();
                     peopleMoveAway();
                     removeWhoDeceasedOrMovedAway();
@@ -663,6 +666,10 @@ public class GameManager implements SaveManager, SpeedManager {
         gameData.getPeople().forEach(p -> p.setAge(p.getAge() + 1));
     }
 
+    private void peopleRetire(){
+        gameData.getPeople().stream().filter(p -> p.getAge() == 66).forEach(Person::retire);
+    }
+
     /**
      * Grows the forests.
      */
@@ -776,11 +783,16 @@ public class GameManager implements SaveManager, SpeedManager {
         objectMapper.registerModule(module);
         try {
             setGameData(objectMapper.readValue(file, GameData.class));
-            List<ResidentialBuilding> rbs = gameData.getPlayableFieldsWithBuildings().stream().filter(f -> f.getBuilding() instanceof ResidentialBuilding).map(f -> (ResidentialBuilding) f.getBuilding()).toList();
-            List<Workplace> wps = gameData.getPlayableFieldsWithBuildings().stream().filter(f -> f.getBuilding() instanceof Workplace).map(f -> (Workplace) f.getBuilding()).toList();
-            rbs.forEach(rb -> rb.getPeople().forEach(p -> p.setHome(rb)));
-            wps.forEach(wp -> wp.getPeople().forEach(p -> p.setWorkplace(wp)));
-
+            gameData.getPlayableFieldsWithBuildings()
+                    .stream()
+                    .map(PlayableField::getBuilding)
+                    .filter(b -> b instanceof GeneratedBuilding)
+                    .map(b -> (GeneratedBuilding) b)
+                    .forEach(b -> {
+                        if(b.getPeople() == null)
+                            b.setPeople(new ArrayList<>());
+                    });
+            setTimeNormal();
             Logger.log("Save file loaded.");
         } catch (Exception exc) {
             Logger.log("Save file could not be loaded.");
@@ -920,9 +932,6 @@ public class GameManager implements SaveManager, SpeedManager {
     }
     public static int getStarterMapSize() {
         return STARTER_MAP_SIZE;
-    }
-    public static int getPension() {
-        return PENSION;
     }
     public static void addToBudget(int amount) {
         gameData.addToBudget(amount);

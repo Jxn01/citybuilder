@@ -10,6 +10,7 @@ import model.buildings.generated.Workplace;
 import model.enums.Effect;
 import util.Logger;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -24,6 +25,7 @@ public class Person {
     private Set<Effect> effects;
     private ResidentialBuilding home;
     private Workplace workplace;
+    private ArrayList<Integer> payedTaxes;
 
     /**
      * Constructor for Person
@@ -33,18 +35,32 @@ public class Person {
         this.age = (int) (Math.random() * 47 + 18);
         this.name = Faker.instance().name().fullName();
         this.effects = new TreeSet<>();
+        this.payedTaxes = new ArrayList<>();
 
         //Logger.log("Person created: " + name + " (" + age + ")"); spammy + laggy
     }
 
     @JsonCreator
-    public Person(@JsonProperty("age") int age, @JsonProperty("name") String name, @JsonProperty("effects") TreeSet<Effect> effects, @JsonProperty("founder") boolean founder) {
+    public Person(@JsonProperty("age") int age, @JsonProperty("name") String name, @JsonProperty("effects") TreeSet<Effect> effects, @JsonProperty("founder") boolean founder, @JsonProperty("payedTaxes") ArrayList<Integer> payedTaxes) {
         this.age = age;
         this.name = name;
         this.effects = effects;
         this.home = null;
         this.workplace = null;
         this.founder = founder;
+        this.payedTaxes = payedTaxes;
+    }
+
+    public ArrayList<Integer> getPayedTaxes() {
+        return payedTaxes;
+    }
+
+    public void setPayedTaxes(ArrayList<Integer> payedTaxes) {
+        this.payedTaxes = payedTaxes;
+    }
+
+    public void addToPayedTaxes(int tax) {
+        this.payedTaxes.add(tax);
     }
 
     /**
@@ -131,7 +147,7 @@ public class Person {
         //calculate satisfaction based on effects
         int satisfaction = 50;
 
-        if(Objects.isNull(effects))
+        if (Objects.isNull(effects))
             return satisfaction;
 
         for (Effect effect : effects) {
@@ -161,12 +177,12 @@ public class Person {
      * @param effect the effect to remove
      */
     public void removeEffect(Effect effect) {
-        if(effects != null)
+        if (effects != null)
             effects.remove(effect);
         //Logger.log("Effect " + effect + " removed from " + name);
     }
 
-    public void retire(){
+    public void retire() {
         founder = true;
         fire();
     }
@@ -188,9 +204,9 @@ public class Person {
         Logger.log(name + " has died");
         this.name = "Deceased";
         this.effects = null;
-        if(home != null)
+        if (home != null)
             home.removePerson(this);
-        if(workplace != null)
+        if (workplace != null)
             workplace.removePerson(this);
         this.home = null;
         this.workplace = null;
@@ -199,7 +215,7 @@ public class Person {
     /**
      * This method evicts the person
      */
-    public void evict(){
+    public void evict() {
         Logger.log(name + " has been evicted");
         workplace.removePerson(this);
         home.removePerson(this);
@@ -210,7 +226,7 @@ public class Person {
     /**
      * This method fires the person
      */
-    public void fire(){
+    public void fire() {
         Logger.log(name + " has been fired");
         workplace.removePerson(this);
         this.workplace = null;
@@ -222,9 +238,9 @@ public class Person {
     public void moveAway() {
         Logger.log(name + " has moved away");
         this.name = "Moved away";
-        if(home != null)
+        if (home != null)
             home.removePerson(this);
-        if(workplace != null)
+        if (workplace != null)
             workplace.removePerson(this);
         this.home = null;
         this.workplace = null;
