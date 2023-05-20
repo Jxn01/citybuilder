@@ -24,6 +24,7 @@ import model.field.PlayableField;
 import util.Date;
 import util.GraphDeserializer;
 import util.Logger;
+import view.enums.Tile;
 import view.gui.Game;
 
 import javax.swing.*;
@@ -75,6 +76,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final int MIN_POPULATION = 10; // for game over
     private static final int MIN_SATISFACTION = -10; // for game over
     private static final int BUILDING_MAX_HP = 10;
+    private static final double STARTER_FOREST_PERCENTAGE = 0.1;
     private static GameData gameData;
     private final List<Catastrophe> catastrophes;
     private final String saveDirectory = System.getProperty("user.home") + File.separator + ".citybuilder" + File.separator + "saves";
@@ -120,312 +122,6 @@ public class GameManager implements SaveManager, SpeedManager {
         Logger.log("Game manager created.");
     }
 
-    /**
-     * Getter for the game data.
-     *
-     * @return the game data
-     */
-    public static GameData getGameData() {
-        return gameData;
-    }
-
-    /**
-     * Setter for the game data.
-     *
-     * @param gameData the game data
-     */
-    public void setGameData(GameData gameData) {
-        GameManager.gameData = gameData;
-        Logger.log("Game data set to " + gameData.getId());
-    }
-
-    /**
-     * Getter for the hospital chance.
-     *
-     * @return the hospital chance
-     */
-    public static double getHospitalChance() {
-        return HOSPITAL_CHANCE;
-    }
-
-    /**
-     * Getter for the budget.
-     *
-     * @return the budget
-     */
-    public static int getBudget() {
-        return gameData.getBudget();
-    }
-
-    /**
-     * Getter for the stadium build cost.
-     *
-     * @return the stadium build cost
-     */
-    public static int getStadiumBuildCost() {
-        return STADIUM_BUILD_COST;
-    }
-
-    /**
-     * Getter for the police build cost.
-     *
-     * @return the police build cost
-     */
-    public static int getPoliceBuildCost() {
-        return POLICE_BUILD_COST;
-    }
-
-    /**
-     * Getter for the fire station build cost.
-     *
-     * @return the fire station build cost
-     */
-    public static int getFireStationBuildCost() {
-        return FIRE_STATION_BUILD_COST;
-    }
-
-    /**
-     * Getter for the forest build cost.
-     *
-     * @return the forest build cost
-     */
-    public static int getForestBuildCost() {
-        return FOREST_BUILD_COST;
-    }
-
-    /**
-     * Getter for the road build cost.
-     *
-     * @return the road build cost
-     */
-    public static int getRoadBuildCost() {
-        return ROAD_BUILD_COST;
-    }
-
-    /**
-     * Getter for the stadium maintenance cost.
-     *
-     * @return the stadium maintenance cost
-     */
-    public static int getStadiumMaintenanceCost() {
-        return STADIUM_MAINTENANCE_COST;
-    }
-
-    /**
-     * Getter for the police maintenance cost.
-     *
-     * @return the police maintenance cost
-     */
-    public static int getPoliceMaintenanceCost() {
-        return POLICE_MAINTENANCE_COST;
-    }
-
-    /**
-     * Getter for the fire station maintenance cost.
-     *
-     * @return the fire station maintenance cost
-     */
-    public static int getFireStationMaintenanceCost() {
-        return FIRE_STATION_MAINTENANCE_COST;
-    }
-
-    /**
-     * Getter for the forest maintenance cost.
-     *
-     * @return the forest maintenance cost
-     */
-    public static int getForestMaintenanceCost() {
-        return FOREST_MAINTENANCE_COST;
-    }
-
-    /**
-     * Getter for the road maintenance cost.
-     *
-     * @return the road maintenance cost
-     */
-    public static int getRoadMaintenanceCost() {
-        return ROAD_MAINTENANCE_COST;
-    }
-
-    /**
-     * Getter for the stadium range.
-     *
-     * @return the stadium range
-     */
-    public static int getStadiumRange() {
-        return STADIUM_RANGE;
-    }
-
-    /**
-     * Getter for the police range.
-     *
-     * @return the police range
-     */
-    public static int getPoliceRange() {
-        return POLICE_RANGE;
-    }
-
-    /**
-     * Getter for the fire station range.
-     *
-     * @return the fire station range
-     */
-    public static int getFireStationRange() {
-        return FIRE_STATION_RANGE;
-    }
-
-    /**
-     * Getter for the forest range.
-     *
-     * @return the forest range
-     */
-    public static int getForestRange() {
-        return FOREST_RANGE;
-    }
-
-    /**
-     * Getter for the industrial range.
-     *
-     * @return the industrial range
-     */
-    public static int getIndustrialRange() {
-        return INDUSTRIAL_RANGE;
-    }
-
-    /**
-     * Getter for the forest growth time.
-     *
-     * @return the forest growth time
-     */
-    public static int getForestGrowthTime() {
-        return FOREST_GROWTH_TIME;
-    }
-
-    /**
-     * Getter for the residential zone's marking cost.
-     *
-     * @return the residential zone's marking cost
-     */
-    public static int getMarkResidentialCost() {
-        return MARK_RESIDENTIAL_COST;
-    }
-
-    /**
-     * Getter for the service zone's marking cost.
-     *
-     * @return the service zone's marking cost
-     */
-    public static int getMarkServiceCost() {
-        return MARK_SERVICE_COST;
-    }
-
-    /**
-     * Getter for the industrial zone's marking cost.
-     *
-     * @return the industrial zone's marking cost
-     */
-    public static int getMarkIndustrialCost() {
-        return MARK_INDUSTRIAL_COST;
-    }
-
-    /**
-     * Getter for the refund percent
-     *
-     * @return the refund percent
-     */
-    public static double getRefundPercent() {
-        return REFUND_PERCENT;
-    }
-
-    /**
-     * Getter for the max capacity at level one
-     *
-     * @return the max capacity at level one
-     */
-    public static int getLevelOneMaxCapacity() {
-        return LEVEL_ONE_MAX_CAPACITY;
-    }
-
-    /**
-     * Getter for the max capacity at level two
-     *
-     * @return the max capacity at level two
-     */
-    public static int getLevelTwoMaxCapacity() {
-        return LEVEL_TWO_MAX_CAPACITY;
-    }
-
-    /**
-     * Getter for the max capacity at level three
-     *
-     * @return the max capacity at level three
-     */
-    public static int getLevelThreeMaxCapacity() {
-        return LEVEL_THREE_MAX_CAPACITY;
-    }
-
-    /**
-     * Getter for the level two upgrade cost
-     *
-     * @return the level two upgrade cost
-     */
-    public static int getLevelTwoUpgradeCost() {
-        return LEVEL_TWO_UPGRADE_COST;
-    }
-
-    /**
-     * Getter for the level three upgrade cost
-     *
-     * @return the level three upgrade cost
-     */
-    public static int getLevelThreeUpgradeCost() {
-        return LEVEL_THREE_UPGRADE_COST;
-    }
-
-    /**
-     * Getter for the starter budget
-     *
-     * @return the starter budget
-     */
-    public static int getStarterBudget() {
-        return STARTER_BUDGET;
-    }
-
-    /**
-     * Getter for the starter people
-     *
-     * @return the starter people
-     */
-    public static int getStarterPeople() {
-        return STARTER_PEOPLE;
-    }
-
-    /**
-     * Getter for the starter map size
-     *
-     * @return the starter map size
-     */
-    public static int getStarterMapSize() {
-        return STARTER_MAP_SIZE;
-    }
-
-    /**
-     * Getter for the starter taxes
-     *
-     * @return the starter taxes
-     */
-    public static int getStarterTaxes() {
-        return STARTER_TAXES;
-    }
-
-    /**
-     * Getter for the pension
-     *
-     * @return the pension
-     */
-    public static int getPension() {
-        return PENSION;
-    }
 
     /**
      * This method counts the disconnected part-graphs of the main graph.
@@ -458,20 +154,6 @@ public class GameManager implements SaveManager, SpeedManager {
         return count;
     }
 
-    /**
-     * Getter for the population.
-     *
-     * @return the population size
-     */
-    public static int getPopulation() {
-        return gameData.getPopulation();
-    }
-
-    /**
-     * Getter for the graph.
-     *
-     * @return the graph
-     */
     public static MutableGraph<Coordinate> getGraph() {
         return gameData.getGraph();
     }
@@ -541,71 +223,15 @@ public class GameManager implements SaveManager, SpeedManager {
         return path;
     }
 
+    /**
+     * This method calculates the length of the shortest path between two coordinates in the graph.
+     *
+     * @param c1 The first coordinate.
+     * @param c2 The second coordinate.
+     * @return The length of the shortest path between the two coordinates or 0 if there is no path.
+     */
     public static int findShortestPathLength(Coordinate c1, Coordinate c2) {
         return findShortestPath(c1, c2).size();
-    }
-
-    /**
-     * Adds the amount to the budget
-     *
-     * @param amount the amount to add
-     */
-    public static void addToBudget(int amount) {
-        gameData.addToBudget(amount);
-    }
-
-    /**
-     * Subtracts the amount from the budget
-     *
-     * @param amount the amount to subtract
-     */
-    public static void subtractFromBudget(int amount) {
-        gameData.subtractFromBudget(amount);
-    }
-
-    /**
-     * Getter for the fields
-     *
-     * @return the fields
-     */
-    public static Field[][] getFields() {
-        return gameData.getFields();
-    }
-
-    /**
-     * Getter for the UI
-     *
-     * @return the UI
-     */
-    public Game UI() {
-        return UI;
-    }
-
-    /**
-     * Getter for the base fire possibility
-     *
-     * @return the base fire possibility
-     */
-    public static double getFirePossibility() {
-        return FIRE_POSSIBILITY;
-    }
-
-    /**
-     * Getter for the maximum number of firetrucks a fire station can have
-     *
-     * @return the maximum number of firetrucks a fire station can have
-     */
-    public static int getMaxFiretrucks() {
-        return MAX_FIRETRUCKS;
-    }
-
-    /**
-     * Getter for a buildings maximum health
-     *
-     * @return the maximum health of a building
-     */
-    public static int getBuildingMaxHP() {
-        return BUILDING_MAX_HP;
     }
 
     /**
@@ -615,6 +241,18 @@ public class GameManager implements SaveManager, SpeedManager {
      */
     public void initGame(String cityName) {
         setGameData(new GameData(cityName, STARTER_BUDGET, STARTER_TAXES, STARTER_PEOPLE, STARTER_MAP_SIZE));
+        Arrays.stream(gameData.getFields())
+                .flatMap(Arrays::stream)
+                .filter(f -> f instanceof PlayableField)
+                .map(f -> (PlayableField)f)
+                .forEach(f -> {
+                    if(STARTER_FOREST_PERCENTAGE >= Math.random()) {
+                        Forest forest = new Forest(f.getCoord());
+                        forest.setGrowStage(FOREST_GROWTH_TIME);
+                        f.setBuilding(forest);
+                        f.setTile(Tile.FOREST);
+                    }
+                });
         Logger.log("Game initialized.");
         startSimulation();
     }
@@ -634,42 +272,6 @@ public class GameManager implements SaveManager, SpeedManager {
         for (PlayableField field : gameData.getPlayableFieldsWithBuildings()) {
             gameData.subtractFromBudget(field.getBuilding().getMaintenanceCost());
         }
-    }
-
-    /**
-     * Getter for the budget.
-     *
-     * @return the budget
-     */
-    public int getDelay() {
-        return delay;
-    }
-
-    /**
-     * Setter for the delay.
-     *
-     * @param delay the delay
-     */
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
-    /**
-     * Getter for the period.
-     *
-     * @return the period
-     */
-    public int getPeriod() {
-        return period;
-    }
-
-    /**
-     * Setter for the period.
-     *
-     * @param period the period
-     */
-    public void setPeriod(int period) {
-        this.period = period;
     }
 
     /**
@@ -818,7 +420,7 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     /**
-     * This method applies the workplace distribution effect on people..
+     * This method applies the workplace distribution effect on people.
      */
     private void workplaceDistrEffect() {
         double workplaceDistr = getWorkplaceDistr();
@@ -1069,24 +671,6 @@ public class GameManager implements SaveManager, SpeedManager {
         }
     }
 
-    /**
-     * Gets the simulation speed.
-     *
-     * @return the simulation speed
-     */
-    public SimulationSpeed getSimulationSpeed() {
-        return simulationSpeed;
-    }
-
-    /**
-     * Sets the simulation speed.
-     *
-     * @param simulationSpeed the simulation speed
-     */
-    public void setSimulationSpeed(SimulationSpeed simulationSpeed) {
-        this.simulationSpeed = simulationSpeed;
-    }
-
     @Override
     public void setTimePaused() {
         simulationSpeed = SimulationSpeed.PAUSED;
@@ -1140,10 +724,6 @@ public class GameManager implements SaveManager, SpeedManager {
         Logger.log("Firestorm evoked.");
         UI.log("Firestorm evoked.");
         catastrophes.get(2).effect(gameData);
-    }
-
-    public List<File> getSaveFiles() {
-        return saveFiles;
     }
 
     @Override
@@ -1238,5 +818,126 @@ public class GameManager implements SaveManager, SpeedManager {
                 UI.log("Game could not be saved.");
             exc.printStackTrace();
         }
+    }
+
+    public static GameData getGameData() {
+        return gameData;
+    }
+    public void setGameData(GameData gameData) {
+        GameManager.gameData = gameData;
+    }
+    public static double getHospitalChance() {
+        return HOSPITAL_CHANCE;
+    }
+    public static int getBudget() {
+        return gameData.getBudget();
+    }
+    public static int getStadiumBuildCost() {
+        return STADIUM_BUILD_COST;
+    }
+    public static int getPoliceBuildCost() {
+        return POLICE_BUILD_COST;
+    }
+    public static int getFireStationBuildCost() {
+        return FIRE_STATION_BUILD_COST;
+    }
+    public static int getForestBuildCost() {
+        return FOREST_BUILD_COST;
+    }
+    public static int getRoadBuildCost() {
+        return ROAD_BUILD_COST;
+    }
+    public static int getStadiumMaintenanceCost() {
+        return STADIUM_MAINTENANCE_COST;
+    }
+    public static int getPoliceMaintenanceCost() {
+        return POLICE_MAINTENANCE_COST;
+    }
+    public static int getFireStationMaintenanceCost() {
+        return FIRE_STATION_MAINTENANCE_COST;
+    }
+    public static int getForestMaintenanceCost() {
+        return FOREST_MAINTENANCE_COST;
+    }
+    public static int getRoadMaintenanceCost() {
+        return ROAD_MAINTENANCE_COST;
+    }
+    public static int getStadiumRange() {
+        return STADIUM_RANGE;
+    }
+    public static int getPoliceRange() {
+        return POLICE_RANGE;
+    }
+    public static int getFireStationRange() {
+        return FIRE_STATION_RANGE;
+    }
+    public static int getForestRange() {
+        return FOREST_RANGE;
+    }
+    public static int getIndustrialRange() {
+        return INDUSTRIAL_RANGE;
+    }
+    public static int getForestGrowthTime() {
+        return FOREST_GROWTH_TIME;
+    }
+    public static int getMarkResidentialCost() {
+        return MARK_RESIDENTIAL_COST;
+    }
+    public static int getMarkServiceCost() {
+        return MARK_SERVICE_COST;
+    }
+    public static int getMarkIndustrialCost() {
+        return MARK_INDUSTRIAL_COST;
+    }
+    public static int getLevelOneMaxCapacity() {
+        return LEVEL_ONE_MAX_CAPACITY;
+    }
+    public static int getLevelTwoMaxCapacity() {
+        return LEVEL_TWO_MAX_CAPACITY;
+    }
+    public static int getLevelThreeMaxCapacity() {
+        return LEVEL_THREE_MAX_CAPACITY;
+    }
+    public static int getLevelTwoUpgradeCost() {
+        return LEVEL_TWO_UPGRADE_COST;
+    }
+    public static int getLevelThreeUpgradeCost() {
+        return LEVEL_THREE_UPGRADE_COST;
+    }
+    public static int getStarterMapSize() {
+        return STARTER_MAP_SIZE;
+    }
+    public static int getPension() {
+        return PENSION;
+    }
+    public static void addToBudget(int amount) {
+        gameData.addToBudget(amount);
+    }
+    public static void subtractFromBudget(int amount) {
+        gameData.subtractFromBudget(amount);
+    }
+    public static Field[][] getFields() {
+        return gameData.getFields();
+    }
+    public static double getFirePossibility() {
+        return FIRE_POSSIBILITY;
+    }
+    public static int getMaxFiretrucks() {
+        return MAX_FIRETRUCKS;
+    }
+    public static int getBuildingMaxHP() {
+        return BUILDING_MAX_HP;
+    }
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+    public void setPeriod(int period) {
+        this.period = period;
+    }
+    public SimulationSpeed getSimulationSpeed() {
+        return simulationSpeed;
+    }
+    public void setSimulationSpeed(SimulationSpeed simulationSpeed) {
+        this.simulationSpeed = simulationSpeed;
     }
 }
