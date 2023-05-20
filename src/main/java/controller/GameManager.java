@@ -77,6 +77,7 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final int MIN_SATISFACTION = -10; // for game over
     private static final int BUILDING_MAX_HP = 10;
     private static final double STARTER_FOREST_PERCENTAGE = 0.1;
+    private static final double FIRE_SPREAD_CHANCE = 0.1;
     private static GameData gameData;
     private final List<Catastrophe> catastrophes;
     private final String saveDirectory = System.getProperty("user.home") + File.separator + ".citybuilder" + File.separator + "saves";
@@ -298,6 +299,7 @@ public class GameManager implements SaveManager, SpeedManager {
                 gameData.calculateAverageSatisfaction();
                 isGameOver();
                 buildingOnFire();
+                fireSpread();
                 evokeCatastrophe();
 
                 Logger.log("A day is passed: " + gameData.getDays() + ".day");
@@ -324,6 +326,18 @@ public class GameManager implements SaveManager, SpeedManager {
                 }
             }
         }, delay, period);
+    }
+
+    private void fireSpread(){
+        gameData.getPlayableFieldsWithBuildings()
+                .stream()
+                .map(PlayableField::getBuilding)
+                .filter(Building::isOnFire)
+                .forEach(b -> b.getNeighbours().forEach(n -> {
+                    if(FIRE_SPREAD_CHANCE >= Math.random() && !n.isOnFire()) {
+                        n.setOnFire();
+                    }
+                }));
     }
 
     private void effects() {

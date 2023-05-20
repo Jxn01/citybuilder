@@ -8,8 +8,10 @@ import model.buildings.generated.GeneratedBuilding;
 import model.buildings.interfaces.Flammable;
 import model.buildings.playerbuilt.PlayerBuilding;
 import model.buildings.playerbuilt.Stadium;
+import model.field.PlayableField;
 import util.Logger;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 import java.util.random.RandomGenerator;
@@ -52,116 +54,58 @@ public abstract class Building implements Flammable {
         this.hp = hp;
     }
 
-    /**
-     * Get the statistics of the building
-     *
-     * @return the statistics of the building
-     */
-    public abstract String getStatistics();
+    public ArrayList<Building> getNeighbours() {
+        ArrayList<Building> neighbours = new ArrayList<>();
+        GameManager.getGameData().getPlayableFieldsWithBuildings()
+                .stream()
+                .map(PlayableField::getBuilding)
+                .filter(b -> b.getDistance(this.getCoords()) <= 1)
+                .forEach(neighbours::add);
+        return neighbours;
+    }
 
-    /**
-     * Get the coordinates of the building
-     *
-     * @return the coordinates of the building
-     */
+    public int getDistance(Coordinate c) {
+        return Math.abs(this.getX() - c.getX()) + Math.abs(this.getY() - c.getY());
+    }
+
+    public abstract String getStatistics();
     public Coordinate getCoords() {
         return coords;
     }
-
-    /**
-     * Set the coordinates of the building
-     *
-     * @param coords is the coordinates of the building
-     */
     public void setCoords(Coordinate coords) {
         this.coords = coords;
     }
-
-    /**
-     * Get the fire possibility of the building
-     *
-     * @return the fire possibility of the building
-     */
     public double getFirePossibility() {
         return firePossibility;
     }
-
-    /**
-     * Set the fire possibility of the building
-     *
-     * @param firePossibility is the fire possibility of the building
-     */
     public void setFirePossibility(double firePossibility) {
         //Logger.log("Fire possibility set to " + firePossibility + " at " + coords.toString()); spammy
         this.firePossibility = firePossibility;
     }
-
-    /**
-     * Get the fire status of the building
-     *
-     * @return the fire status of the building
-     */
     public boolean isOnFire() {
         return onFire;
     }
-
-    /**
-     * Get the address of the building
-     *
-     * @return the address of the building
-     */
     public String getAddress() {
         return address;
     }
-
-    /**
-     * Set the address of the building
-     *
-     * @param address is the address of the building
-     */
     public void setAddress(String address) {
         Logger.log("Setting address to " + address + " at " + coords.toString());
         this.address = address;
     }
-
-    /**
-     * Get the hp of the building
-     *
-     * @return the hp of the building
-     */
     public int getHp() {
         return hp;
     }
-
-    /**
-     * Set the hp of the building
-     *
-     * @param hp is the hp of the building
-     */
     public void setHp(int hp) {
         this.hp = hp;
     }
-
-    /**
-     * Gets the x coordinate of the building
-     *
-     * @return the x coordinate of the building
-     */
     @JsonIgnore
     public int getX() {
         return coords.getX();
     }
-
-    /**
-     * Gets the y coordinate of the building
-     *
-     * @return the y coordinate of the building
-     */
     @JsonIgnore
     public int getY() {
         return coords.getY();
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
