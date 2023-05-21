@@ -1,6 +1,7 @@
 package view.gui.game;
 
 import controller.GameManager;
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import view.components.custom.MyButton;
 import view.components.custom.MyInputField;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * This class implements the tax menu of the game gui
  */
 public class TaxMenu extends GameMenu {
-    private final Rectangle taxMenuArea;
+    private final @NotNull Rectangle taxMenuArea;
     private final Color taxMenuColor;
     MyButton xBtn;
     MyInputField input;
@@ -42,7 +43,7 @@ public class TaxMenu extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr) {
+    public void draw(@NotNull Graphics2D gr) {
         if (getIsOpen()) {
             paintTaxMenuArea(gr);
 
@@ -65,7 +66,7 @@ public class TaxMenu extends GameMenu {
      *
      * @param gr is the graphics context of the main Panel object
      */
-    private void paintTaxMenuArea(Graphics2D gr) {
+    private void paintTaxMenuArea(@NotNull Graphics2D gr) {
         gr.setColor(taxMenuColor);
         int x = taxMenuArea.x;
         int y = taxMenuArea.y;
@@ -103,7 +104,7 @@ public class TaxMenu extends GameMenu {
      *
      * @param e is the KeyEvent
      */
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(@NotNull KeyEvent e) {
         if (getIsOpen()) {
             char c = e.getKeyChar();
             if (c == KeyEvent.VK_BACK_SPACE) {
@@ -123,7 +124,7 @@ public class TaxMenu extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas() {
+    public @NotNull ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         if (this.getIsOpen()) {
             areas.add(taxMenuArea);

@@ -1,5 +1,8 @@
 package view.components.custom;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -8,7 +11,7 @@ import java.util.ArrayList;
  */
 public class MyRadioButtonGroup {
 
-    private final ArrayList<MyRadioButton> buttons;
+    private final @NotNull ArrayList<MyRadioButton> buttons;
 
     /**
      * Constructor of the radiobutton
@@ -32,7 +35,7 @@ public class MyRadioButtonGroup {
      * @param p is the current cursor location
      * @return a boolean value
      */
-    public boolean isAnyBtnHovered(Point p) {
+    public boolean isAnyBtnHovered(@Nullable Point p) {
         if (p != null) {
             for (MyRadioButton button : buttons) {
                 if (button.isHovered(p)) {
@@ -110,7 +113,7 @@ public class MyRadioButtonGroup {
      * @param gr        is the game's main Panel object
      * @param cursorPos is the graphics context of the main Panel object
      */
-    public void draw(Graphics2D gr, Point cursorPos) {
+    public void draw(@NotNull Graphics2D gr, Point cursorPos) {
         for (MyRadioButton button : buttons) {
             button.draw(gr, cursorPos);
         }

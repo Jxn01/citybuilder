@@ -1,5 +1,6 @@
 package view.gui.mainmenu;
 
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
@@ -18,8 +19,8 @@ public class Tutorial {
     private final view.components.Panel panel;
     private final int MINIMG = 0;
     private final int MAXIMG = 11;
-    private final ArrayList<TutorialData> allData;
-    private final ArrayList<String> allText;
+    private final @NotNull ArrayList<TutorialData> allData;
+    private final @NotNull ArrayList<String> allText;
     private int currentImg;
     private Image background;
     private MyButton leftBtn;
@@ -78,7 +79,7 @@ public class Tutorial {
      * @param panel is the game's main Panel object
      * @param gr    is the graphics context of the main Panel object
      */
-    public void draw(Panel panel, Graphics2D gr) {
+    public void draw(@NotNull Panel panel, @NotNull Graphics2D gr) {
         //draw the background
         gr.drawImage(background, 0, 0, panel.width(), panel.height(), null);
 

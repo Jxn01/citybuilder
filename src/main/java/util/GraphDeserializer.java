@@ -7,13 +7,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import model.Coordinate;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
 public class GraphDeserializer extends JsonDeserializer<MutableGraph<Coordinate>> {
 
     @Override
-    public MutableGraph<Coordinate> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    public @NotNull MutableGraph<Coordinate> deserialize(@NotNull JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode node = p.getCodec().readTree(p);
         MutableGraph<Coordinate> graph = GraphBuilder.undirected().allowsSelfLoops(false).build();
         JsonNode nodesNode = node.get("nodes");

@@ -1,5 +1,6 @@
 package view.gui;
 
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
@@ -16,9 +17,9 @@ import java.io.IOException;
  */
 public class NewGame {
 
-    private final MyButton backBtn;
-    private final MyButton startBtn;
-    private final MyInputField input;
+    private final @NotNull MyButton backBtn;
+    private final @NotNull MyButton startBtn;
+    private final @NotNull MyInputField input;
     view.components.Panel panel;
     Image background;
 
@@ -45,7 +46,7 @@ public class NewGame {
      * @param panel is the game's main Panel object
      * @param gr    is the graphics context of the main Panel object
      */
-    public void draw(Panel panel, Graphics2D gr) {
+    public void draw(@NotNull Panel panel, @NotNull Graphics2D gr) {
         final int btnWidth = 300;
         final int btnHeight = 100;
         final int btnX = panel.width() / 2 - btnWidth / 2;
@@ -88,7 +89,7 @@ public class NewGame {
      *
      * @param e is the KeyEvent of the key press
      */
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(@NotNull KeyEvent e) {
         char c = e.getKeyChar();
         if (c == KeyEvent.VK_BACK_SPACE) {
             input.deleteLast();

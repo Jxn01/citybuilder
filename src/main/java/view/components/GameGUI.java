@@ -1,5 +1,7 @@
 package view.components;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 
@@ -7,7 +9,7 @@ import java.awt.event.WindowEvent;
  * This class creates the window of the game
  */
 public class GameGUI extends JFrame {
-    private final Panel panel;
+    private final @NotNull Panel panel;
 
     public GameGUI() {
         //maximize the JFrame

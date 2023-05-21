@@ -12,6 +12,8 @@ import controller.GameManager;
 import model.field.BorderField;
 import model.field.Field;
 import model.field.PlayableField;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import util.GraphDeserializer;
 import util.GraphSerializer;
 import util.Logger;
@@ -46,7 +48,7 @@ public class GameData {
     @JsonSerialize(using = GraphSerializer.class)
     private MutableGraph<Coordinate> graph;
     private List<Person> people;
-    private File saveFile;
+    private @Nullable File saveFile;
 
     /**
      * Constructor for GameData
@@ -255,7 +257,7 @@ public class GameData {
         this.fields = fields;
     }
 
-    public ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
+    public @NotNull ArrayList<PlayableField> getPlayableFieldsWithBuildings() {
         return ((ArrayList<PlayableField>) Arrays.stream(fields)
                 .flatMap(Arrays::stream)
                 .filter(f -> f instanceof PlayableField)
@@ -285,13 +287,13 @@ public class GameData {
         return saveFile;
     }
 
-    public void setSaveFile(File saveFile) {
+    public void setSaveFile(@NotNull File saveFile) {
         Logger.log("Game data " + this.id + " save file set to: " + saveFile.getAbsolutePath());
         this.saveFile = saveFile;
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "GameData{" +
                 "id='" + id + '\'' +
                 ", startDate='" + startDate + '\'' +

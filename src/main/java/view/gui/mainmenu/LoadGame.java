@@ -1,5 +1,6 @@
 package view.gui.mainmenu;
 
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
@@ -19,10 +20,10 @@ import java.util.List;
 public class LoadGame {
 
     private final Panel panel;
-    private final MyButton backBtn;
-    private final MyButton loadBtn;
-    private final MyButton deleteBtn;
-    private final MyRadioButtonGroup btnGrp;
+    private final @NotNull MyButton backBtn;
+    private final @NotNull MyButton loadBtn;
+    private final @NotNull MyButton deleteBtn;
+    private final @NotNull MyRadioButtonGroup btnGrp;
     private final List<File> saveFiles;
     private Image background;
     private final int MAXGAMES = 8;
@@ -32,7 +33,7 @@ public class LoadGame {
      *
      * @param panel is the game's main Panel object
      */
-    public LoadGame(Panel panel) {
+    public LoadGame(@NotNull Panel panel) {
         this.panel = panel;
         this.saveFiles = panel.getGameManager().readSaveFiles();
 
@@ -66,7 +67,7 @@ public class LoadGame {
      * @param panel is the game's main Panel object
      * @param gr    is the graphics context of the main Panel object
      */
-    public void draw(Panel panel, Graphics2D gr) {
+    public void draw(@NotNull Panel panel, @NotNull Graphics2D gr) {
         final int btnWidth = 300;
         final int btnHeight = 100;
 

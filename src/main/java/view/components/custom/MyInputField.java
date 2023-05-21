@@ -1,5 +1,8 @@
 package view.components.custom;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.awt.*;
 
 /**
@@ -30,7 +33,7 @@ public class MyInputField {
      * @param p is the current cursor location
      * @return a boolean value
      */
-    public boolean isHovered(Point p) {
+    public boolean isHovered(@Nullable Point p) {
         if (p != null) {
             return rect.contains(p);
         } else {
@@ -73,7 +76,7 @@ public class MyInputField {
      * @param gr is the graphics context of the main Panel object
      * @param p  is the current cursor position
      */
-    public void draw(Graphics2D gr, Point p) {
+    public void draw(@NotNull Graphics2D gr, Point p) {
         gr.setColor(Color.white);
         gr.fillRect(rect.x, rect.y, rect.width, rect.height);
         gr.setColor(Color.black);

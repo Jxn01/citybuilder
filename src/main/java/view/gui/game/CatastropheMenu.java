@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import view.components.custom.MyButton;
 import view.gui.Game;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * @author Felhasználó
  */
 public class CatastropheMenu extends GameMenu {
-    private final Rectangle menuArea;
+    private final @NotNull Rectangle menuArea;
     private final Color menuColor;
     Game game;
     MyButton virusBtn, fireBtn, econBtn;
@@ -42,7 +43,7 @@ public class CatastropheMenu extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr) {
+    public void draw(@NotNull Graphics2D gr) {
         if (getIsOpen()) {
             paintStatsMenuArea(gr);
 
@@ -64,7 +65,7 @@ public class CatastropheMenu extends GameMenu {
      *
      * @param gr is the graphics context of the main Panel object
      */
-    private void paintStatsMenuArea(Graphics2D gr) {
+    private void paintStatsMenuArea(@NotNull Graphics2D gr) {
         gr.setColor(menuColor);
         int x = menuArea.x;
         int y = menuArea.y;
@@ -118,7 +119,7 @@ public class CatastropheMenu extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas() {
+    public @NotNull ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         if (this.getIsOpen()) {
             areas.add(menuArea);

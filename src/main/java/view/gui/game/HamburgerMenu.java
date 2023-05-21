@@ -2,6 +2,7 @@ package view.gui.game;
 
 import controller.GameManager;
 import model.GameData;
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import view.components.custom.MyButton;
 import view.enums.MenuState;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * This class implements the hamburger menu of the game gui
  */
 public class HamburgerMenu extends GameMenu {
-    private final Rectangle hamburgerMenuArea;
+    private final @NotNull Rectangle hamburgerMenuArea;
     private final Color hamburgerMenuColor;
     MyButton saveBtn;
     MyButton newGameBtn;
@@ -41,7 +42,7 @@ public class HamburgerMenu extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr) {
+    public void draw(@NotNull Graphics2D gr) {
         if (getIsOpen()) {
             paintHamburgerMenuArea(gr);
             newGameBtn.draw(gr, game.getMousePosition());
@@ -55,7 +56,7 @@ public class HamburgerMenu extends GameMenu {
      *
      * @param gr is the graphics context of the main Panel object
      */
-    private void paintHamburgerMenuArea(Graphics2D gr) {
+    private void paintHamburgerMenuArea(@NotNull Graphics2D gr) {
         gr.setColor(hamburgerMenuColor);
         int x = hamburgerMenuArea.x;
         int y = hamburgerMenuArea.y;
@@ -100,7 +101,7 @@ public class HamburgerMenu extends GameMenu {
      * @return an arraylist of rectangles (with one rectangle)
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas() {
+    public @NotNull ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         if (this.getIsOpen()) {
             areas.add(hamburgerMenuArea);

@@ -1,5 +1,6 @@
 package view.gui;
 
+import org.jetbrains.annotations.NotNull;
 import view.components.Panel;
 import view.enums.MenuState;
 import view.enums.Tile;
@@ -19,11 +20,11 @@ import java.util.ArrayList;
 public class Game {
 
     private final Panel panel;
-    private final CameraMovementHandler cameraMovementHandler;
-    private final Map map;
-    private final TopBar topBar;
-    private final BottomBar bottomBar;
-    private final EventLog eventLog;
+    private final @NotNull CameraMovementHandler cameraMovementHandler;
+    private final @NotNull Map map;
+    private final @NotNull TopBar topBar;
+    private final @NotNull BottomBar bottomBar;
+    private final @NotNull EventLog eventLog;
 
     /**
      * Constructor of the game class
@@ -31,7 +32,7 @@ public class Game {
      *
      * @param panel is the main Panel object of the game
      */
-    public Game(Panel panel) {
+    public Game(@NotNull Panel panel) {
         this.panel = panel;
         topBar = new TopBar(this);
         bottomBar = new BottomBar(this);
@@ -55,7 +56,7 @@ public class Game {
      * @param panel is the main Panel object of the game
      * @param gr    is the graphics context of the main Panel object
      */
-    public void draw(Panel panel, Graphics2D gr) {
+    public void draw(Panel panel, @NotNull Graphics2D gr) {
         //paint the map
         map.paint(gr);
         //paint the top bar
@@ -71,7 +72,7 @@ public class Game {
      *
      * @param p is the current cursor position
      */
-    public void click(Point p) {
+    public void click(@NotNull Point p) {
         topBar.click(p);
         bottomBar.click(p);
         map.click(p);
@@ -118,7 +119,7 @@ public class Game {
      *
      * @param e is the KeyEvent
      */
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(@NotNull KeyEvent e) {
         bottomBar.keyPressed(e);
     }
 
@@ -162,7 +163,7 @@ public class Game {
      *
      * @return an ArrayList of Rectangle objects
      */
-    public ArrayList<Rectangle> getMenuAreas() {
+    public @NotNull ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         areas.addAll(topBar.getMenuAreas());
         areas.addAll(bottomBar.getMenuAreas());
@@ -208,7 +209,7 @@ public class Game {
         eventLog.log(s);
     }
     
-    public void showCatastrophyIcon(String name) {
+    public void showCatastrophyIcon(@NotNull String name) {
         topBar.showCatastrophyIcon(name);
     }
 }

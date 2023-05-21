@@ -6,13 +6,14 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.MutableGraph;
 import model.Coordinate;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
 public class GraphSerializer extends JsonSerializer<MutableGraph<Coordinate>> {
 
     @Override
-    public void serialize(MutableGraph<Coordinate> graph, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serialize(@NotNull MutableGraph<Coordinate> graph, @NotNull JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
         gen.writeArrayFieldStart("nodes");
         for (Coordinate node : graph.nodes()) {

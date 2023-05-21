@@ -21,6 +21,8 @@ import model.enums.Effect;
 import model.enums.Zone;
 import model.field.Field;
 import model.field.PlayableField;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import util.Date;
 import util.GraphDeserializer;
 import util.Logger;
@@ -78,14 +80,14 @@ public class GameManager implements SaveManager, SpeedManager {
     private static final double STARTER_FOREST_PERCENTAGE = 0.1;
     private static final double FIRE_SPREAD_CHANCE = 0.05;
     private static GameData gameData;
-    private final List<Catastrophe> catastrophes;
+    private final @NotNull List<Catastrophe> catastrophes;
     private final String saveDirectory = System.getProperty("user.home") + File.separator + ".citybuilder" + File.separator + "saves";
     private SimulationSpeed simulationSpeed;
     private List<File> saveFiles;
-    private Timer timer;
+    private @Nullable Timer timer;
     private int delay = 1000;
     private int period = 1000;
-    private final Game UI;
+    private final @Nullable Game UI;
 
     /**
      * Constructor for the game manager.
@@ -130,7 +132,7 @@ public class GameManager implements SaveManager, SpeedManager {
      * @param graph The graph to check.
      * @return The number of disconnected part-graphs.
      */
-    public static int countDisconnectedGraphs(MutableGraph<Coordinate> graph) {
+    public static int countDisconnectedGraphs(@NotNull MutableGraph<Coordinate> graph) {
         int count = 0;
 
         Set<Coordinate> visited = new HashSet<>();
@@ -165,7 +167,7 @@ public class GameManager implements SaveManager, SpeedManager {
      * @param b The second coordinate.
      * @return The distance between the two coordinates.
      */
-    private static int calculateDistance(Coordinate a, Coordinate b) {
+    private static int calculateDistance(@NotNull Coordinate a, @NotNull Coordinate b) {
         int dx = a.getX() - b.getX();
         int dy = a.getY() - b.getY();
         return (int) Math.sqrt(dx * dx + dy * dy);
@@ -178,7 +180,7 @@ public class GameManager implements SaveManager, SpeedManager {
      * @param end   The end coordinate.
      * @return The shortest path between the two coordinates or null if there is no path.
      */
-    public static List<Coordinate> findShortestPath(Coordinate start, Coordinate end) {
+    public static @NotNull List<Coordinate> findShortestPath(Coordinate start, Coordinate end) {
         Map<Coordinate, Integer> distances = new HashMap<>();
         PriorityQueue<Coordinate> queue = new PriorityQueue<>(Comparator.comparingInt(distances::get));
         Map<Coordinate, Coordinate> previous = new HashMap<>();
@@ -505,7 +507,7 @@ public class GameManager implements SaveManager, SpeedManager {
      * @param zones      The list of fields with zones in them from which one is chosen to build the workplace upon.
      * @param people     The list of people who will work in the new workplace.
      */
-    public void buildWorkplaceBasedOnDistance(List<Workplace> workplaces, List<PlayableField> zones, Stack<Person> people) {
+    public void buildWorkplaceBasedOnDistance(@NotNull List<Workplace> workplaces, @NotNull List<PlayableField> zones, @NotNull Stack<Person> people) {
         // sort by the average of the peoples distance to the workplace
         zones.stream().min((z1, z2) -> {
             int d1 = people.stream().mapToInt(p -> findShortestPath(z1.getCoord(), p.getHome().getCoords()).size()).sum() / people.size();
@@ -520,7 +522,7 @@ public class GameManager implements SaveManager, SpeedManager {
      * @param ws the list of workplaces
      * @param p  the person
      */
-    private void chooseWorkplaceBasedOnDistance(List<Workplace> ws, Person p) {
+    private void chooseWorkplaceBasedOnDistance(@NotNull List<Workplace> ws, @NotNull Person p) {
         ws.stream().min((w1, w2) -> {
             int d1 = findShortestPath(w1.getCoords(), p.getHome().getCoords()).size();
             int d2 = findShortestPath(w2.getCoords(), p.getHome().getCoords()).size();
@@ -763,7 +765,7 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     @Override
-    public void deleteSaveFile(File file) {
+    public void deleteSaveFile(@NotNull File file) {
         Logger.log("Deleting save file: " + file.getName());
         if (file.delete()) {
             if (file.delete()) {
@@ -775,7 +777,7 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     @Override
-    public void loadSaveFile(File file) {
+    public void loadSaveFile(@NotNull File file) {
         Logger.log("Loading save file: " + file.getName());
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
@@ -801,7 +803,7 @@ public class GameManager implements SaveManager, SpeedManager {
     }
 
     @Override
-    public void saveGame(GameData gameData) {
+    public void saveGame(@NotNull GameData gameData) {
         boolean UIExists = UI != null;
         if (gameData.getSaveFile() == null) {
             Logger.log("Game has not been saved yet, creating new save file...");

@@ -10,6 +10,7 @@ import model.buildings.generated.GeneratedBuilding;
 import model.enums.Effect;
 import model.field.Field;
 import model.field.PlayableField;
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 
 import java.util.ArrayList;
@@ -101,7 +102,7 @@ public class Stadium extends RangedBuilding {
 
     @JsonIgnore
     @Override
-    public String getStatistics() {
+    public @NotNull String getStatistics() {
         String statistics = "Stadium statistics:\n";
         statistics += "Range: " + range + "\n";
         statistics += "Build cost: " + buildCost + "\n";
@@ -136,7 +137,7 @@ public class Stadium extends RangedBuilding {
      * @param c2 is the second coordinate
      * @return the distance between the two coordinates
      */
-    private int calculateDistance(Coordinate c1, Coordinate c2) {
+    private int calculateDistance(@NotNull Coordinate c1, @NotNull Coordinate c2) {
         return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
     }
 

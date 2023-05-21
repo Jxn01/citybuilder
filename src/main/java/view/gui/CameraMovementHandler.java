@@ -1,5 +1,6 @@
 package view.gui;
 
+import org.jetbrains.annotations.NotNull;
 import view.components.Panel;
 
 import javax.swing.*;
@@ -15,14 +16,14 @@ import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
  * This class implements the camera movement of the game
  */
 public class CameraMovementHandler {
-    private final MovementState movementState;
+    private final @NotNull MovementState movementState;
     private final InputMap im;
     private final ActionMap am;
     private final Panel panel;
     private int cameraOffsetX, cameraOffsetY;
     private int zoom;
 
-    public CameraMovementHandler(Panel panel) {
+    public CameraMovementHandler(@NotNull Panel panel) {
         this.panel = panel;
         movementState = new MovementState();
         cameraOffsetX = 0;
@@ -98,7 +99,7 @@ public class CameraMovementHandler {
      * @param val is the added/subtracted int value
      * @param p   is the current cursor location
      */
-    public void addToZoom(int val, Point p) {
+    public void addToZoom(int val, @NotNull Point p) {
         int tileX = p.x / (64 + zoom);
         int tileY = p.y / (64 + zoom);
         System.out.println(tileX + " " + tileY);

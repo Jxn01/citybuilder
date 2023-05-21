@@ -19,6 +19,8 @@ import model.buildings.generated.ServiceWorkplace;
 import model.buildings.playerbuilt.*;
 import model.enums.UpgradeLevel;
 import model.enums.Zone;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import util.Logger;
 import view.enums.Tile;
 
@@ -33,9 +35,9 @@ import java.util.List;
 @JsonTypeName("playable")
 public class PlayableField extends Field {
     private int moveInFactor;
-    private Zone zone;
+    private @Nullable Zone zone;
     private UpgradeLevel upgradeLevel;
-    private Building building;
+    private @Nullable Building building;
 
     /**
      * Constructor of the field
@@ -96,7 +98,7 @@ public class PlayableField extends Field {
      * @param building the building to be built
      * @return true if the building can be built, false otherwise
      */
-    public static boolean canBuildThere(int x, int y, Tile building) {
+    public static boolean canBuildThere(int x, int y, @NotNull Tile building) {
         switch (building) {
             case ROAD -> {
                 int partGraphsCount = GameManager.countDisconnectedGraphs(GameManager.getGraph());
@@ -199,7 +201,7 @@ public class PlayableField extends Field {
      * @throws RuntimeException if there is already a building on the field, or if the building type is not specified
      */
     @CanIgnoreReturnValue
-    public Building buildBuilding(Tile buildingType) throws RuntimeException {
+    public @Nullable Building buildBuilding(@Nullable Tile buildingType) throws RuntimeException {
         if (building != null) {
 
             Logger.log("Field at " + coord + " has a building on it, can't build!");
@@ -359,7 +361,7 @@ public class PlayableField extends Field {
      *
      * @param coord is the coordinate of the field
      */
-    private void addToGraph(Coordinate coord) {
+    private void addToGraph(@NotNull Coordinate coord) {
         MutableGraph<Coordinate> graph = GameManager.getGraph();
         Field[][] fields = GameManager.getFields();
         int x = coord.getX();
@@ -805,7 +807,7 @@ public class PlayableField extends Field {
     }
 
     @JsonIgnore
-    private int calculateDistance(Coordinate c1, Coordinate c2) {
+    private int calculateDistance(@NotNull Coordinate c1, @NotNull Coordinate c2) {
         return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
     }
 
@@ -859,7 +861,7 @@ public class PlayableField extends Field {
      *
      * @param building is the building of the field
      */
-    public void setBuilding(Building building) {
+    public void setBuilding(@Nullable Building building) {
         if (building == null) {
             Logger.log("Building of field at " + coord + " set to null");
             this.building = null;
@@ -883,7 +885,7 @@ public class PlayableField extends Field {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "PlayableField{" +
                 ", moveInFactor=" + moveInFactor +
                 ", zone=" + zone +

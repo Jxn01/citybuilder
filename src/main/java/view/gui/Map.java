@@ -5,6 +5,8 @@ import model.enums.UpgradeLevel;
 import model.enums.Zone;
 import model.field.Field;
 import model.field.PlayableField;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import util.Logger;
 import util.ResourceLoader;
 import view.components.custom.MyButton;
@@ -28,8 +30,8 @@ public class Map {
     private final MyButton upgradeBtn = new MyButton(0, 0, 0, 0, "upgrade");
     private final MyButton extinguishBtn = new MyButton(0, 0, 0, 0, "extinguish");
     private Image rocks, grass_1, grass_2, grass_3, house_1, house_2, house_3, service_1, service_2, service_3, factory_1, factory_2, factory_3, serviceZone, factoryZone, residentialZone, road, fireStation, stadium, forest, police, construction, stadium_topleft, stadium_topright, stadium_bottomleft, stadium_bottomright, fire;
-    private Tile selectedBuildingType;
-    private Point selectedTile;
+    private @Nullable Tile selectedBuildingType;
+    private @Nullable Point selectedTile;
     private Field[][] fields;
 
     /**
@@ -37,12 +39,12 @@ public class Map {
      *
      * @param game is the main Game object
      */
-    public Map(Game game) {
+    public Map(@NotNull Game game) {
         this.game = game;
 
         game.getPanel().addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(@NotNull MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) { // right click
                     selectedBuildingType = null;
                 }
@@ -89,7 +91,7 @@ public class Map {
      *
      * @param gr is the graphics context of the main Panel object
      */
-    public void paint(Graphics2D gr) {
+    public void paint(@NotNull Graphics2D gr) {
         fields = GameManager.getGameData().getFields();
         int zoom = game.getZoom();
         int cameraOffsetX = game.getCameraOffsetX();
@@ -127,7 +129,7 @@ public class Map {
      * @param y       is te y index of the field
      * @param newTile is the new tile type
      */
-    public void build(int x, int y, Tile newTile) {
+    public void build(int x, int y, @Nullable Tile newTile) {
         if (newTile != null) {
             switch (newTile) {
                 case SERVICEZONE -> ((PlayableField) fields[x][y]).markZone(Zone.SERVICE_ZONE);
@@ -199,7 +201,7 @@ public class Map {
      *
      * @param p is the point where the user clicked
      */
-    public void click(Point p) {
+    public void click(@NotNull Point p) {
         if (!drawnMenuRectangle.contains(p)) {
             if (submenuHovered(p) || p.y > game.height() - 40) {
                 selectedTile = null;
@@ -234,7 +236,7 @@ public class Map {
      *
      * @param gr is the graphics context of the main Panel object
      */
-    private void paintHover(Graphics2D gr) {
+    private void paintHover(@NotNull Graphics2D gr) {
         Point p = MouseInfo.getPointerInfo().getLocation();
         if (!submenuHovered(p) && selectedBuildingType != null) {
             long currentTime = System.currentTimeMillis();
@@ -287,7 +289,7 @@ public class Map {
      *
      * @param gr is the graphics context of the main Panel object
      */
-    public void drawSelectedTile(Graphics2D gr) {
+    public void drawSelectedTile(@NotNull Graphics2D gr) {
         if (selectedTile != null) {
             Field field = fields[selectedTile.x][selectedTile.y];
             if (field instanceof PlayableField && ((PlayableField) field).getBuilding() != null) {
@@ -341,7 +343,7 @@ public class Map {
      * @param width  is the width of the button
      * @param height is the height of the button
      */
-    private void setButtonAttributes(MyButton btn, int x, int y, int width, int height) {
+    private void setButtonAttributes(@NotNull MyButton btn, int x, int y, int width, int height) {
         btn.setX(x);
         btn.setY(y);
         btn.setWidth(width);
@@ -379,7 +381,7 @@ public class Map {
      * @param p is the current cursor position
      * @return a point
      */
-    public Point pointToXY(Point p) {
+    public @Nullable Point pointToXY(@Nullable Point p) {
         if (submenuHovered(p) || p == null) return null;
 
         int offsetX = game.getCameraOffsetX();
@@ -397,7 +399,7 @@ public class Map {
      * @param p is the current cursor position
      * @return true if the mouse is hovering over a submenu
      */
-    private boolean submenuHovered(Point p) {
+    private boolean submenuHovered(@NotNull Point p) {
         for (Rectangle area : game.getMenuAreas()) {
             if (area.contains(p)) {
                 return true;
@@ -406,7 +408,7 @@ public class Map {
         return false;
     }
 
-    private Image tileToImg(Tile tile) {
+    private @Nullable Image tileToImg(@NotNull Tile tile) {
         Image img = null;
         switch (tile) {
             case ROCKS -> img = rocks;

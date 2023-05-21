@@ -1,5 +1,7 @@
 package view.components.custom;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import util.ResourceLoader;
 
 import java.awt.*;
@@ -38,7 +40,7 @@ public class MyButton {
      * @param p is the current cursor location
      * @return a boolean value
      */
-    public boolean isHovered(Point p) {
+    public boolean isHovered(@Nullable Point p) {
         if (p != null) {
             return rect.contains(p);
         } else {
@@ -52,7 +54,7 @@ public class MyButton {
      * @param gr is the graphics context of the main Panel object
      * @param p  is the current cursor position
      */
-    public void draw(Graphics2D gr, Point p) {
+    public void draw(@NotNull Graphics2D gr, Point p) {
         if (!isHovered(p)) {
             gr.drawImage(img, rect.x, rect.y, rect.width, rect.height, null);
         } else {
@@ -65,7 +67,7 @@ public class MyButton {
      *
      * @param gr is the graphics context of the main Panel object
      */
-    public void drawHovered(Graphics2D gr) {
+    public void drawHovered(@NotNull Graphics2D gr) {
         gr.drawImage(imgHover, rect.x, rect.y, rect.width, rect.height, null);
     }
 

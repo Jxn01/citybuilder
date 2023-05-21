@@ -2,7 +2,6 @@ package model.buildings.generated;
 
 import model.Coordinate;
 import model.Person;
-import model.enums.SaturationRate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +70,7 @@ class ResidentialBuildingTest {
     @Test
     void getPublicSafetyTest() {
         final int PUBLICSAFETY = 50;
-        this.residentialBuilding = new ResidentialBuilding(this.coords, 0.2, false, new ArrayList<>(), SaturationRate.FULL, PUBLICSAFETY);
+        this.residentialBuilding = new ResidentialBuilding(this.coords, 0.2, false, new ArrayList<>(), PUBLICSAFETY);
 
         final int actual = this.residentialBuilding.getPublicSafety();
         assertEquals(PUBLICSAFETY, actual);

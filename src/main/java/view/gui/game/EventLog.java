@@ -6,13 +6,15 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+
+import org.jetbrains.annotations.NotNull;
 import view.gui.Game;
 
 /**
  * This class implements the event log submenu in the game
  */
 public class EventLog extends GameMenu {
-    private final Rectangle eventLogArea;
+    private final @NotNull Rectangle eventLogArea;
     private final Color eventLogAreaColor;
     private final int MAXEVENTS = 9;
     private ArrayList<String> events;
@@ -24,7 +26,7 @@ public class EventLog extends GameMenu {
      *
      * @param game is the main game object
      */
-    public EventLog(Game game) {
+    public EventLog(@NotNull Game game) {
         super(game);
         int width = 350;
         int height = 210;
@@ -41,7 +43,7 @@ public class EventLog extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr) {
+    public void draw(@NotNull Graphics2D gr) {
         /*
         gr.setColor(eventLogAreaColor);
         int x = game.width() - eventLogArea.width;
@@ -79,7 +81,7 @@ public class EventLog extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas() {
+    public @NotNull ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         areas.add(eventLogArea);
         return areas;

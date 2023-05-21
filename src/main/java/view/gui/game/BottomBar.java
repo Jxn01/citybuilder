@@ -1,5 +1,6 @@
 package view.gui.game;
 
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import view.components.custom.MyButton;
 import view.gui.Game;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * This class implements the bottom bar of the game gui
  */
 public class BottomBar extends GameMenu {
-    private final Rectangle bottomBarArea;
+    private final @NotNull Rectangle bottomBarArea;
     private final Color bottomBarAreaColor;
     TaxMenu taxMenu;
     StatsMenu statsMenu;
@@ -28,7 +29,7 @@ public class BottomBar extends GameMenu {
      *
      * @param game is the main game object
      */
-    public BottomBar(Game game) {
+    public BottomBar(@NotNull Game game) {
         super(game);
         taxMenu = new TaxMenu(game);
         statsMenu = new StatsMenu(game);
@@ -48,7 +49,7 @@ public class BottomBar extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr) {
+    public void draw(@NotNull Graphics2D gr) {
         paintBottomMenuBar(gr);
         statsBtn.setY(game.height() - 40);
         statsBtn.draw(gr, game.getMousePosition());
@@ -68,7 +69,7 @@ public class BottomBar extends GameMenu {
      *
      * @param gr is the graphics context of the main Panel object
      */
-    public void paintBottomMenuBar(Graphics2D gr) {
+    public void paintBottomMenuBar(@NotNull Graphics2D gr) {
         gr.setColor(bottomBarAreaColor);
         int x = bottomBarArea.x;
         int y = game.height() - bottomBarArea.height;
@@ -121,7 +122,7 @@ public class BottomBar extends GameMenu {
      *
      * @param e is the key-press event
      */
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(@NotNull KeyEvent e) {
         taxMenu.keyPressed(e);
     }
 
@@ -132,7 +133,7 @@ public class BottomBar extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas() {
+    public @NotNull ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         areas.add(bottomBarArea);
         areas.addAll(statsMenu.getMenuAreas());

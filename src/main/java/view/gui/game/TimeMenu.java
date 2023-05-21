@@ -2,6 +2,7 @@ package view.gui.game;
 
 import controller.GameManager;
 import controller.SimulationSpeed;
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import view.components.custom.MyButton;
 import view.gui.Game;
@@ -38,7 +39,7 @@ public class TimeMenu extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr) {
+    public void draw(@NotNull Graphics2D gr) {
         SimulationSpeed sp = game.getPanel().getGameManager().getSimulationSpeed();
 
         speed3Btn.setY(game.height() - 40);
@@ -111,7 +112,7 @@ public class TimeMenu extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas() {
+    public @NotNull ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         return areas;
     }

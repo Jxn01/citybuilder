@@ -1,12 +1,15 @@
 package view.components.custom;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.awt.*;
 
 /**
  * Implementation of one radio button
  */
 public class MyRadioButton {
-    private final Rectangle rect;
+    private final @NotNull Rectangle rect;
     public String name;
     public String time;
     public String funds;
@@ -55,7 +58,7 @@ public class MyRadioButton {
      * @param p is the cursor position
      * @return a boolean value
      */
-    public boolean isHovered(Point p) {
+    public boolean isHovered(@Nullable Point p) {
         if (p != null) {
             return rect.contains(p);
         } else return false;
@@ -67,7 +70,7 @@ public class MyRadioButton {
      * @param gr        is the graphics context of the game panel
      * @param cursorPos is the current cursor position
      */
-    public void draw(Graphics2D gr, Point cursorPos) {
+    public void draw(@NotNull Graphics2D gr, Point cursorPos) {
         //fill the button with color 
         if (selected) {
             gr.setColor(Color.green);

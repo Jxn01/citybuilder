@@ -2,7 +2,6 @@ package model.buildings.generated;
 
 import model.Coordinate;
 import model.Person;
-import model.enums.SaturationRate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +32,7 @@ class IndustrialWorkplaceTest {
     @Test
     void getPublicSafetyTest() {
         final int PUBLICSAFETY = 50;
-        this.industrialWorkplace = new IndustrialWorkplace(this.coords, 0.2, false, new ArrayList<>(), SaturationRate.FULL, PUBLICSAFETY);
+        this.industrialWorkplace = new IndustrialWorkplace(this.coords, 0.2, false, new ArrayList<>(), PUBLICSAFETY);
         this.industrialWorkplace.getCoords().setX(0);
         this.industrialWorkplace.getCoords().setY(0);
         final int actual = this.industrialWorkplace.getPublicSafety();

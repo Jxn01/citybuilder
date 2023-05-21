@@ -1,5 +1,6 @@
 package view.gui.mainmenu;
 
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import util.ResourceLoader;
 import view.components.Panel;
@@ -47,7 +48,7 @@ public class MainMenu {
      * @param panel is the game's main Panel object
      * @param gr    is the graphics context of the main Panel object
      */
-    public void draw(Panel panel, Graphics2D gr) {
+    public void draw(@NotNull Panel panel, @NotNull Graphics2D gr) {
         //draw the background
         gr.drawImage(background, 0, 0, panel.width(), panel.height(), null);
 

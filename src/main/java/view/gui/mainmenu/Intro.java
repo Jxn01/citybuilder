@@ -1,5 +1,6 @@
 package view.gui.mainmenu;
 
+import org.jetbrains.annotations.NotNull;
 import util.ResourceLoader;
 import view.components.Panel;
 import view.enums.MenuState;
@@ -44,7 +45,7 @@ public class Intro {
      * @param panel is the game's main Panel object
      * @param gr    is the graphics context of the Panel object
      */
-    public void draw(Panel panel, Graphics2D gr) {
+    public void draw(@NotNull Panel panel, @NotNull Graphics2D gr) {
         //paint the monkey
         gr.drawImage(background, 0, 0, panel.width(), panel.height(), null);
 

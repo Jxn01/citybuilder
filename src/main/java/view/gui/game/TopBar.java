@@ -2,6 +2,7 @@ package view.gui.game;
 
 import controller.GameManager;
 import model.GameData;
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import view.components.custom.MyButton;
 import view.gui.Game;
@@ -15,7 +16,7 @@ import util.ResourceLoader;
  * This class implements the top bar of the game gui
  */
 public class TopBar extends GameMenu {
-    private final Rectangle topBarArea;
+    private final @NotNull Rectangle topBarArea;
     private final Color topBarColor;
     MyButton hamburgerBtn;
     HamburgerMenu hamburgerMenu;
@@ -64,7 +65,7 @@ public class TopBar extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr) {
+    public void draw(@NotNull Graphics2D gr) {
         GameData gd = GameManager.getGameData();
 
         paintTopBarArea(gr);
@@ -87,7 +88,7 @@ public class TopBar extends GameMenu {
      *
      * @param gr is the graphics context of the main Panel object
      */
-    private void paintTopBarArea(Graphics2D gr) {
+    private void paintTopBarArea(@NotNull Graphics2D gr) {
         gr.setColor(topBarColor);
         int x = topBarArea.x;
         int y = topBarArea.y;
@@ -118,7 +119,7 @@ public class TopBar extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas() {
+    public @NotNull ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         areas.add(topBarArea);
         areas.addAll(hamburgerMenu.getMenuAreas());
@@ -134,7 +135,7 @@ public class TopBar extends GameMenu {
      * the top right corner
      * @param gr is the graphics context of the main Panel object
      */
-    public void drawCatastrophyIcons(Graphics2D gr) {
+    public void drawCatastrophyIcons(@NotNull Graphics2D gr) {
         //fireStorm,covid,financialCrisis
         fireTimer.elapsedTime = System.currentTimeMillis() - fireTimer.startTime;
         covidTimer.elapsedTime = System.currentTimeMillis() - covidTimer.startTime;
@@ -151,7 +152,7 @@ public class TopBar extends GameMenu {
         }
     }
     
-    public void showCatastrophyIcon(String name) {
+    public void showCatastrophyIcon(@NotNull String name) {
         switch(name) {
             case "fire" -> fireTimer.startTime = System.currentTimeMillis();
             case "econ" -> econTimer.startTime = System.currentTimeMillis();

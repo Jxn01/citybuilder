@@ -9,9 +9,9 @@ import model.Person;
 import model.buildings.interfaces.FunctionalBuilding;
 import model.buildings.playerbuilt.Forest;
 import model.enums.Effect;
-import model.enums.SaturationRate;
 import model.field.Field;
 import model.field.PlayableField;
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
      *
      * @param coords is the coordinates of the industrial workplace
      */
-    public IndustrialWorkplace(Coordinate coords) {
+    public IndustrialWorkplace(@NotNull Coordinate coords) {
         super(coords, GameManager.getFirePossibility()*1.25, false, null, 0);
 
         people = new ArrayList<>();
@@ -36,13 +36,13 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
     }
 
     @JsonCreator
-    public IndustrialWorkplace(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
+    public IndustrialWorkplace(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("publicSafety") int publicSafety) {
         super(coords, firePossibility, isOnFire, people, publicSafety);
     }
 
     @JsonIgnore
     @Override
-    public String getStatistics() {
+    public @NotNull String getStatistics() {
         String statistics = "Industrial workplace statistics:\n";
         statistics += "Number of people working here: " + people.size() + "\n";
         statistics += "Public safety: " + publicSafety + "\n";
@@ -57,7 +57,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
     }
 
     @Override
-    public void addPerson(Person person) throws RuntimeException {
+    public void addPerson(@NotNull Person person) throws RuntimeException {
         if (people == null) {
             people = new ArrayList<>();
         }
@@ -73,7 +73,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
     }
 
     @Override
-    public void removePerson(Person person) {
+    public void removePerson(@NotNull Person person) {
         Logger.log("Person " + person.getName() + " removed from industrial workplace at " + coords.toString());
 
         people.remove(person);
@@ -114,7 +114,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
      * @param c2 the second coordinate
      * @return the distance between the two coordinates
      */
-    private int calculateDistance(Coordinate c1, Coordinate c2) {
+    private int calculateDistance(@NotNull Coordinate c1, @NotNull Coordinate c2) {
         return Math.abs(c1.getX() - c2.getX()) + Math.abs(c1.getY() - c2.getY());
     }
 
@@ -125,7 +125,7 @@ public class IndustrialWorkplace extends Workplace implements FunctionalBuilding
      * @param c2 the second coordinate
      * @return the path between the two coordinates
      */
-    private List<Coordinate> pathBetween(Coordinate c1, Coordinate c2) {
+    private @NotNull List<Coordinate> pathBetween(@NotNull Coordinate c1, @NotNull Coordinate c2) {
         int x1 = c1.getX();
         int y1 = c1.getY();
         int x2 = c2.getX();

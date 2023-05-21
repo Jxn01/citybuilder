@@ -5,6 +5,7 @@ import model.GameData;
 import model.Person;
 import model.buildings.playerbuilt.*;
 import model.field.PlayableField;
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 import view.components.custom.MyButton;
 import view.gui.Game;
@@ -18,7 +19,7 @@ import java.util.List;
  * This class implements the statistics menu of the game gui
  */
 public class StatsMenu extends GameMenu {
-    private final Rectangle statMenuArea;
+    private final @NotNull Rectangle statMenuArea;
     private final Color statsMenuColor;
     Game game;
     MyButton xBtn;
@@ -43,7 +44,7 @@ public class StatsMenu extends GameMenu {
      * @param gr is the graphics context of the main Panel object
      */
     @Override
-    public void draw(Graphics2D gr) {
+    public void draw(@NotNull Graphics2D gr) {
         if (getIsOpen()) {
             paintStatsMenuArea(gr);
             GameData gd = GameManager.getGameData();
@@ -150,7 +151,7 @@ public class StatsMenu extends GameMenu {
      *
      * @param gr is the graphics context of the main Panel object
      */
-    private void paintStatsMenuArea(Graphics2D gr) {
+    private void paintStatsMenuArea(@NotNull Graphics2D gr) {
         gr.setColor(statsMenuColor);
         int x = statMenuArea.x;
         int y = statMenuArea.y;
@@ -181,7 +182,7 @@ public class StatsMenu extends GameMenu {
      * @return an arraylist of rectangles
      */
     @Override
-    public ArrayList<Rectangle> getMenuAreas() {
+    public @NotNull ArrayList<Rectangle> getMenuAreas() {
         ArrayList<Rectangle> areas = new ArrayList<>();
         if (this.getIsOpen()) {
             areas.add(statMenuArea);

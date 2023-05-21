@@ -4,6 +4,8 @@ import controller.GameManager;
 import model.GameData;
 import model.Person;
 import model.buildings.generated.ServiceWorkplace;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import util.Logger;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
  * This class represents a covid catastrophe.
  */
 public class Covid extends Catastrophe {
-    private static Covid instance = null;
+    private static @Nullable Covid instance = null;
 
     /**
      * Constructor of the covid catastrophe.
@@ -25,7 +27,7 @@ public class Covid extends Catastrophe {
      *
      * @return the instance of the covid catastrophe
      */
-    public static Covid getInstance() {
+    public static @NotNull Covid getInstance() {
         if (instance == null) {
             instance = new Covid();
         }
@@ -33,7 +35,7 @@ public class Covid extends Catastrophe {
     }
 
     @Override
-    public void effect(GameData gameData) {
+    public void effect(@NotNull GameData gameData) {
         Logger.log("Actual population: " + gameData.getPopulation());
 
         double hospitalModifier = gameData.getPlayableFieldsWithBuildings()

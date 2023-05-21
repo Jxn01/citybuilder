@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.GameManager;
 import model.Coordinate;
 import model.Person;
-import model.enums.SaturationRate;
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class ResidentialBuilding extends GeneratedBuilding {
      *
      * @param coords is the coordinates of the residential building
      */
-    public ResidentialBuilding(Coordinate coords) {
+    public ResidentialBuilding(@NotNull Coordinate coords) {
         super(coords, GameManager.getFirePossibility(), false, null, 0);
 
         people = new ArrayList<>();
@@ -31,11 +31,11 @@ public class ResidentialBuilding extends GeneratedBuilding {
     }
 
     @JsonCreator
-    public ResidentialBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("saturationRate") SaturationRate saturationRate, @JsonProperty("publicSafety") int publicSafety) {
+    public ResidentialBuilding(@JsonProperty("coords") Coordinate coords, @JsonProperty("firePossibility") double firePossibility, @JsonProperty("isOnFire") boolean isOnFire, @JsonProperty("people") ArrayList<Person> people, @JsonProperty("publicSafety") int publicSafety) {
         super(coords, firePossibility, isOnFire, people, publicSafety);
     }
 
-    public void addPerson(Person person) throws RuntimeException {
+    public void addPerson(@NotNull Person person) throws RuntimeException {
         if (people == null) {
             people = new ArrayList<>();
         }
@@ -50,7 +50,7 @@ public class ResidentialBuilding extends GeneratedBuilding {
         }
     }
 
-    public void removePerson(Person person) {
+    public void removePerson(@NotNull Person person) {
         Logger.log("Person " + person.getName() + " removed from residential building at " + coords.toString());
 
         people.remove(person);
@@ -59,7 +59,7 @@ public class ResidentialBuilding extends GeneratedBuilding {
 
     @JsonIgnore
     @Override
-    public String getStatistics() {
+    public @NotNull String getStatistics() {
         String statistics = "Residential building statistics:\n";
         statistics += "Maximum capacity: " + maxCapacity + "\n";
         statistics += "Number of people living here: " + people.size() + "\n";

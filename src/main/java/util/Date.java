@@ -1,5 +1,7 @@
 package util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Calendar;
 
 /**
@@ -13,7 +15,7 @@ public class Date {
      * @param time is the time
      * @return the date as a string
      */
-    public static String getShortDate(long time) {
+    public static @NotNull String getShortDate(long time) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new java.util.Date(time));
         return getShortString(cal);
@@ -25,7 +27,7 @@ public class Date {
      * @param time is the time
      * @return the date as a string
      */
-    public static String getLongDate(long time) {
+    public static @NotNull String getLongDate(long time) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new java.util.Date(time));
         return getLongString(cal);
@@ -37,7 +39,7 @@ public class Date {
         return getLongString(cal).split(" ")[0];
     }
 
-    public static String nextDay(String date) { // the format is "YYYY-MM-DD"
+    public static String nextDay(@NotNull String date) { // the format is "YYYY-MM-DD"
         String[] dateParts = date.split("-");
         int year = Integer.parseInt(dateParts[0]);
         int month = Integer.parseInt(dateParts[1]);
@@ -48,7 +50,7 @@ public class Date {
         return getLongString(cal).split(" ")[0];
     }
 
-    public static String nextSecond(String shortDate) { // the format is hh:mm:ss
+    public static @NotNull String nextSecond(@NotNull String shortDate) { // the format is hh:mm:ss
         String[] timeParts = shortDate.split(":");
         int hour = Integer.parseInt(timeParts[0]);
         int minute = Integer.parseInt(timeParts[1]);
@@ -65,7 +67,7 @@ public class Date {
      * @param cal is the calendar
      * @return the date as a string
      */
-    private static String getLongString(Calendar cal) {
+    private static @NotNull String getLongString(@NotNull Calendar cal) {
         String result = cal.get(Calendar.YEAR) + "-";
         result += (cal.get(Calendar.MONTH) + 1 < 10 ? "0" : "") + (cal.get(Calendar.MONTH) + 1) + "-";
         result += (cal.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "") + cal.get(Calendar.DAY_OF_MONTH) + " ";
@@ -79,7 +81,7 @@ public class Date {
      * @param cal is the calendar
      * @return the date as a string
      */
-    private static String getShortString(Calendar cal) {
+    private static @NotNull String getShortString(@NotNull Calendar cal) {
         String result = (cal.get(Calendar.HOUR_OF_DAY) < 10 ? "0" : "") + cal.get(Calendar.HOUR_OF_DAY) + ":";
         result += (cal.get(Calendar.MINUTE) < 10 ? "0" : "") + cal.get(Calendar.MINUTE) + ":";
         result += (cal.get(Calendar.SECOND) < 10 ? "0" : "") + cal.get(Calendar.SECOND);
@@ -92,7 +94,7 @@ public class Date {
      * @param longDate is the date as a string
      * @return the date as a calendar
      */
-    public static Calendar toCalendar(String longDate) {
+    public static @NotNull Calendar toCalendar(@NotNull String longDate) {
         String[] dateParts = longDate.split(" ")[0].split("-");
         int year = Integer.parseInt(dateParts[0]);
         int month = Integer.parseInt(dateParts[1]);

@@ -8,6 +8,8 @@ import controller.GameManager;
 import model.buildings.generated.ResidentialBuilding;
 import model.buildings.generated.Workplace;
 import model.enums.Effect;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import util.Logger;
 
 import java.util.ArrayList;
@@ -22,9 +24,9 @@ public class Person {
     boolean founder;
     private int age;
     private String name;
-    private Set<Effect> effects;
-    private ResidentialBuilding home;
-    private Workplace workplace;
+    private @Nullable Set<Effect> effects;
+    private @Nullable ResidentialBuilding home;
+    private @Nullable Workplace workplace;
     private ArrayList<Integer> payedTaxes;
 
     /**
@@ -298,7 +300,7 @@ public class Person {
      *
      * @param effects the effects of the person
      */
-    public void setEffects(Set<Effect> effects) {
+    public void setEffects(@NotNull Set<Effect> effects) {
         Logger.log("New effects of " + name + " are " + effects.toString());
         this.effects = effects;
     }
@@ -318,7 +320,7 @@ public class Person {
      *
      * @param residentialBuilding the home of the person
      */
-    public void setHome(ResidentialBuilding residentialBuilding) {
+    public void setHome(@Nullable ResidentialBuilding residentialBuilding) {
         this.home = residentialBuilding;
         if (residentialBuilding != null) {
             Logger.log("New home of " + name + " is" + residentialBuilding);
@@ -342,7 +344,7 @@ public class Person {
      *
      * @param workplace the workplace of the person
      */
-    public void setWorkplace(Workplace workplace) {
+    public void setWorkplace(@Nullable Workplace workplace) {
         this.workplace = workplace;
         if (workplace != null) {
             Logger.log("New workplace of " + name + " is" + workplace);
@@ -374,7 +376,7 @@ public class Person {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "Person{" +
                 "age=" + age +
                 ", name='" + name + '\'' +

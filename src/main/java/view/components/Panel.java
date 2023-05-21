@@ -1,6 +1,7 @@
 package view.components;
 
 import controller.GameManager;
+import org.jetbrains.annotations.NotNull;
 import view.enums.MenuState;
 import view.gui.Game;
 import view.gui.NewGame;
@@ -19,14 +20,14 @@ import java.awt.event.*;
 public class Panel extends JPanel implements ActionListener {
 
     private static MenuState state;
-    private final GameGUI gameGUI;
-    private final Intro intro;
-    private final MainMenu mainMenu;
-    private final Tutorial tutorial;
-    private final NewGame newGame;
-    private final LoadGame loadGame;
-    private final Game game;
-    private final GameManager gm;
+    private final @NotNull GameGUI gameGUI;
+    private final @NotNull Intro intro;
+    private final @NotNull MainMenu mainMenu;
+    private final @NotNull Tutorial tutorial;
+    private final @NotNull NewGame newGame;
+    private final @NotNull LoadGame loadGame;
+    private final @NotNull Game game;
+    private final @NotNull GameManager gm;
     private Timer timer;
     private int width;
     private int height;
@@ -36,7 +37,7 @@ public class Panel extends JPanel implements ActionListener {
      *
      * @param gameGUI is the main window, where the panel is placed on
      */
-    public Panel(GameGUI gameGUI) {
+    public Panel(@NotNull GameGUI gameGUI) {
         setPreferredSize(gameGUI.getContentPane().getSize());
         setSize(gameGUI.getContentPane().getSize());
         setFocusable(true);
@@ -63,7 +64,7 @@ public class Panel extends JPanel implements ActionListener {
         //CLICK EVENT
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent me) {
+            public void mouseClicked(@NotNull MouseEvent me) {
                 if (me.getButton() == MouseEvent.BUTTON1) {
                     switch (state) {
                         case MAINMENU -> mainMenu.click(me.getPoint());
@@ -79,7 +80,7 @@ public class Panel extends JPanel implements ActionListener {
         //KEYPRESS EVENT
         addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(@NotNull KeyEvent e) {
                 switch (state) {
                     case NEWGAME -> newGame.keyPressed(e);
                     case GAME -> game.keyPressed(e);
@@ -129,7 +130,7 @@ public class Panel extends JPanel implements ActionListener {
      * @param ev is the event happening on the panel
      */
     @Override
-    public void actionPerformed(ActionEvent ev) {
+    public void actionPerformed(@NotNull ActionEvent ev) {
         if (ev.getSource() == timer) {
             repaint();
         }

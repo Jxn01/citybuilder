@@ -10,6 +10,7 @@ import model.buildings.playerbuilt.FireDepartment;
 import model.buildings.playerbuilt.PlayerBuilding;
 import model.buildings.playerbuilt.Stadium;
 import model.field.PlayableField;
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public abstract class Building implements Flammable {
     }
 
     @JsonIgnore
-    public ArrayList<Building> getNeighbours() {
+    public @NotNull ArrayList<Building> getNeighbours() {
         ArrayList<Building> neighbours = new ArrayList<>();
         GameManager.getGameData().getPlayableFieldsWithBuildings()
                 .stream()
@@ -67,7 +68,7 @@ public abstract class Building implements Flammable {
     }
 
     @JsonIgnore
-    public int getDistance(Coordinate c) {
+    public int getDistance(@NotNull Coordinate c) {
         return Math.abs(this.getX() - c.getX()) + Math.abs(this.getY() - c.getY());
     }
 

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import controller.GameManager;
 import model.Coordinate;
+import org.jetbrains.annotations.NotNull;
 import util.Logger;
 
 @JsonTypeName("road")
@@ -16,7 +17,7 @@ public class Road extends PlayerBuilding {
      *
      * @param coords is the coordinates of the road
      */
-    public Road(Coordinate coords) {
+    public Road(@NotNull Coordinate coords) {
         super(coords, 0.0, false, GameManager.getRoadBuildCost(), GameManager.getRoadMaintenanceCost());
 
         Logger.log("Road created at " + coords.toString());
@@ -29,7 +30,7 @@ public class Road extends PlayerBuilding {
 
     @JsonIgnore
     @Override
-    public String getStatistics() {
+    public @NotNull String getStatistics() {
         String statistics = "Road statistics:\n";
         statistics += "Build cost: " + buildCost + "\n";
         statistics += "Maintenance cost: " + maintenanceCost + "\n";

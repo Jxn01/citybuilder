@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import model.Coordinate;
+import org.jetbrains.annotations.NotNull;
 import view.enums.Tile;
 
 /**
@@ -24,7 +25,7 @@ public class BorderField extends Field {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "BorderField{}";
     }
 }
