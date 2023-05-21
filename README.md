@@ -53,7 +53,7 @@ _A Wiki oldalon található a játék részletes leírása és dokumentációja,
 * JUnit
 * Guava
 * Jacoco
-* Jackson XML
+* Jackson JSON Library
 
 
 
